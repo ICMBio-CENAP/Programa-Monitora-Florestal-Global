@@ -1,11 +1,10 @@
 # Programa-Monitora-Florestal-Global
-Analise de dados Mastoaves do protocolo florestal global do programa Monitora
+Analise de dados Mastoaves do protocolo florestal global do **Programa Monitora-ICMBio**
 
-Cálculo do LPI (Living Planet Index) a partir de dados do protocolo florestal básico (mamíferos e aves) do **Programa Monitora-ICMBio**
-
-Prepara os dados do Monitora-ICMBio, colocando-os no formato exigido pelo pacote [**rlpi**](https://github.com/Zoological-Society-of-London/rlpi);
+Prepara os dados do Monitora-ICMBio, colocando-os no formato exigido pelo pacote *rlpi*, desenvolvido pela [**Zoological Society of London**](https://github.com/Zoological-Society-of-London/rlpi);
 Cria subsets dos dados com UC e grupo taxonômico de interesse (e.g., mamíferos, aves);
-Roda a função **LPIMain** para cálculo do LPI e geração de gráficos.
+Cálcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal básico (mamíferos e aves)
+
 
 ### Descrição
 ```src``` Contém os códigos para as análises.
