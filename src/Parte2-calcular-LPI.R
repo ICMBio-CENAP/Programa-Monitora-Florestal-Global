@@ -22,7 +22,7 @@ ggsave(file = here("results", "lpi-global.jpg"), plot = ggplot_lpi_modif(mydata_
   use.this <- subset(mydata2, mean >= 0.1) # usar somente espécies com taxa de avistamento médio > 0.1
   use.this <- use.this[rowSums(is.na(use.this)) <= 2, ]
   vector.Binomial <- as.character(factor(use.this$Binomial)) # criar vetor com "Binomials" (populações) a serem incluídas na análise
-  dados4 <- filter(dados2, Binomial %in% vector.Binomial) # keeping only species in species.list
+  dados4 <- subset(dadosICMBio, Binomial %in% vector.Binomial) # keeping only species in species.list
   dados4$Binomial <- factor(dados4$Binomial) # to remove excluded species from factor levels otherwise they will end up as zeros in the paMatrix
 
 # excluir especies noturnas
@@ -31,7 +31,7 @@ ggsave(file = here("results", "lpi-global.jpg"), plot = ggplot_lpi_modif(mydata_
 
   
 lpi_icmbio(dados4)
-mydata2
+ggsave(file = here("results", "lpi-spp-selecionadas.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="cornflowerblue"))
 
 # quantas spp de mamiferos e aves (cuttoff 0.1)
 aves <- subset(dados4, Classe == "Aves")
@@ -40,7 +40,11 @@ mamiferos <- subset(dados4, Classe == "Mamíferos")
   sort(unique(mamiferos$Espécies.validadas.para.análise.do.ICMBio))
 
 lpi_icmbio(dados4,z="Mamíferos") # cálculo somente para mamíferos
+ggsave(file = here("results", "lpi-mamiferos-selecionados.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="cornflowerblue"))
+
 lpi_icmbio(dados4,z="Aves") # somente para aves
+ggsave(file = here("results", "lpi-aves-selecionadas.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="cornflowerblue"))
+
 
 # quantas UCs
 sort(unique(dados4$Local...Nome.da.Unidade.de.Conservação))
