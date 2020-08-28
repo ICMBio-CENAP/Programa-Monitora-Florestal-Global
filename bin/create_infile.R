@@ -59,6 +59,6 @@ create_infile <- function(pop_data_source, index_vector=TRUE, name="default_infi
   write.table(clean_data, filename, sep="\t", row.names=FALSE, quote = F)
   # Write infile
   in_file_data <- data.frame(FileName=filename, Group=1, Weighting=1)
-  write.table(in_file_data, gsub("pops.txt", "infile.txt", filename), sep="\t", row.names=FALSE)
+  write.table(in_file_data, here("results", gsub("pops.txt", "infile.txt", filename)), sep="\t", row.names=FALSE)
   return(paste(name, "_infile.txt", sep=""))
 }

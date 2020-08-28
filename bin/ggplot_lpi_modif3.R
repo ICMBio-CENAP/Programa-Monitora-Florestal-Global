@@ -2,7 +2,7 @@
 # Basicamente a função ggplot_lpi do pacote rlpi, com pequenas modificações
 
 ggplot_lpi_modif <- function (d, col = "darkblue", line_col = "white",
-                              title = "", ylims = c(0, 2.5), xlims = NULL,
+                              title = "", ylims = c(0, 3), xlims = NULL,
                               trans = "identity", yrbreaks = 5, lpi_breaks = 1) 
 {
   df <- data.frame(years = as.numeric(as.character(rownames(d))), 
@@ -35,5 +35,6 @@ ggplot_lpi_modif <- function (d, col = "darkblue", line_col = "white",
   )
   #  g <- g + ggplot2::scale_x_continuous(breaks = seq(xlims[1], 
   #                                                    xlims[2], yrbreaks))
+  g <- g + theme_classic() # remove grid and top and right borders
   print(g)
 }

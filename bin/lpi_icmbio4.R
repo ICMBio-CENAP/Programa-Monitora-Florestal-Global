@@ -35,12 +35,13 @@ lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe
       a <- subset(mydata, Binomial == mydata2[i,2])
       b <- subset(a, Ano == vetor.Ano[j]) # extrai o ano automaticamente
       cduc <- unique(a$CDUC)
-      c <- filter(for.effort, CDUC %in% cduc) # effort must be calculated separately per UC
+      c <- subset(for.effort, CDUC %in% cduc) # effort must be calculated separately per UC
 
       if ( nrow(subset(c, Ano == vetor.Ano[j])) <= 0)  { mydata2[i,j+2] <- NA } else {
         if ( nrow(b) == 0)  { mydata2[i,j+2] <- 0 } else {
           mydata2[i,j+2] <- nrow(b)/(sum(subset(c, Ano == vetor.Ano[j])$esforço, na.rm=TRUE)/10000)}
     }}
+  
   
   #mydata2[, colSums(is.na(mydata2)) != nrow(mydata2)] # remover coluna de NAs se houver
   require(stringr) # necessario para passo abaixo
@@ -69,5 +70,8 @@ lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe
   
   # Gerar gráfico mais bonito usando função ggplot_lpi_modif
   ggplot_lpi_modif(mydata_lpi, col="cornflowerblue")
+  
+  # salvar mydata_lpi na area de trabalho
+  assign("mydata_lpi", mydata_lpi, .GlobalEnv)
   
 } # Fim da função

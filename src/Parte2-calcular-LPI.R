@@ -1,6 +1,7 @@
 
 # Carregar pacotes
 library(here)
+library(ggplot2)
 
 # carregar funcoes
 source(here("bin", "lpi_icmbio4.R"))
@@ -11,6 +12,10 @@ dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))
 # rodar funcao rlpi
 lpi_icmbio(dadosICMBio) # cálculo do LPI para todo o conjunto de dados do ICMBio
 mydata2
+
+# salvar o grafico
+ggsave(file = here("results", "lpi-global.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="cornflowerblue"))
+
 
   # selecionando populações para cálculo (taxa de avistamento >= 0.1)
   mydata2$mean <- rowMeans(mydata2[,c(3:7)], na.rm = TRUE)
