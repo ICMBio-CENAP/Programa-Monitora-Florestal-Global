@@ -2,8 +2,10 @@
 Analise de dados Mastoaves do protocolo florestal global do **Programa Monitora-ICMBio**
 
 Prepara os dados do Monitora-ICMBio, colocando-os no formato exigido pelo pacote *rlpi*, desenvolvido pela [**Zoological Society of London**](https://github.com/Zoological-Society-of-London/rlpi);
+
 Cria subsets dos dados com UC e grupo taxonômico de interesse (e.g., mamíferos, aves);
-Cálcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal básico (mamíferos e aves)
+
+Calcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal básico (mamíferos e aves)
 
 
 ### Descrição
