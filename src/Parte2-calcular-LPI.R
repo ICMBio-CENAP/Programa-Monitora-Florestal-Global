@@ -4,7 +4,7 @@ library(here)
 library(ggplot2)
 
 # carregar funcoes
-source(here("bin", "lpi_icmbio4.R"))
+source(here("bin", "lpi_icmbio.R"))
 
 # carregar dados
 dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))

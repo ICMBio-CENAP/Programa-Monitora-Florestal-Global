@@ -8,6 +8,10 @@ Cria subsets dos dados com UC e grupo taxonômico de interesse (e.g., mamíferos
 Calcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal básico (mamíferos e aves)
 
 
+<img src="results/lpi-aves-selecionadas.jpg" title="LPI Aves Global" width="500">
+
+Figura 1. LPI para as aves nas UCs monitoradas, 2014-2018.
+
 
 ### Descrição
 ```src``` Contém os códigos para as análises.
@@ -17,11 +21,6 @@ Calcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal
 ```bin``` Códigos e funções úteis que são chamadas pelos códigos principais.
 
 ```results``` Contém resultados das análises.
-
-
-<img src="results/lpi-spp-selecionadas.jpg" title="LPI Global" width="500">
-
-Figura 1. LPI Global para os dados do ICMBio, 2014-2018.
 
 
 
