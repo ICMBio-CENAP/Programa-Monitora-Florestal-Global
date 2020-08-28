@@ -2,7 +2,7 @@
 # Função lpi_icmbio:
 
 lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe 
-  #library(rlpi) # carrega pacote rlpi
+  library(rlpi) # carrega pacote rlpi
   source(here("bin", "CalcLPI.R"))
   source(here("bin", "create_infile.R"))
   source(here("bin", "ProcessFile.R"))

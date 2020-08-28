@@ -11,7 +11,7 @@ dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))
 
 # rodar funcao rlpi
 lpi_icmbio(dadosICMBio) # cálculo do LPI para todo o conjunto de dados do ICMBio
-mydata2
+#mydata2
 
 # salvar o grafico
 ggsave(file = here("results", "lpi-global.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="cornflowerblue"))
@@ -48,6 +48,9 @@ ggsave(file = here("results", "lpi-aves-selecionadas.jpg"), plot = ggplot_lpi_mo
 
 # quantas UCs
 sort(unique(dados4$Local...Nome.da.Unidade.de.Conservação))
+aves$Local...Nome.da.Unidade.de.Conservação <- as.factor(aves$Local...Nome.da.Unidade.de.Conservação)
+levels(aves$Local...Nome.da.Unidade.de.Conservação)
+sort(unique(aves$Local...Nome.da.Unidade.de.Conservação))
 
 
 lpi_icmbio(dados2, "Resex Cazumbá-Iracema", "Aves")
