@@ -10,7 +10,7 @@ Calcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal
 
 <img src="results/lpi-aves-selecionadas.jpg" title="LPI Aves Global" width="500">
 
-Figura 1. LPI para as aves nas UCs monitoradas, 2014-2018.
+Figura 1. LPI para 108 populações de 27 espécies de aves em 18 UCs monitoradas pelo ICMBio, 2014-2018.
 
 
 ### Descrição
