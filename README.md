@@ -8,8 +8,8 @@ Cria subsets dos dados com UC e grupo taxonômico de interesse (e.g., mamíferos
 Calcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal básico (mamíferos e aves)
 
 
-<img src="results/lpi-aves-selecionadas.jpg" title="LPI Aves Global" width="500">
-Figura 1. LPI para 108 populações de 27 espécies de aves em 18 UCs monitoradas pelo ICMBio, 2014-2018.
+<img src="results/lpi-spp-selecionadas-2016-2019.jpg" title="LPI Global" width="500">
+Figura 1. LPI para 408 populações de mamíferos e aves em 27 UCs monitoradas pelo ICMBio, 2014-2019.
 
 
 

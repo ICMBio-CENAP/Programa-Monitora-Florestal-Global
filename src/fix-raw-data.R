@@ -14,12 +14,15 @@ library(dplyr)
 library(stringr)
 
 # abrir planilha de dados mastoaves
-dados <- read.csv(here("data", "Planilha consolidada mastoaves até 2018  julho 2019 - FINAL.csv"), sep=",") # mais atual, mas com problemas
+#dados <- read.csv(here("data", "Planilha consolidada mastoaves até 2018  julho 2019 - FINAL.csv"), sep=",") # mais atual, mas com problemas
+dados <- read.csv(here("data", "Planilha consolidada mastoaves até 2019 - FINAL.csv"))
 
-dados2 <- dados[dados$Espécies.validadas.para.análise.do.ICMBio != "",] # remover linhas com nome de espécie em branco
-dados2$Binomial <- dados2$Espécies.validadas.para.análise.do.ICMBio
-dados2$Binomial <- gsub(" ", "_", dados2$Binomial) # necessário para rodar LPIMain, ao incuir CDUC separa pops da mesma sp
-dados2$Binomial <- paste(dados2$Binomial, dados2$CDUC, sep="_") # NOVO em 20190405, para separar populacoes diferentes da mesma spp
+# alguns ajustes
+dados2 <- dados
+#dados2$Binomial <- dados2$Espécies.validadas.para.análise.do.ICMBio
+#dados2$Binomial <- gsub(" ", "_", dados2$Binomial) # necessário para rodar LPIMain, ao incuir CDUC separa pops da mesma sp
+dados2$Binomial <- gsub( " .*$", "", dados2$Espécies.validadas.para.análise.do.ICMBio) # trabalhar somente com genero para minimizar efeito de erros
+dados2$Binomial <- paste(dados2$Binomial, dados2$CDUC, sep="_") # separa populacoes diferentes da mesma spp (neste caso genero)
 dados2$Binomial <- as.factor(dados2$Binomial) # pode ser desnecessário, verificar
 dados2 <- dados2[dados2$Ano != "",]
 dados2$Ano <- str_sub(dados2$Ano, start= -4) # porque o ano está como factor/data
@@ -27,7 +30,7 @@ dados2 <- dados2[complete.cases(dados2$Ano), ] # remover linhas com NA na coluna
 dados2$Ano <- as.numeric(dados2$Ano)
 #dados2 <- dados[dados$Ano != is.na,] # remover linhas com ano em branco
 #dados2$Ano <- as.numeric(substr(dados2$Ano, 7, 10)) extrai ano quatro digitos
-
+dados2 <- subset(dados2, Ano != 2020)
 
 # Selecionando registros somente das espécies de interesse para o LPI
 # pattern matching
@@ -41,4 +44,5 @@ dados2$Ano <- as.numeric(dados2$Ano)
 colnames(dados2)[5] <- "esforço"
 
 # salvar como rds para proxima etapa
-saveRDS(dados2, here("data", "dadosICMBio_2014a2018.rds"))
+#saveRDS(dados2, here("data", "dadosICMBio_2014a2018.rds"))
+saveRDS(dados2, here("data", "dadosICMBio_2014a2019.rds"))
