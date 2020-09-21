@@ -17,7 +17,7 @@ lpi_icmbio(dadosICMBio) # cálculo do LPI para todo o conjunto de dados do ICMBi
 #mydata2
 
 # salvar o grafico
-ggsave(file = here("results", "lpi-global2016-2019.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="cornflowerblue"))
+ggsave(file = here("results", "lpi-global2016-2019.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="darkcyan"))
 
 
   # selecionando populações para cálculo (taxa de avistamento >= 0.1) e pelo menos 
@@ -33,7 +33,7 @@ ggsave(file = here("results", "lpi-global2016-2019.jpg"), plot = ggplot_lpi_modi
 # e.g felideos, preguiça etc
 
 lpi_icmbio(dados4)
-ggsave(file = here("results", "lpi-spp-selecionadas-2016-2019.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="cornflowerblue"))
+ggsave(file = here("results", "lpi-spp-selecionadas-2016-2019.jpg"), plot = ggplot_lpi_modif(mydata_lpi, col="darkcyan"))
 
 
 # tendencias de especies individuais (grafico espaguete)
@@ -45,13 +45,17 @@ speciesTrends$value[speciesTrends$value == 0] <- NA # remover zeros apenas para 
 
 # Plot
 plotSpeciesTrends <- speciesTrends %>%
-  ggplot( aes(x=Ano, y=log(value), group=Binomial)) +
-  geom_line(size=0.6, alpha=0.2) + theme_classic()
-plotSpeciesTrends
-plotSpeciesTrends  + ggplot2::ylab("Taxa de avistamento (escala log)")
+  ggplot( aes(x=Ano, y=log(value), group=Binomial, color=Binomial)) +
+  geom_line(size=0.6, alpha=0.5) + theme_classic()
+#plotSpeciesTrends
+plotSpeciesTrends  + ggplot2::ylab("Taxa de avistamento (escala log)") + theme(legend.position = "none")
 
 
 # quantas spp de mamiferos e aves (cuttoff 0.1)
+allPops <- as.factor(mydata2$Binomial)
+levels(allPops)
+allSpp <- as.factor(gsub( "_.*$", "", mydata2$Binomial))
+levels(allSpp)
 aves <- subset(dados4, Classe == "Aves")
   sort(unique(aves$Binomial))
   avesSpp <- as.factor(gsub( "_.*$", "", aves$Binomial))

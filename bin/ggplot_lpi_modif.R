@@ -2,7 +2,7 @@
 # Basicamente a função ggplot_lpi do pacote rlpi, com pequenas modificações
 
 ggplot_lpi_modif <- function (d, col = "darkblue", line_col = "white",
-                              title = "", ylims = c(0, 3), xlims = NULL,
+                              title = "", ylims = c(0, 3.5), xlims = NULL,
                               trans = "identity", yrbreaks = 5, lpi_breaks = 1) 
 {
   df <- data.frame(years = as.numeric(as.character(rownames(d))), 
@@ -16,11 +16,11 @@ ggplot_lpi_modif <- function (d, col = "darkblue", line_col = "white",
     g <- g + ggplot2::geom_ribbon(
       data = df,
       ggplot2::aes_string(ymin = "lwr", ymax = "upr", group = 1),
-      alpha = 0.6, fill = col)
+      alpha = 0.9, fill = col)
   }
   
   g <- g + ggplot2::geom_line(size = 0.6, col = line_col)
-  g <- g + ggplot2::geom_hline(yintercept = 1, alpha = 0.4)
+  g <- g + ggplot2::geom_hline(yintercept = 1, alpha = 0.8, linetype="dotted")
   g <- g + ggplot2::coord_cartesian(ylim = ylims, xlim = xlims) + 
     ggplot2::theme_bw()
   g <- g + ggplot2::theme(

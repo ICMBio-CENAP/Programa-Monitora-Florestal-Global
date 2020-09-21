@@ -69,7 +69,7 @@ lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe
   source(here("bin", "ggplot_lpi_modif.R"))
   
   # Gerar gráfico mais bonito usando função ggplot_lpi_modif
-  ggplot_lpi_modif(mydata_lpi, col="cornflowerblue")
+  ggplot_lpi_modif(mydata_lpi, col="darkcyan")
   
   # salvar mydata_lpi na area de trabalho
   assign("mydata_lpi", mydata_lpi, .GlobalEnv)
