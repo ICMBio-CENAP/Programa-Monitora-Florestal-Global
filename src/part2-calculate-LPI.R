@@ -1,3 +1,10 @@
+# Script para cálculo do LPI
+# Baseado nas instruções disponíveis em https://github.com/Zoological-Society-of-London/rlpi
+# Adaptado por Elildo Carvalho Jr @ ICMBio/CENAP
+# Função prepara dados do icmbio e chama funções do pacote rlpi
+# Em fase de TESTE
+# NB! Funcao lpi_icmbio esta salvando arquivos na pasta principal, editar para que destino seja subpasta "results"
+
 
 # Carregar pacotes
 library(here)
@@ -9,7 +16,6 @@ library(dplyr)
 source(here("bin", "lpi_icmbio.R"))
 
 # carregar dados
-#dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))
 dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
 
 # rodar funcao rlpi
