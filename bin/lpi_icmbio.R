@@ -14,7 +14,7 @@ lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe
   mydata <- x
   
   if(missing(y)) {    mydata <- mydata }
-  else {  mydata <- subset(x, Local...Nome.da.Unidade.de.Conservação == y) } # seleciona UC
+  else {  mydata <- subset(x, nome.UC == y) } # seleciona UC
   
   for.effort <- mydata # sera usado mais a frente
   
