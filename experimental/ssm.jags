@@ -6,7 +6,7 @@ mean.lambda ~ dunif(0, 10)          # Prior for mean growth rate
 sigma.proc ~ dunif(0, 10)           # Prior for sd of state process
 sigma2.proc <- pow(sigma.proc, 2)
 tau.proc <- pow(sigma.proc, -2)
-sigma.obs ~ dunif(0, 100)           # Prior for sd of observation process
+sigma.obs ~ dunif(0, 10)           # Prior for sd of observation process
 sigma2.obs <- pow(sigma.obs, 2)
 tau.obs <- pow(sigma.obs, -2)
 

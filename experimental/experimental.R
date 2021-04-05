@@ -48,30 +48,22 @@ encounter.rate <- function(mydata, taxon) {
           mydata2[i,j+2] <- round(nrow(b)/(sum(subset(c, Ano == vetor.Ano[j])$esforço, na.rm=TRUE)/10000), 3)
           }
       }}
-  sitename <- deparse(substitute(mydata))
-  assign(paste("encounter_rate", sitename, sep="_"), mydata2, .GlobalEnv)
+  #sitename <- deparse(substitute(mydata))
+  #assign(paste("encounter_rate", sitename, sep="_"), mydata2, .GlobalEnv)
+  assign("encounter_rate", mydata2, .GlobalEnv)
 }
 
 encounter.rate(cazumba, "Genero")
-encounter_rate_cazumba
+#encounter_rate_cazumba
+encounter_rate
 
 #---------- Parte 2: modelo bayesiano ----------
 
-# taxa de econtro da especie de interesse
-
-#y  <- as.numeric(encounter_rate_cazumba[3, 3:ncol(encounter_rate_cazumba)]) # Alouatta
-#y  <- as.numeric(encounter_rate_cazumba[11, 3:ncol(encounter_rate_cazumba)]) # Dasyprocta
-#y  <- as.numeric(encounter_rate_cazumba[34, 3:ncol(encounter_rate_cazumba)]) # Sapajus
-#y  <- as.numeric(encounter_rate_cazumba[8, 3:ncol(encounter_rate_cazumba)]) # Cebus
-#y  <- as.numeric(encounter_rate_cazumba[28, 3:ncol(encounter_rate_cazumba)]) # Penelope
-#y  <- as.numeric(encounter_rate_cazumba[10, 3:ncol(encounter_rate_cazumba)]) # Crypturellus
-
-n.years <- length(3:ncol(encounter_rate_cazumba))
-
-
-# Specify model in BUGS language
-sink(here("experimental", "ssm.jags"))
-cat("
+state.space.model <- function(y, n.years) {
+  
+  # Specify model in BUGS language
+  sink(here("experimental", "ssm.jags"))
+  cat("
 model { 
 # Priors and constraints
 N.est[1] ~ dunif(0, 2)            # Prior for initial encounter rate
@@ -79,7 +71,7 @@ mean.lambda ~ dunif(0, 10)          # Prior for mean growth rate
 sigma.proc ~ dunif(0, 10)           # Prior for sd of state process
 sigma2.proc <- pow(sigma.proc, 2)
 tau.proc <- pow(sigma.proc, -2)
-sigma.obs ~ dunif(0, 100)           # Prior for sd of observation process
+sigma.obs ~ dunif(0, 10)           # Prior for sd of observation process
 sigma2.obs <- pow(sigma.obs, 2)
 tau.obs <- pow(sigma.obs, -2)
 
@@ -95,50 +87,120 @@ for (t in 1:T) {
    }
 }
 ",fill = TRUE)
-sink()
-
-# Bundle data
-jags.data <- list(y = y, T = n.years)
-
-# Initial values
-inits <- function(){list(sigma.proc = runif(1, 0, 5), mean.lambda = runif(1, 0.1, 2), sigma.obs = runif(1, 0, 10), N.est = c(runif(1, 0, 2), rep(NA, (n.years-1))))} 
-
-# Parameters monitored
-parameters <- c("lambda", "mean.lambda", "sigma2.obs", "sigma2.proc", "N.est")
-
-# MCMC settings
-ni <- 25000
-nt <- 3
-nb <- 10000
-nc <- 3
-
-# Call JAGS from R (BRT <1 min)
-ssm <- jags(jags.data, inits, parameters, here("experimental", "ssm.jags"), n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
-
-# ccheck results
-print(ssm, digits = 2)
-
-# Draw figure
-fitted <- lower <- upper <- numeric()
-year <- 2014:2019
-n.years <- length(3:ncol(encounter_rate_cazumba))
-
-for (i in 1:n.years){
-  fitted[i] <- mean(ssm$BUGSoutput$sims.list$N.est[,i])
-  lower[i] <- quantile(ssm$BUGSoutput$sims.list$N.est[,i], 0.025)
-  upper[i] <- quantile(ssm$BUGSoutput$sims.list$N.est[,i], 0.975)
+  sink()
+  
+  # Bundle data
+  jags.data <- list(y = y, T = n.years)
+  
+  # Initial values
+  inits <- function(){list(sigma.proc = runif(1, 0, 5), mean.lambda = runif(1, 0.1, 2), sigma.obs = runif(1, 0, 10), N.est = c(runif(1, 0, 2), rep(NA, (n.years-1))))} 
+  
+  # Parameters monitored
+  parameters <- c("lambda", "mean.lambda", "sigma2.obs", "sigma2.proc", "N.est")
+  
+  # MCMC settings
+  ni <- 25000
+  nt <- 3
+  nb <- 10000
+  nc <- 3
+  
+  # Call JAGS from R (BRT <1 min)
+  ssm <- jags(jags.data, inits, parameters, here("experimental", "ssm.jags"), n.chains = nc, n.thin = nt, n.iter = ni, n.burnin = nb)
+  
+  # ccheck results
+  print(ssm, digits = 2)
+  
+  # Draw figure
+  fitted <- lower <- upper <- numeric()
+  year <- 2014:2019
+  n.years <- length(3:ncol(encounter_rate))
+  
+  for (i in 1:n.years){
+    fitted[i] <- mean(ssm$BUGSoutput$sims.list$N.est[,i])
+    lower[i] <- quantile(ssm$BUGSoutput$sims.list$N.est[,i], 0.025)
+    upper[i] <- quantile(ssm$BUGSoutput$sims.list$N.est[,i], 0.975)
   }
-m1 <- min(c(fitted, y, lower), na.rm = TRUE)
-m2 <- max(c(fitted, y, upper), na.rm = TRUE)
-par(mar = c(4.5, 4, 1, 1))
-#plot(0, 0, ylim = c(m1, m2), xlim = c(1, n.years), ylab = "Taxa de encontro", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
-plot(0, 0, ylim = c(m1-0.5, m2+1), xlim = c(1, n.years), ylab = "Taxa de encontro", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
-axis(2, las = 1)
-axis(1, at = 1:n.years, labels = year)
-polygon(x = c(1:n.years, n.years:1), y = c(lower, upper[n.years:1]), col = "gray90", border = "gray90")
-points(y, type = "l", col = "black", lwd = 1, lty = 2)
-points(fitted, type = "l", col = "blue", lwd = 2)
-legend(x = 4.5, y = 3, legend = c("Observada", "Estimada"), lty = c(1, 1), lwd = c(2, 2), col = c("black", "blue"), bty = "n", cex = 0.8)
+  m1 <- min(c(fitted, y, lower), na.rm = TRUE)
+  m2 <- max(c(fitted, y, upper), na.rm = TRUE)
+  par(mar = c(4.5, 4, 1, 1))
+  #plot(0, 0, ylim = c(m1, m2), xlim = c(1, n.years), ylab = "Taxa de encontro", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  plot(0, 0, ylim = c(m1-0.5, m2+1), xlim = c(1, n.years), ylab = "Taxa de encontro", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  axis(2, las = 1)
+  axis(1, at = 1:n.years, labels = year)
+  polygon(x = c(1:n.years, n.years:1), y = c(lower, upper[n.years:1]), col = "gray90", border = "gray90")
+  points(y, type = "l", col = "black", lwd = 1, lty = 2)
+  points(fitted, type = "l", col = "blue", lwd = 2)
+  legend(x = 4.5, y = m2+0.5, legend = c("Observada", "Estimada"), lty = c(1, 1), lwd = c(2, 2), col = c("black", "blue"), bty = "n", cex = 0.8)
+  
+  # Probability of N(2019) < N(2014)
+  mean(ssm$BUGSoutput$sims.list$N.est[,6] < ssm$BUGSoutput$mean$N.est[1])
+}
 
-# Probability of N(2019) < N(2014)
-mean(ssm$BUGSoutput$sims.list$N.est[,6] < ssm$BUGSoutput$mean$N.est[1])
+# definir numero de anos
+n.years <- length(3:ncol(encounter_rate))
+
+# Alouatta
+y  <- as.numeric(encounter_rate[3, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
+# save jpeg
+jpeg(here("experimental", "Alouatta_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+
+# Dasyprocta
+y  <- as.numeric(encounter_rate[11, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
+# save jpeg
+jpeg(here("experimental", "Dasyprocta_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+
+# Pecari
+y  <- as.numeric(encounter_rate[27, 3:ncol(encounter_rate)])
+# save jpeg
+jpeg(here("experimental", "Pecari_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+# Mazama
+y  <- as.numeric(encounter_rate[17, 3:ncol(encounter_rate)])
+# save jpeg
+jpeg(here("experimental", "Mazama_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+# Sapajus
+y  <- as.numeric(encounter_rate[34, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
+# save jpeg
+jpeg(here("experimental", "Sapajus_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+# Cebus
+y  <- as.numeric(encounter_rate[8, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
+# save jpeg
+jpeg(here("experimental", "Cebus_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+# Penelope
+y  <- as.numeric(encounter_rate[28, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
+# save jpeg
+jpeg(here("experimental", "Penelope_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+# Crypturellus
+y  <- as.numeric(encounter_rate[10, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
+# save jpeg
+jpeg(here("experimental", "Crypturellus_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+state.space.model(y, n.years)
+dev.off()
+
+
