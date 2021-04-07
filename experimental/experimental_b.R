@@ -46,7 +46,7 @@ encounter.rate <- function(mydata, taxon) {
         }
         else {
           mydata2[i,j+2] <- round(nrow(b)/(sum(subset(c, Ano == vetor.Ano[j])$esforço, na.rm=TRUE)/10000), 3)
-          }
+        }
       }}
   #sitename <- deparse(substitute(mydata))
   #assign(paste("encounter_rate", sitename, sep="_"), mydata2, .GlobalEnv)
@@ -64,39 +64,47 @@ state.space.model <- function(y, n.years) {
   # Specify model in BUGS language
   sink(here("experimental", "ssm.jags"))
   cat("
-model { 
+model {
 # Priors and constraints
-N.est[1] ~ dunif(0, 2)            # Prior for initial encounter rate
-mean.lambda ~ dunif(0, 10)          # Prior for mean growth rate
-sigma.proc ~ dunif(0, 10)           # Prior for sd of state process
+logN.est[1] ~ dnorm(0, 0.01)       # Prior for initial population size
+mean.r ~ dnorm(1, 0.001)             # Prior for mean growth rate
+sigma.proc ~ dunif(0, 1)             # Prior for sd of state process
 sigma2.proc <- pow(sigma.proc, 2)
 tau.proc <- pow(sigma.proc, -2)
-sigma.obs ~ dunif(0, 10)           # Prior for sd of observation process
+sigma.obs ~ dunif(0, 1)              # Prior for sd of observation process
 sigma2.obs <- pow(sigma.obs, 2)
 tau.obs <- pow(sigma.obs, -2)
 
 # Likelihood
 # State process
 for (t in 1:(T-1)){
-   lambda[t] ~ dnorm(mean.lambda, tau.proc) 
-   N.est[t+1] <- N.est[t] * lambda[t] 
+   r[t] ~ dnorm(mean.r, tau.proc)
+   logN.est[t+1] <- logN.est[t] + r[t]
    }
 # Observation process
 for (t in 1:T) {
-   y[t] ~ dnorm(N.est[t], tau.obs)
+   y[t] ~ dnorm(logN.est[t], tau.obs)
+   }
+
+# Population sizes on real scale
+for (t in 1:T) {
+   N.est[t] <- exp(logN.est[t])/100
    }
 }
 ",fill = TRUE)
   sink()
   
   # Bundle data
-  jags.data <- list(y = y, T = n.years)
+  jags.data <- list(y = log(y*100), T = n.years)
   
   # Initial values
-  inits <- function(){list(sigma.proc = runif(1, 0, 5), mean.lambda = runif(1, 0.1, 2), sigma.obs = runif(1, 0, 10), N.est = c(runif(1, 0, 2), rep(NA, (n.years-1))))} 
+  inits <- function(){list(sigma.proc = runif(1, 0, 1), mean.r = rnorm(1), 
+                           sigma.obs = runif(1, 0, 1),
+                           LogN.est = c(rnorm(1, -0.5, 0.1), rep(NA, (n.years-1))))} 
+                           #LogN.est = c(rnorm(n.years, 5, 0.1)) )} 
   
   # Parameters monitored
-  parameters <- c("lambda", "mean.lambda", "sigma2.obs", "sigma2.proc", "N.est")
+  parameters <- c("r", "mean.r", "sigma2.obs", "sigma2.proc", "N.est")
   
   # MCMC settings
   ni <- 25000
@@ -135,7 +143,7 @@ for (t in 1:T) {
   # Probability of N(2019) < N(2014)
   mean(ssm$BUGSoutput$sims.list$N.est[,6] < ssm$BUGSoutput$mean$N.est[1])
   
-  # Draw figure
+  # Draw figure (alternative)
   fitted <- lower <- upper <- numeric()
   year <- 2014:2019
   n.years <- length(3:ncol(encounter_rate))
@@ -149,7 +157,7 @@ for (t in 1:T) {
   m2 <- max(c(fitted, y, upper), na.rm = TRUE)
   par(mar = c(4.5, 4, 1, 1))
   #plot(0, 0, ylim = c(m1, m2), xlim = c(1, n.years), ylab = "Taxa de encontro", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
-  plot(0, 0, ylim = c(m1-0.5, m2+1), xlim = c(1, n.years), ylab = "Taxa de encontro (ind/10km)", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  plot(0, 0, ylim = c(m1-0.5, m2+0.5), xlim = c(1, n.years), ylab = "Taxa de encontro (Ind/10km)", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
   axis(2, las = 1)
   axis(1, at = 1:n.years, labels = year)
   #polygon(x = c(1:n.years, n.years:1), y = c(lower, upper[n.years:1]), col = "gray90", border = "gray90")
@@ -182,6 +190,7 @@ dev.off()
 
 # Pecari
 y  <- as.numeric(encounter_rate[27, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
 # save jpeg
 jpeg(here("experimental", "Pecari_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
 state.space.model(y, n.years)
@@ -226,4 +235,13 @@ jpeg(here("experimental", "Crypturellus_cazumba.jpg"), width=1000, height=600, r
 state.space.model(y, n.years)
 dev.off()
 
+# Teste com dados de todos os sítios
+encounter.rate(dadosICMBio, "Genero")
+#encounter.rate(dadosICMBio, "Especie")
+encounter_rate
+encounter_rate$taxon
+y  <- as.numeric(encounter_rate[51, 3:ncol(encounter_rate)])
+state.space.model(y, n.years)
 
+#select rows based on pattern
+iris[iris$Species %like% "osa", ]
