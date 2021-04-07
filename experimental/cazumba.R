@@ -157,7 +157,8 @@ for (t in 1:T) {
   #points(fitted, type = "l", col = "blue", lwd = 2)
   points(x = (1:n.years), y = fitted, type = "b", pch = 16, cex = 1.5, lty = 1)
   segments((1:n.years), lower, 1:(n.years), upper, cex=0.5)
-  
+ 
+  assign("meanR", ssm$BUGSoutput$sims.list$mean.r, .GlobalEnv) 
 }
 
 # definir numero de anos
@@ -174,8 +175,7 @@ jpeg(here("experimental", "Callicebus_cazumba.jpg"), width=1000, height=600, res
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Callicebus <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-               quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Callicebus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 # Dasyprocta
 y  <- as.numeric(encounter_rate[3, 3:ncol(encounter_rate)])
@@ -185,8 +185,7 @@ jpeg(here("experimental", "Dasyprocta_cazumba.jpg"), width=1000, height=600, res
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Dasyprocta <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                       quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Dasyprocta <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 
 # Myoprocta
@@ -197,8 +196,7 @@ jpeg(here("experimental", "Myoprocta_cazumba.jpg"), width=1000, height=600, res=
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Myoprocta <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                       quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Myoprocta <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 
 # Pecari
@@ -209,8 +207,7 @@ jpeg(here("experimental", "Pecari_cazumba.jpg"), width=1000, height=600, res=120
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Pecari <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                      quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Pecari <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 # Saguinus
 y  <- as.numeric(encounter_rate[7, 3:ncol(encounter_rate)])
@@ -220,8 +217,7 @@ jpeg(here("experimental", "Saguinus_cazumba.jpg"), width=1000, height=600, res=1
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Saguinus <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                   quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Saguinus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 # Saimiri
 y  <- as.numeric(encounter_rate[8, 3:ncol(encounter_rate)])
@@ -231,8 +227,7 @@ jpeg(here("experimental", "Saimiri_cazumba.jpg"), width=1000, height=600, res=12
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Saimiri <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                     quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Saimiri <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 
 # Sapajus
@@ -243,8 +238,7 @@ jpeg(here("experimental", "Sapajus_cazumba.jpg"), width=1000, height=600, res=12
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Sapajus <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                    quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Sapajus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 # Urosciurus
 y  <- as.numeric(encounter_rate[11, 3:ncol(encounter_rate)])
@@ -254,8 +248,7 @@ jpeg(here("experimental", "Urosciurus_cazumba.jpg"), width=1000, height=600, res
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Urosciurus <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                    quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Urosciurus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 
 # Crypturellus
@@ -266,8 +259,7 @@ jpeg(here("experimental", "Crypturellus_cazumba.jpg"), width=1000, height=600, r
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Crypturellus <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                     quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Crypturellus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 # Penelope
 y  <- as.numeric(encounter_rate[6, 3:ncol(encounter_rate)])
@@ -277,8 +269,7 @@ jpeg(here("experimental", "Penelope_cazumba.jpg"), width=1000, height=600, res=1
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Penelope <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                     quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Penelope <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 
 # Tinamus
@@ -289,17 +280,11 @@ jpeg(here("experimental", "Tinamus_cazumba.jpg"), width=1000, height=600, res=12
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Tinamus <- c(mean(ssm$BUGSoutput$sims.list$mean.r),
-                     quantile(ssm$BUGSoutput$sims.list$mean.r, probs = c(0.025, 0.975)))
+mean_r_Tinamus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
-
-# Teste com dados de todos os sítios
-encounter.rate(dadosICMBio, "Genero")
-#encounter.rate(dadosICMBio, "Especie")
-encounter_rate
-encounter_rate$taxon
-y  <- as.numeric(encounter_rate[51, 3:ncol(encounter_rate)])
-state.space.model(y, n.years)
-
-#select rows based on pattern
-iris[iris$Species %like% "osa", ]
+#
+meanRs <- rbind(mean_r_Callicebus, mean_r_Crypturellus, mean_r_Dasyprocta, mean_r_Myoprocta, mean_r_Pecari, mean_r_Penelope, mean_r_Saguinus, mean_r_Saimiri, mean_r_Sapajus, mean_r_Tinamus, mean_r_Urosciurus)
+colnames(meanRs)[1] <- "media"
+row.names(meanRs) <- gsub("mean_r_", "", row.names(meanRs))
+meanRs <- round(meanRs, 2)
+write.csv(meanRs, here("experimental", "meanRs.csv"), row.names = TRUE, col.names = TRUE)
