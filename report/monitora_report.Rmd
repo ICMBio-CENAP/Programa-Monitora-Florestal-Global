@@ -1,9 +1,9 @@
 ---
 title: Programa Monitora ICMBio
-subtitle: Relatório Protocolo Florestal Global (Resex Cazumbá-Iracema)
-documentclass: scrartcl
-author: "Elildo Carvalho Jr^1^"
-date: "^1^Centro Nacional de Pesquisa e Conservação de Mamíferos Carnívoros - ICMBio/CENAP, elildo.carvalho-junior@icmbio.gov.br"
+subtitle: Relatório - Protocolo Florestal Global
+author: |
+  | Elildo Carvalho Jr, ICMBio/CENAP
+date: "Atibaia, 08 de abril de 2021"
 output:
   pdf_document:
     latex_engine: xelatex
@@ -16,11 +16,12 @@ header-includes:
 - \usepackage{fancyhdr}
 - \usepackage{lastpage}
   \fancyfoot{}
+
 ---
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
 \pagestyle{fancy}
-\fancyhead[CO,CE]{ICMBio/CENAP: Programa Monitora ICMBio}
+\fancyhead[CO,CE]{ICMBio/CENAP}
 \fancyhead[R]{\thepage}
 
 
@@ -31,7 +32,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Apresentação
 
-Este relatório apresenta resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Mamíferos terrestres de médio e grande porte, protocolo básico, na **Reserva Extrativista Cazumbá-Iracema**. O trabalho teve como objetivo descrever a variação anual nas populações de espécies selecionadas, e identificar se elas estão estáveis ou se há tendências significativas de declínio ou aumento populacional.
+Este relatório analisa resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Mamíferos terrestres de médio e grande porte, protocolo básico, na **Reserva Extrativista Cazumbá-Iracema**, 2014 a 2019. O trabalho teve como objetivo descrever a variação anual nas populações de espécies selecionadas, e identificar se elas estão estáveis ou se há tendências significativas de declínio ou aumento populacional.
 
 
 Ressalta-se que o relatório visa somente descrever os padrões observados. Especulações sobre possíveis causas para esses padrões fogem ao escopo deste documento. Recomenda-se que os resultados sejam debatidos entre comunidades locais, gestores e pesquisadores.
@@ -39,14 +40,14 @@ Ressalta-se que o relatório visa somente descrever os padrões observados. Espe
 
 ## Métodos
 
-O protocolo básico para o alvo Mamíferos terrestres de médio e grande porte prevê amostragens anuais pelo método de transecções lineares [@Peres1999]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada observação, a espécie, número de indivíduos e distãncia perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^).
+Foram analisados dados do protocolo básico coletados na Resex Cazumbá-Iracema entre os anos de 2014 e 2019. O protocolo utiliza o método de transecções lineares [@Peres1999]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^).
 
 No presente trabalho, o índice populacional escolhido foi a *taxa de encontro de grupos* (grupos/10 km). Somente as espécies mais comuns (taxa de encontro anual média > 0.2 e taxa de encontro mínima > 0.1) foram incluídas nas análises.
 
-Para cada espécie, foi ajustado um modelo estocástico de dinâmica populacional, descrito em maiores detalhes ao final do documento. Para fins de interpretação dos resultados, o principal parâmetro do modelo é a taxa média de crescimento estocástico (*r*). Taxas significativamente menores que zero apontam para declínio populacional, taxas significativamente maiores que zero apontam para aumento populacional, e taxas não significativamente diferentes de zero apontam para estabilidade populacional. Além das estimativas da taxa *r*, foram produzidos gráficos representando a dinâmica temporal do índice populacional de cada espécie.
+Para cada espécie, foi ajustado um modelo estocástico de dinâmica populacional, descrito em maiores detalhes ao final do documento. O principal parâmetro do modelo é a taxa média de crescimento estocástico (*r*). Taxas significativamente menores que zero apontam para declínio populacional, taxas significativamente maiores que zero apontam para aumento populacional, e taxas não significativamente diferentes de zero apontam para estabilidade populacional. Além das estimativas da taxa *r*, foram produzidos gráficos representando a dinâmica temporal do índice populacional de cada espécie.
 
 
-Para cada espécie, a validade do modelo depende das seguintes premissas:
+A validade do modelo depende das seguintes premissas:
 
 (1) o índice populacional segue trajetória paralela ao tamanho real da população.
 (2) a probabilidade de detecção permanece constante ao longo do tempo. 
@@ -54,29 +55,29 @@ Para cada espécie, a validade do modelo depende das seguintes premissas:
 (4) as distâncias perpendiculares dos avistamentos permanecem constantes ao longo do tempo.
 
 
-A validade de pelo menos algumas dessas premissas pode ser testada com os próprios dados (e.g., constância no tamanho de grupo e nas distâncias perpendiculares). Isso seá feito em relatórios futuros. Por ora, assume-se que as premissas são válidas.
+A validade de pelo menos algumas dessas premissas pode ser testada com os próprios dados (e.g., constância no tamanho de grupo e nas distâncias perpendiculares). Isso será feito em relatórios futuros. Por ora, assume-se que as premissas são válidas.
 
 
 
 ## Resultados
 
-A Resex Cazumbá-Iracema foi amostrada pelo protocolo básico entre os anos de 2014 e 2019. Oito espécies atenderam aos critérios mínimos para inclusão nas análises: *Cebus albifrons, Dasyprocta fuliginosa, Mazama americana, Myoprocta pratti, Pecari tajacu, Saguinus weddelli, Sapajus macrocephalus e Urosciurus spadiceus*.
+Oito espécies atenderam aos critérios mínimos para inclusão nas análises: *Cebus albifrons, Dasyprocta fuliginosa, Mazama americana, Myoprocta pratti, Pecari tajacu, Saguinus weddelli, Sapajus macrocephalus e Urosciurus spadiceus*.
 
 
-Em nenhum caso a taxa de média de crescimento estocástico foi significativamente diferente de zero, indicando que todas se mantiveram estáveis durante o período de monitoramento (Tabela 1).
+Em nenhum caso a taxa de média de crescimento estocástico foi significativamente diferente de zero, indicando que todas as espécies se mantiveram estáveis durante o período de monitoramento (Tabela 1).
 
 
 ```{r, echo=FALSE}
 #library(kableExtra)
 knitr::kable(
-  read.csv("/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/tabela1.csv"), caption = 'Taxa estocástica de crescimento populacional (r), intervalo de confiança (IC) e tendência populacional para espécies selecionadas da RESEX Cazumbá-Iracema'
+  read.csv("/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/tabela1.csv"), caption = 'Taxa estocástica de crescimento populacional (*r*), intervalo de confiança (IC) e tendência populacional para espécies selecionadas da RESEX Cazumbá-Iracema'
 ) 
 ```
 
 
-Ainda que não significativamente diferentes de zero, a maioria das taxas foi levemente negativa (Tabela 1). Ressalta-se que os intervalos de confiança foram relativamente amplos, indicando certo grau de incerteza nas estimativas. Isso decorre da variabilidade natural do sistema e sugere que o esforço amostral pode ser insuficiente para detectar tendências populacionais sutis, ao menos em prazos muito curtos. A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes.
+Ainda que não significativamente diferentes de zero, a maioria das taxas foi levemente negativa (Tabela 1). Ressalta-se que os intervalos de confiança foram relativamente amplos, evidenciando a  incerteza das estimativas. Isso decorre da variabilidade natural do sistema e das limitações do método de amostragem, e sugere que o esforço amostral prescrito pelo protocolo básico pode ser insuficiente para detectar tendências populacionais sutis, ao menos em prazos muito curtos. A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes.
 
-As Figuras 1 a 8 mostram a dinâmica do índice populacional para as espécies selecionadas. Ressalta-se que o modelo fornece uma estimativa *suavizada* do índice populacional, mas não corrige erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Pelo menos para as espécies mais comuns, pode ser viável uma correção na taxa de detecção a partir das distâncias perpendiculares. Isso será avaliado em relatórios futuros.
+As Figuras 1 a 8 mostram a dinâmica do índice populacional (taxa de encontro anual) para as espécies selecionadas. Ressalta-se que o modelo fornece uma estimativa *suavizada* do índice populacional, mas não corrige erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Pelo menos para as espécies mais comuns, pode ser viável uma correção na taxa de detecção a partir das distâncias perpendiculares. Isso será avaliado em relatórios futuros.
 
 
 ![Taxa de encontro anual para *Cebus albifrons*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Cebus_cazumba.jpg)
@@ -100,8 +101,15 @@ As Figuras 1 a 8 mostram a dinâmica do índice populacional para as espécies s
 
 \newpage
 
-## Sobre o modelo
-Foi ajustado um modelo estocástico de dinâmica populacional aos dados. O modelo particiona a variação nas observações em um componente associado ao processo ecológico (variações aleatórias nas mudanças populacionais) e um componente associado ao processo de observação (erros nas estimativas anuais de abundância). No modelo, o tamanho da população (nesse caso, o índice populacional = taxa de encontro) em determinado ano, N~t~, depende do tamanho da população no ano anterior, N~t+1~. As taxas anuais de crescimento populacional são vistas como realizações de um processo aleatório com distribuição normal centrada na taxa de crescimento médio para todo o período considerado e variância correspondente à estocasticidade ambiental. Da mesma forma, as observações anuais estão sujeitas a erro aleatório com distribuição normal centrada no zero  [@kery2011bayesian]. O modelo seguiu as especificações de [@kery2011bayesian] (p. 126-130) e foi implementado no JAGS [@Plummer2015] usando o pacote R2jags [@su2012r2jags].Foram executadas três Cadeias de Markov e Monte Carlo (MCMCM) com 25000 iterações, *burn-in* de 1000 e *thinning rate* de 3. A convergência dos parâmetros foi avaliada pelo diagnóstico de Gelman-Rubin [@Gelman2011]. Todos os dados e códigos utilizados estão disponiveis no repositório https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global.
 
 ## Literatura citada
 <div id="refs"></div>
+
+
+\newpage
+
+
+```{r, child='anexo1.Rmd'}
+```
+
+\newpage

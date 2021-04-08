@@ -1,0 +1,33 @@
+---
+title: "Anexo 1: Descrição do modelo populacional"
+output:
+  pdf_document:
+    latex_engine: xelatex
+bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/My Collection.bib"
+csl: "http://www.zotero.org/styles/biological-conservation"
+linestretch: 1.5
+
+header-includes:
+  - \usepackage{lipsum}
+  - \usepackage{fancyhdr}
+  - \usepackage{lastpage}
+    \fancyfoot{}
+---
+\pagebreak
+\pagestyle{fancy}
+\fancyhead[CO,CE]{ICMBio/CENAP}
+\fancyhead[R]{\thepage}
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabela}
+
+# Anexo 1: Descrição do modelo populacional
+
+Foi ajustado um modelo estocástico de dinâmica populacional aos dados. O modelo particiona a variação nas observações em um componente associado ao *processo ecológico* (variações aleatórias nas mudanças populacionais) e um componente associado ao *processo de observação* (erros nas estimativas anuais de abundância).
+
+No modelo, o tamanho da população  (nesse caso, taxas de encontro resultantes do monitoramento) em determinado ano (N~t~) depende do tamanho da população no ano anterior (N~t-1~), da taxa de crescimento exponencial naquele ano (*r~t~*) e de variação estocástica ($\epsilon$), conforme descrito pela fórmula log(N~t~) = log(N~t-1~) + *r* + $\epsilon$. As taxas anuais de crescimento populacional são vistas como realizações de um processo estocástico com distribuição normal centrada na taxa de crescimento médio (*r* médio) para o período considerado e com variância correspondente à estocasticidade ambiental. Da mesma forma, as observações anuais estão sujeitas a erro estocástico com distribuição normal centrada no zero  [@kery2011bayesian].
+
+O modelo foi implementado com uma abordagem Bayesiana seguindo as especificações de [@kery2011bayesian] (p. 126-130) e foi implementado no JAGS [@Plummer2015] usando o pacote R2jags [@su2012r2jags]. Foram executadas três Cadeias de Markov e Monte Carlo (MCMC) com 25000 iterações, *burn-in* de 1000 e *thinning rate* de 3. A convergência dos parâmetros foi avaliada pelo diagnóstico de Gelman-Rubin [@Gelman2011]. Todos os dados e códigos utilizados estão disponiveis no repositório https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global.
+
+
+## Literatura citada
+<div id="refs"></div>
