@@ -61,10 +61,13 @@ A validade de pelo menos algumas dessas premissas pode ser testada com os própr
 
 ## Resultados
 
-Oito espécies atenderam aos critérios mínimos para inclusão nas análises: *Cebus albifrons, Dasyprocta fuliginosa, Mazama americana, Myoprocta pratti, Pecari tajacu, Saguinus weddelli, Sapajus macrocephalus e Urosciurus spadiceus*.
+Dez espécies atenderam aos critérios mínimos para inclusão nas análises: *Cebus unicolor, Dasyprocta fuliginosa, Mazama americana, Myoprocta pratti, Pecari tajacu, Saguinus imperator, Saguinus weddelli, Saimiri boliviensis, Sapajus macrocephalus e Urosciurus spadiceus*.
 
+Em nenhum caso a taxa de média de crescimento estocástico foi significativamente diferente de zero (i.e., todos os intervalos de confiança incluem o zero), indicando que todas as espécies se mantiveram estáveis durante o período de monitoramento (Tabela 1).
 
-Em nenhum caso a taxa de média de crescimento estocástico foi significativamente diferente de zero, indicando que todas as espécies se mantiveram estáveis durante o período de monitoramento (Tabela 1).
+Ainda que não significativamente diferentes de zero, a maioria das taxas foi levemente negativa (Tabela 1). Ressalta-se que os intervalos de confiança foram relativamente amplos, evidenciando a  incerteza das estimativas. Isso decorre da variabilidade natural do sistema e das limitações do método de amostragem, e sugere que o esforço amostral prescrito pelo protocolo básico pode ser insuficiente para detectar tendências populacionais sutis, ao menos em prazos muito curtos. A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes.
+
+As Figuras 1 a 8 mostram a dinâmica do índice populacional (taxa de encontro anual) para as espécies selecionadas. Ressalta-se que o modelo fornece uma estimativa *suavizada* do índice populacional, mas não corrige erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Pelo menos para as espécies mais comuns, pode ser viável uma correção na taxa de detecção a partir das distâncias perpendiculares. Isso será avaliado em relatórios futuros.
 
 
 ```{r, echo=FALSE}
@@ -75,12 +78,7 @@ knitr::kable(
 ```
 
 
-Ainda que não significativamente diferentes de zero, a maioria das taxas foi levemente negativa (Tabela 1). Ressalta-se que os intervalos de confiança foram relativamente amplos, evidenciando a  incerteza das estimativas. Isso decorre da variabilidade natural do sistema e das limitações do método de amostragem, e sugere que o esforço amostral prescrito pelo protocolo básico pode ser insuficiente para detectar tendências populacionais sutis, ao menos em prazos muito curtos. A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes.
-
-As Figuras 1 a 8 mostram a dinâmica do índice populacional (taxa de encontro anual) para as espécies selecionadas. Ressalta-se que o modelo fornece uma estimativa *suavizada* do índice populacional, mas não corrige erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Pelo menos para as espécies mais comuns, pode ser viável uma correção na taxa de detecção a partir das distâncias perpendiculares. Isso será avaliado em relatórios futuros.
-
-
-![Taxa de encontro anual para *Cebus albifrons*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Cebus_cazumba.jpg)
+![Taxa de encontro anual para *Cebus unicolor*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Cebus_cazumba.jpg)
 
 ![Taxa de encontro anual para *Dasyprocta fuliginosa*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Dasyprocta_cazumba.jpg)
 
@@ -90,8 +88,11 @@ As Figuras 1 a 8 mostram a dinâmica do índice populacional (taxa de encontro a
 
 ![Taxa de encontro anual para *Pecari tajacu*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Pecari_cazumba.jpg)
 
-![Taxa de encontro anual para *Saguinus weddelli*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_cazumba.jpg)
+![Taxa de encontro anual para *Saguinus imperator*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_i_cazumba.jpg)
 
+![Taxa de encontro anual para *Saguinus weddelli*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_w_cazumba.jpg)
+
+![Taxa de encontro anual para *Saimiri boliviensis*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saimiri_cazumba.jpg)
 
 ![Taxa de encontro anual para *Sapajus macrocephalus*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sapajus_cazumba.jpg)
 

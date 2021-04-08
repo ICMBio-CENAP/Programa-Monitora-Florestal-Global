@@ -44,7 +44,7 @@ colnames(dados2)[5] <- "esforço"
 colnames(dados2)[9] <- "hora.inicio"
 colnames(dados2)[10] <- "hora.fim"
 colnames(dados2)[17] <- "Genero"
-colnames(dados2)[18] <- "Especie"
+colnames(dados2)[20] <- "Especie"
 colnames(dados2)[23] <- "hora.registro"
 colnames(dados2)[24] <- "n.individuos"
 colnames(dados2)[26] <- "dist.perpendicular"
@@ -52,7 +52,7 @@ colnames(dados2)[26] <- "dist.perpendicular"
 # simplificar dados icmbio
 to.remove <- c("Nome.da.EA", "Estação.do.ano", "condição.climática..aberto..nublado.e.chuvoso", 
                "nome.dos.observadores", "Número.do.animal.no.guia", "Clasificação.taxonômica..espécie..gênero..família.ou.ordem.",
-                         "Espécies.validadas.para.análise.do.ICMBio", "Número.do.animal.no.guia.validado",
+               "Espécies",  "Espécies.validadas.para.análise.do.ICMBio", "Número.do.animal.no.guia.validado",
                          "Clasificação.taxonômica.validada", "teve.problema.durante.a.amostragem.",
                          "Observações", "X", "X.1", "X.2", "X.3")
 `%ni%` <- Negate(`%in%`)

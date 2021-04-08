@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.8.31)  8 APR 2021 15:10
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.8.31)  8 APR 2021 15:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**monitora_report.tex
-(./monitora_report.tex
+**monitora_report_tapajos_arapiuns.tex
+(./monitora_report_tapajos_arapiuns.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 5 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -908,8 +908,8 @@ s
 \f@nch@O@orf=\skip65
 ) (/usr/share/texlive/texmf-dist/tex/latex/lastpage/lastpage.sty
 Package: lastpage 2015/03/29 v1.2m Refers to last page's name (HMM; JPG)
-) (./monitora_report.aux)
-\openout1 = `monitora_report.aux'.
+) (./monitora_report_tapajos_arapiuns.aux)
+\openout1 = `monitora_report_tapajos_arapiuns.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
 LaTeX Font Info:    ... okay on input line 85.
@@ -1303,66 +1303,50 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 
 ] [2]
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Cebus_cazumba.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Ceb
-us_cazumba.jpg>
+l/Alouatta_TapArap.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Alo
+uatta_TapArap.jpg>
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Dasyprocta_cazumba.jpg Graphic file (type bmp)
+l/Chiropotes_TapArap.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Chi
+ropotes_TapArap.jpg>
+File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
+l/Dasyprocta_TapArap.jpg Graphic file (type bmp)
 </home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Das
-yprocta_cazumba.jpg>
+yprocta_TapArap.jpg>
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Mazama_cazumba.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Maz
-ama_cazumba.jpg>
+l/Mico_TapArap.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Mic
+o_TapArap.jpg>
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Myoprocta_cazumba.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Myo
-procta_cazumba.jpg>
-File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Pecari_cazumba.jpg Graphic file (type bmp)
+l/Pecari_TapArap.jpg Graphic file (type bmp)
 </home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Pec
-ari_cazumba.jpg>
+ari_TapArap.jpg>
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Saguinus_i_cazumba.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sag
-uinus_i_cazumba.jpg>
-File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Saguinus_w_cazumba.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sag
-uinus_w_cazumba.jpg>
-File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Saimiri_cazumba.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sai
-miri_cazumba.jpg>
-File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Sapajus_cazumba.jpg Graphic file (type bmp)
+l/Sapajus_TapArap.jpg Graphic file (type bmp)
 </home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sap
-ajus_cazumba.jpg>
-File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Urosciurus_cazumba.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Uro
-sciurus_cazumba.jpg>
-[3] [4] [5] [6] [7] [8]
+ajus_TapArap.jpg>
+[3] [4] [5] [6]
 
 Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 336.
+less on input line 303.
 
-[9] 
+[7] 
 AED: lastpage setting LastPage
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 406.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 406.
-(./monitora_report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 406.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 406.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 406.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 373.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 373.
+(./monitora_report_tapajos_arapiuns.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 373.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 373.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 373.
  ) 
 Here is how much of TeX's memory you used:
- 26116 strings out of 494945
- 477345 string characters out of 6177497
- 690736 words of memory out of 5000000
- 29700 multiletter control sequences out of 15000+600000
+ 26100 strings out of 494945
+ 476214 string characters out of 6177497
+ 689804 words of memory out of 5000000
+ 29688 multiletter control sequences out of 15000+600000
  536577 words of font info for 71 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 59i,11n,117p,10410b,494s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 59i,11n,117p,10427b,494s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on monitora_report.pdf (9 pages).
+Output written on monitora_report_tapajos_arapiuns.pdf (7 pages).

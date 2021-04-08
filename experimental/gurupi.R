@@ -18,16 +18,15 @@ dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
 
 head(dadosICMBio)
 
-# para os testes usar dados de Cazumba-Iracema
-cazumba <- subset(dadosICMBio, nome.UC == "Resex Cazumbá-Iracema")
+# para os testes usar dados de gurupi-Iracema
+gurupi <- subset(dadosICMBio, nome.UC == "Rebio do Gurupi")
 
 # ... e somente mamiferos 
-cazumba <- subset(cazumba, Classe == "Mammalia")
-cazumba[cazumba$Especie == "Dasyprocta cristata", "Especie"] <- "Dasyprocta fuliginosa"
-cazumba[cazumba$Especie == "Dasyprocta leporina", "Especie"] <- "Dasyprocta fuliginosa"
-cazumba[cazumba$Especie == "Dasyprocta sp.", "Especie"] <- "Dasyprocta fuliginosa"
-head(cazumba)
-dim(cazumba)
+gurupi <- subset(gurupi, Classe == "Mammalia")
+head(gurupi)
+dim(gurupi)
+
+sort(unique(gurupi$Ano))
 
 #---------- Parte 1: calcular taxas de encontro ----------
 
@@ -59,19 +58,19 @@ encounter.rate <- function(mydata, taxon) {
   assign("encounter_rate", mydata2, .GlobalEnv)
 }
 
-encounter.rate(cazumba, "Especie")
-#encounter_rate_cazumba
+encounter.rate(gurupi, "Especie")
+#encounter_rate_gurupi
 encounter_rate
 
 # selecionar somente espécies que atendem a criterios minimos
 # (taxa de avistamento >= 0.5) e pelo menos 3 anos de dados
-encounter_rate$mean <- rowMeans(encounter_rate[,c(3:8)], na.rm = TRUE)
-encounter_rate$max <- apply(encounter_rate[,c(3:8)], 1, max, na.rm=T)
-encounter_rate$min <- apply(encounter_rate[,c(3:8)], 1, min, na.rm=T)
-use.this <- subset(encounter_rate, mean >= 0.25 & min >= 0.2) # usar somente espécies com taxa de avistamento médio > 0.1
+encounter_rate$mean <- rowMeans(encounter_rate[,c(3:6)], na.rm = TRUE)
+encounter_rate$max <- apply(encounter_rate[,c(3:6)], 1, max, na.rm=T)
+encounter_rate$min <- apply(encounter_rate[,c(3:6)], 1, min, na.rm=T)
+use.this <- subset(encounter_rate, mean >= 0.25 & min >= 0.1) # usar somente espécies com taxa de avistamento médio > 0.1
 encounter_rate <- use.this
 encounter_rate$taxon <- factor(encounter_rate$taxon)
-encounter_rate <- encounter_rate[,-c(9:11)]
+encounter_rate <- encounter_rate[,-c(7:9)]
 encounter_rate
 #head(encounter_rate)
 dim(encounter_rate)
@@ -122,7 +121,7 @@ for (t in 1:T) {
   inits <- function(){list(sigma.proc = runif(1, 0, 1), mean.r = rnorm(1), 
                            sigma.obs = runif(1, 0, 1),
                            LogN.est = c(rnorm(1, -0.5, 0.1), rep(NA, (n.years-1))))} 
-                           #LogN.est = c(rnorm(n.years, 5, 0.1)) )} 
+  #LogN.est = c(rnorm(n.years, 5, 0.1)) )} 
   
   # Parameters monitored
   parameters <- c("r", "mean.r", "sigma2.obs", "sigma2.proc", "N.est")
@@ -140,11 +139,11 @@ for (t in 1:T) {
   print(ssm, digits = 2)
   
   # Probability of N(2019) < N(2014)
-  mean(ssm$BUGSoutput$sims.list$N.est[,6] < ssm$BUGSoutput$mean$N.est[1])
+  #mean(ssm$BUGSoutput$sims.list$N.est[,6] < ssm$BUGSoutput$mean$N.est[1])
   
   # Draw figure
   fitted <- lower <- upper <- numeric()
-  year <- 2014:2019
+  year <- 2015:2018
   n.years <- length(3:ncol(encounter_rate))
   
   for (i in 1:n.years){
@@ -164,7 +163,7 @@ for (t in 1:T) {
   #points(fitted, type = "l", col = "blue", lwd = 2)
   points(x = (1:n.years), y = fitted, type = "b", pch = 16, cex = 1.5, lty = 1)
   segments((1:n.years), lower, 1:(n.years), upper, cex=0.5)
- 
+  
   assign("meanR", ssm$BUGSoutput$sims.list$mean.r, .GlobalEnv) 
 }
 
@@ -174,121 +173,61 @@ n.years <- length(3:ncol(encounter_rate))
 # check species names for analysis
 encounter_rate$taxon
 
-# Cebus unicolor
+
+
+# Chiropotes
 y  <- as.numeric(encounter_rate[1, 3:ncol(encounter_rate)])
 state.space.model(y, n.years)
 # save jpeg
-jpeg(here("experimental", "Cebus_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+jpeg(here("experimental", "Chiropotes_gurupi.jpg"), width=1000, height=600, res=120) # Open jpeg file
 state.space.model(y, n.years)
 dev.off()
 
-mean_r_Cebus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
+mean_r_Chiropotes <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
 # Dasyprocta
 y  <- as.numeric(encounter_rate[2, 3:ncol(encounter_rate)])
 state.space.model(y, n.years)
 # save jpeg
-jpeg(here("experimental", "Dasyprocta_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+jpeg(here("experimental", "Dasyprocta_gurupi.jpg"), width=1000, height=600, res=120) # Open jpeg file
 state.space.model(y, n.years)
 dev.off()
 
 mean_r_Dasyprocta <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
-# Mazama
+
+# Pecari
 y  <- as.numeric(encounter_rate[3, 3:ncol(encounter_rate)])
 state.space.model(y, n.years)
 # save jpeg
-jpeg(here("experimental", "Mazama_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
-state.space.model(y, n.years)
-dev.off()
-
-mean_r_Mazama <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
-
-
-
-# Myoprocta
-y  <- as.numeric(encounter_rate[4, 3:ncol(encounter_rate)])
-state.space.model(y, n.years)
-# save jpeg
-jpeg(here("experimental", "Myoprocta_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
-state.space.model(y, n.years)
-dev.off()
-
-mean_r_Myoprocta <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
-
-
-# Pecari
-y  <- as.numeric(encounter_rate[5, 3:ncol(encounter_rate)])
-state.space.model(y, n.years)
-# save jpeg
-jpeg(here("experimental", "Pecari_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+jpeg(here("experimental", "Pecari_gurupi.jpg"), width=1000, height=600, res=120) # Open jpeg file
 state.space.model(y, n.years)
 dev.off()
 
 mean_r_Pecari <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
-# Saguinus imperator
-y  <- as.numeric(encounter_rate[6, 3:ncol(encounter_rate)])
-state.space.model(y, n.years)
-# save jpeg
-jpeg(here("experimental", "Saguinus_i_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
-state.space.model(y, n.years)
-dev.off()
-
-mean_r_Saguinus_i <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
-
-# Saguinus wedelli
-y  <- as.numeric(encounter_rate[7, 3:ncol(encounter_rate)])
-state.space.model(y, n.years)
-# save jpeg
-jpeg(here("experimental", "Saguinus_w_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
-state.space.model(y, n.years)
-dev.off()
-
-mean_r_Saguinus_w <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
-
-# Saimiri
-y  <- as.numeric(encounter_rate[8, 3:ncol(encounter_rate)])
-state.space.model(y, n.years)
-# save jpeg
-jpeg(here("experimental", "Saimiri_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
-state.space.model(y, n.years)
-dev.off()
-
-mean_r_Saimiri <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
-
 
 # Sapajus
-y  <- as.numeric(encounter_rate[9, 3:ncol(encounter_rate)])
+y  <- as.numeric(encounter_rate[4, 3:ncol(encounter_rate)])
 state.space.model(y, n.years)
 # save jpeg
-jpeg(here("experimental", "Sapajus_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
+jpeg(here("experimental", "Sapajus_gurupi.jpg"), width=1000, height=600, res=120) # Open jpeg file
 state.space.model(y, n.years)
 dev.off()
 
 mean_r_Sapajus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
 
-# Urosciurus
-y  <- as.numeric(encounter_rate[10, 3:ncol(encounter_rate)])
-state.space.model(y, n.years)
-# save jpeg
-jpeg(here("experimental", "Urosciurus_cazumba.jpg"), width=1000, height=600, res=120) # Open jpeg file
-state.space.model(y, n.years)
-dev.off()
-
-mean_r_Urosciurus <- c(mean(meanR), quantile(meanR, probs = c(0.025, 0.975)) )
-
 
 #
-meanRs <- rbind(mean_r_Cebus, mean_r_Dasyprocta, mean_r_Mazama, mean_r_Myoprocta, mean_r_Pecari, mean_r_Saguinus_i, mean_r_Saguinus_w, mean_r_Saimiri, mean_r_Sapajus, mean_r_Urosciurus)
+meanRs <- rbind(mean_r_Chiropotes, mean_r_Dasyprocta, mean_r_Pecari, mean_r_Sapajus)
 colnames(meanRs)[1] <- "media"
 row.names(meanRs) <- gsub("mean_r_", "", row.names(meanRs))
 meanRs <- round(meanRs, 2)
 Especies <- as.vector(encounter_rate$taxon)
 r_medio <- meanRs[,"media"]
 IC <- paste("(", meanRs[,"2.5%"], " a ", meanRs[,"97.5%"], ")", sep="")
-tendencia <- rep("estável", nrow(meanRs))
+tendencia <- c("estável", "aumentando", "estável", "estável")
 tabela1 <- data.frame(cbind(Especies, r_medio, IC, tendencia))
 tabela1
 names(tabela1) <- c("Especie", "r", "IC", "tendencia")
-write.csv(tabela1, here("experimental", "tabela1.csv"), row.names = FALSE)
+write.csv(tabela1, here("experimental", "tabela1_gurupi.csv"), row.names = FALSE)

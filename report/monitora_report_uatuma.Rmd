@@ -1,0 +1,117 @@
+---
+title: Programa Monitora ICMBio
+subtitle: Relatório - Protocolo Florestal Global
+author: |
+  | Elildo Carvalho Jr, ICMBio/CENAP
+date: "Atibaia, 08 de abril de 2021"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/My Collection.bib"
+csl: "http://www.zotero.org/styles/biological-conservation"
+linestretch: 1.5
+header-includes:
+- \usepackage{fancyhdr}
+- \usepackage{lastpage}
+  \fancyfoot{}
+
+---
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabela}
+\pagestyle{fancy}
+\fancyhead[CO,CE]{ICMBio/CENAP}
+\fancyhead[R]{\thepage}
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Apresentação
+
+Este relatório analisa resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Mamíferos terrestres de médio e grande porte, protocolo básico, na **Reserva Biológica do Uatumã**, 2014 a 2019. O trabalho teve como objetivo descrever a variação anual nas populações de espécies selecionadas, e identificar se elas estão estáveis ou se há tendências significativas de declínio ou aumento populacional.
+
+
+Ressalta-se que o relatório visa somente descrever os padrões observados. Especulações sobre possíveis causas para esses padrões fogem ao escopo deste documento. Recomenda-se que os resultados sejam debatidos entre comunidades locais, gestores e pesquisadores.
+
+
+## Métodos
+
+Foram analisados dados do protocolo básico coletados na Rebio do Uatumã entre os anos de 2014 e 2019. O protocolo utiliza o método de transecções lineares [@Peres1999]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^).
+
+No presente trabalho, o índice populacional escolhido foi a *taxa de encontro de grupos* (grupos/10 km). Somente as espécies mais comuns (taxa de encontro anual média > 0.2 e taxa de encontro mínima > 0.1) foram incluídas nas análises.
+
+Para cada espécie, foi ajustado um modelo estocástico de dinâmica populacional, descrito em maiores detalhes ao final do documento. O principal parâmetro do modelo é a taxa média de crescimento estocástico (*r*). Taxas significativamente menores que zero apontam para declínio populacional, taxas significativamente maiores que zero apontam para aumento populacional, e taxas não significativamente diferentes de zero apontam para estabilidade populacional. Além das estimativas da taxa *r*, foram produzidos gráficos representando a dinâmica temporal do índice populacional de cada espécie.
+
+
+A validade do modelo depende das seguintes premissas:
+
+(1) o índice populacional segue trajetória paralela ao tamanho real da população.
+(2) a probabilidade de detecção permanece constante ao longo do tempo. 
+(3) o tamanho médio dos grupos permanece constante ao longo do tempo.
+(4) as distâncias perpendiculares dos avistamentos permanecem constantes ao longo do tempo.
+
+
+A validade de pelo menos algumas dessas premissas pode ser testada com os próprios dados (e.g., constância no tamanho de grupo e nas distâncias perpendiculares). Isso será feito em relatórios futuros. Por ora, assume-se que as premissas são válidas.
+
+
+
+## Resultados
+
+Nove espécies atenderam aos critérios mínimos para inclusão nas análises: *Alouatta macconnelli*, *Ateles paniscus*, *Chiropotes sagulatus*, *Dasyprocta leporina*, *Mazama americana*, *Myoprocta acouchy*,  *Pecari tajacu*, *Saguinus midas*, *Sapajus apella*.
+
+Em nenhum caso a taxa de média de crescimento estocástico foi significativamente diferente de zero (i.e., todos os intervalos de confiança incluem o zero), indicando que todas as espécies se mantiveram estáveis durante o período de monitoramento (Tabela 1).
+
+Ressalta-se que os intervalos de confiança foram relativamente amplos, evidenciando a  incerteza das estimativas. Isso decorre da variabilidade natural do sistema e das limitações do método de amostragem, e sugere que o esforço amostral prescrito pelo protocolo básico pode ser insuficiente para detectar tendências populacionais sutis, ao menos em prazos muito curtos. A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes.
+
+As Figuras 1 a 9 mostram a dinâmica do índice populacional (taxa de encontro anual) para as espécies selecionadas. Ressalta-se que o modelo fornece uma estimativa *suavizada* do índice populacional, mas não corrige erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Pelo menos para as espécies mais comuns, pode ser viável uma correção na taxa de detecção a partir das distâncias perpendiculares. Isso será avaliado em relatórios futuros.
+
+
+
+```{r, echo=FALSE}
+#library(kableExtra)
+knitr::kable(
+  read.csv("/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/tabela1_uatuma.csv"), caption = 'Taxa estocástica de crescimento populacional (*r*), intervalo de confiança (IC) e tendência populacional para espécies selecionadas da REBIO do Uatumã'
+) 
+```
+
+
+![Taxa de encontro anual para *Alouatta macconnelli*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Alouatta_uatuma.jpg)
+
+![Taxa de encontro anual para *Ateles paniscus* As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Ateles_uatuma.jpg)
+
+![Taxa de encontro anual para *Chiropotes sagulatus*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Chiropotes_uatuma.jpg)
+
+![Taxa de encontro anual para *Dasyprocta leporina*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Dasyprocta_uatuma.jpg)
+
+![Taxa de encontro anual para *Mazama americana*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Mazama_uatuma.jpg)
+
+![Taxa de encontro anual para *Myoprocta acouchy*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Myoprocta_uatuma.jpg)
+
+
+![Taxa de encontro anual para *Pecari tajacu*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Pecari_uatuma.jpg)
+
+![Taxa de encontro anual para *Saguinus midas*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_uatuma.jpg)
+
+
+![Taxa de encontro anual para *Sapajus apella*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sapajus_uatuma.jpg)
+
+
+
+\newpage
+
+
+## Literatura citada
+<div id="refs"></div>
+
+
+\newpage
+
+
+```{r, child='anexo1.Rmd'}
+```
+
+\newpage
