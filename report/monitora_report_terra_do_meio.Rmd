@@ -1,0 +1,107 @@
+---
+title: Programa Monitora ICMBio
+subtitle: Relatório - Protocolo Florestal Global
+author: |
+  | Elildo Carvalho Jr, ICMBio/CENAP
+date: "Atibaia, 08 de abril de 2021"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/My Collection.bib"
+csl: "http://www.zotero.org/styles/biological-conservation"
+linestretch: 1.5
+header-includes:
+- \usepackage{fancyhdr}
+- \usepackage{lastpage}
+  \fancyfoot{}
+
+---
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabela}
+\pagestyle{fancy}
+\fancyhead[CO,CE]{ICMBio/CENAP}
+\fancyhead[R]{\thepage}
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Apresentação
+
+Este relatório analisa resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Mamíferos terrestres de médio e grande porte, protocolo básico, na **Estação Ecológica Terra do Meio**, 2014 a 2018. O trabalho teve como objetivo descrever a variação anual nas populações de espécies selecionadas, e identificar se elas estão estáveis ou se há tendências significativas de declínio ou aumento populacional.
+
+
+Ressalta-se que o relatório visa somente descrever os padrões observados. Especulações sobre possíveis causas para esses padrões fogem ao escopo deste documento. Recomenda-se que os resultados sejam debatidos entre comunidades locais, gestores e pesquisadores.
+
+
+## Métodos
+
+Foram analisados dados do protocolo básico coletados na Esec Terra do Meio nos anos de 2014 , 2016, 2017 e 2018. O protocolo utiliza o método de transecções lineares [@Peres1999]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^).
+
+No presente trabalho, o índice populacional escolhido foi a *taxa de encontro de grupos* (grupos/10 km). Somente as espécies mais comuns (taxa de encontro anual média > 0.2 e taxa de encontro mínima > 0.1) foram incluídas nas análises.
+
+Para cada espécie, foi ajustado um modelo de dinâmica populacional (para uma descrição do modelo e suas premissas, ver anexo 1). O principal parâmetro do modelo é a taxa média de crescimento populacional (*r*). Esta taxa representa a tendência populacional *média* durante o período de monitoramento. Quando:
+
+ - *r* < 0, a população está declinando
+ - *r* = 0, a população está estável
+ - *r* > 0, a população está aumentando
+
+A estimativa de *r* envolve incerteza, por isso é importante verificar seu intervalo de confiança. Se o intervalo de confiança de 95% somente incluir valores negativos, consideramos que há evidência significativa de que a população está declinando. Se incluir tanto valores negativos como positivos (isto é, se incluir o zero), consideramos que a população está estável. Se somente incluir valores positivos, consideramos que há evidência significativa de que a população está aumentando.
+
+Além da estimativa de *r*, o modelo gera uma estimativa *suavizada* do índice populacional (taxa de encontro) a cada ano. Essa estimativa suavizada foi utilizada para elaborar gráficos representando a dinâmica do índice populacional no período de monitoramento, incluindo a incerteza associada à estimativa. Observe-se que **não houve coleta de dados em 2015, ainda assim o modelo *infere* o índice populacional para esse ano**, a partir de todo o conjunto de dados.
+
+Ressalta-se que essas estimativas suavizadas não corrigem erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Pelo menos para as espécies mais comuns, pode ser viável estimar a taxa de detecção (a partir das distâncias perpendiculares) para gerar estimativas mais precisas das tendências populacionais. Isso será avaliado em relatórios futuros.
+
+## Resultados
+
+Oito espécies atenderam aos critérios mínimos para inclusão nas análises: *Ateles marginatus*,  *Callicebus vieirai*, *Dasyprocta croconota*, *Guerlinguetus aestuans*, *Mazama americana*, *Pecari tajacu*, *Saimiri collinsi*, *Sapajus apella*.
+
+Em nenhum caso a taxa de média de crescimento foi significativamente diferente de zero (i.e., todos os intervalos de confiança incluem o zero), indicando que todas as espécies se mantiveram estáveis durante o período de monitoramento (Tabela 1). As Figuras 1 a 8 mostram a dinâmica do índice populacional (taxa de encontro anual) para as espécies selecionadas.
+
+Ressalta-se que não se pode descartar totalmente a possibilidade de que em alguns casos esteja ocorrendo declínio (e.g., *Sapajus apella*) ou aumento (e.g., *Saimiri collinsi*) populacional. No entanto, os intervalos de confiança muito amplos evidenciam a  incerteza das estimativas e a dificuldade de tirar conclusões robustas. Isso decorre da variabilidade natural do sistema e das limitações do método de amostragem. Além disso, o esforço amostral prescrito pelo protocolo básico pode ser insuficiente para detectar tendências populacionais sutis, ao menos em prazos curtos. A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes.
+
+
+```{r, echo=FALSE}
+#library(kableExtra)
+knitr::kable(
+  read.csv("/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/tabela1_terra_do_meio.csv"), caption = 'Taxa estocástica de crescimento populacional (*r*), intervalo de confiança (IC) e tendência populacional para espécies selecionadas da Esec Terra do Meio'
+) 
+```
+
+
+![Taxa de encontro anual para *Ateles marginatus*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Ateles_tdm.jpg)
+
+![Taxa de encontro anual para *Callicebus vieirai*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Callicebus_tdm.jpg)
+
+![Taxa de encontro anual para *Dasyprocta croconota*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Dasyprocta_tdm.jpg)
+
+![Taxa de encontro anual para *Guerlinguetus aestuans*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Guerlinguetus_tdm.jpg)
+
+![Taxa de encontro anual para *Mazama americana*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Mazama_tdm.jpg)
+
+![Taxa de encontro anual para *Pecari tajacu*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Pecari_tdm.jpg)
+
+![Taxa de encontro anual para *Saimiri collinsi*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saimiri_tdm.jpg)
+
+![Taxa de encontro anual para *Sapajus apella*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sapajus_tdm.jpg)
+
+
+
+\newpage
+
+
+## Literatura citada
+<div id="refs"></div>
+
+
+\newpage
+
+
+```{r, child='anexo1.Rmd'}
+```
+
+\newpage

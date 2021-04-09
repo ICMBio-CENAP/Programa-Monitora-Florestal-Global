@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.8.31)  8 APR 2021 15:10
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.8.31)  9 APR 2021 10:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1345,24 +1345,24 @@ sciurus_cazumba.jpg>
 [3] [4] [5] [6] [7] [8]
 
 Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 336.
+less on input line 335.
 
-[9] 
+[9] [10] 
 AED: lastpage setting LastPage
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 406.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 406.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 436.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 436.
 (./monitora_report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 406.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 406.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 406.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 436.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 436.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 436.
  ) 
 Here is how much of TeX's memory you used:
  26116 strings out of 494945
  477345 string characters out of 6177497
- 690736 words of memory out of 5000000
+ 690741 words of memory out of 5000000
  29700 multiletter control sequences out of 15000+600000
  536577 words of font info for 71 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  59i,11n,117p,10410b,494s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on monitora_report.pdf (9 pages).
+Output written on monitora_report.pdf (10 pages).

@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.8.31)  9 APR 2021 10:34
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.8.31)  9 APR 2021 11:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**monitora_report_gurupi.tex
-(./monitora_report_gurupi.tex
+**monitora_report_terra_do_meio.tex
+(./monitora_report_terra_do_meio.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 5 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -908,8 +908,8 @@ s
 \f@nch@O@orf=\skip65
 ) (/usr/share/texlive/texmf-dist/tex/latex/lastpage/lastpage.sty
 Package: lastpage 2015/03/29 v1.2m Refers to last page's name (HMM; JPG)
-) (./monitora_report_gurupi.aux)
-\openout1 = `monitora_report_gurupi.aux'.
+) (./monitora_report_terra_do_meio.aux)
+\openout1 = `monitora_report_terra_do_meio.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
 LaTeX Font Info:    ... okay on input line 85.
@@ -1303,42 +1303,58 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 
 ] [2]
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Chiropotes_gurupi.jpg Graphic file (type bmp)
-</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Chi
-ropotes_gurupi.jpg>
+l/Ateles_tdm.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Ate
+les_tdm.jpg>
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Dasyprocta_gurupi.jpg Graphic file (type bmp)
+l/Callicebus_tdm.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Cal
+licebus_tdm.jpg>
+File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
+l/Dasyprocta_tdm.jpg Graphic file (type bmp)
 </home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Das
-yprocta_gurupi.jpg>
+yprocta_tdm.jpg>
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Pecari_gurupi.jpg Graphic file (type bmp)
+l/Guerlinguetus_tdm.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Gue
+rlinguetus_tdm.jpg>
+File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
+l/Mazama_tdm.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Maz
+ama_tdm.jpg>
+File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
+l/Pecari_tdm.jpg Graphic file (type bmp)
 </home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Pec
-ari_gurupi.jpg>
+ari_tdm.jpg>
 File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
-l/Sapajus_gurupi.jpg Graphic file (type bmp)
+l/Saimiri_tdm.jpg Graphic file (type bmp)
+</home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sai
+miri_tdm.jpg>
+File: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimenta
+l/Sapajus_tdm.jpg Graphic file (type bmp)
 </home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sap
-ajus_gurupi.jpg>
-[3] [4] [5]
+ajus_tdm.jpg>
+[3] [4] [5] [6] [7]
 
 Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 283.
+less on input line 323.
 
-[6] [7] 
+[8] [9] 
 AED: lastpage setting LastPage
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 384.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 384.
-(./monitora_report_gurupi.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 384.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 384.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 384.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 424.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 424.
+(./monitora_report_terra_do_meio.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 424.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 424.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 424.
  ) 
 Here is how much of TeX's memory you used:
- 26092 strings out of 494945
- 475488 string characters out of 6177497
- 688764 words of memory out of 5000000
- 29682 multiletter control sequences out of 15000+600000
- 536577 words of font info for 71 fonts, out of 8000000 for 9000
+ 26112 strings out of 494945
+ 476830 string characters out of 6177497
+ 689792 words of memory out of 5000000
+ 29696 multiletter control sequences out of 15000+600000
+ 536585 words of font info for 72 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 59i,11n,117p,10417b,494s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 59i,11n,117p,10424b,494s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on monitora_report_gurupi.pdf (7 pages).
+Output written on monitora_report_terra_do_meio.pdf (9 pages).

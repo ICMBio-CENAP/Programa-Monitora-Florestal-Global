@@ -22,11 +22,32 @@ header-includes:
 
 # Anexo 1: Descrição do modelo populacional
 
-Foi ajustado um modelo estocástico de dinâmica populacional aos dados. O modelo particiona a variação nas observações em um componente associado ao *processo ecológico* (variações aleatórias nas mudanças populacionais) e um componente associado ao *processo de observação* (erros nas estimativas anuais de abundância).
+Foi ajustado um modelo estocástico de dinâmica populacional aos dados. Esse modelo particiona a variação nos dados observados em dois componentes: um componente associado ao *processo ecológico* (variações aleatórias na taxa de crescimento populacional) e um componente associado ao *processo de observação* (variações devido a erros aleatórios nas estimativas anuais de abundância).
 
-No modelo, o tamanho da população  (nesse caso, taxas de encontro resultantes do monitoramento) em determinado ano (N~t~) depende do tamanho da população no ano anterior (N~t-1~), da taxa de crescimento exponencial naquele ano (*r~t~*) e de variação estocástica ($\epsilon$), conforme descrito pela fórmula log(N~t~) = log(N~t-1~) + *r* + $\epsilon$. As taxas anuais de crescimento populacional são vistas como realizações de um processo estocástico com distribuição normal centrada na taxa de crescimento médio (*r* médio) para o período considerado e com variância correspondente à estocasticidade ambiental. Da mesma forma, as observações anuais estão sujeitas a erro estocástico com distribuição normal centrada no zero  [@kery2011bayesian].
+No modelo, o tamanho da população no ano *t+1* (*N~t+1~*) depende do tamanho da população no ano anterior (*N~t~*) e da taxa de crescimento populacional (*r~t~*):
 
-O modelo foi implementado com uma abordagem Bayesiana seguindo as especificações de [@kery2011bayesian] (p. 126-130) e foi implementado no JAGS [@Plummer2015] usando o pacote R2jags [@su2012r2jags]. Foram executadas três Cadeias de Markov e Monte Carlo (MCMC) com 25000 iterações, *burn-in* de 1000 e *thinning rate* de 3. A convergência dos parâmetros foi avaliada pelo diagnóstico de Gelman-Rubin [@Gelman2011]. Todos os dados e códigos utilizados estão disponiveis no repositório https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global.
+
+$$
+log(N_t+_1) = log(N_t) + r_t
+$$
+
+As taxas anuais de crescimento populacional *r~t~* são vistas como realizações de um processo estocástico com distribuição normal centrada na taxa de crescimento médio *r* para todo o período e variância correspondente à estocasticidade ambiental [@kery2011bayesian].
+
+Adicionalmente, as observações estão sujeitas a erro estocástico ($\epsilon$) com distribuição normal centrada no zero:
+
+$$
+y_t = N_t + \varepsilon
+$$
+No presente trabalho, o índice populacional utilizado foi a *taxa de encontro de grupos* (grupos/10 km). A validade do modelo depende das seguintes premissas:
+
+(1) o índice populacional segue trajetória paralela ao tamanho real da população.
+(2) a probabilidade de detecção permanece constante ao longo do tempo. 
+(3) o tamanho médio dos grupos permanece constante ao longo do tempo.
+(4) as distâncias perpendiculares dos avistamentos permanecem constantes ao longo do tempo.
+
+A validade de pelo menos algumas dessas premissas pode ser testada com os próprios dados (e.g., constância no tamanho de grupo e nas distâncias perpendiculares). Isso será feito em relatórios futuros. Por ora, assume-se que as premissas são válidas.
+
+O modelo foi implementado numa abordagem Bayesiana, seguindo as especificações de [@kery2011bayesian] (p. 126-130) no JAGS [@Plummer2015] usando o pacote R2jags [@su2012r2jags]. Foram executadas três Cadeias de Markov e Monte Carlo (MCMC) com 25000 iterações, *burn-in* de 1000 e *thinning rate* de 3. A convergência dos parâmetros foi avaliada pelo diagnóstico de Gelman-Rubin [@Gelman2011]. Todos os dados e códigos utilizados estão disponiveis no repositório https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global.
 
 
 ## Literatura citada
