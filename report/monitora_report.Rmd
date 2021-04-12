@@ -1,24 +1,33 @@
 ---
-title: Programa Monitora ICMBio
-subtitle: |Relatório - Protocolo Florestal Global
-          |Resex Cazumbá-Iracema, 2014-2019
-author: |
-  | Elildo Carvalho Jr, ICMBio/CENAP
-date: "Atibaia, 08 de abril de 2021"
+title: Tendências populacionais de mamíferos terrestres de médio e grande porte
+subtitle: "Resex Cazumbá-Iracema, 2014-2019"
+author: "Elildo Carvalho Jr"
+date: "Abril de 2021"                  
+
 output:
   pdf_document:
     latex_engine: xelatex
   html_document:
     df_print: paged
-bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/My_Collection.bib"
+  includes:
+    in_header: latex/header.tex
+    before_body: latex/before_body.tex
+    after_body: latex/after_body.tex
+
+bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/my_collection.bib"
 csl: "http://www.zotero.org/styles/biological-conservation"
 linestretch: 1.5
+
 header-includes:
 - \usepackage{fancyhdr}
 - \usepackage{lastpage}
   \fancyfoot{}
+- \usepackage{titling}
+- \setlength{\droptitle}{5em} 
+
 
 ---
+
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
 \pagestyle{fancy}
@@ -31,6 +40,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+
+\newpage
+
 ## Apresentação
 
 Este relatório analisa resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Mamíferos terrestres de médio e grande porte, protocolo básico, na **Reserva Extrativista Cazumbá-Iracema**, 2014 a 2019. O trabalho teve como objetivo descrever a variação anual nas populações de espécies selecionadas, e identificar se elas estão estáveis ou se há tendências significativas de declínio ou aumento populacional.
@@ -41,16 +53,18 @@ Ressalta-se que o relatório visa somente descrever os padrões observados. Espe
 
 ## Introdução
 
-Uma gestão efetiva da biodiversidade requer conhecimento sobre suas tendências, e esse conhecimento requer dados de monitoramento. O monitoramento é essencial para mensurar o sucesso de ações de manejo, detectar o efeito de perturbações ambientais, e fornecer alertas antecipados sobre declínios populacionais [@LeggNagy2006].Programas de monitoramento eficazes requerem bons indicadores, uma noção aproximada do grau de variação aceitável nesses indicadores [@OBrienKinnaird2013, @Beaudrotetal2018], e desenhos amostrais que permitam a detecção de mudanças significativas no estado da biodiversidade caso elas ocorram, ou seja, desenhos com poder estatístico adequado (Fairweather 1991; Legg & Nagy 2006; Field et al. 2007).
+Uma gestão efetiva da biodiversidade requer conhecimento sobre suas tendências, e esse conhecimento requer dados de monitoramento. O monitoramento é essencial para mensurar o sucesso de ações de manejo, detectar o efeito de perturbações ambientais, e fornecer alertas antecipados sobre declínios populacionais [@Legg2006].Programas de monitoramento eficazes requerem bons indicadores, uma noção aproximada do grau de variação aceitável nesses indicadores [@OBrien2013, @Beaudrot2018], e desenhos amostrais que permitam a detecção de mudanças significativas no estado da biodiversidade caso elas ocorram, ou seja, desenhos com poder estatístico adequado [@Taylor1993, @Legg2006, @Field2007].
 
 
 
 
 ## Métodos
 
-Foram analisados dados do protocolo básico coletados na Resex Cazumbá-Iracema entre os anos de 2014 e 2019. O protocolo utiliza o método de transecções lineares [@Peres1999]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^).
+Foram analisados dados do protocolo básico coletados na Resex Cazumbá-Iracema entre os anos de 2014 e 2019. O protocolo utiliza o método de transecções lineares [@Peres1999, @Peres2011]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^).
 
-No presente trabalho, o índice populacional escolhido foi a *taxa de encontro de grupos* (grupos/10 km). Somente as espécies mais comuns (taxa de encontro anual média > 0.2 e taxa de encontro mínima > 0.1) foram incluídas nas análises.
+
+
+No presente trabalho, o índice populacional escolhido foi a *taxa de encontro de grupos* (grupos/10 km). Somente as espécies mais comuns (taxa de encontro anual média > 0.5) foram incluídas nas análises.
 
 Para cada espécie, foi ajustado um modelo de dinâmica populacional (para uma descrição do modelo e suas premissas, ver anexo 1). O principal parâmetro do modelo é a taxa média de crescimento populacional (*r*). Esta taxa representa a tendência populacional *média* durante o período de monitoramento. Quando:
 
@@ -58,62 +72,65 @@ Para cada espécie, foi ajustado um modelo de dinâmica populacional (para uma d
  - *r* = 0, a população está estável
  - *r* > 0, a população está aumentando
 
-A estimativa de *r* envolve incerteza, por isso é importante verificar seu intervalo de confiança. Se o intervalo de confiança de 95% somente incluir valores negativos, consideramos que há evidência significativa de que a população está declinando. Se incluir tanto valores negativos como positivos (isto é, se incluir o zero), consideramos que a população está estável. Se somente incluir valores positivos, consideramos que há evidência significativa de que a população está aumentando.
+A estimativa de *r* envolve incerteza, por isso é importante verificar seu intervalo de confiança. Intervalos de confiança muito amplos implicam em muita incerteza, o que dificulta inferências robustas sobre as tendências populacionais. Ainda assim, o modelo adotado nessa análise permite inferências *probabilísticas* sobre as tendências populacionais, permitindo afirmações como "temos 90% de certeza de que a população está declinando" [@kery2011bayesian: 37]. Isso é especialmente relevante no contexto do monitoramento, onde alertas antecipados sobre eventuais declínios populacionais são necessários. Ainda que alertas com certeza absoluta não sejam possíveis, os gestores podem tomar decisões com base em probabilidades estimadas.
 
-Além da estimativa de *r*, o modelo gera uma estimativa *suavizada* do índice populacional (taxa de encontro) a cada ano. Essa estimativa suavizada foi utilizada para elaborar gráficos representando a dinâmica do índice populacional no período de monitoramento, incluindo a incerteza associada à estimativa. No entanto, ressalta-se que essas estimativas não corrigem erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Para várias espécies, pode ser viável corrigir erros de detecção a partir das distâncias perpendiculares [@REF]. Isso permitirá estimativas mais precisas das tendências populacionais. Isso será avaliado em relatórios futuros.
+Além da estimativa de *r*, o modelo gera uma estimativa *suavizada* do índice populacional (taxa de encontro) a cada ano. Essa estimativa suavizada foi utilizada para elaborar gráficos representando a dinâmica do índice populacional no período de monitoramento, incluindo a incerteza associada à estimativa. No entanto, ressalta-se que essas estimativas não corrigem erros decorrentes de variações na taxa de detecção [@kery2011bayesian]. Para várias espécies, pode ser viável corrigir erros de detecção a partir das distâncias perpendiculares [@Buckland2001]. Isso permitirá estimativas mais precisas das tendências populacionais. Isso será avaliado em relatórios futuros.
 
 
 
 ## Resultados e discussão
 
-Dez espécies atenderam aos critérios mínimos para inclusão nas análises: *Cebus unicolor, Dasyprocta fuliginosa, Mazama americana, Myoprocta pratti, Pecari tajacu, Saguinus imperator, Saguinus weddelli, Saimiri boliviensis, Sapajus macrocephalus e Urosciurus spadiceus*.
+Onze espécies atenderam aos critérios mínimos para inclusão nas análises: *Alouatta puruensis*, *Aotus nigriceps*, *Callicebus cupreus*, *Cebus unicolor*, *Dasyprocta fuliginosa*, *Guerlinguetus ignitus*, *Myoprocta pratti*, *Pecari tajacu*, *Saimiri boliviensis*, *Sapajus macrocephalus*.
 
-Em nenhum caso a taxa de média de crescimento estocástico foi significativamente diferente de zero (i.e., todos os intervalos de confiança incluem o zero), indicando que todas as espécies se mantiveram estáveis durante o período de monitoramento (Tabela 1). As Figuras 1 a 10 mostram a dinâmica do índice populacional (taxa de encontro anual) para as espécies selecionadas.
+A maioria das espécies apresentou taxa de crescimento negativa (Tabela 1, Figuras 1 a 11), mas em todos os casos o intervalo de confiança incluiu o zero, ou seja, as tendências de declínio não foram estatisticamente significativas. É importante ressaltar que os intervalos de confiança foram relativamente amplos, o que dificulta inferências robustas. Não se pode descartar a possibilidade de que ...
+Essa incerteza decorre da variabilidade natural do sistema e das limitações da análise, que pode não ter poder estatístico suficiente para detectar tendências populacionais sutis, ao menos em prazos muito curtosque isso não significa que não há declínios, mas sim que o modelo não foi capaz de detectar [@Fairweather1991].
+
+Duas espécies apresentaram probabilidade de declínio relativamente altas (> 75%): *Aotus nigriceps* e *Callicebus cupreus*. VERIFICAR ISSO PORQUE A LISTA DE SPP TEM CALLICEBUS SP. E AOTUS É NOTURNO< PROVAVELMENTE HÁ ERRO NOS DADOS.
 
 ...É importante ressaltar que o fato de o modelo não ter detectado tendências significativas não significa que elas não estejam ocorrendo. Antes, significa que não estão ocorrendo tendências fortes o suficiente para serem detectadas por ele. Análises futuras, incorporando outras informações ao modelo (dist perp, tam grupo, var inter-trilhas), podem ser mais sensíveis, com maior poder de detecção. Isso será avaliado futuramente...
 
-Ainda que não significativamente diferentes de zero, a maioria das taxas foi levemente negativa (Tabela 1). Não se pode descartar a possibilidade de que algumas delas estejam declinando, mas os intervalos de confiança relativamente amplos dificultam conclusões robustas. Essa incerteza decorre da variabilidade natural do sistema e das limitações da análise, que pode não ter poder estatístico suficiente para detectar tendências populacionais sutis, ao menos em prazos muito curtos..
-
 R Em relatórios futuros, ou ... alternativas para minimizar a incerteza e aumentar a capacidade de detectar tendências significativas ... incorporar distâncias perpendiculares e tamanho de grupo, incorporar variabilidade inter-trilhas.... 
 
-o método de amostragem, e sugere que o esforço amostral prescrito pelo protocolo;; básico  A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes.
+o método de amostragem, e sugere que o esforço amostral prescrito pelo protocolo;; básico  A continuação do monitoramento é essencial para revelar se há tendências populacionais consistentes [@Field2007].
 
 
+```{r, echo=FALSE, message=FALSE, results='hide'}
+library(here)
+source("/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/cazumba.R")
+```
 
-```{r, echo=FALSE}
-#library(kableExtra)
+```{r, echo=FALSE, message=FALSE}
+library(knitr)
+table1 <- table1
 knitr::kable(
-  read.csv("/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/tabela1.csv"), caption = 'Taxa de crescimento populacional (*r*), intervalo de confiança (IC) e tendência populacional para espécies selecionadas da RESEX Cazumbá-Iracema'
-) 
+  table1,
+  caption = 'Taxa de crescimento populacional (*r*), intervalo de confiança (IC) e Probabilidade de declínio para espécies selecionadas da RESEX Cazumbá-Iracema',
+  booktabs = T
+  )
 ```
 
 
-![Taxa de encontro anual estimadapara *Cebus unicolor*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Cebus_cazumba.jpg)
+![Taxa de encontro anual estimada para *Cebus unicolor*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Cebus_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Dasyprocta fuliginosa*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Dasyprocta_cazumba.jpg)
+![Taxa de encontro anual estimada para *Dasyprocta fuliginosa*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Dasyprocta_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Mazama americana*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Mazama_cazumba.jpg)
+![Taxa de encontro anual estimada para *Mazama americana*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Mazama_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Myoprocta pratti*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Myoprocta_cazumba.jpg)
+![Taxa de encontro anual estimada para *Myoprocta pratti*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Myoprocta_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Pecari tajacu*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Pecari_cazumba.jpg)
+![Taxa de encontro anual estimada para *Pecari tajacu*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Pecari_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Saguinus imperator*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_i_cazumba.jpg)
+![Taxa de encontro anual estimada para *Saguinus imperator*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_i_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Saguinus weddelli*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_w_cazumba.jpg)
+![Taxa de encontro anual estimada para *Saguinus weddelli*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saguinus_w_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Saimiri boliviensis*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saimiri_cazumba.jpg)
+![Taxa de encontro anual estimada para *Saimiri boliviensis*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Saimiri_cazumba.jpg)
 
-![Taxa de encontro anual estimadapara *Sapajus macrocephalus*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sapajus_cazumba.jpg)
+![Taxa de encontro anual estimada para *Sapajus macrocephalus*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Sapajus_cazumba.jpg)
 
 
-![Taxa de encontro anual estimadapara *Urosciurus spadiceus*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Urosciurus_cazumba.jpg)
+![Taxa de encontro anual estimada para *Urosciurus spadiceus*. As barras verticais indicam a incerteza associada à estimativa (intervalo de confiança de 95%)](/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/Urosciurus_cazumba.jpg)
 
-<div align="right"> Elildo Carvalho Jr
-Centro Nacional de Pesquisa e Conservação de Mamíferos Carnívoros
-ICMBio-CENAP
-14 de abril de 2021
-</div>
 
 \newpage
 
@@ -122,10 +139,5 @@ ICMBio-CENAP
 <div id="refs"></div>
 
 
-\newpage
-
-
 ```{r, child='anexo1.Rmd'}
 ```
-
-\newpage

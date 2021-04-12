@@ -9,7 +9,7 @@ output:
     latex_engine: xelatex
   html_document:
     df_print: paged
-bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/My Collection.bib"
+bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/My_Collection.bib"
 csl: "http://www.zotero.org/styles/biological-conservation"
 linestretch: 1.5
 header-includes:

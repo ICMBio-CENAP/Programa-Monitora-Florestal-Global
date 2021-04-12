@@ -3,7 +3,7 @@ title: "Anexo 1: Descrição do modelo populacional"
 output:
   pdf_document:
     latex_engine: xelatex
-bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/My_Collection.bib"
+bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/anexo1_collection.bib"
 csl: "http://www.zotero.org/styles/biological-conservation"
 linestretch: 1.5
 
@@ -20,11 +20,12 @@ header-includes:
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
 
+
 # Anexo 1: Descrição do modelo populacional
 
 Foi ajustado um modelo estocástico de dinâmica populacional aos dados. Esse modelo particiona a variação nos dados observados em dois componentes: um componente associado ao *processo ecológico* (variações aleatórias na taxa de crescimento populacional) e um componente associado ao *processo de observação* (variações devido a erros aleatórios nas estimativas anuais de abundância).
 
-*Processo ecológico*
+## *Processo ecológico*
 
 No modelo, o tamanho da população no ano *t+1* (*N~t+1~*) depende do tamanho da população no ano anterior (*N~t~*) e da taxa de crescimento populacional (*r~t~*):
 
@@ -35,18 +36,16 @@ $$
 
 As taxas anuais de crescimento populacional *r~t~* são vistas como realizações de um processo estocástico com distribuição normal centrada na taxa de crescimento médio *r* para todo o período e variância correspondente à estocasticidade ambiental [@kery2011bayesian].
 
-... populações = 0 travam o modelo, por isso zeros foram resetados para 0.001 ... afinal zero no indice populacional não significa zero na população e mesmo que significasse poderia haver recolonização ... resear para 0.001 também tem a vantagem de permitir incluir especies em declino e que pararam de ser detectadas no meio do monitoramento, afinal o criterio de seleção de espécies pode estar justamente removendo as spp mais interessantes... nao esquecer de resetar N minimo no modelo do jags para zero 
 
+## *Processo de observação*
 
-*Processo de observação*
-
-As observações estão sujeitas a erro estocástico ($\epsilon$) com distribuição normal centrada no zero:
+As observações no ano *t* (*y~t~*) estão sujeitas a erro estocástico ($\epsilon$) com distribuição normal centrada no zero:
 
 $$
 y_t = N_t + \varepsilon
 $$
 
-*Premissas*
+## *Premissas*
 
 No presente trabalho, o índice populacional utilizado foi a *taxa de encontro de grupos* (grupos/10 km). A validade do modelo depende das seguintes premissas:
 
@@ -55,10 +54,12 @@ No presente trabalho, o índice populacional utilizado foi a *taxa de encontro d
 (3) o tamanho médio dos grupos permanece constante ao longo do tempo.
 (4) as distâncias perpendiculares dos avistamentos permanecem constantes ao longo do tempo.
 
-A validade de pelo menos algumas dessas premissas pode ser testada com os próprios dados (e.g., constância no tamanho de grupo e nas distâncias perpendiculares). Isso será feito em relatórios futuros. Por ora, assume-se que as premissas são válidas.
+A validade de pelo menos algumas dessas premissas pode ser testada com os próprios dados (e.g., constância no tamanho de grupo e nas distâncias perpendiculares). Isso será feito em relatórios futuros. Por ora, assume-se que elas sejam válidas.
+
+*Observação:* Antes das análises, as taxas de encontro = 0 foram substituídas por 0.001. Isso foi necessário porque, no modelo, se a população é zero no ano *t* ela permanece nesse estado em todos os anos subsequentes. Isso não é realista já que (i) um índice populacional zero não implica necessariamente numa população zero, (ii) mesmo em caso de população zero há a possibilidade de recolonização.
 
 
-*Implementação*
+## *Implementação*
 
 O modelo foi implementado numa abordagem Bayesiana, seguindo as especificações de [@kery2011bayesian] (p. 126-130) no JAGS [@Plummer2015] usando o pacote R2jags [@su2012r2jags]. Foram executadas três Cadeias de Markov e Monte Carlo (MCMC) com 25000 iterações, *burn-in* de 1000 e *thinning rate* de 3. A convergência dos parâmetros foi avaliada pelo diagnóstico de Gelman-Rubin [@Gelman2011]. Todos os dados e códigos utilizados estão disponiveis no repositório https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global.
 
