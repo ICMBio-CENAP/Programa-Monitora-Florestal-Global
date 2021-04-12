@@ -25,11 +25,35 @@ cazumba <- subset(dadosICMBio, nome.UC == "Resex Cazumbá-Iracema")
 
 # ... e somente mamiferos 
 cazumba <- subset(cazumba, Classe == "Mammalia")
-cazumba[cazumba$Especie == "Dasyprocta cristata", "Especie"] <- "Dasyprocta fuliginosa"
-cazumba[cazumba$Especie == "Dasyprocta leporina", "Especie"] <- "Dasyprocta fuliginosa"
+#cazumba[cazumba$Especie == "Dasyprocta cristata", "Especie"] <- "Dasyprocta fuliginosa"
+#cazumba[cazumba$Especie == "Dasyprocta leporina", "Especie"] <- "Dasyprocta fuliginosa"
 cazumba[cazumba$Especie == "Dasyprocta sp.", "Especie"] <- "Dasyprocta fuliginosa"
-head(cazumba)
+#head(cazumba)
 dim(cazumba)
+
+# tabela 1 com esforco por ano
+tabela1 <- tibble(
+  'Ano' = sort(unique(cazumba$Ano)),
+  'Transectos' = 0,
+  'Esforço (km)' = 0,
+  'Registros' = 0
+)
+for(i in 1:nrow(tabela1)) {
+  df1 <- subset(cazumba, Ano == unique(cazumba$Ano)[i])
+  tabela1[i, "Transectos"] <- length(unique(df1$estacao.amostral))
+  tabela1[i, "Esforço (km)"] <- sum(df1$esforço, na.rm=T)/1000
+  tabela1[i, "Registros"] <- nrow(df1)
+}
+tabela1
+
+
+# tabela com especies registradas
+# tabela para o anexo
+tabela2 <- cazumba %>% group_by(Especie) %>% summarize(n = n(), ) %>% arrange(desc(n))
+tabela2
+print(tabela2, n=Inf)
+
+
 
 #---------- Parte 1: calcular taxas de encontro ----------
 
@@ -65,11 +89,12 @@ encounter_rate$taxon
 species <- encounter_rate$taxon
 
 # criar tabela para receber resultados do loop
-table1 <- tibble(
+tabela3 <- tibble(
   Especie = character(),
   'r medio' = numeric(),
   IC = character(),
-  'Probabilidade de declinio' = character(),
+  'Prob. declinio' = character(),
+  'Prob. aumento' = character(),
 )
 
 #loop para rodar modelo para todas as spp
@@ -77,32 +102,33 @@ for(i in 1:length(species)) {
   y  <- as.numeric(encounter_rate[species[i], 3:ncol(encounter_rate)])
   state.space.model(y, n.years)
   # plot trends
-  jpeg(here("experimental", paste(species[i], "cazumba.jpg", sep="_")), width=1000, height=600, res=120) # Open jpeg file
+  jpeg(here("report", paste(gsub(" ", "_", species)[i], "cazumba.jpg", sep="_")), width=1000, height=600, res=120) # Open jpeg file
   pop.trends()
   dev.off()
   # build table 1
-  table1[i,] <- list(species[i],
+  tabela3[i,] <- list(species[i],
                 round(mean(meanR), 2),
                 paste(round(quantile(meanR, probs = c(0.025)), 2), " a ", round(quantile(meanR, probs = c(0.975)), 2), sep=""),
-                paste((round(length(which(meanR < 0))/length(meanR), 2)*100), "%", sep= "") )
+                paste((round(length(which(meanR < 0))/length(meanR), 2)*100), "%", sep= ""),
+                paste((round(length(which(meanR > 0))/length(meanR), 2)*100), "%", sep= ""))
 }
-table1
-#write.csv(table1, here("experimental", "table1_cazumba.csv"))
-class(table1)
+tabela3
+#write.csv(tabela3, here("experimental", "tabela3_cazumba.csv"))
+class(tabela3)
 
 #library(pander)
-#pandoc.table(table1, keep.line.breaks = TRUE)
+#pandoc.table(tabela3, keep.line.breaks = TRUE)
 
-#table2 <- as.data.frame(table1)
+#table2 <- as.data.frame(tabela3)
 #table2
 #class(table2)
 
-#table1.html <- htmlTable(table2, rnames = FALSE)
-#table1.html
-#class(table1.html)
+#tabela3.html <- htmlTable(table2, rnames = FALSE)
+#tabela3.html
+#class(tabela3.html)
 
 # install.packages("xtable")
 #library("xtable")
-#print(xtable(table1), type="html", file=here("experimental", "table1_cazumba.html"))
-#print(xtable(table1, type="html")
+#print(xtable(tabela3), type="html", file=here("experimental", "tabela3_cazumba.html"))
+#print(xtable(tabela3, type="html")
 

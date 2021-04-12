@@ -61,7 +61,7 @@ A validade de pelo menos algumas dessas premissas pode ser testada com os própr
 
 ## *Implementação*
 
-O modelo foi implementado numa abordagem Bayesiana, seguindo as especificações de [@kery2011bayesian] (p. 126-130) no JAGS [@Plummer2015] usando o pacote R2jags [@su2012r2jags]. Foram executadas três Cadeias de Markov e Monte Carlo (MCMC) com 25000 iterações, *burn-in* de 1000 e *thinning rate* de 3. A convergência dos parâmetros foi avaliada pelo diagnóstico de Gelman-Rubin [@Gelman2011]. Todos os dados e códigos utilizados estão disponiveis no repositório https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global.
+O modelo foi implementado numa abordagem Bayesiana, seguindo as especificações de [@kery2011bayesian: 126-130] no JAGS [@Plummer2015] usando o pacote R2jags [@su2012r2jags]. Foram executadas três Cadeias de Markov e Monte Carlo (MCMC) com 25000 iterações, *burn-in* de 1000 e *thinning rate* de 3. A convergência dos parâmetros foi avaliada pelo diagnóstico de Gelman-Rubin [@Gelman2011]. Todos os dados e códigos utilizados estão disponiveis no repositório https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global.
 
 
 ## Literatura citada
