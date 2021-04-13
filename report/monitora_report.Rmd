@@ -1,5 +1,5 @@
 ---
-title: Tendências populacionais de mamíferos terrestres de médio e grande porte
+title: Programa Monitora - Análise de tendências populacionais de mamíferos terrestres de médio e grande porte
 subtitle: "Resex Cazumbá-Iracema, 2014-2019"
 author: "Elildo Carvalho Jr"
 date: "Abril de 2021"                  
@@ -7,6 +7,8 @@ date: "Abril de 2021"
 output:
   pdf_document:
     latex_engine: xelatex
+    number_sections: yes
+    toc: yes
   html_document:
     df_print: paged
   includes:
@@ -67,7 +69,7 @@ Dentre os alvos do subprograma Terrestre, componente Florestal, estão os mamíf
 
 ## Métodos
 
-Foram analisados dados do protocolo básico coletados na Resex Cazumbá-Iracema entre os anos de 2014 e 2019. O protocolo utiliza o método de transecções lineares [@Peres1999; @Peres2011]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^). A tabela 1 apresenta o esforço amostral e o número total de registros obtidos na Resex Cazumbá-Iracema desde o início do monitoramento.
+Foram analisados dados do protocolo básico coletados na Resex Cazumbá-Iracema entre os anos de 2014 e 2019. O protocolo utiliza o método de transecções lineares [@Peres1999; @Peres2011]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km [@Nobre2015]. Os dados obtidos são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^). A tabela 1 apresenta o esforço amostral e o número total de registros obtidos na Resex Cazumbá-Iracema desde o início do monitoramento^[Os dados foram coletados, compilados e validados por monitores locais, gestores, pesquisadores e voluntários.].
 
 
 No presente trabalho, o índice populacional escolhido foi a *taxa de encontro de grupos* (grupos/10 km). Somente as espécies mais comuns (taxa de encontro anual média > 0.5) foram incluídas nas análises.
@@ -85,12 +87,13 @@ Além da estimativa de *r*, o modelo gera uma estimativa *suavizada* do índice 
 
 ```{r, echo=FALSE, message=FALSE}
 library(knitr)
+library(kableExtra)
 #tabela1 <- tabela1
 knitr::kable(
   tabela1,
-  caption = 'Esforço anual e número de registros de mamíferos obtidos pelo protocolo básico do Programa Monitora na Resex Cazumbá-Iracema, 2014-2019',
-  booktabs = T
-  )
+  caption = 'Tabela 1. Esforço anual e número de registros de mamíferos obtidos pelo protocolo básico do Programa Monitora na Resex Cazumbá-Iracema, 2014-2019', align = c("l", "c", "c", "c")
+  ) %>%
+  kable_classic(full_width = F, html_font = "Cambria")
 ```
 
 
@@ -118,9 +121,10 @@ library(knitr)
 #table1 <- table1
 knitr::kable(
   tabela3,
-  caption = 'Taxa de crescimento populacional (*r*), intervalo de confiança (IC) e Probabilidade de declínio para espécies selecionadas da RESEX Cazumbá-Iracema',
-  booktabs = T
-  )
+  caption = 'Tabela 2. Taxa de crescimento populacional (*r*), intervalo de confiança (IC) e Probabilidade de declínio para espécies selecionadas da RESEX Cazumbá-Iracema',
+  booktabs = T, align = c("l","c","c","c","c")
+  ) %>%
+  kable_classic(full_width = F, html_font = "Cambria")
 ```
 
 
@@ -171,9 +175,10 @@ library(knitr)
 #tabela2 <- tabela2
 knitr::kable(
   tabela2,
-  caption = 'Espécicies de mamíferos registradas pelo protocolo básico e número total de registros por espécie na Resex Cazumbá-Iracema, 2014 a 2019',
-  booktabs = T
-  )
+  caption = 'Espécies, número de grupos (n) e taxa média de avistamento (grupos/10km) registrados pelo protocolo básico na Resex Cazumbá-Iracema, 2014 a 2019',
+  booktabs = T, align = c("l", "c", "c")
+  ) %>%
+  kable_classic(full_width = F, html_font = "Cambria")
 ```
 
 \newpage

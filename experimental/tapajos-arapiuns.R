@@ -20,26 +20,27 @@ dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
 
 head(dadosICMBio)
 
-# para os testes usar dados de Cazumba-Iracema
-cazumba <- subset(dadosICMBio, nome.UC == "Resex Cazumbá-Iracema")
+# para os testes usar dados de tapArap-Iracema
+tapArap <- subset(dadosICMBio, nome.UC == "Resex Tapajós-Arapiuns")
 
 # ... e somente mamiferos 
-cazumba <- subset(cazumba, Classe == "Mammalia")
-#cazumba[cazumba$Especie == "Dasyprocta cristata", "Especie"] <- "Dasyprocta fuliginosa"
-#cazumba[cazumba$Especie == "Dasyprocta leporina", "Especie"] <- "Dasyprocta fuliginosa"
-cazumba[cazumba$Especie == "Dasyprocta sp.", "Especie"] <- "Dasyprocta fuliginosa"
-#head(cazumba)
-dim(cazumba)
+tapArap <- subset(tapArap, Classe == "Mammalia")
+#tapArap[tapArap$Especie == "Dasyprocta cristata", "Especie"] <- "Dasyprocta fuliginosa"
+#tapArap[tapArap$Especie == "Dasyprocta leporina", "Especie"] <- "Dasyprocta fuliginosa"
+tapArap[tapArap$Especie == "Mazama americana", "Especie"] <- "Mazama sp."
+tapArap[tapArap$Especie == "Mazama nemorivaga", "Especie"] <- "Mazama sp."
+#head(tapArap)
+dim(tapArap)
 
 # tabela 1 com esforco por ano
 tabela1 <- tibble(
-  'Ano' = sort(unique(cazumba$Ano)),
+  'Ano' = sort(unique(tapArap$Ano)),
   'Transectos' = 0,
   'Esforço (km)' = 0,
   'Registros' = 0
 )
 for(i in 1:nrow(tabela1)) {
-  df1 <- subset(cazumba, Ano == unique(cazumba$Ano)[i])
+  df1 <- subset(tapArap, Ano == unique(tapArap$Ano)[i])
   tabela1[i, "Transectos"] <- length(unique(df1$estacao.amostral))
   tabela1[i, "Esforço (km)"] <- sum(df1$esforço, na.rm=T)/1000
   tabela1[i, "Registros"] <- nrow(df1)
@@ -49,9 +50,9 @@ tabela1
 
 # tabela com especies registradas
 # tabela para o anexo
-tabela2 <- cazumba %>% group_by(Especie) %>% summarize(n = n(), ) %>% arrange(Especie)
+tabela2 <- tapArap %>% group_by(Especie) %>% summarize(n = n(), ) %>% arrange(Especie)
 tabela2
-tabela2$'grupos/10km' <- round((tabela2$n/sum(cazumba$esforço, na.rm=T))*10000, 2)
+tabela2$'grupos/10km' <- round((tabela2$n/sum(tapArap$esforço, na.rm=T))*10000, 2)
 print(tabela2, n=Inf)
 
 
@@ -59,8 +60,8 @@ print(tabela2, n=Inf)
 #---------- Parte 1: calcular taxas de encontro ----------
 
 
-encounter.rate(cazumba, "Especie")
-#encounter_rate_cazumba
+encounter.rate(tapArap, "Especie")
+#encounter_rate_tapArap
 encounter_rate
 
 # se taxa avistamento for = 0, alterar para 0.001
@@ -73,7 +74,7 @@ encounter_rate$mean <- rowMeans(encounter_rate[,c(3:8)], na.rm = TRUE)
 #encounter_rate$max <- apply(encounter_rate[,c(3:8)], 1, max, na.rm=T)
 #encounter_rate$min <- apply(encounter_rate[,c(3:8)], 1, min, na.rm=T)
 #use.this <- subset(encounter_rate, mean >= 0.25 & min >= 0.2) # usar somente espécies com taxa de avistamento médio > 0.1
-use.this <- subset(encounter_rate, mean >= 0.5) 
+use.this <- subset(encounter_rate, mean >= 0.25) 
 encounter_rate <- use.this
 encounter_rate$taxon <- factor(encounter_rate$taxon)
 #encounter_rate <- encounter_rate[,-c(9:11)]
@@ -106,20 +107,20 @@ for(i in 1:length(species)) {
   y  <- as.numeric(encounter_rate[species[i], 3:ncol(encounter_rate)])
   state.space.model(y, n.years)
   # plot trends
-  jpeg(here("report", paste(gsub(" ", "_", species)[i], "cazumba.jpg", sep="_")), width=1000, height=600, res=120) # Open jpeg file
+  jpeg(here("report", paste(gsub(" ", "_", species)[i], "tapArap.jpg", sep="_")), width=1000, height=600, res=120) # Open jpeg file
   pop.trends()
   dev.off()
   # save ssm results to be used for making figures later independent of loop and add them to list
   N.est_all_species[[paste(gsub(" ", "_", species)[i], "ssm", sep="_")]] <- ssm$BUGSoutput$sims.list$N.est
   # build table 1
   tabela3[i,] <- list(species[i],
-                round(mean(meanR), 2),
-                paste(round(quantile(meanR, probs = c(0.025)), 2), " a ", round(quantile(meanR, probs = c(0.975)), 2), sep=""),
-                paste((round(length(which(meanR < 0))/length(meanR), 2)*100), "%", sep= ""),
-                paste((round(length(which(meanR > 0))/length(meanR), 2)*100), "%", sep= ""))
+                      round(mean(meanR), 2),
+                      paste(round(quantile(meanR, probs = c(0.025)), 2), " a ", round(quantile(meanR, probs = c(0.975)), 2), sep=""),
+                      paste((round(length(which(meanR < 0))/length(meanR), 2)*100), "%", sep= ""),
+                      paste((round(length(which(meanR > 0))/length(meanR), 2)*100), "%", sep= ""))
 }
 tabela3
-#write.csv(tabela3, here("experimental", "tabela3_cazumba.csv"))
+#write.csv(tabela3, here("experimental", "tabela3_tapArap.csv"))
 class(tabela3)
 
 #library(pander)
@@ -135,6 +136,6 @@ class(tabela3)
 
 # install.packages("xtable")
 #library("xtable")
-#print(xtable(tabela3), type="html", file=here("experimental", "tabela3_cazumba.html"))
+#print(xtable(tabela3), type="html", file=here("experimental", "tabela3_tapArap.html"))
 #print(xtable(tabela3, type="html")
 

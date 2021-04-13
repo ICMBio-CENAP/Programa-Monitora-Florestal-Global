@@ -124,3 +124,30 @@ pop.trends <- function() {
   points(x = (1:n.years), y = fitted, type = "b", pch = 16, cex = 1.5, lty = 1)
   segments((1:n.years), lower, 1:(n.years), upper, cex=0.5)
 }
+
+
+# Draw figure
+pop.trends.for.rmd <- function(x) { 
+  fitted <- lower <- upper <- numeric()
+  year <- 2014:2019
+  n.years <- length(3:ncol(encounter_rate))
+  
+  for (i in 1:n.years){
+    fitted[i] <- mean(x[,i])
+    lower[i] <- quantile(x[,i], 0.025)
+    upper[i] <- quantile(x[,i], 0.975)
+  }
+  m1 <- min(c(fitted, y, lower), na.rm = TRUE)
+  m2 <- max(c(fitted, y, upper), na.rm = TRUE)
+  par(mar = c(4.5, 4, 1, 1))
+  #plot(0, 0, ylim = c(m1, m2), xlim = c(1, n.years), ylab = "Taxa de encontro", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  #plot(0, 0, ylim = c(m1-0.5, m2+0.5), xlim = c(1, n.years), ylab = "Taxa de encontro (Ind/10km)", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  plot(0, 0, ylim = c(0, m2+(mean(fitted)*0.5)), xlim = c(1, n.years), ylab = "Taxa de encontro (Ind/10km)", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  axis(2, las = 1)
+  axis(1, at = 1:n.years, labels = year)
+  #polygon(x = c(1:n.years, n.years:1), y = c(lower, upper[n.years:1]), col = "gray90", border = "gray90")
+  #points(y, type = "l", col = "black", lwd = 1, lty = 2)
+  #points(fitted, type = "l", col = "blue", lwd = 2)
+  points(x = (1:n.years), y = fitted, type = "b", pch = 16, cex = 1.5, lty = 1)
+  segments((1:n.years), lower, 1:(n.years), upper, cex=0.5)
+}

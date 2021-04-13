@@ -24,10 +24,10 @@ head(dadosICMBio)
 cazumba <- subset(dadosICMBio, nome.UC == "Resex Cazumbá-Iracema")
 
 # ... e somente mamiferos 
-cazumba <- subset(cazumba, Classe == "Mammalia")
+cazumba <- subset(cazumba, Classe == "Aves")
 #cazumba[cazumba$Especie == "Dasyprocta cristata", "Especie"] <- "Dasyprocta fuliginosa"
 #cazumba[cazumba$Especie == "Dasyprocta leporina", "Especie"] <- "Dasyprocta fuliginosa"
-cazumba[cazumba$Especie == "Dasyprocta sp.", "Especie"] <- "Dasyprocta fuliginosa"
+#cazumba[cazumba$Especie == "Dasyprocta sp.", "Especie"] <- "Dasyprocta fuliginosa"
 #head(cazumba)
 dim(cazumba)
 
