@@ -68,7 +68,7 @@ Foram analisados dados do protocolo básico coletados na Resex Tapajós-Arapiuns
 Os dados do protocolo básico são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^). O monitoramento desses índices pode viabilizar a detecção de perturbações ambientais, a emissão de alertas sobre declínios populacionais e a avaliação do sucesso de ações de manejo [@Field2007; @Legg2006].
 
 No presente trabalho, o índice populacional escolhido foi a *taxa de encontro de grupos*  (grupos/10 km):
-$$\textit{Taxa de encontro}=\frac{\textit{Número de grupos observados}*10}{\textit{Km percorridos} }$$
+$$\textit{Taxa de encontro}=\frac{\textit{Número de grupos observados}}{\textit{Km percorridos} }\times 10$$
 
 A taxa de encontro foi calculada para cada ano agregando os dados de todos os transectos. Ressalta-se que o índice tem limitações: ele não leva em conta variações temporais no tamanho dos grupos, nas distâncias perpendiculares dos avistamentos, ou na detectabilidade dos grupos ao longo do tempo. Essas limitações afetam a precisão e acurácia do índice populacional, e limitam o poder da análise em detectar declínios populacionais. Em relatórios futuros, índices que levem em conta esses fatores serão desenvolvidos e avaliados.
 
