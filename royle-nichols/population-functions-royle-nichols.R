@@ -3,30 +3,77 @@
 encounter.rate <- function(mydata, taxon) {
   mydata[,taxon] <- factor(mydata[,taxon])
   # passo 1, criar objeto mydata2
-  mydata2 <- data.frame(matrix(ncol = (2+length(seq(min(mydata$Ano), max(mydata$Ano)))), nrow = length(unique(mydata[,taxon]))) )
-  colnames(mydata2) <- c("ID", "taxon", sort(unique(seq(min(mydata$Ano), max(mydata$Ano))))) # cria automaticamente os nomes de colunas de anos
+  mydata2 <- data.frame(matrix(ncol = (2+length(seq(min(mydata$ano), max(mydata$ano)))), nrow = length(unique(mydata[,taxon]))) )
+  colnames(mydata2) <- c("ID", "taxon", sort(unique(seq(min(mydata$ano), max(mydata$ano))))) # cria automaticamente os nomes de colunas de anos
   mydata2$ID <- c(1:nrow(mydata2))
   mydata2$taxon <- sort(unique(mydata[,taxon]))
-  vetor.Ano <- seq(min(mydata$Ano), max(mydata$Ano))
+  vetor.ano <- seq(min(mydata$ano), max(mydata$ano))
   # passo 2, preencher objeto mydata2
   for(i in 1:nrow(mydata2))
-    for(j in 1:length(vetor.Ano)){
+    for(j in 1:length(vetor.ano)){
       a <- subset(mydata, mydata[,taxon] == mydata2[i,2])
-      b <- subset(a, Ano == vetor.Ano[j]) # extrai o ano automaticamente
+      b <- subset(a, ano == vetor.ano[j]) # extrai o ano automaticamente
       cduc <- unique(a$CDUC)
       c <- subset(mydata, CDUC %in% cduc) # effort must be calculated separately per UC
       
-      if ( nrow(subset(c, Ano == vetor.Ano[j])) <= 0)  { mydata2[i,j+2] <- NA } else {
+      if ( nrow(subset(c, ano == vetor.ano[j])) <= 0)  { mydata2[i,j+2] <- NA } else {
         if ( nrow(b) == 0)  { mydata2[i,j+2] <- 0 
         }
         else {
-          mydata2[i,j+2] <- round(nrow(b)/(sum(subset(c, Ano == vetor.Ano[j])$esforço, na.rm=TRUE)/10000), 3)
+          mydata2[i,j+2] <- round(nrow(b)/(sum(subset(c, ano == vetor.ano[j])$esforço, na.rm=TRUE)/10000), 3)
         }
       }}
   #sitename <- deparse(substitute(mydata))
   #assign(paste("encounter_rate", sitename, sep="_"), mydata2, .GlobalEnv)
   assign("encounter_rate", mydata2, .GlobalEnv)
 }
+
+
+make.binomial.table <- function(x) {
+  binomial.table <- tibble( station.year=unique(x$trilha_ano),
+                            station= substr(station.year, start = 1, stop = 4),
+                            year=as.numeric(substr(station.year, start = 6, stop = nchar(station.year))), 
+                            trials=as.numeric(NA), 
+                            success=as.numeric(0) )
+  for(i in 1:nrow(binomial.table)) {
+    df1 <- x %>% filter(trilha_ano == binomial.table$station.year[i])
+    binomial.table$trials[i] <- length(unique(df1$data.da.amostragem))
+    for(j in 1:length(unique(df1$data.da.amostragem))) {
+      if("Dasyprocta" %in% df1$Genero[j]) {
+        binomial.table$success[i] <- binomial.table$success[i]+1
+      }
+    }
+  }
+  return(binomial.table)
+  assign("binomial.table", binomial.table, .GlobalEnv)
+  #print(binomial.table, n=Inf)
+  #y <- binomial.table %>% pivot_wider(names_from = year, values_from = success)
+}
+
+
+prepare.data.RNmodel <- function(x, taxon) {
+  y <- tibble(station=unique(x$estacao.amostral))
+  vec <- unique(x$ano)
+  df <- bind_rows(setNames(rep(0, length(vec)), vec))
+  y <- bind_cols(y, df)
+  y
+  for(i in 1:nrow(y)) {
+    for(j in 2:ncol(y)) {
+      df1 <- x %>% filter(estacao.amostral == y[[i,1]])
+      df2 <- df1 %>% filter(ano == colnames(y)[j])
+      days <- unique(df2$data.da.amostragem)
+      for(k in 1:length(unique(days))) {
+        df3 <- df2 %>% filter(data.da.amostragem == days[k])
+        if(taxon %in% df3$Genero) { # ATENCAO: por enquanto escolha de taxon manual
+          y[[i,j]] <- y[[i,j]]+1
+        }
+      }
+    }}
+  #return(y) # checar
+  assign("y", y, .GlobalEnv)
+}
+
+
 
 
 state.space.model <- function(y, n.years) {
@@ -230,4 +277,32 @@ detection.history <- function(data){ # occ_length is length of sampling occasion
   #res<-lapply(res,f.dum)
   res
   
- }
+}
+
+
+# Draw figure
+pop.trends <- function(x,y) { 
+  fitted <- lower <- upper <- numeric()
+  year <- as.numeric(gsub("X", "", colnames(y)))
+  n.years <- ncol(y)
+  
+  for (i in 1:n.years){
+    fitted[i] <- x$BUGSoutput$mean$mean.abundance[i]
+    lower[i] <- quantile(x$BUGSoutput$sims.list$mean.abundance[,i], 0.025)
+    upper[i] <- quantile(x$BUGSoutput$sims.list$mean.abundance[,i], 0.975)
+  }
+  m1 <- min(c(fitted, lower), na.rm = TRUE)
+  m2 <- max(c(fitted, upper), na.rm = TRUE)
+  par(mar = c(4.5, 4, 1, 1))
+  #plot(0, 0, ylim = c(m1, m2), xlim = c(1, n.years), ylab = "Taxa de encontro", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  #plot(0, 0, ylim = c(m1-0.5, m2+0.5), xlim = c(1, n.years), ylab = "Taxa de encontro (Ind/10km)", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  plot(0, 0, ylim = c(0, m2+(mean(fitted)*0.5)), xlim = c(1, n.years), ylab = "Abundância média", xlab = "Ano", col = "black", type = "l", lwd = 2, axes = FALSE, frame = FALSE)
+  axis(2, las = 1)
+  axis(1, at = 1:n.years, labels = year)
+  #polygon(x = c(1:n.years, n.years:1), y = c(lower, upper[n.years:1]), col = "gray90", border = "gray90")
+  #points(y, type = "l", col = "black", lwd = 1, lty = 2)
+  #points(fitted, type = "l", col = "blue", lwd = 2)
+  points(x = (1:n.years), y = fitted, type = "b", pch = 16, cex = 1.5, lty = 1)
+  segments((1:n.years), lower, 1:(n.years), upper, cex=0.5)
+}
+
