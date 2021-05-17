@@ -132,5 +132,5 @@ out
 print(out, dig = 2)
 
 # usar funcao pop.trends para criar grafico
-pop.trends(out, y)
+pop.trends.N(out, y)
 

@@ -281,15 +281,15 @@ detection.history <- function(data){ # occ_length is length of sampling occasion
 
 
 # Draw figure
-pop.trends <- function(x,y) { 
+pop.trends.N <- function(x,y) { 
   fitted <- lower <- upper <- numeric()
   year <- as.numeric(gsub("X", "", colnames(y)))
   n.years <- ncol(y)
   
   for (i in 1:n.years){
-    fitted[i] <- x$BUGSoutput$mean$mean.abundance[i]
-    lower[i] <- quantile(x$BUGSoutput$sims.list$mean.abundance[,i], 0.025)
-    upper[i] <- quantile(x$BUGSoutput$sims.list$mean.abundance[,i], 0.975)
+    fitted[i] <- x$BUGSoutput$mean$mean.N[i]
+    lower[i] <- quantile(x$BUGSoutput$sims.list$mean.N[,i], 0.025)
+    upper[i] <- quantile(x$BUGSoutput$sims.list$mean.N[,i], 0.975)
   }
   m1 <- min(c(fitted, lower), na.rm = TRUE)
   m2 <- max(c(fitted, upper), na.rm = TRUE)
@@ -305,4 +305,6 @@ pop.trends <- function(x,y) {
   points(x = (1:n.years), y = fitted, type = "b", pch = 16, cex = 1.5, lty = 1)
   segments((1:n.years), lower, 1:(n.years), upper, cex=0.5)
 }
+
+
 
