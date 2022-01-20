@@ -16,12 +16,18 @@ dados <- read_csv(here("data", "Planilha consolidada mastoaves até 2019 - FINAL
 dados
 names(dados)
 
+# temp check:
+#table(dados$`Clasificação taxonômica validada`)
+#table(dados$`Clasificação taxonômica (espécie, gênero, família ou ordem)`)
+#dados[which(dados$`Clasificação taxonômica validada` != "E"),] %>%
+#  View()
+
 # alguns ajustes
 dados2 <- dados %>%
   rename(cduc = "CDUC",
          nome.UC = "Local - Nome da Unidade de Conservação",
          estacao.amostral = "Número da Estação Amostral",
-         esforço = "Esforço de amostragem tamanho da trilha (m)",
+         esforco = "Esforço de amostragem tamanho da trilha (m)",
          ano = "Ano",
          hora.inicio = "horário de início  (h:mm)",
          hora.fim = "horário de término (h:mm)",
@@ -39,8 +45,8 @@ dados2 <- dados %>%
          dist.perpendicular = as.numeric(dist.perpendicular),
          ano = str_sub(ano, start= -4)) %>%
   mutate(ano = as.numeric(ano)) %>%
-  filter(ano != "" | ! is.na(ano) | ano != 2020) %>%
-  select(cduc, nome.UC, estacao.amostral, esforço, ano, hora.inicio, hora.fim,
+  filter(ano != 2020) %>%
+  select(cduc, nome.UC, estacao.amostral, esforco, ano, hora.inicio, hora.fim,
          genero, binomial, populacao, nivel.validacao, hora.registro, n.individuos, dist.perpendicular)
 dados2  
 

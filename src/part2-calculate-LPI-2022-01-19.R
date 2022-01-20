@@ -17,15 +17,115 @@ source(here("bin", "lpi_icmbio.R"))
 
 # carregar dados
 dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
+mydata <- dadosICMBio
 
-# preparar e filtrar dados
 
-# separar partes da funcao lpi_icmbio em duas ou tres funcoes:
-#1a estimar taxas de avistamento
-#1b estimar esforco anual em cada UC
-#2a selecionar populacoes com dados para analise
-#3 calcul do lpi e graficos
+# calcular esforco anual por UC em km
+esforco <- mydata %>%
+  group_by(cduc, ano) %>%
+  summarize(esforco = sum(esforco, na.rm = TRUE)/1000) %>%
+  filter(esforco > 149) 
+esforco
 
+
+# selecionar UCs com > 1 ano de amostragem e > 149 km de esforco anual
+ucs_selecionadas <- esforco %>%
+  group_by(cduc) %>% 
+  count() %>%
+  filter(n > 1) %>%
+  pull(cduc)
+ucs_selecionadas
+
+
+# filtrar mydata mantendo somente UCs selecionadas
+mydata <- mydata %>%
+  filter(cduc %in% ucs_selecionadas)
+mydata
+
+
+# remover especies com "sp." pois podem representar > 1 especie
+mydata <- mydata %>%
+  filter(! grepl('sp.', binomial))
+mydata
+
+
+# criar objeto para receber taxas de avistamento anuais
+mydata2 <- distinct(mydata, cduc, binomial, populacao) %>%
+  mutate("2014" = as.numeric(NA),
+         "2015" = as.numeric(NA),
+         "2016" = as.numeric(NA),
+         "2017" = as.numeric(NA),
+         "2018" = as.numeric(NA),
+         "2019" = as.numeric(NA)) #%>%
+#  mutate(id = row_number()) %>%
+#  relocate(id, .before = cduc)
+mydata2
+
+
+# preencher objeto acima com numero de encontros por ano
+vetor_ano <- seq(min(mydata$ano), max(mydata$ano))
+for(i in 1:nrow(mydata2)) {
+  for(j in 1:length(vetor_ano)){
+    mydata2[i, 3+j] <- mydata %>%
+      filter(populacao == pull(mydata2[i,"populacao"])) %>%
+      filter(ano == vetor_ano[j]) %>%
+      count() %>%
+      pull(n)
+  }}
+mydata2
+print(mydata2, n=100)
+
+
+# colocar esforco no formato wide
+esforco <- esforco %>%
+  pivot_wider(names_from = ano, values_from = esforco) %>%
+  select(cduc, "2014", "2015", "2016", "2017", "2018", "2019")
+esforco
+
+
+# corrigir pelo esforco e substituir zeros por NAs quando for o caso
+mydata3 <- mydata2
+for(i in 1:nrow(mydata3)) {
+  for(j in 1:length(vetor_ano)){
+    temp_1 <- esforco %>%
+      filter(cduc == mydata3[i,"cduc"]) %>%
+      ungroup() %>%
+      select(-cduc)
+    mydata3[i, j+3] <- mydata3[i, j+3]/(temp_1[j]/10)
+  }}
+mydata3
+print(mydata3, n=100)
+
+# selecionar populacoes com taxa de avistamento media acima de 1 ind/10km
+
+mydata4 <- mydata3 %>%
+  select(-populacao) %>%
+  mutate(total = rowSums(.[3:8], na.rm = TRUE),
+         com_dados = 6-rowSums(is.na(.[3:8])),
+         media = total/com_dados) %>%
+  filter(media > 1) %>%
+  select(-c(total, com_dados, media))
+  
+mydata4
+print(mydata4, n=Inf)
+
+# verificar quais especies ficaram e selecionar nao-sociais
+sort(unique(mydata4$binomial))
+nao_sociais <- c("Dasyprocta croconota", "Guerlinguetus aestuans", "Myoprocta acouchy",
+                 "Dasyprocta fuliginosa", "Myoprocta pratti", "Dasyprocta leporina")
+  
+mydata4 <- mydata4 %>%
+  filter(binomial %in% nao_sociais)
+mydata4
+
+mydata4 <- mydata4 %>%
+  left_join(distinct(mydata[, c("cduc", "nome.UC")]), by="cduc") %>%
+  relocate(nome.UC, .before = binomial)
+mydata4
+
+#------------------------------------------------------
+#------------------------------------------------------
+#------------------------------------------------------
 
 # Função lpi_icmbio original:
 
@@ -55,19 +155,19 @@ lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe
   colnames(mydata2) <- c("ID", "Binomial", sort(unique(seq(min(mydata$Ano), max(mydata$Ano))))) # cria automaticamente os nomes de colunas de anos
   mydata2$ID <- c(1:nrow(mydata2))
   mydata2$Binomial <- sort(unique(mydata$Binomial))
-  vetor.Ano <- seq(min(mydata$Ano), max(mydata$Ano))
+  vetor_ano <- seq(min(mydata$Ano), max(mydata$Ano))
   
   # passo 2, preencher objeto criado acima
   for(i in 1:nrow(mydata2))
-    for(j in 1:length(vetor.Ano)){
+    for(j in 1:length(vetor_ano)){
       a <- subset(mydata, Binomial == mydata2[i,2])
-      b <- subset(a, Ano == vetor.Ano[j]) # extrai o ano automaticamente
+      b <- subset(a, Ano == vetor_ano[j]) # extrai o ano automaticamente
       cduc <- unique(a$CDUC)
       c <- subset(for.effort, CDUC %in% cduc) # effort must be calculated separately per UC
       
-      if ( nrow(subset(c, Ano == vetor.Ano[j])) <= 0)  { mydata2[i,j+2] <- NA } else {
+      if ( nrow(subset(c, Ano == vetor_ano[j])) <= 0)  { mydata2[i,j+2] <- NA } else {
         if ( nrow(b) == 0)  { mydata2[i,j+2] <- 0 } else {
-          mydata2[i,j+2] <- nrow(b)/(sum(subset(c, Ano == vetor.Ano[j])$esforço, na.rm=TRUE)/10000)}
+          mydata2[i,j+2] <- nrow(b)/(sum(subset(c, Ano == vetor_ano[j])$esforço, na.rm=TRUE)/10000)}
       }}
   
   
@@ -81,14 +181,14 @@ lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe
   index_vector = rep(TRUE, nrow(mydata2))
   
   # criar infile
-  mydata_infile <- create_infile(mydata2, index_vector=index_vector, name="mydata_data", start_col_name = colnames(mydata2)[3], end_col_name = tail(colnames(mydata2), n=1), CUT_OFF_YEAR = vetor.Ano[1])
+  mydata_infile <- create_infile(mydata2, index_vector=index_vector, name="mydata_data", start_col_name = colnames(mydata2)[3], end_col_name = tail(colnames(mydata2), n=1), CUT_OFF_YEAR = vetor_ano[1])
   #mydata_infile <- create_infile(mydata2, index_vector=index_vector, name="mydata_data", start_col_name = "X2014", end_col_name = "X2016", CUT_OFF_YEAR = 2014)
   #mydata_infile <- create_infile(mydata2, index_vector=index_vector, name="mydata_data", start_col_name = "2014", end_col_name = "2017", CUT_OFF_YEAR = "2014")
   
   
   # Calcular LPI com 100 bootstraps
   source(here("bin", "LPIMain.R")) # adicionado por não ter pacote rlpi
-  mydata_lpi <- LPIMain(mydata_infile, REF_YEAR = vetor.Ano[1], PLOT_MAX = tail(vetor.Ano, n=1), BOOT_STRAP_SIZE = 100, VERBOSE=FALSE)
+  mydata_lpi <- LPIMain(mydata_infile, REF_YEAR = vetor_ano[1], PLOT_MAX = tail(vetor_ano, n=1), BOOT_STRAP_SIZE = 100, VERBOSE=FALSE)
   
   # Remover NAs (anos seguidos sem dados)
   mydata_lpi <- mydata_lpi[complete.cases(mydata_lpi), ]
