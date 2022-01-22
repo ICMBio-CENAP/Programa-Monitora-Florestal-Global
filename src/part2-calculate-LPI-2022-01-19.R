@@ -19,6 +19,43 @@ source(here("bin", "lpi_icmbio.R"))
 dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
 mydata <- dadosICMBio
 
+# quantas UCs
+mydata %>%
+  group_by(nome.UC) %>%
+  count()
+
+# quantas especies
+mydata %>%
+  group_by(binomial) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  filter(! binomial  %in% c(NA, "E", "Tinamidae", "Cracidae", "Sciuridae", "Callitrichidae",
+                          "Pitheciidae", "Atelidae", "Cebidae", "Primates", "Felidae",
+                          "Bradypodidae", "Cervidae")) %>%
+  filter(! grepl('sp.', binomial)) %>%
+  print(n=Inf)
+
+# quantas populacoes
+mydata %>%
+  filter(! binomial  %in% c(NA, "E", "Tinamidae", "Cracidae", "Sciuridae", "Callitrichidae",
+                            "Pitheciidae", "Atelidae", "Cebidae", "Primates", "Felidae",
+                            "Bradypodidae", "Cervidae")) %>%
+  group_by(populacao) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  filter(! grepl('sp.', populacao)) %>%
+  filter()
+  print(n=Inf)
+
+# quantos transectos
+mydata %>%
+  distinct(nome.UC, estacao.amostral) %>%
+  count()
+
+# esforco total
+mydata %>%
+  summarize(sum(esforco, na.rm = TRUE)/1000)
+
 
 # calcular esforco anual por UC em km
 esforco <- mydata %>%
@@ -122,6 +159,8 @@ mydata4 <- mydata4 %>%
   left_join(distinct(mydata[, c("cduc", "nome.UC")]), by="cduc") %>%
   relocate(nome.UC, .before = binomial)
 mydata4
+
+write.csv(mydata4, here("data", "ICMBio_Monitora_dados_selecionados.csv"), row.names = FALSE)
 
 #------------------------------------------------------
 #------------------------------------------------------
