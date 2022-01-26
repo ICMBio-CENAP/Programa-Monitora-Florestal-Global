@@ -44,7 +44,7 @@ mydata %>%
   count() %>%
   arrange(desc(n)) %>%
   filter(! grepl('sp.', populacao)) %>%
-  filter()
+  filter() %>%
   print(n=Inf)
 
 # quantos transectos
