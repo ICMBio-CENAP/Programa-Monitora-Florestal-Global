@@ -1,36 +1,32 @@
 ---
 title: |
   | ICMBio/CENAP
-  | Programa Monitora - Análise de tendências populacionais de mamíferos terrestres de médio e grande porte na Resex Tapajós-Arapiuns, 2014-2019
+  | Programa Monitora - Análise de tendências populacionais de mamíferos terrestres de médio e grande porte na Resex Tapajós-Arapiuns, 2015-2019
 author: "Elildo Carvalho Jr"
-date: "Abril de 2021"                  
-
+date: "Janeiro de 2022"
 output:
   pdf_document:
     latex_engine: xelatex
-    extra_dependencies: "subfig"
+    extra_dependencies: subfig
     fig_width: 6
     fig_height: 4
-  html_document:
-    df_print: paged
+  word_document: default
   includes:
     in_header: latex/header.tex
     before_body: latex/before_body.tex
     after_body: latex/after_body.tex
+  html_document:
+    df_print: paged
 
-bibliography: "/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/main_collection.bib"
-csl: "http://www.zotero.org/styles/biological-conservation"
+bibliography: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/main_collection.bib
+csl: http://www.zotero.org/styles/biological-conservation
 linestretch: 1.5
-
 header-includes:
 - \usepackage{fancyhdr}
-- \usepackage{lastpage}
-  \fancyfoot{}
+- \usepackage{lastpage} \fancyfoot{}
 - \usepackage{titling}
-- \setlength{\droptitle}{5em} 
+- \setlength{\droptitle}{5em}
 - \usepackage{subfig}
-
-
 ---
 
 \renewcommand{\figurename}{Figura}
@@ -51,11 +47,10 @@ library(here)
 source("/home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/experimental/tapajos-arapiuns.R")
 ```
 
-\newpage
 
 ## Introdução
 
-Este relatório analisa resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Mamíferos terrestres de médio e grande porte, protocolo básico, na **Reserva Extrativista Tapajós-Arapiuns**, 2014 a 2019. O trabalho teve como objetivo descrever a variação anual nas populações de espécies selecionadas, e identificar se elas estão estáveis ou se há tendências significativas de declínio ou aumento populacional.
+Este relatório analisa resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Mamíferos terrestres de médio e grande porte, protocolo básico, na **Reserva Extrativista Tapajós-Arapiuns**, 2015 a 2019. O trabalho teve como objetivo descrever a variação anual nas populações de espécies selecionadas, e identificar se elas estão estáveis ou se há tendências significativas de declínio ou aumento populacional.
 
 
 Ressalta-se que o relatório visa somente descrever os padrões observados. Interpretações sobre suas possíveis causas devem ser debatidas entre comunidades locais, gestores e pesquisadores.
@@ -63,7 +58,7 @@ Ressalta-se que o relatório visa somente descrever os padrões observados. Inte
 
 ## Métodos
 
-Foram analisados dados do protocolo básico coletados na Resex Tapajós-Arapiuns entre os anos de 2014 e 2019^[Os dados foram coletados, compilados e validados por monitores locais, gestores, pesquisadores do ICMBio e instituições parceiras e voluntários.]. O protocolo utiliza o método de transecções lineares [@Peres1999; @Peres2011]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km percorridos [@Nobre2015].
+Foram analisados dados do protocolo básico coletados na Resex Tapajós-Arapiuns entre os anos de 2015 e 2019^[Os dados foram coletados, compilados e validados por monitores locais, gestores, pesquisadores do ICMBio e instituições parceiras e voluntários.]. O protocolo utiliza o método de transecções lineares [@Peres1999; @Peres2011]. Resumidamente, dois observadores percorrem as transecções a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Cada UC deve ter pelo menos três transectos de 5 km e o esforço anual mínimo, combinando todos os transectos, deve ser de 150 km percorridos [@Nobre2015].
 
 Os dados do protocolo básico são utilizados para estimar índices populacionais para as espécies-alvo, como taxa de encontro (indivíduos ou grupos avistados a cada 10 km percorridos) ou densidade (individuos ou grupos por km^2^). O monitoramento desses índices pode viabilizar a detecção de perturbações ambientais, a emissão de alertas sobre declínios populacionais e a avaliação do sucesso de ações de manejo [@Field2007; @Legg2006].
 
@@ -85,15 +80,18 @@ Além da estimativa de *r*, o modelo gera uma estimativa *suavizada* do índice 
 
 ## Resultados e discussão
 
-A tabela 1 apresenta o esforço amostral e o número total de registros obtidos na Resex Tapajós-Arapiuns desde o início do monitoramento. Foram registradas 47 especies de mamiferos de médio e grande porte (Tabela 2), sendo que 11 delas atenderam ao critério mínimo para inclusão nas análises: *Alouatta nigerrima, Callicebus hoffmannsi, Cebus unicolor, Chiropotes albinasus, Dasyprocta croconota, Mazama* spp., *Mico humeralifer, Nasua nasua, Pecari tajacu, Pithecia irrorata* e *Sapajus apella*.
+A tabela 1 apresenta o esforço amostral e o número total de registros obtidos na Resex Tapajós-Arapiuns desde o início do monitoramento. Foram registradas 40 especies de mamiferos de médio e grande porte (Tabela 2), sendo que seis delas atenderam ao critério mínimo para inclusão nas análises: *Alouatta nigerrima, Dasyprocta croconota, Mazama sp., Mico humeralifer, Nasua nasua* e *Sapajus apella*.
 
-A maioria das espécies apresentou taxa de crescimento positiva, embora na maioria dos casos os intervalos de confiança tenham sido muito amplos e tenham incluído o zero, ou seja, as tendências não foram estatisticamente significativas (Tabela 3, Figuras 1 a 11). No entanto, as tendências de aumento foram significativas para duas espécies, *Mazama* spp. e *Nasua nasua*.
+A maioria das espécies apresentou taxa de crescimento positiva, mas os intervalos de confiança foram muito amplos e sempre incluíramo zero, ou seja, as tendências não foram estatisticamente significativas (Tabela 3, Figuras 1 a 6).
 
-Em termos de probabilidade de estar aumentando ou declinando, pelo menos cinco espécies apresentaram alta (>75%) probabilidade de estarem aumentando: *Cebus unicolor*, *Dasyprocta croconota*, *Mazama* spp., *Nasua nasua*  e *Pithecia irrorata*.
+Em termos de probabilidade de estar aumentando ou declinando, quatro espécies apresentaram alta (>75%) probabilidade de estarem aumentando: *Mazama sp., Mico humeralifer, Nasua nasua* e *Sapajus apella*. Nenhuma apresentou alta (>75%) probabilidade de estar declinando.
 
 A continuação do monitoramento por um período mais longo pode revelar a consistência das tendências populacionais observadas [@Fairweather1991; @Field2007]. Além disso, análises mais refinadas, incorporando as informações sobre o tamanho dos grupos, distâncias perpendiculares dos avistamentos, e variação entre as trilhas, podem ter mais poder estatístico para detectar tendências, permitindo conclusões mais robustas. Isso será avaliado em relatórios futuros. Independente disso, os resultados obtidos podem contribuir para a gestão e tomada de decisões no manejo da biodiversidade local.
 
-Em resumo, foram avaliadas as tendências populacionais de 11 espécies de mamíferos de médio e grande porte na Resex Tapajós-Arapiuns entre os anos de 2014 e 2019. A maioria das populações parece estar em crescimento, algumas delas de forma significativa, e nenhuma espécie apresentou tendência significativa de declínio. Para uma interpretação adequada desses padrões, recomenda-se que esses resultados sejam debatidos entre comunidades locais, gestores e pesquisadores.
+Em resumo, foram avaliadas as tendências populacionais de seis espécies de mamíferos de médio e grande porte na Resex Tapajós-Arapiuns entre os anos de 2015 e 2019. A maioria das populações apresentou leve tendência de crescimento, mas em nenhum caso essa tendência foi significativa. Para uma interpretação adequada desses padrões, recomenda-se que esses resultados sejam debatidos entre comunidades locais, gestores e pesquisadores.
+
+
+\newpage
 
 
 ```{r, echo=FALSE, message=FALSE}
@@ -102,7 +100,7 @@ library(kableExtra)
 #tabela1 <- tabela1
 knitr::kable(
   tabela1,
-  caption = 'Esforço anual e número de registros de mamíferos obtidos pelo protocolo básico do Programa Monitora na Resex Tapajós-Arapiuns, 2014-2019', booktabs = T, align = c("l", "c", "c", "c")
+  caption = 'Esforço anual e número de registros de mamíferos obtidos pelo protocolo básico do Programa Monitora na Resex Tapajós-Arapiuns, 2015-2019', booktabs = T, align = c("l", "c", "c", "c")
   ) %>%
   kable_classic(full_width = F, html_font = "Cambria")
 ```
@@ -113,7 +111,7 @@ library(knitr)
 #tabela2 <- tabela2
 knitr::kable(
   tabela2,
-  caption = 'Espécies, número de grupos (n) e taxa média de avistamento (grupos/10km) registrados pelo protocolo básico na Resex Tapajós-Arapiuns, 2014 a 2019',
+  caption = 'Espécies, número de grupos (n) e taxa média de avistamento (grupos/10km) registrados pelo protocolo básico na Resex Tapajós-Arapiuns, 2015 a 2019',
   booktabs = T, align = c("l", "c", "c")
   ) %>%
   kable_classic(full_width = F, html_font = "Cambria", font_size = 10)
@@ -125,77 +123,11 @@ library(knitr)
 #table1 <- table1
 knitr::kable(
   tabela3,
-  caption = 'Taxa de crescimento populacional (r), intervalo de confiança (IC) e probabilidade de a população estar em declínio ou aumentando, Resex Tapajós-Arapiuns, 2017-2019',
+  caption = 'Taxa de crescimento populacional (r), intervalo de confiança (IC) e probabilidade de a população estar em declínio ou aumentando, Resex Tapajós-Arapiuns, 2015-2019',
   booktabs = T, align = c("l","c","c","c","c")
   ) %>%
   kable_classic(full_width = F, html_font = "Cambria")
 ```
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Alouatta nigerrima* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-#for (i in 1:length(pop.trends.for.rmd)) {
-  pop.trends.for.rmd(N.est_all_species[[1]])
-#}
-```
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Callicebus hoffmannsi* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[2]])
-```
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Cebus unicolor* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[3]])
-```
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Chiropotes albinasus* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[4]])
-```
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Dasyprocta croconota* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[5]])
-```
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Mazama spp.* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[6]])
-```
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Mico humeralifer* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[7]])
-```
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Nasua nasua* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[8]])
-```
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Pecari tajacu* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[9]])
-```
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Pithecia irrorata* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[10]])
-```
-
-
-
-```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Sapajus apella* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
-  pop.trends.for.rmd(N.est_all_species[[11]])
-```
-
-
 
 \newpage
 
@@ -203,9 +135,44 @@ knitr::kable(
 <div id="refs"></div>
 
 
-\newpage
+
+```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Alouatta nigerrima* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
+#for (i in 1:length(pop.trends.for.rmd)) {
+  pop.trends.for.rmd(N.est_all_species[[6]])
+#}
+```
 
 
+```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Dasyprocta croconota* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
+  pop.trends.for.rmd(N.est_all_species[[2]])
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Mazama spp.* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
+  pop.trends.for.rmd(N.est_all_species[[1]])
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Mico humeralifer* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
+  pop.trends.for.rmd(N.est_all_species[[4]])
+```
+
+
+```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Nasua nasua* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
+  pop.trends.for.rmd(N.est_all_species[[5]])
+```
+
+
+```{r, echo=FALSE, message=FALSE, fig.cap="Taxa de encontro anual para *Sapajus apella* na Resex Tapajós-Arapiuns. As barras verticais indicam a incerteza associada à estimativa (IC de 95%)"}
+  pop.trends.for.rmd(N.est_all_species[[3]])
+```
+
+
+
+
+\clearpage
 # Anexo 1: Descrição do modelo populacional
 
 Foi ajustado um modelo estocástico de dinâmica populacional aos dados. Esse modelo particiona a variação nos dados observados em dois componentes: um componente associado ao *processo ecológico* (variações aleatórias na taxa de crescimento populacional) e um componente associado ao *processo de observação* (variações devido a erros aleatórios nas estimativas anuais de abundância).

@@ -65,7 +65,7 @@ for (t in 1:T) {
   sink()
   
   # definir numero de anos
-  n.years <- length(3:ncol(encounter_rate))
+  n.years <- length(2:ncol(encounter_rate))
   
   # Bundle data
   jags.data <- list(y = log(y*100), T = n.years)
@@ -91,8 +91,8 @@ for (t in 1:T) {
   # ccheck results
   print(ssm, digits = 2)
   
-  # Probability of N(2019) < N(2014)
-  mean(ssm$BUGSoutput$sims.list$N.est[,6] < ssm$BUGSoutput$mean$N.est[1])
+  # Probability of N(2019) < N(2015)
+  mean(ssm$BUGSoutput$sims.list$N.est[,ncol(ssm$BUGSoutput$sims.list$N.est)]) < ssm$BUGSoutput$mean$N.est[1]
   
   assign("meanR", ssm$BUGSoutput$sims.list$mean.r, .GlobalEnv) 
   assign("ssm", ssm, .GlobalEnv)
@@ -102,8 +102,8 @@ for (t in 1:T) {
 # Draw figure
 pop.trends <- function() { 
   fitted <- lower <- upper <- numeric()
-  year <- 2014:2019
-  n.years <- length(3:ncol(encounter_rate))
+  year <- 2015:2019
+  n.years <- length(year)
   
   for (i in 1:n.years){
     fitted[i] <- mean(ssm$BUGSoutput$sims.list$N.est[,i])
@@ -129,8 +129,8 @@ pop.trends <- function() {
 # Draw figure
 pop.trends.for.rmd <- function(x) { 
   fitted <- lower <- upper <- numeric()
-  year <- 2014:2019
-  n.years <- length(3:ncol(encounter_rate))
+  year <- 2015:2019
+  n.years <- length(year)
   
   for (i in 1:n.years){
     fitted[i] <- mean(x[,i])
@@ -151,3 +151,4 @@ pop.trends.for.rmd <- function(x) {
   points(x = (1:n.years), y = fitted, type = "b", pch = 16, cex = 1.5, lty = 1)
   segments((1:n.years), lower, 1:(n.years), upper, cex=0.5)
 }
+
