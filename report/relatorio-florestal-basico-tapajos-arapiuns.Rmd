@@ -5,19 +5,18 @@ title: |
 author: "Elildo Carvalho Jr"
 date: "Janeiro de 2022"
 output:
+  html_document:
+    df_print: paged
   pdf_document:
     latex_engine: xelatex
     extra_dependencies: subfig
     fig_width: 6
     fig_height: 4
-  word_document: default
   includes:
     in_header: latex/header.tex
     before_body: latex/before_body.tex
     after_body: latex/after_body.tex
-  html_document:
-    df_print: paged
-
+  word_document: default
 bibliography: /home/elildojr/Documents/r/Programa-Monitora-Florestal-Global/report/main_collection.bib
 csl: http://www.zotero.org/styles/biological-conservation
 linestretch: 1.5
