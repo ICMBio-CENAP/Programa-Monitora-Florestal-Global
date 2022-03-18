@@ -475,9 +475,10 @@ estimar.densidade.monitora <- function(x) {
   fit
   
   # resultados de interesse, como a estimativa de abundancia e intervalo de confianca
-  # podem ser extraidos do objeto (aqui chamado fit).
+  # podem ser extraidos do objeto (aqui chamado fit)
   return(fit$n.hat)
-  return(fit$ci)
+  #return(list(fit$n.hat, fit$ci))
+  #return(fit$ci)
   
 }
 
@@ -491,4 +492,9 @@ estimar.densidade.monitora("Pecari tajacu")
 
 # cutia
 estimar.densidade.monitora("Dasyprocta fuliginosa")*7000
+
+estimar.densidade.monitora("Sapajus macrocephalus")
+estimar.densidade.monitora("Alouatta puruensis")
+estimar.densidade.monitora("Cebus unicolor")
+
 
