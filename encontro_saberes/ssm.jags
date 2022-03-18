@@ -1,0 +1,43 @@
+
+  model {
+  # Priors and constraints
+  for(ea in 1:3) {
+  logN.est[ea, 1] ~ dnorm(0, 0.01)       # Prior for initial population size
+  mean.r[ea] ~ dnorm(1, 0.001)             # Prior for mean growth rate
+  }
+  sigma.proc ~ dunif(0, 1)             # Prior for sd of state process
+  sigma2.proc <- pow(sigma.proc, 2)
+  tau.proc <- pow(sigma.proc, -2)
+  sigma.obs ~ dunif(0, 1)              # Prior for sd of observation process
+  sigma2.obs <- pow(sigma.obs, 2)
+  tau.obs <- pow(sigma.obs, -2)
+  
+  # Likelihood
+  # State process
+  for (year in 1:(n_years-1)) {
+    for(ea in 1:3) {
+      r[ea, year] ~ dnorm(mean.r[ea], tau.proc)
+      logN.est[ea, year+1] <- logN.est[ea, year] + r[ea, year]
+    }
+   }
+  # Observation process
+    for (year in 1:n_years) {
+      for(ea in 1:3) {
+        y[ea, year] ~ dnorm(logN.est[ea, year], tau.obs)
+      }
+   }
+   
+  # Population sizes on real scale
+  for (year in 1:n_years) {
+    for(ea in 1:3) {
+     N.est[ea, year] <- exp(logN.est[ea, year])/100
+    }
+  }
+  
+  # Derived parameter: mean encounter rate
+  for(year in 1:n_years) {
+      mean_N[year] <- mean(N.est[, year])
+  }
+    
+  }
+  
