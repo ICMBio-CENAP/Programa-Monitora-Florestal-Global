@@ -474,19 +474,46 @@ estimar.densidade.monitora <- function(x) {
   fit$ci <- c( lowCI=0.6473984, hiCI=1.0167007)
   fit
   
+  # selecionar melhor modelo usando AIC
+  auto <- autoDistSamp(formula = dist~1,
+                       detectionData = DetectionData,
+                       siteData = SiteData,
+                       area = 1000000,
+                       likelihoods = c("halfnorm","hazrate"),
+                       expansions = 0:1,
+                       series = "cosine",
+                       ci = 0.95,
+                       R = 500,
+                       plot = FALSE,
+                       plot.bs = FALSE,
+                       w.hi = 150)
+  
   # resultados de interesse, como a estimativa de abundancia e intervalo de confianca
   # podem ser extraidos do objeto (aqui chamado fit)
-  return(fit$n.hat)
+  #return(fit$n.hat)
+  #return(auto$B)
   #return(list(fit$n.hat, fit$ci))
   #return(fit$ci)
+  assign("fit", fit, .GlobalEnv)
+  assign("auto", auto, .GlobalEnv)
   
 }
 
 estimar.densidade.monitora("Dasyprocta fuliginosa")
+fit$n.hat
+auto$n.hat
+mean(auto$B)
+hist(auto$B, breaks=5)
 
 estimar.densidade.monitora("Myoprocta pratti")
+fit$n.hat
+auto$n.hat
+mean(auto$B)
 
 estimar.densidade.monitora("Pecari tajacu")
+fit$n.hat
+auto$n.hat
+mean(auto$B)
 
 # populacao total aproximada: multiplicar pela area de Cazumba ~7000 km2
 
@@ -500,6 +527,8 @@ estimar.densidade.monitora("Cebus unicolor")
 
 #--------------------------
 # estimar densidade por ano e plotar
+# a funcao de deteccao e compartilhada entre anos
+# mas a densidade e estimada para cada ano separadamente 
 
 estimar.densidade.anual <- function(x, dataset) {
   library(Rdistance)
@@ -509,6 +538,7 @@ estimar.densidade.anual <- function(x, dataset) {
     mutate(siteID = estacao_amostral,
            groupsize = n_animais,
            dist = distancia) %>%
+    filter(!is.na(distancia)) %>%
     select(siteID, groupsize, dist) %>%
     filter(!is.na(dist))
   DetectionData
@@ -519,9 +549,9 @@ estimar.densidade.anual <- function(x, dataset) {
     summarize(length = sum(esforco, na.rm = TRUE))
   SiteData
   
-  # truncar distancias ate 25m
+  # truncar distancias ate 30m
   DetectionData <- DetectionData %>%
-    mutate(dist = ifelse(dist > 25, 25, dist))
+    mutate(dist = ifelse(dist > 30, 30, dist))
   
   # explorar distribuicao de distancias
   hist(DetectionData$dist, col="grey", main="",
@@ -541,71 +571,81 @@ estimar.densidade.anual <- function(x, dataset) {
   # estimar abundancia a partir da funcao de deteccao
   # usar area=10000 converte a estimativa para hectares
   # usar area=1000000 converte a estimativa para km2
-  fit <- abundEstim(dfunc,
-                    detectionData=DetectionData,
-                    siteData=SiteData,
-                    area=1000000)
-  #ci=NULL)
-  # To save vignette build time, we insert values from
-  # a separate run with R=500
-  #fit$ci <- c( lowCI=0.6473984, hiCI=1.0167007)
-  fit
+  nyears <- length(unique(dataset$ano))
+  densities <- tibble(ano = 2014:2021, dens = as.numeric(NA), 
+                      quant025 = as.numeric(NA), quant975 = as.numeric(NA),
+                      quant25 = as.numeric(NA), quant75 = as.numeric(NA) )
   
-  # resultados de interesse, como a estimativa de abundancia e intervalo de confianca
-  # podem ser extraidos do objeto (aqui chamado fit)
-  #return(fit$n.hat)
-  assign("n.hat", fit$n.hat, .GlobalEnv)
-  assign("ci", fit$ci, .GlobalEnv)
-  #return(list(fit$n.hat, fit$ci))
-  #return(fit$ci)
+  for(i in 1:nyears) {
+    DetectionData_subset <- dataset %>%
+      filter(ano == unique(dataset$ano)[i]) %>%
+      filter(especie == x) %>%
+      filter(!is.na(distancia)) %>%
+      mutate(siteID = estacao_amostral,
+             groupsize = n_animais,
+             dist = distancia) %>%
+      select(siteID, groupsize, dist) %>%
+      filter(!is.na(dist))
+    
+    SiteData_subset <- dataset %>%
+      filter(ano == unique(dataset$ano)[i]) %>%
+      mutate(siteID = estacao_amostral) %>%
+      group_by(siteID) %>%
+      summarize(length = sum(esforco, na.rm = TRUE))
+    
+    fit <- abundEstim(dfunc,
+                      detectionData=DetectionData_subset,
+                      siteData=SiteData_subset,
+                      area=1000000)
+    
+    # selecionar melhor modelo usando AIC
+    auto <- autoDistSamp(formula = dist~1,
+                         detectionData = DetectionData_subset,
+                         siteData = SiteData_subset,
+                         area = 1000000,
+                         likelihoods = c("halfnorm","hazrate","uniform"),
+                         expansions = 0:1,
+                         series = "cosine",
+                         ci = 0.95,
+                         R = 500,
+                         plot = FALSE,
+                         plot.bs = FALSE,
+                         w.hi = 150)
+    
+    densities[i, "dens"] <- quantile(auto$B[!is.na(auto$B)], probs=0.5)
+    densities[i, "quant025"] <- quantile(auto$B[!is.na(auto$B)], probs=0.025)
+    densities[i, "quant975"] <- quantile(auto$B[!is.na(auto$B)], probs=0.975)
+    densities[i, "quant25"] <- quantile(auto$B[!is.na(auto$B)], probs=0.25)
+    densities[i, "quant75"] <- quantile(auto$B[!is.na(auto$B)], probs=0.75)
+  }  
+  
+  #return(densities)
+  assign("densities", densities, .GlobalEnv)
+  assign("auto", auto, .GlobalEnv)
   
 }
 
-# agrupar distancias em bins de 5m
-cazumba <-  cazumba %>%
-  mutate(MyBins = cut(distancia, breaks = c(0,5,10,15,20,25,30,35,40,45,50))) %>%
-  mutate(new_dist = ifelse(distancia == 0, 0,
-                    ifelse(MyBins == "(0,5]", 2.5,
-                    ifelse(MyBins == "(5,10]", 7.5,
-                    ifelse(MyBins == "(10,15]", 12.5,
-                    ifelse(MyBins == "(15,20]", 17.5,
-                    ifelse(MyBins == "(20,25]", 22.5,
-                    ifelse(MyBins == "(25,30]", 27.5,
-                    ifelse(MyBins == "(30,35]", 32.5,
-                    ifelse(MyBins == "(35,40]", 37.5,
-                    ifelse(MyBins == "(40,45]", 42.5,
-                    ifelse(MyBins == "(45,50]", 47.5,
-                           "no")))))))))))) %>%
-  mutate(distancia = as.numeric(new_dist))
-
-
-nyears <- length(unique(cazumba$ano))
-densities <- tibble(ano = 2014:2021, dens = as.numeric(NA), lower = as.numeric(NA), upper = as.numeric(NA))
-for(i in 1:nyears) {
-  temp_df <- cazumba %>%
-    filter(ano == unique(cazumba$ano)[i])
-  estimar.densidade.anual("Dasyprocta fuliginosa", temp_df)
-  densities[i, "dens"] <- n.hat
-  densities[i, "lower"] <- ci[1]
-  densities[i, "upper"] <- ci[2]
-}  
+estimar.densidade.anual("Dasyprocta fuliginosa", cazumba)
 densities
 
-# intervalos de confianca muito amplos
-# provavelmente porque precisa selecionar melhor funcao, agrupar intervalos de distancia, truncar etc
-# por enquanto (teste) alterar artificialmente upper ci
-densities <- densities %>%
-  mutate(upper = ifelse(upper > dens*3, dens*3, upper))
+estimar.densidade.anual("Pecari tajacu", cazumba)
 densities
+
+estimar.densidade.anual("Myoprocta pratti", cazumba)
+#densities
+
+
+estimar.densidade.anual("Sicuridae", cazumba)
+#densities
 
 # plotar com ribbons
 plot_tendencia <- ggplot() + 
-  geom_ribbon(data=densities, aes(x=ano, ymin=lower, ymax=upper),fill="coral", alpha=0.2) +
+  #geom_ribbon(data=densities, aes(x=ano, ymin=quant025, ymax=quant975),fill="coral", alpha=0.2) +
   #geom_ribbon(data=densities, aes(x=ano, ymin=quant25, ymax=quant75),fill="coral3", alpha=0.3) +
   geom_line(data=densities, aes(x=ano, y=dens), size=0.5, alpha=0.5) +
   geom_point(data=densities, aes(x=ano, y=dens), size=2, alpha=0.5) +
   #stat_smooth(data=modelo_quantis, aes(x=ano, y=quant50), method = "lm", formula = y ~ poly(x, 5), se = FALSE) +
-  #ylim(0, 30) +
+  ylim(0, max(densities$dens+(0.5*mean(densities$dens)))) +
   xlab("Ano") + 
   ylab("Taxa de encontro") +
   theme_bw() +
@@ -616,3 +656,13 @@ plot_tendencia
 # salvar jpeg
 ggsave(here("encontro_saberes", "densidade_dayprocta.jpeg"), 
        width = 10, height = 6, dpi = 150)
+
+
+# salvar jpeg
+ggsave(here("encontro_saberes", "densidade_pecari.jpeg"), 
+       width = 10, height = 6, dpi = 150)
+
+
+# salvar jpeg
+#ggsave(here("encontro_saberes", "densidade_myoprocta.jpeg"), 
+#       width = 10, height = 6, dpi = 150)
