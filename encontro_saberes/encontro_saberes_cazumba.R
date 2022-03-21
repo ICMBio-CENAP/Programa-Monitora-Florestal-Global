@@ -498,3 +498,121 @@ estimar.densidade.monitora("Alouatta puruensis")
 estimar.densidade.monitora("Cebus unicolor")
 
 
+#--------------------------
+# estimar densidade por ano e plotar
+
+estimar.densidade.anual <- function(x, dataset) {
+  library(Rdistance)
+  
+  DetectionData <- dataset %>%
+    filter(especie == x) %>%
+    mutate(siteID = estacao_amostral,
+           groupsize = n_animais,
+           dist = distancia) %>%
+    select(siteID, groupsize, dist) %>%
+    filter(!is.na(dist))
+  DetectionData
+  
+  SiteData <- dataset %>%
+    mutate(siteID = estacao_amostral) %>%
+    group_by(siteID) %>%
+    summarize(length = sum(esforco, na.rm = TRUE))
+  SiteData
+  
+  # truncar distancias ate 25m
+  DetectionData <- DetectionData %>%
+    mutate(dist = ifelse(dist > 25, 25, dist))
+  
+  # explorar distribuicao de distancias
+  hist(DetectionData$dist, col="grey", main="",
+       xlab="distance (m)")
+  rug(DetectionData$dist, quiet = TRUE)
+  
+  # ajustar uma funcao de deteccao
+  dfunc<- dfuncEstim(formula = dist~1,
+                     detectionData = DetectionData,
+                     siteData = SiteData,
+                     likelihood = "halfnorm", w.hi = 30)
+  plot(dfunc)
+  dfunc
+  # The effective strip width (ESW) is the key information from the detection function
+  # that will be used to next estimate abundance (or density).
+  
+  # estimar abundancia a partir da funcao de deteccao
+  # usar area=10000 converte a estimativa para hectares
+  # usar area=1000000 converte a estimativa para km2
+  fit <- abundEstim(dfunc,
+                    detectionData=DetectionData,
+                    siteData=SiteData,
+                    area=1000000)
+  #ci=NULL)
+  # To save vignette build time, we insert values from
+  # a separate run with R=500
+  #fit$ci <- c( lowCI=0.6473984, hiCI=1.0167007)
+  fit
+  
+  # resultados de interesse, como a estimativa de abundancia e intervalo de confianca
+  # podem ser extraidos do objeto (aqui chamado fit)
+  #return(fit$n.hat)
+  assign("n.hat", fit$n.hat, .GlobalEnv)
+  assign("ci", fit$ci, .GlobalEnv)
+  #return(list(fit$n.hat, fit$ci))
+  #return(fit$ci)
+  
+}
+
+# agrupar distancias em bins de 5m
+cazumba <-  cazumba %>%
+  mutate(MyBins = cut(distancia, breaks = c(0,5,10,15,20,25,30,35,40,45,50))) %>%
+  mutate(new_dist = ifelse(distancia == 0, 0,
+                    ifelse(MyBins == "(0,5]", 2.5,
+                    ifelse(MyBins == "(5,10]", 7.5,
+                    ifelse(MyBins == "(10,15]", 12.5,
+                    ifelse(MyBins == "(15,20]", 17.5,
+                    ifelse(MyBins == "(20,25]", 22.5,
+                    ifelse(MyBins == "(25,30]", 27.5,
+                    ifelse(MyBins == "(30,35]", 32.5,
+                    ifelse(MyBins == "(35,40]", 37.5,
+                    ifelse(MyBins == "(40,45]", 42.5,
+                    ifelse(MyBins == "(45,50]", 47.5,
+                           "no")))))))))))) %>%
+  mutate(distancia = as.numeric(new_dist))
+
+
+nyears <- length(unique(cazumba$ano))
+densities <- tibble(ano = 2014:2021, dens = as.numeric(NA), lower = as.numeric(NA), upper = as.numeric(NA))
+for(i in 1:nyears) {
+  temp_df <- cazumba %>%
+    filter(ano == unique(cazumba$ano)[i])
+  estimar.densidade.anual("Dasyprocta fuliginosa", temp_df)
+  densities[i, "dens"] <- n.hat
+  densities[i, "lower"] <- ci[1]
+  densities[i, "upper"] <- ci[2]
+}  
+densities
+
+# intervalos de confianca muito amplos
+# provavelmente porque precisa selecionar melhor funcao, agrupar intervalos de distancia, truncar etc
+# por enquanto (teste) alterar artificialmente upper ci
+densities <- densities %>%
+  mutate(upper = ifelse(upper > dens*3, dens*3, upper))
+densities
+
+# plotar com ribbons
+plot_tendencia <- ggplot() + 
+  geom_ribbon(data=densities, aes(x=ano, ymin=lower, ymax=upper),fill="coral", alpha=0.2) +
+  #geom_ribbon(data=densities, aes(x=ano, ymin=quant25, ymax=quant75),fill="coral3", alpha=0.3) +
+  geom_line(data=densities, aes(x=ano, y=dens), size=0.5, alpha=0.5) +
+  geom_point(data=densities, aes(x=ano, y=dens), size=2, alpha=0.5) +
+  #stat_smooth(data=modelo_quantis, aes(x=ano, y=quant50), method = "lm", formula = y ~ poly(x, 5), se = FALSE) +
+  #ylim(0, 30) +
+  xlab("Ano") + 
+  ylab("Taxa de encontro") +
+  theme_bw() +
+  theme(text = element_text(size=14)) #+
+#theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+plot_tendencia
+
+# salvar jpeg
+ggsave(here("encontro_saberes", "densidade_dayprocta.jpeg"), 
+       width = 10, height = 6, dpi = 150)
