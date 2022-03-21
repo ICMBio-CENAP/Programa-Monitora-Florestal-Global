@@ -326,8 +326,9 @@ computar.plotar.taxa_encontro <- function(nome_especie) {
     pivot_longer(1:8, names_to = "ano")
   N.est_por_trilha
   plot_tendencia_trilha <- ggplot() + 
-    geom_line(data=N.est_por_trilha, aes(x=ano, y=value, group=trilha, color=trilha), size=2, alpha=0.5) +
-    geom_point(data=N.est_por_trilha, aes(x=ano, y=value, group=trilha, color=trilha), size=2, alpha=0.5) +
+    geom_line(data=N.est_por_trilha, aes(x=ano, y=value, group=trilha, color=trilha), size=3, alpha=0.5) +
+    geom_point(data=N.est_por_trilha, aes(x=ano, y=value, group=trilha, color=trilha), size=5, alpha=0.5) +
+    ylim(0, max(N.est_por_trilha$value)+0.05) +
     xlab("Ano") + 
     ylab("Taxa de encontro") +
     theme_bw() +
@@ -640,12 +641,12 @@ estimar.densidade.anual("Sicuridae", cazumba)
 
 # plotar com ribbons
 plot_tendencia <- ggplot() + 
-  #geom_ribbon(data=densities, aes(x=ano, ymin=quant025, ymax=quant975),fill="coral", alpha=0.2) +
-  #geom_ribbon(data=densities, aes(x=ano, ymin=quant25, ymax=quant75),fill="coral3", alpha=0.3) +
+  geom_ribbon(data=densities, aes(x=ano, ymin=quant025, ymax=quant975),fill="coral", alpha=0.2) +
+  geom_ribbon(data=densities, aes(x=ano, ymin=quant25, ymax=quant75),fill="coral3", alpha=0.3) +
   geom_line(data=densities, aes(x=ano, y=dens), size=0.5, alpha=0.5) +
   geom_point(data=densities, aes(x=ano, y=dens), size=2, alpha=0.5) +
   #stat_smooth(data=modelo_quantis, aes(x=ano, y=quant50), method = "lm", formula = y ~ poly(x, 5), se = FALSE) +
-  ylim(0, max(densities$dens+(0.5*mean(densities$dens)))) +
+  #ylim(0, max(densities$dens+(0.5*mean(densities$dens)))) +
   xlab("Ano") + 
   ylab("Taxa de encontro") +
   theme_bw() +
