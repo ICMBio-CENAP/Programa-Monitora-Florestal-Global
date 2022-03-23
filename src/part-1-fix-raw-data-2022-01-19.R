@@ -8,56 +8,80 @@
 # carregar pacotes
 library(here)
 library(tidyverse)
-library(dplyr)
-library(stringr)
+library(lubridate)
+library(hms)
+#library(dplyr)
+#library(stringr)
 
-# abrir planilha de dados
+#--------------------------------
+# ler dados, versao nao disponibilizada, mas mais atualizada
 dados <- read_csv(here("data", "Planilha consolidada mastoaves até 2019 - FINAL.csv"))
 dados
 names(dados)
 
-# temp check:
-#table(dados$`Clasificação taxonômica validada`)
-#table(dados$`Clasificação taxonômica (espécie, gênero, família ou ordem)`)
-#dados[which(dados$`Clasificação taxonômica validada` != "E"),] %>%
-#  View()
-
-# alguns ajustes
-dados2 <- dados %>%
-  rename(cduc = "CDUC",
-         nome.UC = "Local - Nome da Unidade de Conservação",
-         estacao.amostral = "Número da Estação Amostral",
+# ajustar dados: versao nao disponibilizada, mas mais atualizada
+dados <- dados %>%
+  rename(cnuc = "CDUC",
+         nome_UC = "Local - Nome da Unidade de Conservação",
+         estacao_amostral = "Número da Estação Amostral",
+         nome_ea = "Nome da EA",
          esforco = "Esforço de amostragem tamanho da trilha (m)",
-         ano = "Ano",
-         hora.inicio = "horário de início  (h:mm)",
-         hora.fim = "horário de término (h:mm)",
+         data = "data da amostragem",
+         hora_inicio = "horário de início  (h:mm)",
+         hora_fim = "horário de término (h:mm)",
+         #ano = "Ano",
+         classe = "Classe",
+         ordem = "Ordem",
+         familia = "Família",
          genero = "Gênero",
          binomial = "Espécies validadas para análise do ICMBio",
-         nivel.validacao  = "Clasificação taxonômica validada",
-         hora.registro = "horário do avistamento",
-         n.individuos = "n° de animais",
-         dist.perpendicular = "distância (m)     do animal em relação a trilha") %>%
-  unite("populacao", cduc, binomial, sep =" ", remove = FALSE) %>%
-  mutate(binomial = as_factor(binomial),
-         populacao = as_factor(populacao),
-         n.individuos = as.numeric(n.individuos),
-         dist.perpendicular = gsub(",", ".", dist.perpendicular),
-         dist.perpendicular = as.numeric(dist.perpendicular),
-         ano = str_sub(ano, start= -4)) %>%
-  mutate(ano = as.numeric(ano)) %>%
-  filter(ano != 2020) %>%
-  select(cduc, nome.UC, estacao.amostral, esforco, ano, hora.inicio, hora.fim,
-         genero, binomial, populacao, nivel.validacao, hora.registro, n.individuos, dist.perpendicular)
-dados2  
+         n_animais = "n° de animais",
+         distancia = "distância (m)     do animal em relação a trilha") %>%
+  mutate(data = as.Date(data, "%d/%m/%Y"),
+         ano = year(data),
+         distancia =  as.numeric(str_replace(distancia, ",", ".")),
+         populacao = paste(binomial, cnuc, sep ="_"),
+         populacao = str_replace(populacao, " ", "_") ) %>%
+  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
+         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
+         n_animais, distancia, populacao)
+dados
 
-
-# Selecionr registros somente das espécies de interesse para o LPI
-# pattern matching
-# completar a lista abaixo com todas as espécies a serem incluídas
-#toMatch <- c("Cebus", "Dasypr", "Allou", "Crax", "Psophia", "Penelo") # a list with at least part of the names of species for inclusion in LPI analysis
-#toMatch <- c("Sapaj", "Dasypr", "Penelo") # versão com apenas três gêneros
-
-#row.list <- grep(paste(toMatch,collapse="|"), dados2$Binomial , fixed=F) # que linhas incluir?
-#dados3 <- dados2[c(row.list),] # subset a partir do passo anterior
 # salvar como rds para proxima etapa
-saveRDS(dados2, here("data", "dadosICMBio_2014a2019.rds"))
+saveRDS(dados, here("data", "dadosICMBio_2014a2019.rds"))
+
+
+#--------------------------------
+# ler dados versao oficial disponibilizada
+dados <- read_csv(here("data", "Dados_Florestal_14a18_disponibilizacao.csv"))
+
+# ajustar dados: versao oficial disponibilizada
+dados <- dados %>%
+  rename(cnuc = "Cadastro Nacional de Unidades de Conservação (CNUC)",
+         nome_UC = "Unidade de Conservação (UC)",
+         estacao_amostral = "Número da Estação Amostral",
+         nome_ea = "Nome da Estação Amostral",
+         esforco = "Esforço de amostragem (metros percorridos por dia)",
+         data = "data da amostragem (dd/mm/aaaa)",
+         hora_inicio = "Horário de início  (hh:mm)",
+         hora_fim = "Horário de término (hh:mm)",
+         ano = "Ano",
+         classe = "Classe",
+         ordem = "Ordem",
+         familia = "Família",
+         genero = "Gênero",
+         binomial = "Espécies validadas pelo ICMBio",
+         n_animais = "N° de animais",
+         distancia = "Distância perpendicular  (m) do animal em relação a trilha") %>%
+  mutate(data = as.Date(data, "%d/%m/%Y"),
+         distancia =  as.numeric(str_replace(distancia, ",", ".")),
+         populacao = paste(binomial, cnuc, sep ="_"),
+         populacao = str_replace(populacao, " ", "_") ) %>%
+  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
+         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
+         n_animais, distancia, populacao)
+dados
+
+
+# salvar como rds para proxima etapa
+saveRDS(dados, here("data", "dadosICMBio_2014a2018.rds"))

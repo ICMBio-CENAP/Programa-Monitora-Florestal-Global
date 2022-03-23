@@ -8,20 +8,25 @@
 
 # Carregar pacotes
 library(here)
-library(tidyr)
-library(ggplot2)
-library(dplyr)
+library(tidyverse)
+library(rlpi)
+#library(tidyr)
+#library(ggplot2)
+#library(dplyr)
 
 # carregar funcoes
 source(here("bin", "lpi_icmbio.R"))
 
 # carregar dados
+# versao oficial disponibilizada
+#dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))
+# versao nao disponibilizada, mas mais atualizada
 dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
 mydata <- dadosICMBio
 
 # quantas UCs
 mydata %>%
-  group_by(nome.UC) %>%
+  group_by(nome_UC) %>%
   count()
 
 # quantas especies
@@ -49,7 +54,7 @@ mydata %>%
 
 # quantos transectos
 mydata %>%
-  distinct(nome.UC, estacao.amostral) %>%
+  distinct(nome_UC, estacao_amostral) %>%
   count()
 
 # esforco total
@@ -59,7 +64,7 @@ mydata %>%
 
 # calcular esforco anual por UC em km
 esforco <- mydata %>%
-  group_by(cduc, ano) %>%
+  group_by(cnuc, ano) %>%
   summarize(esforco = sum(esforco, na.rm = TRUE)/1000) %>%
   filter(esforco > 149) 
 esforco
@@ -67,16 +72,16 @@ esforco
 
 # selecionar UCs com > 1 ano de amostragem e > 149 km de esforco anual
 ucs_selecionadas <- esforco %>%
-  group_by(cduc) %>% 
+  group_by(cnuc) %>% 
   count() %>%
   filter(n > 1) %>%
-  pull(cduc)
+  pull(cnuc)
 ucs_selecionadas
 
 
 # filtrar mydata mantendo somente UCs selecionadas
 mydata <- mydata %>%
-  filter(cduc %in% ucs_selecionadas)
+  filter(cnuc %in% ucs_selecionadas)
 mydata
 
 
@@ -86,65 +91,108 @@ mydata <- mydata %>%
 mydata
 
 
-# criar objeto para receber taxas de avistamento anuais
-mydata2 <- distinct(mydata, cduc, binomial, populacao) %>%
-  mutate("2014" = as.numeric(NA),
-         "2015" = as.numeric(NA),
-         "2016" = as.numeric(NA),
-         "2017" = as.numeric(NA),
-         "2018" = as.numeric(NA),
-         "2019" = as.numeric(NA)) #%>%
-#  mutate(id = row_number()) %>%
-#  relocate(id, .before = cduc)
-mydata2
+# esforco por ano em km
+esforco_anual <- mydata %>%
+  group_by(cnuc, ano) %>%
+  summarize(esforco = sum(esforco, na.rm = TRUE)) %>%
+  mutate(esforco = esforco/1000)
+esforco_anual
 
-
-# preencher objeto acima com numero de encontros por ano
-vetor_ano <- seq(min(mydata$ano), max(mydata$ano))
-for(i in 1:nrow(mydata2)) {
-  for(j in 1:length(vetor_ano)){
-    mydata2[i, 3+j] <- mydata %>%
-      filter(populacao == pull(mydata2[i,"populacao"])) %>%
-      filter(ano == vetor_ano[j]) %>%
-      count() %>%
-      pull(n)
-  }}
-mydata2
-print(mydata2, n=100)
-
-
-# colocar esforco no formato wide
-esforco <- esforco %>%
+# formato wide
+esforco_anual_wide <- esforco_anual %>%
   pivot_wider(names_from = ano, values_from = esforco) %>%
-  select(cduc, "2014", "2015", "2016", "2017", "2018", "2019")
-esforco
+  select(cnuc, `2014`, `2015`, `2016`, `2017`,  `2018`, `2019`) %>%
+  ungroup()
+esforco_anual_wide
+
+# numero de registros por ano
+n_registros <- mydata %>%
+  group_by(cnuc, ano, populacao) %>%
+  count() %>%
+  mutate(n = as.numeric(n))
+n_registros
+
+# formato wide
+n_registros_wide <- n_registros %>%
+  pivot_wider(names_from = ano, values_from = n) %>%
+  select(cnuc, populacao, `2014`, `2015`, `2016`, `2017`,  `2018`, `2019`) %>%
+  replace(is.na(.), 0) %>%
+  ungroup()
+n_registros_wide
+
+# taxa de encontro anual
+# dividir numero de registros por esforco, NAs devem ser mantidos!
+taxas_anuais <- data.frame(n_registros_wide)
+esforcos_anuais <- data.frame(esforco_anual_wide)
+for(i in 1:nrow(taxas_anuais)) {
+  cnuc_temp <- taxas_anuais[i, "cnuc"]
+  esforco_temp <- esforcos_anuais %>% filter(cnuc == cnuc_temp) %>% select(-cnuc)
+  taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
+}
+taxas_anuais <- as_tibble(taxas_anuais)
+taxas_anuais %>%
+  print(n=Inf)
 
 
-# corrigir pelo esforco e substituir zeros por NAs quando for o caso
-mydata3 <- mydata2
-for(i in 1:nrow(mydata3)) {
-  for(j in 1:length(vetor_ano)){
-    temp_1 <- esforco %>%
-      filter(cduc == mydata3[i,"cduc"]) %>%
-      ungroup() %>%
-      select(-cduc)
-    mydata3[i, j+3] <- mydata3[i, j+3]/(temp_1[j]/10)
-  }}
-mydata3
-print(mydata3, n=100)
+# selecionar populacoes com taxa de avistamento media acima de 0.1 (1 ind/10km)
+taxas_anuais <- taxas_anuais %>%
+  mutate(media = rowMeans(.[,3:8])) %>%
+  filter(media > 0.1) %>%
+  select(-media)
+taxas_anuais
+#print(mydata2, n=Inf)
 
-# selecionar populacoes com taxa de avistamento media acima de 1 ind/10km
 
-mydata4 <- mydata3 %>%
-  select(-populacao) %>%
-  mutate(total = rowSums(.[3:8], na.rm = TRUE),
-         com_dados = 6-rowSums(is.na(.[3:8])),
-         media = total/com_dados) %>%
-  filter(media > 1) %>%
-  select(-c(total, com_dados, media))
-  
-mydata4
-print(mydata4, n=Inf)
+#---------------------------------------------
+# Problemas para rodar LPI!!!
+# linhas abaixo sao tentativa incompleta para resolver...
+
+# alguns ajustes para rodar lpi
+mydata_lpi <- taxas_anuais %>%
+  mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
+  rename(Binomial = populacao) %>%
+  select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+mydata_lpi
+
+# criar objetos que necessarios para lpi
+index_vector = rep(TRUE, nrow(mydata_lpi))
+year_vector <- 2014:2019
+
+# criar infile
+mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector, 
+                               name=here("lpi", "mydata_data"), 
+                               start_col_name = colnames(mydata_lpi)[4], end_col_name = tail(colnames(mydata_lpi), n=1),
+                               CUT_OFF_YEAR = year_vector[1])
+
+# Calcular LPI com 100 bootstraps
+#source(here("bin", "LPIMain.R")) # adicionado por não ter pacote rlpi
+mydata_lpi <- LPIMain(infile = "mydata_data_infile.txt",
+                      basedir = here("lpi_temp"),
+                      REF_YEAR = year_vector[1],
+                      PLOT_MAX = tail(year_vector, n=1),
+                      BOOT_STRAP_SIZE = 100, VERBOSE=FALSE)
+
+# ... parei aqui, nao resolvido ainda nas linhas acima!
+#---------------------------------------------
+
+# Remover NAs (anos seguidos sem dados)
+mydata_lpi <- mydata_lpi[complete.cases(mydata_lpi), ]
+
+# carregar função ggplot_lpi_modif
+source(here("bin", "ggplot_lpi_modif.R"))
+
+# Gerar gráfico mais bonito usando função ggplot_lpi_modif
+ggplot_lpi_modif(mydata_lpi, col="darkcyan")
+
+# salvar mydata_lpi na area de trabalho
+assign("mydata_lpi", mydata_lpi, .GlobalEnv)
+
+
+#---------------------------------------------
+
+#---------------------------------------------
+
+
 
 # verificar quais especies ficaram e selecionar nao-sociais
 sort(unique(mydata4$binomial))
@@ -156,7 +204,7 @@ mydata4 <- mydata4 %>%
 mydata4
 
 mydata4 <- mydata4 %>%
-  left_join(distinct(mydata[, c("cduc", "nome.UC")]), by="cduc") %>%
+  left_join(distinct(mydata[, c("cnuc", "nome_UC")]), by="cnuc") %>%
   relocate(nome.UC, .before = binomial)
 mydata4
 
