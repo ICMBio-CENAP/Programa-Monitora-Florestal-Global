@@ -5,58 +5,83 @@
 # Função prepara dados do icmbio e chama funções do pacote rlpi
 # Em fase de TESTE
 
-# pegando diretório do script executado (Necessário usar ctrl/command-shift-s)
-#setwd(dirname(parent.frame(2)$ofile))
-#setwd("/media/elildojr/Dados/r/monitora")
+# carregar pacotes
 library(here)
+library(tidyverse)
+library(lubridate)
+library(hms)
+#library(dplyr)
+#library(stringr)
 
-library(dplyr)
-library(stringr)
+#--------------------------------
+# ler dados, versao nao disponibilizada, mas mais atualizada
+dados <- read_csv(here("data", "Planilha consolidada mastoaves até 2019 - FINAL.csv"))
+dados
+names(dados)
 
-# abrir planilha de dados mastoaves
-#dados <- read.csv(here("data", "Planilha consolidada mastoaves até 2018  julho 2019 - FINAL.csv"), sep=",") # mais atual, mas com problemas
-dados <- read.csv(here("data", "Planilha consolidada mastoaves até 2019 - FINAL.csv"))
-
-# alguns ajustes
-dados2 <- dados
-dados2$Binomial <- gsub( " .*$", "", dados2$Espécies.validadas.para.análise.do.ICMBio) # trabalhar somente com genero para minimizar efeito de erros
-dados2$Binomial <- paste(dados2$Binomial, dados2$CDUC, sep="_") # separa populacoes diferentes da mesma spp (neste caso genero)
-dados2$Binomial <- as.factor(dados2$Binomial) # pode ser desnecessário, verificar
-dados2 <- dados2[dados2$Ano != "",]
-dados2$Ano <- str_sub(dados2$Ano, start= -4) # porque o ano está como factor/data
-dados2 <- dados2[complete.cases(dados2$Ano), ] # remover linhas com NA na coluna Anos
-dados2$Ano <- as.numeric(dados2$Ano)
-#dados2 <- dados[dados$Ano != is.na,] # remover linhas com ano em branco
-dados2 <- subset(dados2, Ano != 2020)
-
-# Selecionando registros somente das espécies de interesse para o LPI
-# pattern matching
-# completar a lista abaixo com todas as espécies a serem incluídas
-#toMatch <- c("Cebus", "Dasypr", "Allou", "Crax", "Psophia", "Penelo") # a list with at least part of the names of species for inclusion in LPI analysis
-#toMatch <- c("Sapaj", "Dasypr", "Penelo") # versão com apenas três gêneros
-
-#row.list <- grep(paste(toMatch,collapse="|"), dados2$Binomial , fixed=F) # que linhas incluir?
-#dados3 <- dados2[c(row.list),] # subset a partir do passo anterior
-#View(dados3)
-colnames(dados2)[2] <- "nome.UC"
-colnames(dados2)[3] <- "estacao.amostral"
-colnames(dados2)[5] <- "esforço"
-colnames(dados2)[9] <- "hora.inicio"
-colnames(dados2)[10] <- "hora.fim"
-colnames(dados2)[17] <- "Genero"
-colnames(dados2)[20] <- "Especie"
-colnames(dados2)[23] <- "hora.registro"
-colnames(dados2)[24] <- "n.individuos"
-colnames(dados2)[26] <- "dist.perpendicular"
-
-# simplificar dados icmbio
-to.remove <- c("Nome.da.EA", "Estação.do.ano", "condição.climática..aberto..nublado.e.chuvoso", 
-               "nome.dos.observadores", "Número.do.animal.no.guia", "Clasificação.taxonômica..espécie..gênero..família.ou.ordem.",
-               "Espécies",  "Espécies.validadas.para.análise.do.ICMBio", "Número.do.animal.no.guia.validado",
-                         "Clasificação.taxonômica.validada", "teve.problema.durante.a.amostragem.",
-                         "Observações", "X", "X.1", "X.2", "X.3")
-`%ni%` <- Negate(`%in%`)
-dados2 <- subset(dados2, select = names(dados2) %ni% to.remove)
+# ajustar dados: versao nao disponibilizada, mas mais atualizada
+dados <- dados %>%
+  rename(cnuc = "CDUC",
+         nome_UC = "Local - Nome da Unidade de Conservação",
+         estacao_amostral = "Número da Estação Amostral",
+         nome_ea = "Nome da EA",
+         esforco = "Esforço de amostragem tamanho da trilha (m)",
+         data = "data da amostragem",
+         hora_inicio = "horário de início  (h:mm)",
+         hora_fim = "horário de término (h:mm)",
+         #ano = "Ano",
+         classe = "Classe",
+         ordem = "Ordem",
+         familia = "Família",
+         genero = "Gênero",
+         binomial = "Espécies validadas para análise do ICMBio",
+         n_animais = "n° de animais",
+         distancia = "distância (m)     do animal em relação a trilha") %>%
+  mutate(data = as.Date(data, "%d/%m/%Y"),
+         ano = year(data),
+         distancia =  as.numeric(str_replace(distancia, ",", ".")),
+         populacao = paste(binomial, cnuc, sep ="_"),
+         populacao = str_replace(populacao, " ", "_") ) %>%
+  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
+         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
+         n_animais, distancia, populacao)
+dados
 
 # salvar como rds para proxima etapa
-saveRDS(dados2, here("data", "dadosICMBio_2014a2019.rds"))
+saveRDS(dados, here("data", "dadosICMBio_2014a2019.rds"))
+
+
+#--------------------------------
+# ler dados versao oficial disponibilizada
+dados <- read_csv(here("data", "Dados_Florestal_14a18_disponibilizacao.csv"))
+
+# ajustar dados: versao oficial disponibilizada
+dados <- dados %>%
+  rename(cnuc = "Cadastro Nacional de Unidades de Conservação (CNUC)",
+         nome_UC = "Unidade de Conservação (UC)",
+         estacao_amostral = "Número da Estação Amostral",
+         nome_ea = "Nome da Estação Amostral",
+         esforco = "Esforço de amostragem (metros percorridos por dia)",
+         data = "data da amostragem (dd/mm/aaaa)",
+         hora_inicio = "Horário de início  (hh:mm)",
+         hora_fim = "Horário de término (hh:mm)",
+         ano = "Ano",
+         classe = "Classe",
+         ordem = "Ordem",
+         familia = "Família",
+         genero = "Gênero",
+         binomial = "Espécies validadas pelo ICMBio",
+         n_animais = "N° de animais",
+         distancia = "Distância perpendicular  (m) do animal em relação a trilha") %>%
+  mutate(data = as.Date(data, "%d/%m/%Y"),
+         distancia =  as.numeric(str_replace(distancia, ",", ".")),
+         populacao = paste(binomial, cnuc, sep ="_"),
+         populacao = str_replace(populacao, " ", "_") ) %>%
+  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
+         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
+         n_animais, distancia, populacao)
+dados
+
+
+# salvar como rds para proxima etapa
+saveRDS(dados, here("data", "dadosICMBio_2014a2018.rds"))
