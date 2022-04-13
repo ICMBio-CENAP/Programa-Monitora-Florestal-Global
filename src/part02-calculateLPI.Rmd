@@ -172,3 +172,56 @@ esforco_anual_wide <- esforco_anual %>%
   ungroup()
 esforco_anual_wide
 ```
+
+Número de registros anuais
+```{r}
+n_registros <- mydata %>%
+  group_by(cnuc, ano, populacao) %>%
+  count() %>%
+  mutate(n = as.numeric(n))
+n_registros
+```
+
+Número de registros anuais em formato *wide* (QPEHE)
+```{r}
+n_registros_wide <- n_registros %>%
+  pivot_wider(names_from = ano, values_from = n) %>%
+  select(cnuc,
+         populacao,
+         `2014`,
+         `2015`,
+         `2016`,
+         `2017`,
+         `2018`,
+         `2019`
+         ) %>%
+  replace(is.na(.), 0) %>%
+  ungroup()
+n_registros_wide
+```
+
+### Taxa de encontro anual
+Estimativa de abundância relativa (número de registros por esforço).
+Neste caso *NAs* devem ser mantidos! Vai entender...
+```{r}
+taxas_anuais <- data.frame(n_registros_wide)
+esforcos_anuais <- data.frame(esforco_anual_wide)
+for(i in 1:nrow(taxas_anuais)) {
+  cnuc_temp <- taxas_anuais[i, "cnuc"]
+  esforco_temp <- esforcos_anuais %>% filter(cnuc == cnuc_temp) %>% select(-cnuc)
+  taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
+}
+taxas_anuais <- as_tibble(taxas_anuais)
+taxas_anuais %>%
+  print(n=Inf)
+```
+
+Selecionar populações com taxa de avistamento média acima de 0.1 (1 ind/10km)
+```{r}
+taxas_anuais <- taxas_anuais %>%
+  mutate(media = rowMeans(.[,3:8])) %>%
+  filter(media > 0.1) %>%
+  select(-media)
+taxas_anuais
+#print(taxas_anuais, n=Inf)
+```
