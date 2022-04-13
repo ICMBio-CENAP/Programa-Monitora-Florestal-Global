@@ -39,7 +39,7 @@ lpi_icmbio <- function(x,y,z) { # x = dados, y = UC, z = Classe
 
       if ( nrow(subset(c, Ano == vetor.Ano[j])) <= 0)  { mydata2[i,j+2] <- NA } else {
         if ( nrow(b) == 0)  { mydata2[i,j+2] <- 0 } else {
-          mydata2[i,j+2] <- nrow(b)/(sum(subset(c, Ano == vetor.Ano[j])$esforço, na.rm=TRUE)/10000)}
+          mydata2[i,j+2] <- nrow(b)/(sum(subset(c, Ano == vetor.Ano[j])$esforco, na.rm=TRUE)/10000)}
     }}
   
   
