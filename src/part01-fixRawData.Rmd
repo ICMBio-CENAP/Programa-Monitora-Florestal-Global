@@ -19,7 +19,7 @@ library(here)
 #library(tidyverse)
 #library(lubridate)
 #library(hms)
-#library(dplyr)
+library(dplyr)
 #library(stringr)
 ```
 
@@ -28,7 +28,7 @@ library(here)
 ### Ler dados, versao não disponibilizada, mas mais atualizada
 
 ```{r leitura}
-dados <- read_csv(here("data", "Planilha consolidada mastoaves até 2019.csv"))
+dados <- read.csv(here("data", "Planilha.consolidada.mastoaves.ate.2019.csv"), encoding = "UTF-8")
 dados
 names(dados)
 ```
