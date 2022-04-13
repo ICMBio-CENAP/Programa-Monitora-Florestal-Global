@@ -1,8 +1,10 @@
 ---
 title: "Part 02 Calculate LPI"
 output:
-  word_document: default
+  html_document:
+    df_print: paged
   html_notebook: default
+  word_document: default
 ---
 
 Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
