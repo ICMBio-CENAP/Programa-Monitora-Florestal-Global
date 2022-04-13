@@ -36,7 +36,6 @@ mydata <- dadosICMBio
 ```
 
 ### Contagem de UCs
-
 ```{r}
 mydata %>%
   group_by(nome_UC) %>%
@@ -94,5 +93,39 @@ mydata %>%
   filter(! grepl('sp.', populacao)) %>%
   filter() %>%
   print(n=Inf)
+```
+
+### Contagem de transectos
+```{r}
+mydata %>%
+  distinct(nome_UC, estacao_amostral) %>%
+  count()
+```
+
+### Esforço total
+```{r}
+mydata %>%
+  summarize(sum(esforco, na.rm = TRUE)/1000)
+```
+
+### Cálculo de esforço anual por UC (Km)
+```{r}
+esforco <- mydata %>%
+  group_by(cnuc, ano) %>%
+  summarize(esforco = sum(esforco, na.rm = TRUE)/1000) %>%
+  filter(esforco > 149) 
+esforco
+```
+
+##Seleção por critérios
+### Selecionar UCs
+Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
+```{r}
+ucs_selecionadas <- esforco %>%
+  group_by(cnuc) %>% 
+  count() %>%
+  filter(n > 1) %>%
+  pull(cnuc)
+ucs_selecionadas
 ```
 
