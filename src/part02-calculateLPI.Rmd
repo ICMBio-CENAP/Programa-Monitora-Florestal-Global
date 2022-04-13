@@ -1,6 +1,8 @@
 ---
 title: "Part 02 Calculate LPI"
-output: html_notebook
+output:
+  word_document: default
+  html_notebook: default
 ---
 
 Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
@@ -17,6 +19,8 @@ Colaboração: Fernando Lima
 
 ```{r pacotes}
 library(here)
+library(tidyverse)
+library(dplyr)
 ```
 
 ### Carregar funções
@@ -129,3 +133,42 @@ ucs_selecionadas <- esforco %>%
 ucs_selecionadas
 ```
 
+### Filtrar
+Filtrar dados mantendo somente UCs selecionadas
+```{r}
+mydata <- mydata %>%
+  filter(cnuc %in% ucs_selecionadas)
+mydata
+```
+
+Remover especies identificadas apenas ao nível de gênero
+```{r}
+mydata <- mydata %>%
+  filter(! grepl('sp.', binomial))
+mydata
+```
+
+Esforço anual em km
+```{r}
+esforco_anual <- mydata %>%
+  group_by(cnuc, ano) %>%
+  summarize(esforco = sum(esforco, na.rm = TRUE)) %>%
+  mutate(esforco = esforco/1000)
+esforco_anual
+```
+
+Esforço anual em formato *wide* (QPEHE)
+```{r}
+esforco_anual_wide <- esforco_anual %>%
+  pivot_wider(names_from = ano, values_from = esforco) %>%
+  select(cnuc,
+         `2014`,
+         `2015`,
+         `2016`,
+         `2017`,
+         `2018`,
+         `2019`
+         ) %>%
+  ungroup()
+esforco_anual_wide
+```
