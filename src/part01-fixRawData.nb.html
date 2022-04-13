@@ -1776,62 +1776,83 @@ link</a>.</p>
 <h3>Carregar pacotes</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShoZXJlKVxuI2xpYnJhcnkodGlkeXZlcnNlKVxuI2xpYnJhcnkobHVicmlkYXRlKVxuI2xpYnJhcnkoaG1zKVxuI2xpYnJhcnkoZHBseXIpXG4jbGlicmFyeShzdHJpbmdyKVxuYGBgIn0= -->
-<pre class="r"><code>library(here)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShoZXJlKVxuI2xpYnJhcnkodGlkeXZlcnNlKVxuI2xpYnJhcnkobHVicmlkYXRlKVxuI2xpYnJhcnkoaG1zKVxuI2xpYnJhcnkoZHBseXIpXG4jbGlicmFyeShzdHJpbmdyKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+library(here)
 #library(tidyverse)
 #library(lubridate)
 #library(hms)
 #library(dplyr)
 #library(stringr)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="planilha-consolidada-mastoaves" class="section level2">
-<h2>Planilha consolidada MastoAves</h2>
-<div id="ler-dados-versao-não-disponibilizada-mas-mais-atualizada" class="section level3">
-<h3>Ler dados, versao não disponibilizada, mas mais atualizada</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gcmVhZF9jc3YoaGVyZShcImRhdGFcIiwgXCJQbGFuaWxoYSBjb25zb2xpZGFkYSBtYXN0b2F2ZXMgYXTDqSAyMDE5IC0gRklOQUwuY3N2XCIpKVxuZGFkb3Ncbm5hbWVzKGRhZG9zKVxuYGBgIn0= -->
-<pre class="r"><code>dados &lt;- read_csv(here(&quot;data&quot;, &quot;Planilha consolidada mastoaves até 2019 - FINAL.csv&quot;))
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Planilha consolidada MastoAves
+
+### Ler dados, versao não disponibilizada, mas mais atualizada
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGFkb3MgPC0gcmVhZF9jc3YoaGVyZShcXGRhdGFcXCwgXFxQbGFuaWxoYSBjb25zb2xpZGFkYSBtYXN0b2F2ZXMgYXTDg8KpIDIwMTkgLSBGSU5BTC5jc3ZcXCkpXG5kYWRvc1xubmFtZXMoZGFkb3MpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+dados &lt;- read_csv(here(\data\, \Planilha consolidada mastoaves atÃ© 2019 - FINAL.csv\))
 dados
 names(dados)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="ajustar-dados-versao-nao-disponibilizada-mas-mais-atualizada" class="section level3">
-<h3>Ajustar dados: versao nao disponibilizada, mas mais atualizada</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gZGFkb3MgJT4lXG4gIHJlbmFtZShjbnVjID0gXCJDRFVDXCIsXG4gICAgICAgICBub21lX1VDID0gXCJMb2NhbCAtIE5vbWUgZGEgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvXCIsXG4gICAgICAgICBlc3RhY2FvX2Ftb3N0cmFsID0gXCJOw7ptZXJvIGRhIEVzdGHDp8OjbyBBbW9zdHJhbFwiLFxuICAgICAgICAgbm9tZV9lYSA9IFwiTm9tZSBkYSBFQVwiLFxuICAgICAgICAgZXNmb3JjbyA9IFwiRXNmb3LDp28gZGUgYW1vc3RyYWdlbSB0YW1hbmhvIGRhIHRyaWxoYSAobSlcIixcbiAgICAgICAgIGRhdGEgPSBcImRhdGEgZGEgYW1vc3RyYWdlbVwiLFxuICAgICAgICAgaG9yYV9pbmljaW8gPSBcImhvcsOhcmlvIGRlIGluw61jaW8gIChoOm1tKVwiLFxuICAgICAgICAgaG9yYV9maW0gPSBcImhvcsOhcmlvIGRlIHTDqXJtaW5vIChoOm1tKVwiLFxuICAgICAgICAgI2FubyA9IFwiQW5vXCIsXG4gICAgICAgICBjbGFzc2UgPSBcIkNsYXNzZVwiLFxuICAgICAgICAgb3JkZW0gPSBcIk9yZGVtXCIsXG4gICAgICAgICBmYW1pbGlhID0gXCJGYW3DrWxpYVwiLFxuICAgICAgICAgZ2VuZXJvID0gXCJHw6puZXJvXCIsXG4gICAgICAgICBiaW5vbWlhbCA9IFwiRXNww6ljaWVzIHZhbGlkYWRhcyBwYXJhIGFuw6FsaXNlIGRvIElDTUJpb1wiLFxuICAgICAgICAgbl9hbmltYWlzID0gXCJuwrAgZGUgYW5pbWFpc1wiLFxuICAgICAgICAgZGlzdGFuY2lhID0gXCJkaXN0w6JuY2lhIChtKSAgICAgZG8gYW5pbWFsIGVtIHJlbGHDp8OjbyBhIHRyaWxoYVwiKSAlPiVcbiAgbXV0YXRlKGRhdGEgPSBhcy5EYXRlKGRhdGEsIFwiJWQvJW0vJVlcIiksXG4gICAgICAgICBhbm8gPSB5ZWFyKGRhdGEpLFxuICAgICAgICAgZGlzdGFuY2lhID0gIGFzLm51bWVyaWMoc3RyX3JlcGxhY2UoZGlzdGFuY2lhLCBcIixcIiwgXCIuXCIpKSxcbiAgICAgICAgIHBvcHVsYWNhbyA9IHBhc3RlKGJpbm9taWFsLCBjbnVjLCBzZXAgPVwiX1wiKSxcbiAgICAgICAgIHBvcHVsYWNhbyA9IHN0cl9yZXBsYWNlKHBvcHVsYWNhbywgXCIgXCIsIFwiX1wiKSApICU+JVxuICBzZWxlY3QoY251Yywgbm9tZV9VQywgZXN0YWNhb19hbW9zdHJhbCwgbm9tZV9lYSwgZXNmb3JjbywgYW5vLCBkYXRhLFxuICAgICAgICAgaG9yYV9pbmljaW8sIGhvcmFfZmltLCBjbGFzc2UsIG9yZGVtLCBmYW1pbGlhLCBnZW5lcm8sIGJpbm9taWFsLFxuICAgICAgICAgbl9hbmltYWlzLCBkaXN0YW5jaWEsIHBvcHVsYWNhbylcbmRhZG9zXG5gYGAifQ== -->
-<pre class="r"><code>dados &lt;- dados %&gt;%
-  rename(cnuc = &quot;CDUC&quot;,
-         nome_UC = &quot;Local - Nome da Unidade de Conservação&quot;,
-         estacao_amostral = &quot;Número da Estação Amostral&quot;,
-         nome_ea = &quot;Nome da EA&quot;,
-         esforco = &quot;Esforço de amostragem tamanho da trilha (m)&quot;,
-         data = &quot;data da amostragem&quot;,
-         hora_inicio = &quot;horário de início  (h:mm)&quot;,
-         hora_fim = &quot;horário de término (h:mm)&quot;,
-         #ano = &quot;Ano&quot;,
-         classe = &quot;Classe&quot;,
-         ordem = &quot;Ordem&quot;,
-         familia = &quot;Família&quot;,
-         genero = &quot;Gênero&quot;,
-         binomial = &quot;Espécies validadas para análise do ICMBio&quot;,
-         n_animais = &quot;n° de animais&quot;,
-         distancia = &quot;distância (m)     do animal em relação a trilha&quot;) %&gt;%
-  mutate(data = as.Date(data, &quot;%d/%m/%Y&quot;),
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+### Ajustar dados: versao nao disponibilizada, mas mais atualizada
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGFkb3MgPC0gZGFkb3MgJT4lXG4gIHJlbmFtZShjbnVjID0gXFxDRFVDXFwsXG4gICAgICAgICBub21lX1VDID0gXFxMb2NhbCAtIE5vbWUgZGEgVW5pZGFkZSBkZSBDb25zZXJ2YcODwqfDg8Kjb1xcLFxuICAgICAgICAgZXN0YWNhb19hbW9zdHJhbCA9IFxcTsODwrptZXJvIGRhIEVzdGHDg8Knw4PCo28gQW1vc3RyYWxcXCxcbiAgICAgICAgIG5vbWVfZWEgPSBcXE5vbWUgZGEgRUFcXCxcbiAgICAgICAgIGVzZm9yY28gPSBcXEVzZm9yw4PCp28gZGUgYW1vc3RyYWdlbSB0YW1hbmhvIGRhIHRyaWxoYSAobSlcXCxcbiAgICAgICAgIGRhdGEgPSBcXGRhdGEgZGEgYW1vc3RyYWdlbVxcLFxuICAgICAgICAgaG9yYV9pbmljaW8gPSBcXGhvcsODwqFyaW8gZGUgaW7Dg8KtY2lvICAoaDptbSlcXCxcbiAgICAgICAgIGhvcmFfZmltID0gXFxob3LDg8KhcmlvIGRlIHTDg8Kpcm1pbm8gKGg6bW0pXFwsXG4gICAgICAgICAjYW5vID0gXFxBbm9cXCxcbiAgICAgICAgIGNsYXNzZSA9IFxcQ2xhc3NlXFwsXG4gICAgICAgICBvcmRlbSA9IFxcT3JkZW1cXCxcbiAgICAgICAgIGZhbWlsaWEgPSBcXEZhbcODwq1saWFcXCxcbiAgICAgICAgIGdlbmVybyA9IFxcR8ODwqpuZXJvXFwsXG4gICAgICAgICBiaW5vbWlhbCA9IFxcRXNww4PCqWNpZXMgdmFsaWRhZGFzIHBhcmEgYW7Dg8KhbGlzZSBkbyBJQ01CaW9cXCxcbiAgICAgICAgIG5fYW5pbWFpcyA9IFxcbsOCwrAgZGUgYW5pbWFpc1xcLFxuICAgICAgICAgZGlzdGFuY2lhID0gXFxkaXN0w4PCom5jaWEgKG0pICAgICBkbyBhbmltYWwgZW0gcmVsYcODwqfDg8KjbyBhIHRyaWxoYVxcKSAlPiVcbiAgbXV0YXRlKGRhdGEgPSBhcy5EYXRlKGRhdGEsIFxcJWQvJW0vJVlcXCksXG4gICAgICAgICBhbm8gPSB5ZWFyKGRhdGEpLFxuICAgICAgICAgZGlzdGFuY2lhID0gIGFzLm51bWVyaWMoc3RyX3JlcGxhY2UoZGlzdGFuY2lhLCBcXFxuYGBgIn0= --&gt;
+
+```r
+```r
+dados &lt;- dados %&gt;%
+  rename(cnuc = \CDUC\,
+         nome_UC = \Local - Nome da Unidade de ConservaÃ§Ã£o\,
+         estacao_amostral = \NÃºmero da EstaÃ§Ã£o Amostral\,
+         nome_ea = \Nome da EA\,
+         esforco = \EsforÃ§o de amostragem tamanho da trilha (m)\,
+         data = \data da amostragem\,
+         hora_inicio = \horÃ¡rio de inÃ­cio  (h:mm)\,
+         hora_fim = \horÃ¡rio de tÃ©rmino (h:mm)\,
+         #ano = \Ano\,
+         classe = \Classe\,
+         ordem = \Ordem\,
+         familia = \FamÃ­lia\,
+         genero = \GÃªnero\,
+         binomial = \EspÃ©cies validadas para anÃ¡lise do ICMBio\,
+         n_animais = \nÂ° de animais\,
+         distancia = \distÃ¢ncia (m)     do animal em relaÃ§Ã£o a trilha\) %&gt;%
+  mutate(data = as.Date(data, \%d/%m/%Y\),
          ano = year(data),
-         distancia =  as.numeric(str_replace(distancia, &quot;,&quot;, &quot;.&quot;)),
-         populacao = paste(binomial, cnuc, sep =&quot;_&quot;),
-         populacao = str_replace(populacao, &quot; &quot;, &quot;_&quot;) ) %&gt;%
-  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
-         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
-         n_animais, distancia, populacao)
-dados</code></pre>
+         distancia =  as.numeric(str_replace(distancia, \</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1840,55 +1861,74 @@ dados</code></pre>
 <h3>Exportar arquivo</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2F2ZVJEUyhkYWRvcywgaGVyZShcImRhdGFcIiwgXCJkYWRvc0lDTUJpb18yMDE0YTIwMTkucmRzXCIpKVxuYGBgIn0= -->
-<pre class="r"><code>saveRDS(dados, here(&quot;data&quot;, &quot;dadosICMBio_2014a2019.rds&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="dados-florestal" class="section level2">
-<h2>Dados Florestal</h2>
-<div id="ler-dados-versão-oficial-disponibilizada" class="section level3">
-<h3>Ler dados (versão oficial disponibilizada)</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gcmVhZF9jc3YoaGVyZShcImRhdGFcIiwgXCJEYWRvc19GbG9yZXN0YWxfMTRhMThfZGlzcG9uaWJpbGl6YWNhby5jc3ZcIikpXG5gYGAifQ== -->
-<pre class="r"><code>dados &lt;- read_csv(here(&quot;data&quot;, &quot;Dados_Florestal_14a18_disponibilizacao.csv&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="ajustes-versão-oficial-disponibilizada" class="section level3">
-<h3>Ajustes (versão oficial disponibilizada)</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gZGFkb3MgJT4lXG4gIHJlbmFtZShjbnVjID0gXCJDYWRhc3RybyBOYWNpb25hbCBkZSBVbmlkYWRlcyBkZSBDb25zZXJ2YcOnw6NvIChDTlVDKVwiLFxuICAgICAgICAgbm9tZV9VQyA9IFwiVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvIChVQylcIixcbiAgICAgICAgIGVzdGFjYW9fYW1vc3RyYWwgPSBcIk7Dum1lcm8gZGEgRXN0YcOnw6NvIEFtb3N0cmFsXCIsXG4gICAgICAgICBub21lX2VhID0gXCJOb21lIGRhIEVzdGHDp8OjbyBBbW9zdHJhbFwiLFxuICAgICAgICAgZXNmb3JjbyA9IFwiRXNmb3LDp28gZGUgYW1vc3RyYWdlbSAobWV0cm9zIHBlcmNvcnJpZG9zIHBvciBkaWEpXCIsXG4gICAgICAgICBkYXRhID0gXCJkYXRhIGRhIGFtb3N0cmFnZW0gKGRkL21tL2FhYWEpXCIsXG4gICAgICAgICBob3JhX2luaWNpbyA9IFwiSG9yw6FyaW8gZGUgaW7DrWNpbyAgKGhoOm1tKVwiLFxuICAgICAgICAgaG9yYV9maW0gPSBcIkhvcsOhcmlvIGRlIHTDqXJtaW5vIChoaDptbSlcIixcbiAgICAgICAgIGFubyA9IFwiQW5vXCIsXG4gICAgICAgICBjbGFzc2UgPSBcIkNsYXNzZVwiLFxuICAgICAgICAgb3JkZW0gPSBcIk9yZGVtXCIsXG4gICAgICAgICBmYW1pbGlhID0gXCJGYW3DrWxpYVwiLFxuICAgICAgICAgZ2VuZXJvID0gXCJHw6puZXJvXCIsXG4gICAgICAgICBiaW5vbWlhbCA9IFwiRXNww6ljaWVzIHZhbGlkYWRhcyBwZWxvIElDTUJpb1wiLFxuICAgICAgICAgbl9hbmltYWlzID0gXCJOwrAgZGUgYW5pbWFpc1wiLFxuICAgICAgICAgZGlzdGFuY2lhID0gXCJEaXN0w6JuY2lhIHBlcnBlbmRpY3VsYXIgIChtKSBkbyBhbmltYWwgZW0gcmVsYcOnw6NvIGEgdHJpbGhhXCIpICU+JVxuICBtdXRhdGUoZGF0YSA9IGFzLkRhdGUoZGF0YSwgXCIlZC8lbS8lWVwiKSxcbiAgICAgICAgIGRpc3RhbmNpYSA9ICBhcy5udW1lcmljKHN0cl9yZXBsYWNlKGRpc3RhbmNpYSwgXCIsXCIsIFwiLlwiKSksXG4gICAgICAgICBwb3B1bGFjYW8gPSBwYXN0ZShiaW5vbWlhbCwgY251Yywgc2VwID1cIl9cIiksXG4gICAgICAgICBwb3B1bGFjYW8gPSBzdHJfcmVwbGFjZShwb3B1bGFjYW8sIFwiIFwiLCBcIl9cIikgKSAlPiVcbiAgc2VsZWN0KGNudWMsIG5vbWVfVUMsIGVzdGFjYW9fYW1vc3RyYWwsIG5vbWVfZWEsIGVzZm9yY28sIGFubywgZGF0YSxcbiAgICAgICAgIGhvcmFfaW5pY2lvLCBob3JhX2ZpbSwgY2xhc3NlLCBvcmRlbSwgZmFtaWxpYSwgZ2VuZXJvLCBiaW5vbWlhbCxcbiAgICAgICAgIG5fYW5pbWFpcywgZGlzdGFuY2lhLCBwb3B1bGFjYW8pXG5kYWRvc1xuYGBgIn0= -->
-<pre class="r"><code>dados &lt;- dados %&gt;%
-  rename(cnuc = &quot;Cadastro Nacional de Unidades de Conservação (CNUC)&quot;,
-         nome_UC = &quot;Unidade de Conservação (UC)&quot;,
-         estacao_amostral = &quot;Número da Estação Amostral&quot;,
-         nome_ea = &quot;Nome da Estação Amostral&quot;,
-         esforco = &quot;Esforço de amostragem (metros percorridos por dia)&quot;,
-         data = &quot;data da amostragem (dd/mm/aaaa)&quot;,
-         hora_inicio = &quot;Horário de início  (hh:mm)&quot;,
-         hora_fim = &quot;Horário de término (hh:mm)&quot;,
-         ano = &quot;Ano&quot;,
-         classe = &quot;Classe&quot;,
-         ordem = &quot;Ordem&quot;,
-         familia = &quot;Família&quot;,
-         genero = &quot;Gênero&quot;,
-         binomial = &quot;Espécies validadas pelo ICMBio&quot;,
-         n_animais = &quot;N° de animais&quot;,
-         distancia = &quot;Distância perpendicular  (m) do animal em relação a trilha&quot;) %&gt;%
-  mutate(data = as.Date(data, &quot;%d/%m/%Y&quot;),
-         distancia =  as.numeric(str_replace(distancia, &quot;,&quot;, &quot;.&quot;)),
-         populacao = paste(binomial, cnuc, sep =&quot;_&quot;),
-         populacao = str_replace(populacao, &quot; &quot;, &quot;_&quot;) ) %&gt;%
-  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
-         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
-         n_animais, distancia, populacao)
-dados</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2F2ZVJEUyhkYWRvcywgaGVyZShcXGRhdGFcXCwgXFxkYWRvc0lDTUJpb18yMDE0YTIwMTkucmRzXFwpKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+saveRDS(dados, here(\data\, \dadosICMBio_2014a2019.rds\))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Dados Florestal
+### Ler dados (versão oficial disponibilizada)
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGFkb3MgPC0gcmVhZF9jc3YoaGVyZShcXGRhdGFcXCwgXFxEYWRvc19GbG9yZXN0YWxfMTRhMThfZGlzcG9uaWJpbGl6YWNhby5jc3ZcXCkpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+dados &lt;- read_csv(here(\data\, \Dados_Florestal_14a18_disponibilizacao.csv\))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+### Ajustes (versão oficial disponibilizada)
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZGFkb3MgPC0gZGFkb3MgJT4lXG4gIHJlbmFtZShjbnVjID0gXFxDYWRhc3RybyBOYWNpb25hbCBkZSBVbmlkYWRlcyBkZSBDb25zZXJ2YcODwqfDg8KjbyAoQ05VQylcXCxcbiAgICAgICAgIG5vbWVfVUMgPSBcXFVuaWRhZGUgZGUgQ29uc2VydmHDg8Knw4PCo28gKFVDKVxcLFxuICAgICAgICAgZXN0YWNhb19hbW9zdHJhbCA9IFxcTsODwrptZXJvIGRhIEVzdGHDg8Knw4PCo28gQW1vc3RyYWxcXCxcbiAgICAgICAgIG5vbWVfZWEgPSBcXE5vbWUgZGEgRXN0YcODwqfDg8KjbyBBbW9zdHJhbFxcLFxuICAgICAgICAgZXNmb3JjbyA9IFxcRXNmb3LDg8KnbyBkZSBhbW9zdHJhZ2VtIChtZXRyb3MgcGVyY29ycmlkb3MgcG9yIGRpYSlcXCxcbiAgICAgICAgIGRhdGEgPSBcXGRhdGEgZGEgYW1vc3RyYWdlbSAoZGQvbW0vYWFhYSlcXCxcbiAgICAgICAgIGhvcmFfaW5pY2lvID0gXFxIb3LDg8KhcmlvIGRlIGluw4PCrWNpbyAgKGhoOm1tKVxcLFxuICAgICAgICAgaG9yYV9maW0gPSBcXEhvcsODwqFyaW8gZGUgdMODwqlybWlubyAoaGg6bW0pXFwsXG4gICAgICAgICBhbm8gPSBcXEFub1xcLFxuICAgICAgICAgY2xhc3NlID0gXFxDbGFzc2VcXCxcbiAgICAgICAgIG9yZGVtID0gXFxPcmRlbVxcLFxuICAgICAgICAgZmFtaWxpYSA9IFxcRmFtw4PCrWxpYVxcLFxuICAgICAgICAgZ2VuZXJvID0gXFxHw4PCqm5lcm9cXCxcbiAgICAgICAgIGJpbm9taWFsID0gXFxFc3DDg8KpY2llcyB2YWxpZGFkYXMgcGVsbyBJQ01CaW9cXCxcbiAgICAgICAgIG5fYW5pbWFpcyA9IFxcTsOCwrAgZGUgYW5pbWFpc1xcLFxuICAgICAgICAgZGlzdGFuY2lhID0gXFxEaXN0w4PCom5jaWEgcGVycGVuZGljdWxhciAgKG0pIGRvIGFuaW1hbCBlbSByZWxhw4PCp8ODwqNvIGEgdHJpbGhhXFwpICU+JVxuICBtdXRhdGUoZGF0YSA9IGFzLkRhdGUoZGF0YSwgXFwlZC8lbS8lWVxcKSxcbiAgICAgICAgIGRpc3RhbmNpYSA9ICBhcy5udW1lcmljKHN0cl9yZXBsYWNlKGRpc3RhbmNpYSwgXFxcbmBgYCJ9 --&gt;
+
+```r
+```r
+dados &lt;- dados %&gt;%
+  rename(cnuc = \Cadastro Nacional de Unidades de ConservaÃ§Ã£o (CNUC)\,
+         nome_UC = \Unidade de ConservaÃ§Ã£o (UC)\,
+         estacao_amostral = \NÃºmero da EstaÃ§Ã£o Amostral\,
+         nome_ea = \Nome da EstaÃ§Ã£o Amostral\,
+         esforco = \EsforÃ§o de amostragem (metros percorridos por dia)\,
+         data = \data da amostragem (dd/mm/aaaa)\,
+         hora_inicio = \HorÃ¡rio de inÃ­cio  (hh:mm)\,
+         hora_fim = \HorÃ¡rio de tÃ©rmino (hh:mm)\,
+         ano = \Ano\,
+         classe = \Classe\,
+         ordem = \Ordem\,
+         familia = \FamÃ­lia\,
+         genero = \GÃªnero\,
+         binomial = \EspÃ©cies validadas pelo ICMBio\,
+         n_animais = \NÂ° de animais\,
+         distancia = \DistÃ¢ncia perpendicular  (m) do animal em relaÃ§Ã£o a trilha\) %&gt;%
+  mutate(data = as.Date(data, \%d/%m/%Y\),
+         distancia =  as.numeric(str_replace(distancia, \</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1897,14 +1937,15 @@ dados</code></pre>
 <h3>Exportar arquivo</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2F2ZVJEUyhkYWRvcywgaGVyZShcImRhdGFcIiwgXCJkYWRvc0lDTUJpb18yMDE0YTIwMTgucmRzXCIpKVxuYGBgIn0= -->
-<pre class="r"><code>saveRDS(dados, here(&quot;data&quot;, &quot;dadosICMBio_2014a2018.rds&quot;))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2F2ZVJEUyhkYWRvcywgaGVyZShcXGRhdGFcXCwgXFxkYWRvc0lDTUJpb18yMDE0YTIwMTgucmRzXFwpKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+saveRDS(dados, here(\data\, \dadosICMBio_2014a2018.rds\))</code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 </div>
-</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnQgMDEgRml4IFJhdyBEYXRhIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KU2NyaXB0IHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7VlcyBkaXNwb27DrXZlaXMgW25lc3RlIGxpbmtdKGh0dHBzOi8vZ2l0aHViLmNvbS9ab29sb2dpY2FsLVNvY2lldHktb2YtTG9uZG9uL3JscGkpLg0KDQpGdW7Dp8OjbyBwcmVwYXJhIGRhZG9zIGRvIGljbWJpbyBlIGNoYW1hIGZ1bsOnw7VlcyBkbyBwYWNvdGUgcmxwaQ0KDQoqKkVtIGZhc2UgZGUgVEVTVEUqKg0KDQpBZGFwdGHDp8OjbzogRWxpbGRvIENhcnZhbGhvIEpyLCBJQ01CaW8vQ0VOQVAuDQoNCkNvbGFib3Jhw6fDo286IEZlcm5hbmRvIExpbWENCg0KIyMjIENhcnJlZ2FyIHBhY290ZXMNCmBgYHtyIHBhY290ZXN9DQpsaWJyYXJ5KGhlcmUpDQojbGlicmFyeSh0aWR5dmVyc2UpDQojbGlicmFyeShsdWJyaWRhdGUpDQojbGlicmFyeShobXMpDQojbGlicmFyeShkcGx5cikNCiNsaWJyYXJ5KHN0cmluZ3IpDQpgYGANCg0KIyMgUGxhbmlsaGEgY29uc29saWRhZGEgTWFzdG9BdmVzDQoNCiMjIyBMZXIgZGFkb3MsIHZlcnNhbyBuw6NvIGRpc3BvbmliaWxpemFkYSwgbWFzIG1haXMgYXR1YWxpemFkYQ0KDQpgYGB7ciBsZWl0dXJhfQ0KZGFkb3MgPC0gcmVhZF9jc3YoaGVyZSgiZGF0YSIsICJQbGFuaWxoYSBjb25zb2xpZGFkYSBtYXN0b2F2ZXMgYXTDqSAyMDE5IC0gRklOQUwuY3N2IikpDQpkYWRvcw0KbmFtZXMoZGFkb3MpDQpgYGANCg0KIyMjIEFqdXN0YXIgZGFkb3M6IHZlcnNhbyBuYW8gZGlzcG9uaWJpbGl6YWRhLCBtYXMgbWFpcyBhdHVhbGl6YWRhDQoNCmBgYHtyfQ0KZGFkb3MgPC0gZGFkb3MgJT4lDQogIHJlbmFtZShjbnVjID0gIkNEVUMiLA0KICAgICAgICAgbm9tZV9VQyA9ICJMb2NhbCAtIE5vbWUgZGEgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvIiwNCiAgICAgICAgIGVzdGFjYW9fYW1vc3RyYWwgPSAiTsO6bWVybyBkYSBFc3Rhw6fDo28gQW1vc3RyYWwiLA0KICAgICAgICAgbm9tZV9lYSA9ICJOb21lIGRhIEVBIiwNCiAgICAgICAgIGVzZm9yY28gPSAiRXNmb3LDp28gZGUgYW1vc3RyYWdlbSB0YW1hbmhvIGRhIHRyaWxoYSAobSkiLA0KICAgICAgICAgZGF0YSA9ICJkYXRhIGRhIGFtb3N0cmFnZW0iLA0KICAgICAgICAgaG9yYV9pbmljaW8gPSAiaG9yw6FyaW8gZGUgaW7DrWNpbyAgKGg6bW0pIiwNCiAgICAgICAgIGhvcmFfZmltID0gImhvcsOhcmlvIGRlIHTDqXJtaW5vIChoOm1tKSIsDQogICAgICAgICAjYW5vID0gIkFubyIsDQogICAgICAgICBjbGFzc2UgPSAiQ2xhc3NlIiwNCiAgICAgICAgIG9yZGVtID0gIk9yZGVtIiwNCiAgICAgICAgIGZhbWlsaWEgPSAiRmFtw61saWEiLA0KICAgICAgICAgZ2VuZXJvID0gIkfDqm5lcm8iLA0KICAgICAgICAgYmlub21pYWwgPSAiRXNww6ljaWVzIHZhbGlkYWRhcyBwYXJhIGFuw6FsaXNlIGRvIElDTUJpbyIsDQogICAgICAgICBuX2FuaW1haXMgPSAibsKwIGRlIGFuaW1haXMiLA0KICAgICAgICAgZGlzdGFuY2lhID0gImRpc3TDom5jaWEgKG0pICAgICBkbyBhbmltYWwgZW0gcmVsYcOnw6NvIGEgdHJpbGhhIikgJT4lDQogIG11dGF0ZShkYXRhID0gYXMuRGF0ZShkYXRhLCAiJWQvJW0vJVkiKSwNCiAgICAgICAgIGFubyA9IHllYXIoZGF0YSksDQogICAgICAgICBkaXN0YW5jaWEgPSAgYXMubnVtZXJpYyhzdHJfcmVwbGFjZShkaXN0YW5jaWEsICIsIiwgIi4iKSksDQogICAgICAgICBwb3B1bGFjYW8gPSBwYXN0ZShiaW5vbWlhbCwgY251Yywgc2VwID0iXyIpLA0KICAgICAgICAgcG9wdWxhY2FvID0gc3RyX3JlcGxhY2UocG9wdWxhY2FvLCAiICIsICJfIikgKSAlPiUNCiAgc2VsZWN0KGNudWMsIG5vbWVfVUMsIGVzdGFjYW9fYW1vc3RyYWwsIG5vbWVfZWEsIGVzZm9yY28sIGFubywgZGF0YSwNCiAgICAgICAgIGhvcmFfaW5pY2lvLCBob3JhX2ZpbSwgY2xhc3NlLCBvcmRlbSwgZmFtaWxpYSwgZ2VuZXJvLCBiaW5vbWlhbCwNCiAgICAgICAgIG5fYW5pbWFpcywgZGlzdGFuY2lhLCBwb3B1bGFjYW8pDQpkYWRvcw0KYGBgDQoNCiMjIyBFeHBvcnRhciBhcnF1aXZvDQpgYGB7ciBleHBvcnRhcn0NCnNhdmVSRFMoZGFkb3MsIGhlcmUoImRhdGEiLCAiZGFkb3NJQ01CaW9fMjAxNGEyMDE5LnJkcyIpKQ0KYGBgDQoNCiMjIERhZG9zIEZsb3Jlc3RhbA0KIyMjIExlciBkYWRvcyAodmVyc8OjbyBvZmljaWFsIGRpc3BvbmliaWxpemFkYSkNCg0KYGBge3J9DQpkYWRvcyA8LSByZWFkX2NzdihoZXJlKCJkYXRhIiwgIkRhZG9zX0Zsb3Jlc3RhbF8xNGExOF9kaXNwb25pYmlsaXphY2FvLmNzdiIpKQ0KYGBgDQoNCiMjIyBBanVzdGVzICh2ZXJzw6NvIG9maWNpYWwgZGlzcG9uaWJpbGl6YWRhKQ0KDQpgYGB7cn0NCmRhZG9zIDwtIGRhZG9zICU+JQ0KICByZW5hbWUoY251YyA9ICJDYWRhc3RybyBOYWNpb25hbCBkZSBVbmlkYWRlcyBkZSBDb25zZXJ2YcOnw6NvIChDTlVDKSIsDQogICAgICAgICBub21lX1VDID0gIlVuaWRhZGUgZGUgQ29uc2VydmHDp8OjbyAoVUMpIiwNCiAgICAgICAgIGVzdGFjYW9fYW1vc3RyYWwgPSAiTsO6bWVybyBkYSBFc3Rhw6fDo28gQW1vc3RyYWwiLA0KICAgICAgICAgbm9tZV9lYSA9ICJOb21lIGRhIEVzdGHDp8OjbyBBbW9zdHJhbCIsDQogICAgICAgICBlc2ZvcmNvID0gIkVzZm9yw6dvIGRlIGFtb3N0cmFnZW0gKG1ldHJvcyBwZXJjb3JyaWRvcyBwb3IgZGlhKSIsDQogICAgICAgICBkYXRhID0gImRhdGEgZGEgYW1vc3RyYWdlbSAoZGQvbW0vYWFhYSkiLA0KICAgICAgICAgaG9yYV9pbmljaW8gPSAiSG9yw6FyaW8gZGUgaW7DrWNpbyAgKGhoOm1tKSIsDQogICAgICAgICBob3JhX2ZpbSA9ICJIb3LDoXJpbyBkZSB0w6lybWlubyAoaGg6bW0pIiwNCiAgICAgICAgIGFubyA9ICJBbm8iLA0KICAgICAgICAgY2xhc3NlID0gIkNsYXNzZSIsDQogICAgICAgICBvcmRlbSA9ICJPcmRlbSIsDQogICAgICAgICBmYW1pbGlhID0gIkZhbcOtbGlhIiwNCiAgICAgICAgIGdlbmVybyA9ICJHw6puZXJvIiwNCiAgICAgICAgIGJpbm9taWFsID0gIkVzcMOpY2llcyB2YWxpZGFkYXMgcGVsbyBJQ01CaW8iLA0KICAgICAgICAgbl9hbmltYWlzID0gIk7CsCBkZSBhbmltYWlzIiwNCiAgICAgICAgIGRpc3RhbmNpYSA9ICJEaXN0w6JuY2lhIHBlcnBlbmRpY3VsYXIgIChtKSBkbyBhbmltYWwgZW0gcmVsYcOnw6NvIGEgdHJpbGhhIikgJT4lDQogIG11dGF0ZShkYXRhID0gYXMuRGF0ZShkYXRhLCAiJWQvJW0vJVkiKSwNCiAgICAgICAgIGRpc3RhbmNpYSA9ICBhcy5udW1lcmljKHN0cl9yZXBsYWNlKGRpc3RhbmNpYSwgIiwiLCAiLiIpKSwNCiAgICAgICAgIHBvcHVsYWNhbyA9IHBhc3RlKGJpbm9taWFsLCBjbnVjLCBzZXAgPSJfIiksDQogICAgICAgICBwb3B1bGFjYW8gPSBzdHJfcmVwbGFjZShwb3B1bGFjYW8sICIgIiwgIl8iKSApICU+JQ0KICBzZWxlY3QoY251Yywgbm9tZV9VQywgZXN0YWNhb19hbW9zdHJhbCwgbm9tZV9lYSwgZXNmb3JjbywgYW5vLCBkYXRhLA0KICAgICAgICAgaG9yYV9pbmljaW8sIGhvcmFfZmltLCBjbGFzc2UsIG9yZGVtLCBmYW1pbGlhLCBnZW5lcm8sIGJpbm9taWFsLA0KICAgICAgICAgbl9hbmltYWlzLCBkaXN0YW5jaWEsIHBvcHVsYWNhbykNCmRhZG9zDQpgYGANCg0KIyMjIEV4cG9ydGFyIGFycXVpdm8NCmBgYHtyfQ0Kc2F2ZVJEUyhkYWRvcywgaGVyZSgiZGF0YSIsICJkYWRvc0lDTUJpb18yMDE0YTIwMTgucmRzIikpDQpgYGA=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnQgMDEgRml4IFJhdyBEYXRhIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KU2NyaXB0IHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7VlcyBkaXNwb27DrXZlaXMgW25lc3RlIGxpbmtdKGh0dHBzOi8vZ2l0aHViLmNvbS9ab29sb2dpY2FsLVNvY2lldHktb2YtTG9uZG9uL3JscGkpLg0KDQpGdW7Dp8OjbyBwcmVwYXJhIGRhZG9zIGRvIGljbWJpbyBlIGNoYW1hIGZ1bsOnw7VlcyBkbyBwYWNvdGUgcmxwaQ0KDQoqKkVtIGZhc2UgZGUgVEVTVEUqKg0KDQpBZGFwdGHDp8OjbzogRWxpbGRvIENhcnZhbGhvIEpyLCBJQ01CaW8vQ0VOQVAuDQoNCkNvbGFib3Jhw6fDo286IEZlcm5hbmRvIExpbWENCg0KIyMjIENhcnJlZ2FyIHBhY290ZXMNCmBgYHtyIHBhY290ZXN9DQpsaWJyYXJ5KGhlcmUpDQojbGlicmFyeSh0aWR5dmVyc2UpDQojbGlicmFyeShsdWJyaWRhdGUpDQojbGlicmFyeShobXMpDQojbGlicmFyeShkcGx5cikNCiNsaWJyYXJ5KHN0cmluZ3IpDQpgYGANCg0KIyMgUGxhbmlsaGEgY29uc29saWRhZGEgTWFzdG9BdmVzDQoNCiMjIyBMZXIgZGFkb3MsIHZlcnNhbyBuw6NvIGRpc3BvbmliaWxpemFkYSwgbWFzIG1haXMgYXR1YWxpemFkYQ0KDQpgYGB7ciBsZWl0dXJhfQ0KZGFkb3MgPC0gcmVhZF9jc3YoaGVyZSgiZGF0YSIsICJQbGFuaWxoYSBjb25zb2xpZGFkYSBtYXN0b2F2ZXMgYXTDqSAyMDE5LmNzdiIpKQ0KZGFkb3MNCm5hbWVzKGRhZG9zKQ0KYGBgDQoNCiMjIyBBanVzdGFyIGRhZG9zOiB2ZXJzYW8gbmFvIGRpc3BvbmliaWxpemFkYSwgbWFzIG1haXMgYXR1YWxpemFkYQ0KDQpgYGB7cn0NCmRhZG9zIDwtIGRhZG9zICU+JQ0KICByZW5hbWUoY251YyA9ICJDRFVDIiwNCiAgICAgICAgIG5vbWVfVUMgPSAiTG9jYWwgLSBOb21lIGRhIFVuaWRhZGUgZGUgQ29uc2VydmHDp8OjbyIsDQogICAgICAgICBlc3RhY2FvX2Ftb3N0cmFsID0gIk7Dum1lcm8gZGEgRXN0YcOnw6NvIEFtb3N0cmFsIiwNCiAgICAgICAgIG5vbWVfZWEgPSAiTm9tZSBkYSBFQSIsDQogICAgICAgICBlc2ZvcmNvID0gIkVzZm9yw6dvIGRlIGFtb3N0cmFnZW0gdGFtYW5obyBkYSB0cmlsaGEgKG0pIiwNCiAgICAgICAgIGRhdGEgPSAiZGF0YSBkYSBhbW9zdHJhZ2VtIiwNCiAgICAgICAgIGhvcmFfaW5pY2lvID0gImhvcsOhcmlvIGRlIGluw61jaW8gIChoOm1tKSIsDQogICAgICAgICBob3JhX2ZpbSA9ICJob3LDoXJpbyBkZSB0w6lybWlubyAoaDptbSkiLA0KICAgICAgICAgI2FubyA9ICJBbm8iLA0KICAgICAgICAgY2xhc3NlID0gIkNsYXNzZSIsDQogICAgICAgICBvcmRlbSA9ICJPcmRlbSIsDQogICAgICAgICBmYW1pbGlhID0gIkZhbcOtbGlhIiwNCiAgICAgICAgIGdlbmVybyA9ICJHw6puZXJvIiwNCiAgICAgICAgIGJpbm9taWFsID0gIkVzcMOpY2llcyB2YWxpZGFkYXMgcGFyYSBhbsOhbGlzZSBkbyBJQ01CaW8iLA0KICAgICAgICAgbl9hbmltYWlzID0gIm7CsCBkZSBhbmltYWlzIiwNCiAgICAgICAgIGRpc3RhbmNpYSA9ICJkaXN0w6JuY2lhIChtKSAgICAgZG8gYW5pbWFsIGVtIHJlbGHDp8OjbyBhIHRyaWxoYSIpICU+JQ0KICBtdXRhdGUoZGF0YSA9IGFzLkRhdGUoZGF0YSwgIiVkLyVtLyVZIiksDQogICAgICAgICBhbm8gPSB5ZWFyKGRhdGEpLA0KICAgICAgICAgZGlzdGFuY2lhID0gIGFzLm51bWVyaWMoc3RyX3JlcGxhY2UoZGlzdGFuY2lhLCAiLCIsICIuIikpLA0KICAgICAgICAgcG9wdWxhY2FvID0gcGFzdGUoYmlub21pYWwsIGNudWMsIHNlcCA9Il8iKSwNCiAgICAgICAgIHBvcHVsYWNhbyA9IHN0cl9yZXBsYWNlKHBvcHVsYWNhbywgIiAiLCAiXyIpICkgJT4lDQogIHNlbGVjdChjbnVjLCBub21lX1VDLCBlc3RhY2FvX2Ftb3N0cmFsLCBub21lX2VhLCBlc2ZvcmNvLCBhbm8sIGRhdGEsDQogICAgICAgICBob3JhX2luaWNpbywgaG9yYV9maW0sIGNsYXNzZSwgb3JkZW0sIGZhbWlsaWEsIGdlbmVybywgYmlub21pYWwsDQogICAgICAgICBuX2FuaW1haXMsIGRpc3RhbmNpYSwgcG9wdWxhY2FvKQ0KZGFkb3MNCmBgYA0KDQojIyMgRXhwb3J0YXIgYXJxdWl2bw0KYGBge3IgZXhwb3J0YXJ9DQpzYXZlUkRTKGRhZG9zLCBoZXJlKCJkYXRhIiwgImRhZG9zSUNNQmlvXzIwMTRhMjAxOS5yZHMiKSkNCmBgYA0KDQojIyBEYWRvcyBGbG9yZXN0YWwNCiMjIyBMZXIgZGFkb3MgKHZlcnPDo28gb2ZpY2lhbCBkaXNwb25pYmlsaXphZGEpDQoNCmBgYHtyfQ0KZGFkb3MgPC0gcmVhZF9jc3YoaGVyZSgiZGF0YSIsICJEYWRvc19GbG9yZXN0YWxfMTRhMThfZGlzcG9uaWJpbGl6YWNhby5jc3YiKSkNCmBgYA0KDQojIyMgQWp1c3RlcyAodmVyc8OjbyBvZmljaWFsIGRpc3BvbmliaWxpemFkYSkNCg0KYGBge3J9DQpkYWRvcyA8LSBkYWRvcyAlPiUNCiAgcmVuYW1lKGNudWMgPSAiQ2FkYXN0cm8gTmFjaW9uYWwgZGUgVW5pZGFkZXMgZGUgQ29uc2VydmHDp8OjbyAoQ05VQykiLA0KICAgICAgICAgbm9tZV9VQyA9ICJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28gKFVDKSIsDQogICAgICAgICBlc3RhY2FvX2Ftb3N0cmFsID0gIk7Dum1lcm8gZGEgRXN0YcOnw6NvIEFtb3N0cmFsIiwNCiAgICAgICAgIG5vbWVfZWEgPSAiTm9tZSBkYSBFc3Rhw6fDo28gQW1vc3RyYWwiLA0KICAgICAgICAgZXNmb3JjbyA9ICJFc2ZvcsOnbyBkZSBhbW9zdHJhZ2VtIChtZXRyb3MgcGVyY29ycmlkb3MgcG9yIGRpYSkiLA0KICAgICAgICAgZGF0YSA9ICJkYXRhIGRhIGFtb3N0cmFnZW0gKGRkL21tL2FhYWEpIiwNCiAgICAgICAgIGhvcmFfaW5pY2lvID0gIkhvcsOhcmlvIGRlIGluw61jaW8gIChoaDptbSkiLA0KICAgICAgICAgaG9yYV9maW0gPSAiSG9yw6FyaW8gZGUgdMOpcm1pbm8gKGhoOm1tKSIsDQogICAgICAgICBhbm8gPSAiQW5vIiwNCiAgICAgICAgIGNsYXNzZSA9ICJDbGFzc2UiLA0KICAgICAgICAgb3JkZW0gPSAiT3JkZW0iLA0KICAgICAgICAgZmFtaWxpYSA9ICJGYW3DrWxpYSIsDQogICAgICAgICBnZW5lcm8gPSAiR8OqbmVybyIsDQogICAgICAgICBiaW5vbWlhbCA9ICJFc3DDqWNpZXMgdmFsaWRhZGFzIHBlbG8gSUNNQmlvIiwNCiAgICAgICAgIG5fYW5pbWFpcyA9ICJOwrAgZGUgYW5pbWFpcyIsDQogICAgICAgICBkaXN0YW5jaWEgPSAiRGlzdMOibmNpYSBwZXJwZW5kaWN1bGFyICAobSkgZG8gYW5pbWFsIGVtIHJlbGHDp8OjbyBhIHRyaWxoYSIpICU+JQ0KICBtdXRhdGUoZGF0YSA9IGFzLkRhdGUoZGF0YSwgIiVkLyVtLyVZIiksDQogICAgICAgICBkaXN0YW5jaWEgPSAgYXMubnVtZXJpYyhzdHJfcmVwbGFjZShkaXN0YW5jaWEsICIsIiwgIi4iKSksDQogICAgICAgICBwb3B1bGFjYW8gPSBwYXN0ZShiaW5vbWlhbCwgY251Yywgc2VwID0iXyIpLA0KICAgICAgICAgcG9wdWxhY2FvID0gc3RyX3JlcGxhY2UocG9wdWxhY2FvLCAiICIsICJfIikgKSAlPiUNCiAgc2VsZWN0KGNudWMsIG5vbWVfVUMsIGVzdGFjYW9fYW1vc3RyYWwsIG5vbWVfZWEsIGVzZm9yY28sIGFubywgZGF0YSwNCiAgICAgICAgIGhvcmFfaW5pY2lvLCBob3JhX2ZpbSwgY2xhc3NlLCBvcmRlbSwgZmFtaWxpYSwgZ2VuZXJvLCBiaW5vbWlhbCwNCiAgICAgICAgIG5fYW5pbWFpcywgZGlzdGFuY2lhLCBwb3B1bGFjYW8pDQpkYWRvcw0KYGBgDQoNCiMjIyBFeHBvcnRhciBhcnF1aXZvDQpgYGB7cn0NCnNhdmVSRFMoZGFkb3MsIGhlcmUoImRhdGEiLCAiZGFkb3NJQ01CaW9fMjAxNGEyMDE4LnJkcyIpKQ0KYGBg</div>
 
 
 

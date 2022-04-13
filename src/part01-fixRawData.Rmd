@@ -28,7 +28,7 @@ library(here)
 ### Ler dados, versao não disponibilizada, mas mais atualizada
 
 ```{r leitura}
-dados <- read_csv(here("data", "Planilha consolidada mastoaves até 2019 - FINAL.csv"))
+dados <- read_csv(here("data", "Planilha consolidada mastoaves até 2019.csv"))
 dados
 names(dados)
 ```
