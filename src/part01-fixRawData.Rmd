@@ -1,6 +1,8 @@
 ---
 title: "Part 01 Fix Raw Data"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
@@ -14,13 +16,13 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP.
 Colaboração: Fernando Lima
 
 ### Carregar pacotes
+
 ```{r pacotes}
 library(here)
-#library(tidyverse)
-#library(lubridate)
-#library(hms)
+library(readr)
+library(lubridate)
 library(dplyr)
-#library(stringr)
+library(stringr)
 ```
 
 ## Planilha consolidada MastoAves
@@ -28,7 +30,7 @@ library(dplyr)
 ### Ler dados, versao não disponibilizada, mas mais atualizada
 
 ```{r leitura}
-dados <- read.csv(here("data", "Planilha.consolidada.mastoaves.ate.2019.csv"), encoding = "UTF-8")
+dados <- read_csv(here("data", "Planilha.consolidada.mastoaves.ate.2019.csv"))
 dados
 names(dados)
 ```
@@ -65,11 +67,13 @@ dados
 ```
 
 ### Exportar arquivo
+
 ```{r exportar}
 saveRDS(dados, here("data", "dadosICMBio_2014a2019.rds"))
 ```
 
 ## Dados Florestal
+
 ### Ler dados (versão oficial disponibilizada)
 
 ```{r}
@@ -80,33 +84,54 @@ dados <- read_csv(here("data", "Dados_Florestal_14a18_disponibilizacao.csv"))
 
 ```{r}
 dados <- dados %>%
-  rename(cnuc = "Cadastro Nacional de Unidades de Conservação (CNUC)",
-         nome_UC = "Unidade de Conservação (UC)",
-         estacao_amostral = "Número da Estação Amostral",
-         nome_ea = "Nome da Estação Amostral",
-         esforco = "Esforço de amostragem (metros percorridos por dia)",
-         data = "data da amostragem (dd/mm/aaaa)",
-         hora_inicio = "Horário de início  (hh:mm)",
-         hora_fim = "Horário de término (hh:mm)",
-         ano = "Ano",
-         classe = "Classe",
-         ordem = "Ordem",
-         familia = "Família",
-         genero = "Gênero",
-         binomial = "Espécies validadas pelo ICMBio",
-         n_animais = "N° de animais",
-         distancia = "Distância perpendicular  (m) do animal em relação a trilha") %>%
-  mutate(data = as.Date(data, "%d/%m/%Y"),
-         distancia =  as.numeric(str_replace(distancia, ",", ".")),
-         populacao = paste(binomial, cnuc, sep ="_"),
-         populacao = str_replace(populacao, " ", "_") ) %>%
-  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
-         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
-         n_animais, distancia, populacao)
-dados
+  rename(
+    cnuc = "Cadastro Nacional de Unidades de Conservação (CNUC)",
+    nome_UC = "Unidade de Conservação (UC)",
+    estacao_amostral = "Número da Estação Amostral",
+    nome_ea = "Nome da Estação Amostral",
+    esforco = "Esforço de amostragem (metros percorridos por dia)",
+    data = "data da amostragem (dd/mm/aaaa)",
+    hora_inicio = "Horário de início  (hh:mm)",
+    hora_fim = "Horário de término (hh:mm)",
+    ano = "Ano",
+    classe = "Classe",
+    ordem = "Ordem",
+    familia = "Família",
+    genero = "Gênero",
+    binomial = "Espécies validadas pelo ICMBio",
+    n_animais = "N° de animais",
+    distancia = "Distância perpendicular  (m) do animal em relação a trilha"
+    ) %>%
+  mutate(
+    data = as.Date(data, "%d/%m/%Y"),
+    distancia =  as.numeric(str_replace(distancia, ",", ".")),
+    populacao = paste(binomial, cnuc, sep ="_"),
+    populacao = str_replace(populacao, " ", "_")
+    ) %>%
+  select(
+    cnuc,
+    nome_UC,
+    estacao_amostral,
+    nome_ea,
+    esforco,
+    ano,
+    data,
+    hora_inicio,
+    hora_fim,
+    classe,
+    ordem,
+    familia,
+    genero,
+    binomial,
+    n_animais,
+    distancia,
+    populacao
+    )
+#dados
 ```
 
 ### Exportar arquivo
+
 ```{r}
 saveRDS(dados, here("data", "dadosICMBio_2014a2018.rds"))
 ```
