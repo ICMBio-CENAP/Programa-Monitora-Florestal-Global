@@ -1,0 +1,98 @@
+---
+title: "Part 02 Calculate LPI"
+output: html_notebook
+---
+
+Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
+
+Função prepara dados do icmbio e chama funções do pacote rlpi
+
+**Em fase de TESTE**
+
+Adaptação: Elildo Carvalho Jr, ICMBio/CENAP.
+
+Colaboração: Fernando Lima
+
+### Carregar pacotes
+
+```{r pacotes}
+library(here)
+```
+
+### Carregar funções
+
+```{r}
+source(here("bin", "lpi_icmbio.R"))
+```
+
+### Carregar dados
+
+```{r}
+#Versão disponível:
+#dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))
+#Versão não disponível
+dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
+mydata <- dadosICMBio
+```
+
+### Contagem de UCs
+
+```{r}
+mydata %>%
+  group_by(nome_UC) %>%
+  count()
+```
+
+### Contagem de espécies
+```{r}
+mydata %>%
+  group_by(binomial) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  filter(! binomial  %in% c(
+    NA,
+    "E",
+    "Tinamidae",
+    "Cracidae",
+    "Sciuridae",
+    "Callitrichidae",
+    "Pitheciidae",
+    "Atelidae",
+    "Cebidae",
+    "Primates",
+    "Felidae",
+    "Bradypodidae",
+    "Cervidae"
+    )
+    ) %>%
+  filter(! grepl('sp.', binomial)) %>%
+  print(n=Inf)
+```
+
+### Contagem de populações
+```{r}
+mydata %>%
+  filter(! binomial  %in% c(
+    NA,
+    "E",
+    "Tinamidae",
+    "Cracidae",
+    "Sciuridae",
+    "Callitrichidae",
+    "Pitheciidae",
+    "Atelidae",
+    "Cebidae",
+    "Primates",
+    "Felidae",
+    "Bradypodidae",
+    "Cervidae"
+    )
+    ) %>%
+  group_by(populacao) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  filter(! grepl('sp.', populacao)) %>%
+  filter() %>%
+  print(n=Inf)
+```
+
