@@ -1,6 +1,7 @@
 ---
-title: "Part 01 Fix Raw Data"
+title: "Parte 01 - LIMPEZA DE DADOS"
 output:
+  word_document: default
   html_document:
     df_print: paged
 ---
@@ -15,9 +16,8 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP.
 
 Colaboração: Fernando Lima
 
-### Carregar pacotes
-
-```{r pacotes}
+```{r pacotes, include=FALSE}
+rm(list = ls(all = TRUE))
 library(here)
 library(readr)
 library(lubridate)
@@ -25,29 +25,31 @@ library(dplyr)
 library(stringr)
 ```
 
-## Planilha consolidada MastoAves
+### DADOS CONSOLIDADOS DE MAMÍFEROS E AVES
 
-### Ler dados, versao não disponibilizada, mas mais atualizada
+Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros relacionados a:
 
-Deletei coordenadas geográficas:
-Linha 2298 - S 04° 16" 44.1", W 55° 59' 35.4"
-Linha 2517 - "Distância estimada. estava na outra margem do igarapé: S 4° 36' 32"", w 56° 24' 51.2"""
-Linha 2526 - "Ás 8h40 tiveram contato auditivo com Panthera onca. que os acompanhou. na outra margem do igarapé. coordenadas 04° 32' 06.9"", 56° 19'39.7"". no mesmo local onde foi registrado A. nigerrima no dia 12/11/17"
-Linha 3301 - retirada vírgulas de comentários
-Linha 3308 - 
-Linha 3310 - 
-Linha 3316 - 
-Linha 3328 - 
-Linha 3371
-3647
+-   Coordenadas geográficas:
+
+    ex Linha 2298
+
+    `S 04° 16" 44.1", W 55° 59' 35.4"`
+
+-   Comentários com vírgulas:
+
+    ex Linha 2517
+
+    `"Distância estimada. estava na outra margem do igarapé: S 4° 36' 32"", w 56° 24' 51.2"""`
 
 ```{r leitura}
 dados <- read_csv(here("data", "Planilha.consolidada.mastoaves.ate.2019a.csv"), show_col_types = FALSE)
 ```
+\newpage
 
-### Ajustar dados: versao nao disponibilizada, mas mais atualizada
+#### AJUSTES
 
 ```{r}
+#RENOMEAR COLUNAS
 dados <- dados %>%
   rename(cnuc = "CDUC",
          nome_UC = "Local - Nome da Unidade de Conservacao",
@@ -65,32 +67,37 @@ dados <- dados %>%
          binomial = "Especies validadas para analise do ICMBio",
          n_animais = "n de animais",
          distancia = "distancia (m) do animal em relacao a trilha") %>%
+#AJUSTAR FORMATO DE DATA
   mutate(data = as.Date(data, "%d/%m/%Y"),
          ano = year(data),
+#CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
          populacao = paste(binomial, cnuc, sep ="_"),
          populacao = str_replace(populacao, " ", "_")) %>%
+#REMOVER COLUNAS DESNECESSÁRIAS
   select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
          hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
          n_animais, distancia, populacao)
 ```
 
-### Exportar arquivo
+Exportar arquivo `*.rds`
 
 ```{r exportar}
 saveRDS(dados, here("data", "dadosICMBio_2014a2019.rds"))
 ```
+\newpage
 
-## Dados Florestal
+### DADOS CONSOLIDADOS FLORESTAL
 
-### Ler dados (versão oficial disponibilizada)
+Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros (descritos acima).
 
 ```{r}
-dados <- read_csv(here("data", "Dados_Florestal_14a18_disponibilizacao.csv"))
+dados <- read_csv(here("data", "Dados_Florestal_14a18_disponibilizacao.csv"), show_col_types = FALSE)
 ```
 
-### Ajustes (versão oficial disponibilizada)
+### AJUSTES
 
 ```{r}
+#RENOMEAR COLUNAS
 dados <- dados %>%
   rename(
     cnuc = "Cadastro Nacional de Unidades de Conservação (CNUC)",
@@ -110,12 +117,17 @@ dados <- dados %>%
     n_animais = "N° de animais",
     distancia = "Distância perpendicular  (m) do animal em relação a trilha"
     ) %>%
+#AJUSTAR FORMATO DE DATA
   mutate(
     data = as.Date(data, "%d/%m/%Y"),
-    distancia =  as.numeric(str_replace(distancia, ",", ".")),
+#AJUSTAR FORMATO DE DISTÂNCIA
+    distancia =  str_replace(distancia, ",", "."),
+    distancia = as.numeric(distancia),
+#CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
     populacao = paste(binomial, cnuc, sep ="_"),
     populacao = str_replace(populacao, " ", "_")
     ) %>%
+#REMOVER COLUNAS DESNECESSÁRIAS
   select(
     cnuc,
     nome_UC,
@@ -135,10 +147,9 @@ dados <- dados %>%
     distancia,
     populacao
     )
-#dados
 ```
 
-### Exportar arquivo
+Exportar arquivo `*.rds`
 
 ```{r}
 saveRDS(dados, here("data", "dadosICMBio_2014a2018.rds"))
