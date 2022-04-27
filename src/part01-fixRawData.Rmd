@@ -19,10 +19,10 @@ Colaboração: Fernando Lima
 
 ```{r pacotes}
 library(here)
-library(readr)
-library(lubridate)
-library(dplyr)
-library(stringr)
+#library(readr)
+#library(lubridate)
+#library(dplyr)
+#library(stringr)
 ```
 
 ## Planilha consolidada MastoAves
@@ -30,7 +30,8 @@ library(stringr)
 ### Ler dados, versao não disponibilizada, mas mais atualizada
 
 ```{r leitura}
-dados <- read_csv(here("data", "Planilha.consolidada.mastoaves.ate.2019.csv"))
+dados <- read_csv(here("data", "Planilha.consolidada.mastoaves.ate.2019a.csv"))
+dados <- read.csv(here("data", "Planilha.consolidada.mastoaves.ate.2019.csv"))
 dados
 names(dados)
 ```
