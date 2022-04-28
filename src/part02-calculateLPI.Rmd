@@ -122,21 +122,19 @@ Cálculo de esforço
 
 ```{r}
 effort <- mydata %>%
-  group_by(nome_UC) %>%
-  summarize(sum(esforco, na.rm = TRUE)/1000)
+#AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
+  group_by(nome_UC, ano) %>%
+#SOMAR ESFORÇO ANUAL POR UNIDADE DE CONSERVAÇÃO
+  summarize(sum(esforco, na.rm = TRUE)/1000) %>%
+#RENOMEAR COLUNA RESULTANTE
+  rename(effort = "sum(esforco, na.rm = TRUE)/1000") %>%
+#FILTRAR PELO QUE SERIA O ESFORÇO MÍNIMO
+  filter(effort > 149)
 ```
 
-### Cálculo de esforço anual por UC (Km)
+## Seleção por critérios
 
-```{r}
-esforco <- mydata %>%
-  group_by(cnuc, ano) %>%
-  summarize(esforco = sum(esforco, na.rm = TRUE)/1000) %>%
-  filter(esforco > 149) 
-esforco
-```
-
-##Seleção por critérios \### Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
+### Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
 
 ```{r}
 ucs_selecionadas <- esforco %>%
