@@ -32,28 +32,38 @@ source(here("bin", "lpi_icmbio.R"))
 Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
 
 ```{r}
-#Versão disponível:
-#dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))
-#Versão não disponível
-dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
-mydata <- dadosICMBio
+mydata <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
 ```
 
-### Contagem de UCs
+Contagem de Unidades de Conservação
 
 ```{r}
-mydata %>%
+ucs <- mydata %>%
   group_by(nome_UC) %>%
   count()
 ```
 
-### Contagem de espécies
+Correção de taxonomia
+
+-   Correção de nomes científicos
+
+-   Exclusão de identificações imprecisas
+
+-   Atualizar campo identificador `populacao`
 
 ```{r}
-mydata %>%
-  group_by(binomial) %>%
-  count() %>%
-  arrange(desc(n)) %>%
+mydata <- mydata %>%
+#CORREÇÃO DE NOMES CIENTÍFICOS
+mutate(binomial = case_when(
+  binomial == "bradypus variegatus" ~ "Bradypus variegatus",
+  binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
+  binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
+  binomial == "Speothus venaticus" ~ "Speothos venaticus",
+  
+  TRUE ~ binomial
+  )
+  ) %>%
+#REMOVER IDENTIFICAÇÕES IMPRECISAS
   filter(! binomial  %in% c(
     NA,
     "E",
@@ -67,53 +77,52 @@ mydata %>%
     "Primates",
     "Felidae",
     "Bradypodidae",
-    "Cervidae"
+    "Cervidae",
+    "Tayassuidae",
+    "Dasyprocta cf. fuliginosa",
+    "Procyonidae"
     )
     ) %>%
-  filter(! grepl('sp.', binomial)) %>%
-  print(n=Inf)
+#REMOVER *.sp
+  filter(! grepl('sp.', binomial))
+#ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+mydata$populacao = paste(mydata$binomial, mydata$cnuc, sep ="_")
+mydata$populacao = str_replace(mydata$populacao, " ", "_")
 ```
 
-### Contagem de populações
+Contagem de espécies
 
 ```{r}
-mydata %>%
-  filter(! binomial  %in% c(
-    NA,
-    "E",
-    "Tinamidae",
-    "Cracidae",
-    "Sciuridae",
-    "Callitrichidae",
-    "Pitheciidae",
-    "Atelidae",
-    "Cebidae",
-    "Primates",
-    "Felidae",
-    "Bradypodidae",
-    "Cervidae"
-    )
-    ) %>%
+sp <- mydata %>%
+  group_by(binomial) %>%
+  count() %>%
+  arrange(desc(n))
+```
+
+Contagem de populações
+
+```{r}
+population <- mydata %>%
   group_by(populacao) %>%
   count() %>%
   arrange(desc(n)) %>%
-  filter(! grepl('sp.', populacao)) %>%
-  filter() %>%
-  print(n=Inf)
+  filter()
 ```
 
-### Contagem de transectos
+Contagem de transectos
 
 ```{r}
-mydata %>%
-  distinct(nome_UC, estacao_amostral) %>%
+transect <- mydata %>%
+  group_by(nome_UC,estacao_amostral) %>%
+  #distinct(nome_UC, estacao_amostral) %>%
   count()
 ```
 
-### Esforço total
+Cálculo de esforço
 
 ```{r}
-mydata %>%
+effort <- mydata %>%
+  group_by(nome_UC) %>%
   summarize(sum(esforco, na.rm = TRUE)/1000)
 ```
 
