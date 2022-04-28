@@ -1,0 +1,156 @@
+---
+title: "Parte 01 - LIMPEZA DE DADOS"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+---
+
+Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
+
+Função prepara dados do icmbio e chama funções do pacote rlpi
+
+**Em fase de TESTE**
+
+Adaptação: Elildo Carvalho Jr, ICMBio/CENAP.
+
+Colaboração: Fernando Lima
+
+```{r pacotes, include=FALSE}
+rm(list = ls(all = TRUE))
+library(here)
+library(readr)
+library(lubridate)
+library(dplyr)
+library(stringr)
+```
+
+### DADOS CONSOLIDADOS DE MAMÍFEROS E AVES
+
+Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros relacionados a:
+
+-   Coordenadas geográficas:
+
+    ex Linha 2298
+
+    `S 04° 16" 44.1", W 55° 59' 35.4"`
+
+-   Comentários com vírgulas:
+
+    ex Linha 2517
+
+    `"Distância estimada. estava na outra margem do igarapé: S 4° 36' 32"", w 56° 24' 51.2"""`
+
+```{r leitura}
+dados <- read_csv(here("data", "Planilha.consolidada.mastoaves.ate.2019a.csv"), show_col_types = FALSE)
+```
+\newpage
+
+#### AJUSTES
+
+```{r}
+#RENOMEAR COLUNAS
+dados <- dados %>%
+  rename(cnuc = "CDUC",
+         nome_UC = "Local - Nome da Unidade de Conservacao",
+         estacao_amostral = "Numero da Estacao Amostral",
+         nome_ea = "Nome da EA",
+         esforco = "Esforco de amostragem tamanho da trilha (m)",
+         data = "data da amostragem",
+         hora_inicio = "horario de inicio  (h:mm)",
+         hora_fim = "horario de termino (h:mm)",
+         ano = "Ano",
+         classe = "Classe",
+         ordem = "Ordem",
+         familia = "Familia",
+         genero = "Genero",
+         binomial = "Especies validadas para analise do ICMBio",
+         n_animais = "n de animais",
+         distancia = "distancia (m) do animal em relacao a trilha") %>%
+#AJUSTAR FORMATO DE DATA
+  mutate(data = as.Date(data, "%d/%m/%Y"),
+         ano = year(data),
+#CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
+         populacao = paste(binomial, cnuc, sep ="_"),
+         populacao = str_replace(populacao, " ", "_")) %>%
+#REMOVER COLUNAS DESNECESSÁRIAS
+  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
+         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
+         n_animais, distancia, populacao)
+```
+
+Exportar arquivo `*.rds`
+
+```{r exportar}
+saveRDS(dados, here("data", "dadosICMBio_2014a2019.rds"))
+```
+\newpage
+
+### DADOS CONSOLIDADOS FLORESTAL
+
+Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros (descritos acima).
+
+```{r}
+dados <- read_csv(here("data", "Dados_Florestal_14a18_disponibilizacao.csv"), show_col_types = FALSE)
+```
+
+### AJUSTES
+
+```{r}
+#RENOMEAR COLUNAS
+dados <- dados %>%
+  rename(
+    cnuc = "Cadastro Nacional de Unidades de Conservação (CNUC)",
+    nome_UC = "Unidade de Conservação (UC)",
+    estacao_amostral = "Número da Estação Amostral",
+    nome_ea = "Nome da Estação Amostral",
+    esforco = "Esforço de amostragem (metros percorridos por dia)",
+    data = "data da amostragem (dd/mm/aaaa)",
+    hora_inicio = "Horário de início  (hh:mm)",
+    hora_fim = "Horário de término (hh:mm)",
+    ano = "Ano",
+    classe = "Classe",
+    ordem = "Ordem",
+    familia = "Família",
+    genero = "Gênero",
+    binomial = "Espécies validadas pelo ICMBio",
+    n_animais = "N° de animais",
+    distancia = "Distância perpendicular  (m) do animal em relação a trilha"
+    ) %>%
+#AJUSTAR FORMATO DE DATA
+  mutate(
+    data = as.Date(data, "%d/%m/%Y"),
+#AJUSTAR FORMATO DE DISTÂNCIA
+    distancia =  str_replace(distancia, ",", "."),
+    distancia = as.numeric(distancia),
+#CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
+    populacao = paste(binomial, cnuc, sep ="_"),
+    populacao = str_replace(populacao, " ", "_")
+    ) %>%
+#REMOVER COLUNAS DESNECESSÁRIAS
+  select(
+    cnuc,
+    nome_UC,
+    estacao_amostral,
+    nome_ea,
+    esforco,
+    ano,
+    data,
+    hora_inicio,
+    hora_fim,
+    classe,
+    ordem,
+    familia,
+    genero,
+    binomial,
+    n_animais,
+    distancia,
+    populacao
+    )
+```
+
+Exportar arquivo `*.rds`
+
+```{r}
+saveRDS(dados, here("data", "dadosICMBio_2014a2018.rds"))
+```
