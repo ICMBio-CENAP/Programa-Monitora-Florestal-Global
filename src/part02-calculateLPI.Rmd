@@ -109,15 +109,6 @@ population <- mydata %>%
   filter()
 ```
 
-Contagem de transectos
-
-```{r}
-transect <- mydata %>%
-  group_by(nome_UC,estacao_amostral) %>%
-  #distinct(nome_UC, estacao_amostral) %>%
-  count()
-```
-
 Cálculo de esforço
 
 ```{r}
