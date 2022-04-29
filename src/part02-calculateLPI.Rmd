@@ -225,4 +225,15 @@ taxas_anuais <- taxas_anuais %>%
   select(-media)
 
 print(taxas_anuais, n=Inf)
+
+
+unique(taxasAnuais99$populacao)
+unique(taxasAnuais99$cnuc)
+
+unique(taxasAnuais00$populacao)
+unique(taxasAnuais00$cnuc)
+
 ```
+
+
+
