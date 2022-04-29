@@ -88,6 +88,7 @@ mutate(binomial = case_when(
 #ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
 mydata$populacao = paste(mydata$binomial, mydata$cnuc, sep ="_")
 mydata$populacao = str_replace(mydata$populacao, " ", "_")
+mydata$esforco= mydata$esforco/1000
 ```
 
 Contagem de espécies
@@ -103,7 +104,7 @@ Contagem de populações
 
 ```{r}
 population <- mydata %>%
-  group_by(populacao) %>%
+  group_by(populacao, cnuc) %>%
   count() %>%
   arrange(desc(n)) %>%
   filter()
@@ -114,21 +115,21 @@ Cálculo de esforço
 ```{r}
 effort <- mydata %>%
 #AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
-  group_by(nome_UC, ano) %>%
+  group_by(cnuc, ano) %>%
 #SOMAR ESFORÇO ANUAL POR UNIDADE DE CONSERVAÇÃO
-  summarize(sum(esforco, na.rm = TRUE)/1000) %>%
+  summarize(sum(esforco, na.rm = TRUE)) %>%
 #RENOMEAR COLUNA RESULTANTE
-  rename(effort = "sum(esforco, na.rm = TRUE)/1000") %>%
+  rename(effort = "sum(esforco, na.rm = TRUE)") %>%
 #FILTRAR PELO QUE SERIA O ESFORÇO MÍNIMO
   filter(effort > 149)
 ```
 
-## Seleção por critérios
+### Seleção por critérios
 
-### Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
+Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
 
 ```{r}
-ucs_selecionadas <- esforco %>%
+ucs_selecionadas <- effort %>%
   group_by(cnuc) %>% 
   count() %>%
   filter(n > 1) %>%
@@ -136,21 +137,13 @@ ucs_selecionadas <- esforco %>%
 ucs_selecionadas
 ```
 
-### Filtrar
+Filtrar
 
-Filtrar dados mantendo somente UCs selecionadas
+Filtrar dados gerais mantendo somente UCs selecionadas
 
 ```{r}
 mydata <- mydata %>%
   filter(cnuc %in% ucs_selecionadas)
-mydata
-```
-
-Remover especies identificadas apenas ao nível de gênero
-
-```{r}
-mydata <- mydata %>%
-  filter(! grepl('sp.', binomial))
 mydata
 ```
 
@@ -159,9 +152,7 @@ Esforço anual em km
 ```{r}
 esforco_anual <- mydata %>%
   group_by(cnuc, ano) %>%
-  summarize(esforco = sum(esforco, na.rm = TRUE)) %>%
-  mutate(esforco = esforco/1000)
-esforco_anual
+  summarize(esforco = sum(esforco, na.rm = TRUE))
 ```
 
 Esforço anual em formato *wide* (QPEHE)
@@ -178,7 +169,6 @@ esforco_anual_wide <- esforco_anual %>%
          `2019`
          ) %>%
   ungroup()
-esforco_anual_wide
 ```
 
 Número de registros anuais
@@ -186,9 +176,8 @@ Número de registros anuais
 ```{r}
 n_registros <- mydata %>%
   group_by(cnuc, ano, populacao) %>%
-  count() %>%
-  mutate(n = as.numeric(n))
-n_registros
+  count() #%>%
+ # mutate(n = as.numeric(n))
 ```
 
 Número de registros anuais em formato *wide* (QPEHE)
@@ -234,6 +223,6 @@ taxas_anuais <- taxas_anuais %>%
   mutate(media = rowMeans(.[,3:8])) %>%
   filter(media > 0.1) %>%
   select(-media)
-taxas_anuais
-#print(taxas_anuais, n=Inf)
+
+print(taxas_anuais, n=Inf)
 ```
