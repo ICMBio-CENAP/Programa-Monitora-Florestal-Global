@@ -1,5 +1,5 @@
 ---
-title: "Part 02 Calculate LPI"
+title: "Parte 02 - CÁLCULO DE LPI"
 output:
   html_document:
     df_print: paged
@@ -9,125 +9,127 @@ output:
 
 Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
 
-Função prepara dados do icmbio e chama funções do pacote rlpi
+Função prepara dados do icmbio e chama funções do pacote `rlpi`
 
 **Em fase de TESTE**
 
-Adaptação: Elildo Carvalho Jr, ICMBio/CENAP.
+Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
-Colaboração: Fernando Lima
-
-### Carregar pacotes
-
-```{r pacotes}
+```{r pacotes, include=FALSE}
 library(here)
 library(tidyverse)
 library(dplyr)
 ```
 
-### Carregar funções
+### CÁLCULO DE LPI
+
+Carregar função para cálculo
 
 ```{r}
 source(here("bin", "lpi_icmbio.R"))
 ```
 
-### Carregar dados
+Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
 
 ```{r}
-#Versão disponível:
-#dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2018.rds"))
-#Versão não disponível
-dadosICMBio <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
-mydata <- dadosICMBio
+mydata <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
 ```
 
-### Contagem de UCs
+Contagem de Unidades de Conservação
+
 ```{r}
-mydata %>%
+ucs <- mydata %>%
   group_by(nome_UC) %>%
   count()
 ```
 
-### Contagem de espécies
+Correção de taxonomia
+
+-   Correção de nomes científicos
+
+-   Exclusão de identificações imprecisas
+
+-   Atualizar campo identificador `populacao`
+
 ```{r}
-mydata %>%
+mydata <- mydata %>%
+#CORREÇÃO DE NOMES CIENTÍFICOS
+mutate(binomial = case_when(
+  binomial == "bradypus variegatus" ~ "Bradypus variegatus",
+  binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
+  binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
+  binomial == "Speothus venaticus" ~ "Speothos venaticus",
+  
+  TRUE ~ binomial
+  )
+  ) %>%
+#REMOVER IDENTIFICAÇÕES IMPRECISAS
+  filter(! binomial  %in% c(
+    NA,
+    "E",
+    "Tinamidae",
+    "Cracidae",
+    "Sciuridae",
+    "Callitrichidae",
+    "Pitheciidae",
+    "Atelidae",
+    "Cebidae",
+    "Primates",
+    "Felidae",
+    "Bradypodidae",
+    "Cervidae",
+    "Tayassuidae",
+    "Dasyprocta cf. fuliginosa",
+    "Procyonidae"
+    )
+    ) %>%
+#REMOVER *.sp
+  filter(! grepl('sp.', binomial))
+#ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+mydata$populacao = paste(mydata$binomial, mydata$cnuc, sep ="_")
+mydata$populacao = str_replace(mydata$populacao, " ", "_")
+mydata$esforco= mydata$esforco/1000
+```
+
+Contagem de espécies
+
+```{r}
+sp <- mydata %>%
   group_by(binomial) %>%
   count() %>%
-  arrange(desc(n)) %>%
-  filter(! binomial  %in% c(
-    NA,
-    "E",
-    "Tinamidae",
-    "Cracidae",
-    "Sciuridae",
-    "Callitrichidae",
-    "Pitheciidae",
-    "Atelidae",
-    "Cebidae",
-    "Primates",
-    "Felidae",
-    "Bradypodidae",
-    "Cervidae"
-    )
-    ) %>%
-  filter(! grepl('sp.', binomial)) %>%
-  print(n=Inf)
+  arrange(desc(n))
 ```
 
-### Contagem de populações
+Contagem de populações
+
 ```{r}
-mydata %>%
-  filter(! binomial  %in% c(
-    NA,
-    "E",
-    "Tinamidae",
-    "Cracidae",
-    "Sciuridae",
-    "Callitrichidae",
-    "Pitheciidae",
-    "Atelidae",
-    "Cebidae",
-    "Primates",
-    "Felidae",
-    "Bradypodidae",
-    "Cervidae"
-    )
-    ) %>%
-  group_by(populacao) %>%
+population <- mydata %>%
+  group_by(populacao, cnuc) %>%
   count() %>%
   arrange(desc(n)) %>%
-  filter(! grepl('sp.', populacao)) %>%
-  filter() %>%
-  print(n=Inf)
+  filter()
 ```
 
-### Contagem de transectos
-```{r}
-mydata %>%
-  distinct(nome_UC, estacao_amostral) %>%
-  count()
-```
+Cálculo de esforço
 
-### Esforço total
 ```{r}
-mydata %>%
-  summarize(sum(esforco, na.rm = TRUE)/1000)
-```
-
-### Cálculo de esforço anual por UC (Km)
-```{r}
-esforco <- mydata %>%
+effort <- mydata %>%
+#AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
   group_by(cnuc, ano) %>%
-  summarize(esforco = sum(esforco, na.rm = TRUE)/1000) %>%
-  filter(esforco > 149) 
-esforco
+#SOMAR ESFORÇO ANUAL POR UNIDADE DE CONSERVAÇÃO
+  summarize(sum(esforco, na.rm = TRUE)) %>%
+#RENOMEAR COLUNA RESULTANTE
+  rename(effort = "sum(esforco, na.rm = TRUE)") %>%
+#FILTRAR PELO QUE SERIA O ESFORÇO MÍNIMO
+  filter(effort > 149)
 ```
 
-##Seleção por critérios
-### Selecionar UCs
-Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
+### Seleção por critérios
+
+Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
+
 ```{r}
-ucs_selecionadas <- esforco %>%
+ucs_selecionadas <- effort %>%
   group_by(cnuc) %>% 
   count() %>%
   filter(n > 1) %>%
@@ -135,31 +137,26 @@ ucs_selecionadas <- esforco %>%
 ucs_selecionadas
 ```
 
-### Filtrar
-Filtrar dados mantendo somente UCs selecionadas
+Filtrar
+
+Filtrar dados gerais mantendo somente UCs selecionadas
+
 ```{r}
 mydata <- mydata %>%
   filter(cnuc %in% ucs_selecionadas)
 mydata
 ```
 
-Remover especies identificadas apenas ao nível de gênero
-```{r}
-mydata <- mydata %>%
-  filter(! grepl('sp.', binomial))
-mydata
-```
-
 Esforço anual em km
+
 ```{r}
 esforco_anual <- mydata %>%
   group_by(cnuc, ano) %>%
-  summarize(esforco = sum(esforco, na.rm = TRUE)) %>%
-  mutate(esforco = esforco/1000)
-esforco_anual
+  summarize(esforco = sum(esforco, na.rm = TRUE))
 ```
 
 Esforço anual em formato *wide* (QPEHE)
+
 ```{r}
 esforco_anual_wide <- esforco_anual %>%
   pivot_wider(names_from = ano, values_from = esforco) %>%
@@ -172,19 +169,19 @@ esforco_anual_wide <- esforco_anual %>%
          `2019`
          ) %>%
   ungroup()
-esforco_anual_wide
 ```
 
 Número de registros anuais
+
 ```{r}
 n_registros <- mydata %>%
   group_by(cnuc, ano, populacao) %>%
-  count() %>%
-  mutate(n = as.numeric(n))
-n_registros
+  count() #%>%
+ # mutate(n = as.numeric(n))
 ```
 
 Número de registros anuais em formato *wide* (QPEHE)
+
 ```{r}
 n_registros_wide <- n_registros %>%
   pivot_wider(names_from = ano, values_from = n) %>%
@@ -203,8 +200,9 @@ n_registros_wide
 ```
 
 ### Taxa de encontro anual
-Estimativa de abundância relativa (número de registros por esforço).
-Neste caso *NAs* devem ser mantidos! Vai entender...
+
+Estimativa de abundância relativa (número de registros por esforço). Neste caso *NAs* devem ser mantidos! Vai entender...
+
 ```{r}
 taxas_anuais <- data.frame(n_registros_wide)
 esforcos_anuais <- data.frame(esforco_anual_wide)
@@ -219,11 +217,12 @@ taxas_anuais %>%
 ```
 
 Selecionar populações com taxa de avistamento média acima de 0.1 (1 ind/10km)
+
 ```{r}
 taxas_anuais <- taxas_anuais %>%
   mutate(media = rowMeans(.[,3:8])) %>%
   filter(media > 0.1) %>%
   select(-media)
-taxas_anuais
-#print(taxas_anuais, n=Inf)
+
+print(taxas_anuais, n=Inf)
 ```
