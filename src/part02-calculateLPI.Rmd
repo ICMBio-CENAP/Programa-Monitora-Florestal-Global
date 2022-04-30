@@ -232,8 +232,4 @@ unique(taxasAnuais99$cnuc)
 
 unique(taxasAnuais00$populacao)
 unique(taxasAnuais00$cnuc)
-
 ```
-
-
-
