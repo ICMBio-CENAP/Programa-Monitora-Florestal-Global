@@ -19,6 +19,7 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 library(here)
 library(tidyverse)
 library(dplyr)
+install.packages("rlpi")
 ```
 
 ### CÁLCULO DE LPI
@@ -33,14 +34,6 @@ Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa a
 
 ```{r}
 mydata <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
-```
-
-Contagem de Unidades de Conservação
-
-```{r}
-ucs <- mydata %>%
-  group_by(nome_UC) %>%
-  count()
 ```
 
 Correção de taxonomia
@@ -89,6 +82,14 @@ mutate(binomial = case_when(
 mydata$populacao = paste(mydata$binomial, mydata$cnuc, sep ="_")
 mydata$populacao = str_replace(mydata$populacao, " ", "_")
 mydata$esforco= mydata$esforco/1000
+```
+
+Contagem de Unidades de Conservação
+
+```{r}
+ucs <- mydata %>%
+  group_by(nome_UC) %>%
+  count()
 ```
 
 Contagem de espécies
@@ -225,29 +226,4 @@ taxas_anuais <- taxas_anuais %>%
   select(-media)
 
 print(taxas_anuais, n=Inf)
-
-taxateste <- subset(taxas_anuais, select = -cnuc)
-
-taxas_anuaisG <- melt(taxateste, id = c("populacao"))
-
-unique(taxasAnuais99$populacao)
-unique(taxasAnuais99$cnuc)
-
-unique(taxasAnuais00$populacao)
-unique(taxasAnuais00$cnuc)
-
-
-
-
-install.packages("reshape")
-library(reshape)
-
-mini_iris <- iris[c(1, 51, 101), ]
-melted1 <- mini_iris %>% melt(id.vars = "Species")
-
-
-
 ```
-
-
-
