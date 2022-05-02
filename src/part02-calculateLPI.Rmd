@@ -226,12 +226,26 @@ taxas_anuais <- taxas_anuais %>%
 
 print(taxas_anuais, n=Inf)
 
+taxateste <- subset(taxas_anuais, select = -cnuc)
+
+taxas_anuaisG <- melt(taxateste, id = c("populacao"))
 
 unique(taxasAnuais99$populacao)
 unique(taxasAnuais99$cnuc)
 
 unique(taxasAnuais00$populacao)
 unique(taxasAnuais00$cnuc)
+
+
+
+
+install.packages("reshape")
+library(reshape)
+
+mini_iris <- iris[c(1, 51, 101), ]
+melted1 <- mini_iris %>% melt(id.vars = "Species")
+
+
 
 ```
 
