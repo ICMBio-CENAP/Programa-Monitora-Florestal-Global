@@ -20,6 +20,7 @@ library(here)
 library(tidyverse)
 library(dplyr)
 install.packages("rlpi")
+library(rlpi)
 ```
 
 ### CÁLCULO DE LPI
@@ -114,15 +115,15 @@ population <- mydata %>%
 Cálculo de esforço
 
 ```{r}
-effort <- mydata %>%
+effort00 <- mydata %>%
 #AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
   group_by(cnuc, ano) %>%
 #SOMAR ESFORÇO ANUAL POR UNIDADE DE CONSERVAÇÃO
   summarize(sum(esforco, na.rm = TRUE)) %>%
 #RENOMEAR COLUNA RESULTANTE
-  rename(effort = "sum(esforco, na.rm = TRUE)") %>%
+  rename(effort = "sum(esforco, na.rm = TRUE)") #%>%
 #FILTRAR PELO QUE SERIA O ESFORÇO MÍNIMO
-  filter(effort > 149)
+  #filter(effort > 149)
 ```
 
 ### Seleção por critérios
@@ -130,7 +131,7 @@ effort <- mydata %>%
 Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
 
 ```{r}
-ucs_selecionadas <- effort %>%
+ucs_selecionadas <- effort00 %>%
   group_by(cnuc) %>% 
   count() %>%
   filter(n > 1) %>%
