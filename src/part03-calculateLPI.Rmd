@@ -1,0 +1,187 @@
+---
+title: "Parte 03 - CÁLCULO DE LPI"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  word_document: default
+---
+
+Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
+
+Função prepara dados do icmbio e chama funções do pacote `rlpi`
+
+**Em fase de TESTE**
+
+Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
+
+```{r pacotes, include=FALSE}
+library(here)
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+source(here("bin", "LPIMain.R"))
+source(here("bin", "create_infile.R"))
+source(here("bin", "CalcLPI.R"))
+source(here("bin", "ProcessFile.R"))
+source(here("bin", "debug_print.R"))
+source(here("bin", "calculate_index.R"))
+source(here("bin", "bootstrap_lpi.R"))
+source(here("bin", "plot_lpi.R"))
+```
+
+### CÁLCULO DE LPI
+
+Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior através de `part02-dataPrepLPI.Rmd`
+
+```{r}
+taxas_anuais <- read.csv(here("output", "taxas_anuais.csv"))
+```
+
+Adicionar campo identificador `ID`
+
+```{r}
+mydata_lpi <- taxas_anuais %>%
+  mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
+  rename(Binomial = populacao) %>%
+  select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+```
+
+
+```{r}
+# criar objetos que necessarios para lpi
+index_vector = rep(TRUE, nrow(mydata_lpi))
+year_vector <- 2014:2019
+
+```
+
+Cálculo de esforço
+
+```{r}
+# criar infile
+mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector, 
+                               #name=here("lpi", "mydata_data"),
+                               name = here("output", "Infile"),
+                               start_col_name = colnames(mydata_lpi)[4], end_col_name = tail(colnames(mydata_lpi), n=1),
+                               CUT_OFF_YEAR = year_vector[1])
+```
+
+```{r}
+# Calcular LPI com 100 bootstraps
+#source(here("bin", "LPIMain.R")) # adicionado por não ter pacote rlpi
+getwd()
+mydata_lpi <- LPIMain(#infile = here("lpi", "mydata_data_infile.txt"),
+                      infile = here("output", "Infile_infile.txt"),
+                      #basedir = here("lpi"),
+                      REF_YEAR = year_vector[1],
+                      PLOT_MAX = tail(year_vector, n=1),
+                      BOOT_STRAP_SIZE = 100) #, VERBOSE=FALSE)
+
+```
+
+
+### Seleção por critérios
+
+Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
+
+```{r}
+ucs_selecionadas <- effort %>%
+  group_by(cnuc) %>% 
+  count() %>%
+  filter(n > 1) %>%
+  pull(cnuc)
+ucs_selecionadas
+```
+
+Filtrar
+
+Filtrar dados gerais mantendo somente UCs selecionadas
+
+```{r}
+mydata <- mydata %>%
+  filter(cnuc %in% ucs_selecionadas)
+mydata
+```
+
+Esforço anual em km
+
+```{r}
+esforco_anual <- mydata %>%
+  group_by(cnuc, ano) %>%
+  summarize(esforco = sum(esforco, na.rm = TRUE))
+```
+
+Esforço anual em formato *wide* (QPEHE)
+
+```{r}
+esforco_anual_wide <- esforco_anual %>%
+  pivot_wider(names_from = ano, values_from = esforco) %>%
+  select(cnuc,
+         `2014`,
+         `2015`,
+         `2016`,
+         `2017`,
+         `2018`,
+         `2019`
+         ) %>%
+  ungroup()
+```
+
+Número de registros anuais
+
+```{r}
+n_registros <- mydata %>%
+  group_by(cnuc, ano, populacao) %>%
+  count() #%>%
+ # mutate(n = as.numeric(n))
+```
+
+Número de registros anuais em formato *wide* (QPEHE)
+
+```{r}
+n_registros_wide <- n_registros %>%
+  pivot_wider(names_from = ano, values_from = n) %>%
+  select(cnuc,
+         populacao,
+         `2014`,
+         `2015`,
+         `2016`,
+         `2017`,
+         `2018`,
+         `2019`
+         ) %>%
+  replace(is.na(.), 0) %>%
+  ungroup()
+n_registros_wide
+```
+
+### Taxa de encontro anual
+
+Estimativa de abundância relativa (número de registros por esforço). Neste caso *NAs* devem ser mantidos! Vai entender...
+
+```{r}
+taxas_anuais <- data.frame(n_registros_wide)
+esforcos_anuais <- data.frame(esforco_anual_wide)
+for(i in 1:nrow(taxas_anuais)) {
+  cnuc_temp <- taxas_anuais[i, "cnuc"]
+  esforco_temp <- esforcos_anuais %>% filter(cnuc == cnuc_temp) %>% select(-cnuc)
+  taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
+}
+taxas_anuais <- as_tibble(taxas_anuais)
+taxas_anuais %>%
+  print(n=Inf)
+```
+
+Selecionar populações com taxa de avistamento média acima de 0.1 (1 ind/10km)
+
+```{r}
+taxas_anuais <- taxas_anuais %>%
+  mutate(media = rowMeans(.[,3:8])) %>%
+  filter(media > 0.1) %>%
+  select(-media)
+
+print(taxas_anuais, n=Inf)
+```
+
