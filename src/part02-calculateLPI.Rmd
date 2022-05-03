@@ -19,17 +19,20 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 library(here)
 library(tidyverse)
 library(dplyr)
+```
+
+```{r}
+#install.packages("devtools")
+#Then install the rlpi package from github:
+library(devtools)
+# Install from main ZSL repository online
+install_github("pardalismitis/rlpi", dependencies=TRUE)
+# Load library
 library(rlpi)
 ```
 
+
 ### CÁLCULO DE LPI
-
-Carregar função para cálculo
-
-```{r}
-source(here("bin", "lpi_icmbio.R"))
-source(here("bin", "LPIMain.R"))
-```
 
 Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
 
