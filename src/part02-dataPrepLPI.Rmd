@@ -1,5 +1,5 @@
 ---
-title: "Parte 02 - CÁLCULO DE LPI"
+title: "Parte 02 - PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI"
 output:
   html_document:
     df_print: paged
@@ -16,23 +16,13 @@ Função prepara dados do icmbio e chama funções do pacote `rlpi`
 Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
 ```{r pacotes, include=FALSE}
+rm(list = ls(all = TRUE))
 library(here)
 library(tidyverse)
 library(dplyr)
 ```
 
-```{r}
-#install.packages("devtools")
-#Then install the rlpi package from github:
-library(devtools)
-# Install from main ZSL repository online
-install_github("pardalismitis/rlpi", dependencies=TRUE)
-# Load library
-library(rlpi)
-```
-
-
-### CÁLCULO DE LPI
+### PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI
 
 Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
 
@@ -227,3 +217,8 @@ taxas_anuais <- taxas_anuais %>%
 print(taxas_anuais, n=Inf)
 ```
 
+Exportar arquivo para próxima etapa
+
+```{r}
+write.csv(taxas_anuais, here("output", "taxas_anuais.csv") )
+```

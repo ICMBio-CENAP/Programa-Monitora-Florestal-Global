@@ -161,18 +161,18 @@ year_vector <- 2014:2019
 # criar infile
 mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector, 
                                #name=here("lpi", "mydata_data"),
-                               name=here("mydata_data"),
+                               name= here("data", "Infile"),
                                start_col_name = colnames(mydata_lpi)[4], end_col_name = tail(colnames(mydata_lpi), n=1),
                                CUT_OFF_YEAR = year_vector[1])
 
 # Calcular LPI com 100 bootstraps
 #source(here("bin", "LPIMain.R")) # adicionado por não ter pacote rlpi
 mydata_lpi <- LPIMain(#infile = here("lpi", "mydata_data_infile.txt"),
-                      infile = here("mydata_data_infile.txt"),
+                      infile = here("data", "Infile_infile.txt"),
                       #basedir = here("lpi"),
                       REF_YEAR = year_vector[1],
                       PLOT_MAX = tail(year_vector, n=1),
-                      BOOT_STRAP_SIZE = 100, VERBOSE=FALSE)
+                      BOOT_STRAP_SIZE = 100) #, VERBOSE=FALSE)
 
 # ... parei aqui, nao resolvido ainda nas linhas acima!
 #---------------------------------------------
