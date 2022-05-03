@@ -19,7 +19,6 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 library(here)
 library(tidyverse)
 library(dplyr)
-install.packages("rlpi")
 library(rlpi)
 ```
 
@@ -29,6 +28,7 @@ Carregar função para cálculo
 
 ```{r}
 source(here("bin", "lpi_icmbio.R"))
+source(here("bin", "LPIMain.R"))
 ```
 
 Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
@@ -85,26 +85,21 @@ mydata$populacao = str_replace(mydata$populacao, " ", "_")
 mydata$esforco= mydata$esforco/1000
 ```
 
-Contagem de Unidades de Conservação
-
+CONTAGENS:
+- UCs
+- Espécies
+- Populações
 ```{r}
+#Contagem de UCs
 ucs <- mydata %>%
   group_by(nome_UC) %>%
   count()
-```
-
-Contagem de espécies
-
-```{r}
+#Contagem de espécies
 sp <- mydata %>%
   group_by(binomial) %>%
   count() %>%
   arrange(desc(n))
-```
-
-Contagem de populações
-
-```{r}
+#Contagem de populações
 population <- mydata %>%
   group_by(populacao, cnuc) %>%
   count() %>%
@@ -115,7 +110,7 @@ population <- mydata %>%
 Cálculo de esforço
 
 ```{r}
-effort00 <- mydata %>%
+effort <- mydata %>%
 #AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
   group_by(cnuc, ano) %>%
 #SOMAR ESFORÇO ANUAL POR UNIDADE DE CONSERVAÇÃO
@@ -131,7 +126,7 @@ effort00 <- mydata %>%
 Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
 
 ```{r}
-ucs_selecionadas <- effort00 %>%
+ucs_selecionadas <- effort %>%
   group_by(cnuc) %>% 
   count() %>%
   filter(n > 1) %>%
@@ -228,3 +223,4 @@ taxas_anuais <- taxas_anuais %>%
 
 print(taxas_anuais, n=Inf)
 ```
+
