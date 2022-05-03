@@ -2,7 +2,7 @@
 # Basicamente a função ggplot_lpi do pacote rlpi, com pequenas modificações
 
 ggplot_lpi_modif <- function (d, col = "darkblue", line_col = "white",
-                              title = "", ylims = c(0, 3.5), xlims = NULL,
+                              title = "", ylims = c(0, 2), xlims = NULL,
                               trans = "identity", yrbreaks = 5, lpi_breaks = 1) 
 {
   df <- data.frame(years = as.numeric(as.character(rownames(d))), 
@@ -28,7 +28,7 @@ ggplot_lpi_modif <- function (d, col = "darkblue", line_col = "white",
     axis.text.x = ggplot2::element_text(size = 10, angle = 0, hjust = 1)
   )
   g <- g + ggplot2::ggtitle(title)
-  g <- g + ggplot2::ylab(paste ("Índice LPI (", rownames(d)[1] ,"=1)", sep = " "))
+  g <- g + ggplot2::ylab(paste ("Indice LPI (", rownames(d)[1] ,"=1)", sep = " "))
   g <- g + ggplot2::xlab("Ano")
   g <- g + ggplot2::scale_y_continuous(
     trans = trans, breaks = seq(ylims[1], ylims[2], lpi_breaks)
