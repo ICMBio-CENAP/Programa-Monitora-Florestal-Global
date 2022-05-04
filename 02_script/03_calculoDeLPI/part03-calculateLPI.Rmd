@@ -16,21 +16,22 @@ Função prepara dados do icmbio e chama funções do pacote `rlpi`
 Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
 ```{r pacotes, include=FALSE}
+rm(list = ls(all = TRUE))
 library(here)
 library(tidyverse)
 library(dplyr)
 ```
 
 ```{r}
-source(here("bin", "LPIMain.R"))
-source(here("bin", "create_infile.R"))
-source(here("bin", "CalcLPI.R"))
-source(here("bin", "ProcessFile.R"))
-source(here("bin", "debug_print.R"))
-source(here("bin", "calculate_index.R"))
-source(here("bin", "bootstrap_lpi.R"))
-source(here("bin", "plot_lpi.R"))
-source(here("bin", "ggplot_lpi_modif.R"))
+source(here("02_script/funcoes", "LPIMain.R"))
+source(here("02_script/funcoes", "create_infile.R"))
+source(here("02_script/funcoes", "CalcLPI.R"))
+source(here("02_script/funcoes", "ProcessFile.R"))
+source(here("02_script/funcoes", "debug_print.R"))
+source(here("02_script/funcoes", "calculate_index.R"))
+source(here("02_script/funcoes", "bootstrap_lpi.R"))
+source(here("02_script/funcoes", "plot_lpi.R"))
+source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
 ```
 
 ### CÁLCULO DE LPI
@@ -38,7 +39,7 @@ source(here("bin", "ggplot_lpi_modif.R"))
 Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior através de `part02-dataPrepLPI.Rmd`
 
 ```{r}
-taxas_anuais <- read.csv(here("output", "taxas_anuais.csv"))
+taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
 ```
 
 Adicionar campo identificador `ID`
