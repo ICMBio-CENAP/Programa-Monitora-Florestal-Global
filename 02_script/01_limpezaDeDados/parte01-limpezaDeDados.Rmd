@@ -77,7 +77,6 @@ dados <- dados %>%
 Exportar arquivo `*.rds`
 
 ```{r exportar}
-here() 
 saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
 ```
 \newpage
