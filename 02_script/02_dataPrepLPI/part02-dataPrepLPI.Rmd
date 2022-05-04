@@ -27,7 +27,7 @@ library(dplyr)
 Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
 
 ```{r}
-mydata <- readRDS(here("data", "dadosICMBio_2014a2019.rds"))
+mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
 ```
 
 Correção de taxonomia
@@ -220,5 +220,5 @@ print(taxas_anuais, n=Inf)
 Exportar arquivo para próxima etapa
 
 ```{r}
-write.csv(taxas_anuais, here("output", "taxas_anuais.csv") )
+write.csv(taxas_anuais, here("03_dadosDeSaida/dados", "taxas_anuais.csv") )
 ```
