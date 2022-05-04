@@ -59,7 +59,6 @@ year_vector <- 2014:2019
 
 ```
 
-Cálculo de esforço
 
 ```{r}
 # criar infile
@@ -73,7 +72,6 @@ mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector,
 ```{r}
 # Calcular LPI com 100 bootstraps
 #source(here("bin", "LPIMain.R")) # adicionado por não ter pacote rlpi
-getwd()
 mydata_lpi <- LPIMain(#infile = here("lpi", "mydata_data_infile.txt"),
                       infile = "Infile_infile.txt",
                       #basedir = here("lpi"),
@@ -92,6 +90,6 @@ mydata_lpi <- mydata_lpi[complete.cases(mydata_lpi), ]
 ```{r}
 # Gerar gráfico mais bonito usando função ggplot_lpi_modif
 ggplot_lpi_modif(mydata_lpi, col="darkcyan")
-
-
+ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
 ```
+
