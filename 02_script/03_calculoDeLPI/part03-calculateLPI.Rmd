@@ -92,4 +92,3 @@ mydata_lpi <- mydata_lpi[complete.cases(mydata_lpi), ]
 ggplot_lpi_modif(mydata_lpi, col="darkcyan")
 ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
 ```
-
