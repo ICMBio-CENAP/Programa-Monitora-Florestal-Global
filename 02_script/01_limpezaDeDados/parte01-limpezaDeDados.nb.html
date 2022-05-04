@@ -1834,13 +1834,15 @@ dados &lt;- dados %&gt;%
 <p>Exportar arquivo <code>*.rds</code></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVyZSgpIFxuXG5gYGAifQ== -->
-<pre class="r"><code>here() 
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVyZSgpIFxuYGBgIn0= -->
+<pre class="r"><code>here() </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiRDovZ2l0L21vbml0b3JhRmxvcmVzdGFsR2xvYmFsXCJcbiJ9 -->
 <pre><code>[1] &quot;D:/git/monitoraFlorestalGlobal&quot;</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2F2ZVJEUyhkYWRvcywgaGVyZShcIjAzX2RhZG9zRGVTYWlkYS9kYWRvc1wiLCBcImRhZG9zSUNNQmlvXzIwMTRhMjAxOS5yZHNcIikpXG5gYGAifQ== -->
+<pre class="r"><code>saveRDS(dados, here(&quot;03_dadosDeSaida/dados&quot;, &quot;dadosICMBio_2014a2019.rds&quot;))</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div style="page-break-after: always;"></div>
@@ -1856,6 +1858,13 @@ necessário a limpeza dos comentários para evitar inúmeros erros
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gcmVhZF9jc3YoaGVyZShcIjAxX2RhZG9zRGVFbnRyYWRhXCIsIFwiRGFkb3NfRmxvcmVzdGFsXzE0YTE4X2Rpc3BvbmliaWxpemFjYW8uY3N2XCIpLCBzaG93X2NvbF90eXBlcyA9IEZBTFNFKVxuYGBgIn0= -->
 <pre class="r"><code>dados &lt;- read_csv(here(&quot;01_dadosDeEntrada&quot;, &quot;Dados_Florestal_14a18_disponibilizacao.csv&quot;), show_col_types = FALSE)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTmV3IG5hbWVzOlxuKiBgYCAtPiBgLi4uMzFgXG4qIGBgIC0+IGAuLi4zMmBcbiogYGAgLT4gYC4uLjMzYFxuKiBgYCAtPiBgLi4uMzRgXG4ifQ== -->
+<pre><code>New names:
+* `` -&gt; `...31`
+* `` -&gt; `...32`
+* `` -&gt; `...33`
+* `` -&gt; `...34`</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
