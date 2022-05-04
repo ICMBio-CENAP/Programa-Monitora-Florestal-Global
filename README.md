@@ -23,6 +23,8 @@ Calcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal
     └───plots
 ```
 
+## WORKFLOW
+
 [01_dadosDeEntrada](https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global/tree/master/01_dadosDeEntrada "01_dadosDeEntrada") contém os dados brutos do Programa Florestal Global.
 
 [02_script](https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global/tree/master/02_script "02_script") contém scripts e funções a serem usados na seguintes ordem:
