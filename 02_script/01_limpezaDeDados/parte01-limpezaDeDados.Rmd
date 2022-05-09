@@ -14,10 +14,13 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
 library(here)
-library(readr)
-library(lubridate)
-library(dplyr)
-library(stringr)
+source(here("02_script/funcoes", "pacotes.R"))
+pacotes("readr","lubridate","dplyr","stringr")
+#library(here)
+#library(readr)
+#library(lubridate)
+#library(dplyr)
+#library(stringr)
 ```
 
 ### DADOS CONSOLIDADOS DE MAMÍFEROS E AVES
