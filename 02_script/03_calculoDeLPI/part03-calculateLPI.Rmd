@@ -1,15 +1,14 @@
 ---
 title: "Parte 03 - CÁLCULO DE LPI"
 output:
-  html_document:
-    df_print: paged
+  pdf_document: default
   html_notebook: default
   word_document: default
+  html_document:
+    df_print: paged
 ---
 
 Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
-
-Função prepara dados do icmbio e chama funções do pacote `rlpi`
 
 **Em fase de TESTE**
 
@@ -22,6 +21,7 @@ library(tidyverse)
 library(dplyr)
 ```
 
+Funções do pacote `Rlpi`. O pacote apresenta várias limitações e por isso adotamos o uso das funções.
 ```{r}
 source(here("02_script/funcoes", "LPIMain.R"))
 source(here("02_script/funcoes", "create_infile.R"))
@@ -51,14 +51,13 @@ mydata_lpi <- taxas_anuais %>%
   select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
 ```
 
-
+Ajustes e criação de objetos necessários para o cálculo de LPI
 ```{r}
 # criar objetos que necessarios para lpi
 index_vector = rep(TRUE, nrow(mydata_lpi))
 year_vector <- 2014:2019
 
 ```
-
 
 ```{r}
 # criar infile
@@ -69,6 +68,7 @@ mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector,
                                CUT_OFF_YEAR = year_vector[1])
 ```
 
+Cálculo geral de LPI (para todas as UCs)
 ```{r}
 # Calcular LPI com 100 bootstraps
 #source(here("bin", "LPIMain.R")) # adicionado por não ter pacote rlpi
