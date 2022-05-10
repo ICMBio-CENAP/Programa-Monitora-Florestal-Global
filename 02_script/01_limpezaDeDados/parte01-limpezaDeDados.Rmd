@@ -1,6 +1,8 @@
 ---
 title: "Parte 01 - Limpeza de Dados"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 Limpeza de dados para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).

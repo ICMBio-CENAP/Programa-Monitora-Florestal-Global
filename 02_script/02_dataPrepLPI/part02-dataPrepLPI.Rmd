@@ -7,9 +7,7 @@ output:
   word_document: default
 ---
 
-Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
-
-Função prepara dados do icmbio e chama funções do pacote `rlpi`
+Script de preparação de dados para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
 
 **Em fase de TESTE**
 
@@ -28,54 +26,6 @@ Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa a
 
 ```{r}
 mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
-```
-
-Correção de taxonomia
-
--   Correção de nomes científicos
-
--   Exclusão de identificações imprecisas
-
--   Atualizar campo identificador `populacao`
-
-```{r}
-mydata <- mydata %>%
-#CORREÇÃO DE NOMES CIENTÍFICOS
-mutate(binomial = case_when(
-  binomial == "bradypus variegatus" ~ "Bradypus variegatus",
-  binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
-  binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
-  binomial == "Speothus venaticus" ~ "Speothos venaticus",
-  
-  TRUE ~ binomial
-  )
-  ) %>%
-#REMOVER IDENTIFICAÇÕES IMPRECISAS
-  filter(! binomial  %in% c(
-    NA,
-    "E",
-    "Tinamidae",
-    "Cracidae",
-    "Sciuridae",
-    "Callitrichidae",
-    "Pitheciidae",
-    "Atelidae",
-    "Cebidae",
-    "Primates",
-    "Felidae",
-    "Bradypodidae",
-    "Cervidae",
-    "Tayassuidae",
-    "Dasyprocta cf. fuliginosa",
-    "Procyonidae"
-    )
-    ) %>%
-#REMOVER *.sp
-  filter(! grepl('sp.', binomial))
-#ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
-mydata$populacao = paste(mydata$binomial, mydata$cnuc, sep ="_")
-mydata$populacao = str_replace(mydata$populacao, " ", "_")
-mydata$esforco= mydata$esforco/1000
 ```
 
 CONTAGENS:
@@ -105,7 +55,7 @@ Cálculo de esforço
 ```{r}
 effort <- mydata %>%
 #AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
-  group_by(cnuc, ano) %>%
+  group_by(cnuc, nome_UC, ano) %>%
 #SOMAR ESFORÇO ANUAL POR UNIDADE DE CONSERVAÇÃO
   summarize(sum(esforco, na.rm = TRUE)) %>%
 #RENOMEAR COLUNA RESULTANTE
@@ -170,7 +120,7 @@ n_registros <- mydata %>%
  # mutate(n = as.numeric(n))
 ```
 
-Número de registros anuais em formato *wide* (QPEHE)
+Número de registros anuais em formato *wide*
 
 ```{r}
 n_registros_wide <- n_registros %>%
@@ -191,7 +141,7 @@ n_registros_wide
 
 ### Taxa de encontro anual
 
-Estimativa de abundância relativa (número de registros por esforço). Neste caso *NAs* devem ser mantidos! Vai entender...
+Estimativa de abundância relativa (número de registros por esforço). Neste caso *NAs* devem ser mantidos.
 
 ```{r}
 taxas_anuais <- data.frame(n_registros_wide)
