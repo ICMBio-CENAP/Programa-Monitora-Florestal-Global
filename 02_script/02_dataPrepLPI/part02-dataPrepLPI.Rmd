@@ -40,12 +40,12 @@ ucs <- mydata %>%
   count()
 #Contagem de espécies
 sp <- mydata %>%
-  group_by(binomial) %>%
+  group_by(classe, ordem, familia, genero, binomial) %>%
   count() %>%
   arrange(desc(n))
 #Contagem de populações
 population <- mydata %>%
-  group_by(populacao, cnuc) %>%
+  group_by(nome_UC, populacao, cnuc) %>%
   count() %>%
   arrange(desc(n)) %>%
   filter()
@@ -53,7 +53,7 @@ population <- mydata %>%
 
 Cálculo de esforço
 
-```{r}
+```{r, message=FALSE}
 effort <- mydata %>%
 #AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
   group_by(cnuc, nome_UC, ano) %>%
@@ -92,7 +92,7 @@ Esforço anual em km
 
 ```{r}
 esforco_anual <- mydata %>%
-  group_by(cnuc, ano) %>%
+  group_by(cnuc,nome_UC, ano) %>%
   summarize(esforco = sum(esforco, na.rm = TRUE))
 ```
 
@@ -102,6 +102,7 @@ Esforço anual em formato *wide* (QPEHE)
 esforco_anual_wide <- esforco_anual %>%
   pivot_wider(names_from = ano, values_from = esforco) %>%
   select(cnuc,
+         nome_UC,
          `2014`,
          `2015`,
          `2016`,
@@ -112,11 +113,22 @@ esforco_anual_wide <- esforco_anual %>%
   ungroup()
 ```
 
+```{r}
+
+```
+
+
 Número de registros anuais
 
 ```{r}
+#NÚMERO DE REGISTROS ANÁLISE
 n_registros <- mydata %>%
   group_by(cnuc, ano, populacao) %>%
+  count() #%>%
+ # mutate(n = as.numeric(n))
+#NÚMERO DE REGISTROS PARA RELATÓRIO
+nRegistrosReport <- mydata %>%
+  group_by(cnuc, nome_UC, ano, populacao) %>%
   count() #%>%
  # mutate(n = as.numeric(n))
 ```
@@ -124,6 +136,7 @@ n_registros <- mydata %>%
 Número de registros anuais em formato *wide*
 
 ```{r}
+#PARA ANÁLISE
 n_registros_wide <- n_registros %>%
   pivot_wider(names_from = ano, values_from = n) %>%
   select(cnuc,
@@ -138,6 +151,23 @@ n_registros_wide <- n_registros %>%
   replace(is.na(.), 0) %>%
   ungroup()
 n_registros_wide
+#PARA RELATÓRIO
+nRegistrosWideReport <- n_registros %>%
+  pivot_wider(names_from = ano, values_from = n) %>%
+  select(cnuc,
+         nome_UC,
+         populacao,
+         `2014`,
+         `2015`,
+         `2016`,
+         `2017`,
+         `2018`,
+         `2019`
+         ) %>%
+  replace(is.na(.), 0) %>%
+  ungroup()
+n_registros_report
+
 ```
 
 ### Taxa de encontro anual
@@ -150,7 +180,7 @@ esforcos_anuais <- data.frame(esforco_anual_wide)
 for(i in 1:nrow(taxas_anuais)) {
   cnuc_temp <- taxas_anuais[i, "cnuc"]
   esforco_temp <- esforcos_anuais %>% filter(cnuc == cnuc_temp) %>% select(-cnuc)
-  taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
+  taxas_anuais[i, 4:9] <- round(taxas_anuais[i, 4:9]/esforco_temp, 3)
 }
 taxas_anuais <- as_tibble(taxas_anuais)
 taxas_anuais %>%
@@ -167,6 +197,12 @@ taxas_anuais <- taxas_anuais %>%
 
 print(taxas_anuais, n=Inf)
 ```
+
+```{r}
+names(ucs)
+merge(taxas_anuais,ucs, by = )
+```
+
 
 Exportar arquivo para próxima etapa
 
