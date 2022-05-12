@@ -41,6 +41,7 @@ Caso haja necessidade de reutilizar os dados originais notar que foi necessário
 
 ```{r leitura}
 dados <- read_csv(here("01_dadosDeEntrada", "Planilha.consolidada.mastoaves.ate.2019a.csv"), show_col_types = FALSE)
+dados <- subset(dados, select = c(1:30))
 ```
 \newpage
 
@@ -130,7 +131,7 @@ write_csv(dados,here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.txt"))
 Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros (descritos acima).
 
 ```{r}
-dados <- read_csv(here("01_dadosDeEntrada", "Dados_Florestal_14a18_disponibilizacao.csv"), show_col_types = FALSE)
+dados <- read_csv(here("01_dadosDeEntrada", "Dados_Florestal_14a18_disponibilizacao1.csv"), show_col_types = FALSE)
 ```
 
 ### AJUSTES
