@@ -126,7 +126,7 @@ n_registros <- mydata %>%
   group_by(cnuc, ano, populacao) %>%
   count() #%>%
  # mutate(n = as.numeric(n))
-#NÚMERO DE REGISTROS PARA RELATÓRIO
+#NÚMERO DE REGISTROS PARA O RELATÓRIO
 nRegistrosReport <- mydata %>%
   group_by(cnuc, nome_UC, ano, populacao) %>%
   count() #%>%
@@ -152,7 +152,7 @@ n_registros_wide <- n_registros %>%
   ungroup()
 n_registros_wide
 #PARA RELATÓRIO
-nRegistrosWideReport <- n_registros %>%
+nRegistrosWideReport <- nRegistrosReport %>%
   pivot_wider(names_from = ano, values_from = n) %>%
   select(cnuc,
          nome_UC,
@@ -166,7 +166,7 @@ nRegistrosWideReport <- n_registros %>%
          ) %>%
   replace(is.na(.), 0) %>%
   ungroup()
-n_registros_report
+#n_registros_report
 
 ```
 
@@ -180,7 +180,7 @@ esforcos_anuais <- data.frame(esforco_anual_wide)
 for(i in 1:nrow(taxas_anuais)) {
   cnuc_temp <- taxas_anuais[i, "cnuc"]
   esforco_temp <- esforcos_anuais %>% filter(cnuc == cnuc_temp) %>% select(-cnuc)
-  taxas_anuais[i, 4:9] <- round(taxas_anuais[i, 4:9]/esforco_temp, 3)
+  taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
 }
 taxas_anuais <- as_tibble(taxas_anuais)
 taxas_anuais %>%

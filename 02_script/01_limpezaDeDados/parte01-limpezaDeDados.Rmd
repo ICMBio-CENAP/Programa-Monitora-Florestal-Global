@@ -81,7 +81,8 @@ dados <- dados %>%
 ```{r}
 dados <- dados %>%
 #CORREÇÃO DE NOMES CIENTÍFICOS
-mutate(binomial = case_when(
+
+  mutate(binomial = case_when(
   binomial == "bradypus variegatus" ~ "Bradypus variegatus",
   binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
   binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
@@ -90,7 +91,8 @@ mutate(binomial = case_when(
   TRUE ~ binomial
   )
   ) %>%
-#REMOVER IDENTIFICAÇÕES IMPRECISAS
+
+  #REMOVER IDENTIFICAÇÕES IMPRECISAS
   filter(! binomial  %in% c(
     NA,
     "E",
@@ -113,6 +115,7 @@ mutate(binomial = case_when(
 #REMOVER *.sp
   filter(! grepl('sp.', binomial))
 #ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+dados$genero <- word(dados$binomial,1)
 dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
 dados$populacao = str_replace(dados$populacao, " ", "_")
 dados$esforco= dados$esforco/1000
@@ -235,6 +238,7 @@ mutate(binomial = case_when(
 #REMOVER *.sp
   filter(! grepl('sp.', binomial))
 #ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+dados$genero <- word(dados$binomial,1)
 dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
 dados$populacao = str_replace(dados$populacao, " ", "_")
 dados$esforco= dados$esforco/1000
