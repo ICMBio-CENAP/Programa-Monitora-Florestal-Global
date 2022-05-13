@@ -18,7 +18,7 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 rm(list = ls(all = TRUE))
 library(here)
 library(tidyverse)
-library(dplyr)
+#library(dplyr)
 ```
 
 ### PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI
@@ -36,7 +36,7 @@ CONTAGENS:
 ```{r}
 #Contagem de UCs
 ucs <- mydata %>%
-  group_by(nome_UC) %>%
+  group_by(cnuc,nome_UC) %>%
   count()
 #Contagem de espécies
 sp <- mydata %>%
@@ -92,6 +92,10 @@ Esforço anual em km
 
 ```{r}
 esforco_anual <- mydata %>%
+  group_by(cnuc, ano) %>%
+  summarize(esforco = sum(esforco, na.rm = TRUE))
+
+esforcoAnualReport <- mydata %>%
   group_by(cnuc,nome_UC, ano) %>%
   summarize(esforco = sum(esforco, na.rm = TRUE))
 ```
@@ -100,6 +104,18 @@ Esforço anual em formato *wide* (QPEHE)
 
 ```{r}
 esforco_anual_wide <- esforco_anual %>%
+  pivot_wider(names_from = ano, values_from = esforco) %>%
+  select(cnuc,
+         `2014`,
+         `2015`,
+         `2016`,
+         `2017`,
+         `2018`,
+         `2019`
+         ) %>%
+  ungroup()
+
+esforcoAnualWideReport <- esforcoAnualReport %>%
   pivot_wider(names_from = ano, values_from = esforco) %>%
   select(cnuc,
          nome_UC,
@@ -111,6 +127,7 @@ esforco_anual_wide <- esforco_anual %>%
          `2019`
          ) %>%
   ungroup()
+
 ```
 
 ```{r}
@@ -199,8 +216,7 @@ print(taxas_anuais, n=Inf)
 ```
 
 ```{r}
-names(ucs)
-merge(taxas_anuais,ucs, by = )
+taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
 ```
 
 
