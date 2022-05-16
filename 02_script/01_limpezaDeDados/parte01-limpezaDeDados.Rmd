@@ -39,7 +39,7 @@ Caso haja necessidade de reutilizar os dados originais notar que foi necessário
     `"Distância estimada. estava na outra margem do igarapé: S 4° 36' 32"", w 56° 24' 51.2"""`
 
 ```{r leitura, warning=FALSE}
-dados <- read_csv("../../01_dadosDeEntrada/Planilha.consolidada.mastoaves.ate.2019a.csv", show_col_types = FALSE)
+dados <-  readr::read_csv("../../01_dadosDeEntrada/Planilha.consolidada.mastoaves.ate.2019a.csv", show_col_types = FALSE)
 dados <- subset(dados, select = c(1:30))
 ```
 \newpage
@@ -49,7 +49,8 @@ dados <- subset(dados, select = c(1:30))
 ```{r}
 #RENOMEAR COLUNAS
 dados <- dados %>%
-  rename(cnuc = "CDUC",
+  dplyr::rename(
+         cnuc = "CDUC",
          nome_UC = "Local - Nome da Unidade de Conservacao",
          estacao_amostral = "Numero da Estacao Amostral",
          nome_ea = "Nome da EA",
@@ -64,24 +65,41 @@ dados <- dados %>%
          genero = "Genero",
          binomial = "Especies validadas para analise do ICMBio",
          n_animais = "n de animais",
-         distancia = "distancia (m) do animal em relacao a trilha") %>%
+         distancia = "distancia (m) do animal em relacao a trilha"
+         ) %>%
 #AJUSTAR FORMATO DE DATA
-  mutate(data = as.Date(data, "%d/%m/%Y"),
+  dplyr::mutate(data = as.Date(data, "%d/%m/%Y"),
          ano = year(data),
 #CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
          populacao = paste(binomial, cnuc, sep ="_"),
          populacao = str_replace(populacao, " ", "_")) %>%
 #REMOVER COLUNAS DESNECESSÁRIAS
-  select(cnuc, nome_UC, estacao_amostral, nome_ea, esforco, ano, data,
-         hora_inicio, hora_fim, classe, ordem, familia, genero, binomial,
-         n_animais, distancia, populacao)
+  dplyr::select(
+    cnuc,
+    nome_UC,
+    estacao_amostral,
+    nome_ea,
+    esforco,
+    ano,
+    data,
+    hora_inicio,
+    hora_fim,
+    classe,
+    ordem,
+    familia,
+    genero,
+    binomial,
+    n_animais,
+    distancia,
+    populacao
+    )
 ```
 
 ```{r}
 dados <- dados %>%
 #CORREÇÃO DE NOMES CIENTÍFICOS
 
-  mutate(binomial = case_when(
+  dplyr::mutate(binomial = case_when(
   binomial == "bradypus variegatus" ~ "Bradypus variegatus",
   binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
   binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
@@ -92,7 +110,7 @@ dados <- dados %>%
   ) %>%
 
   #REMOVER IDENTIFICAÇÕES IMPRECISAS
-  filter(! binomial  %in% c(
+  dplyr::filter(! binomial  %in% c(
     NA,
     "E",
     "Tinamidae",
@@ -112,7 +130,7 @@ dados <- dados %>%
     )
     ) %>%
 #REMOVER *.sp
-  filter(! grepl('sp.', binomial))
+  dplyr::filter(! grepl('sp.', binomial))
 #ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
 dados$genero <- word(dados$binomial,1)
 dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
@@ -133,7 +151,7 @@ write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.txt")
 Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros (descritos acima).
 
 ```{r}
-dados <- read_csv("../../01_dadosDeEntrada/Dados_Florestal_14a18_disponibilizacao1.csv", show_col_types = FALSE)
+dados <-  readr::read_csv("../../01_dadosDeEntrada/Dados_Florestal_14a18_disponibilizacao1.csv", show_col_types = FALSE)
 ```
 
 ### AJUSTES
