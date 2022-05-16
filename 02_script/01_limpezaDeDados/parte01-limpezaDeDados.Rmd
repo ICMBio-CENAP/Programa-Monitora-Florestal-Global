@@ -13,8 +13,7 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
-library(here)
-source(here("02_script/funcoes", "pacotes.R"))
+source("../funcoes/pacotes.R")
 pacotes("readr","lubridate","dplyr","stringr")
 #library(here)
 #library(readr)
@@ -39,8 +38,8 @@ Caso haja necessidade de reutilizar os dados originais notar que foi necessário
 
     `"Distância estimada. estava na outra margem do igarapé: S 4° 36' 32"", w 56° 24' 51.2"""`
 
-```{r leitura}
-dados <- read_csv(here("01_dadosDeEntrada", "Planilha.consolidada.mastoaves.ate.2019a.csv"), show_col_types = FALSE)
+```{r leitura, warning=FALSE}
+dados <- read_csv("../../01_dadosDeEntrada/Planilha.consolidada.mastoaves.ate.2019a.csv", show_col_types = FALSE)
 dados <- subset(dados, select = c(1:30))
 ```
 \newpage
@@ -124,8 +123,8 @@ dados$esforco= dados$esforco/1000
 Exportar arquivos `*.rds` e `*.txt`
 
 ```{r exportar}
-saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
-write_csv(dados,here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.txt"))
+saveRDS(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.rds")
+write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.txt")
 ```
 \newpage
 
@@ -134,7 +133,7 @@ write_csv(dados,here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.txt"))
 Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros (descritos acima).
 
 ```{r}
-dados <- read_csv(here("01_dadosDeEntrada", "Dados_Florestal_14a18_disponibilizacao1.csv"), show_col_types = FALSE)
+dados <- read_csv("../../01_dadosDeEntrada/Dados_Florestal_14a18_disponibilizacao1.csv", show_col_types = FALSE)
 ```
 
 ### AJUSTES
@@ -247,6 +246,6 @@ dados$esforco= dados$esforco/1000
 Exportar arquivo `*.rds` e `*.txt`
 
 ```{r}
-saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2018.rds"))
-write_csv(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2018.txt"))
+saveRDS(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2018.rds")
+write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2018.txt")
 ```

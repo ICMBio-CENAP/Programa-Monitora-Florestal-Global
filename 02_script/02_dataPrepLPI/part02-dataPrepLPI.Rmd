@@ -18,7 +18,7 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 rm(list = ls(all = TRUE))
 library(here)
 library(tidyverse)
-#library(dplyr)
+library(dplyr)
 ```
 
 ### PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI
@@ -216,9 +216,24 @@ print(taxas_anuais, n=Inf)
 ```
 
 ```{r}
-taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
+#taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
+#taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
+#taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
+#taxas_anuaisTeste <- taxas_anuais[,2:8]
+
 ```
 
+taxas_anuaisLonger <- taxas_anuais[,-1]
+taxas_anuais <-
+taxas_anuaisLonger %>%
+    pivot_longer(!populacao, names_to = "ano", values_to = "index")
+
+taxas_anuais$cnuc <- substring(taxas_anuais$populacao,nchar(taxas_anuais$populacao)-2,nchar(taxas_anuais$populacao))
+taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
+taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
+taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
+taxas_anuais$ano <- gsub("X","", taxas_anuais$ano)
+#taxas_anuaisTeste <- taxas_anuais[,2:8]
 
 Exportar arquivo para próxima etapa
 

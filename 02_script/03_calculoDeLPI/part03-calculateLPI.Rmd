@@ -18,7 +18,6 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 rm(list = ls(all = TRUE))
 library(here)
 library(tidyverse)
-library(dplyr)
 ```
 
 Funções do pacote `Rlpi`. O pacote apresenta várias limitações e por isso adotamos o uso das funções.
