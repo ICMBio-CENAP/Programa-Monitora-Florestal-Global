@@ -1,11 +1,11 @@
 ---
 title: "Parte 01 - Limpeza de Dados"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
-Script para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
-
-Função prepara dados do icmbio e chama funções do pacote rlpi
+Limpeza de dados para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
 
 **Em fase de TESTE**
 
@@ -13,8 +13,7 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
-library(here)
-source(here("02_script/funcoes", "pacotes.R"))
+source("../funcoes/pacotes.R")
 pacotes("readr","lubridate","dplyr","stringr")
 #library(here)
 #library(readr)
@@ -39,8 +38,9 @@ Caso haja necessidade de reutilizar os dados originais notar que foi necessário
 
     `"Distância estimada. estava na outra margem do igarapé: S 4° 36' 32"", w 56° 24' 51.2"""`
 
-```{r leitura}
-dados <- read_csv(here("01_dadosDeEntrada", "Planilha.consolidada.mastoaves.ate.2019a.csv"), show_col_types = FALSE)
+```{r leitura, warning=FALSE}
+dados <- read_csv("../../01_dadosDeEntrada/Planilha.consolidada.mastoaves.ate.2019a.csv", show_col_types = FALSE)
+dados <- subset(dados, select = c(1:30))
 ```
 \newpage
 
@@ -77,10 +77,54 @@ dados <- dados %>%
          n_animais, distancia, populacao)
 ```
 
-Exportar arquivo `*.rds`
+```{r}
+dados <- dados %>%
+#CORREÇÃO DE NOMES CIENTÍFICOS
+
+  mutate(binomial = case_when(
+  binomial == "bradypus variegatus" ~ "Bradypus variegatus",
+  binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
+  binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
+  binomial == "Speothus venaticus" ~ "Speothos venaticus",
+  
+  TRUE ~ binomial
+  )
+  ) %>%
+
+  #REMOVER IDENTIFICAÇÕES IMPRECISAS
+  filter(! binomial  %in% c(
+    NA,
+    "E",
+    "Tinamidae",
+    "Cracidae",
+    "Sciuridae",
+    "Callitrichidae",
+    "Pitheciidae",
+    "Atelidae",
+    "Cebidae",
+    "Primates",
+    "Felidae",
+    "Bradypodidae",
+    "Cervidae",
+    "Tayassuidae",
+    "Dasyprocta cf. fuliginosa",
+    "Procyonidae"
+    )
+    ) %>%
+#REMOVER *.sp
+  filter(! grepl('sp.', binomial))
+#ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+dados$genero <- word(dados$binomial,1)
+dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
+dados$populacao = str_replace(dados$populacao, " ", "_")
+dados$esforco= dados$esforco/1000
+```
+
+Exportar arquivos `*.rds` e `*.txt`
 
 ```{r exportar}
-saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+saveRDS(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.rds")
+write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.txt")
 ```
 \newpage
 
@@ -89,7 +133,7 @@ saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
 Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros (descritos acima).
 
 ```{r}
-dados <- read_csv(here("01_dadosDeEntrada", "Dados_Florestal_14a18_disponibilizacao.csv"), show_col_types = FALSE)
+dados <- read_csv("../../01_dadosDeEntrada/Dados_Florestal_14a18_disponibilizacao1.csv", show_col_types = FALSE)
 ```
 
 ### AJUSTES
@@ -145,10 +189,63 @@ dados <- dados %>%
     distancia,
     populacao
     )
+
+#AJUSTE RESEX RIO OURO PRETO
+dados$cnuc <- gsub("#REF!","256", dados$cnuc)
 ```
 
-Exportar arquivo `*.rds`
+Correção de taxonomia
+
+-   Correção de nomes científicos
+
+-   Exclusão de identificações imprecisas
+
+-   Atualizar campo identificador `populacao`
 
 ```{r}
-saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2018.rds"))
+dados <- dados %>%
+#CORREÇÃO DE NOMES CIENTÍFICOS
+mutate(binomial = case_when(
+  binomial == "bradypus variegatus" ~ "Bradypus variegatus",
+  binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
+  binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
+  binomial == "Speothus venaticus" ~ "Speothos venaticus",
+  
+  TRUE ~ binomial
+  )
+  ) %>%
+#REMOVER IDENTIFICAÇÕES IMPRECISAS
+  filter(! binomial  %in% c(
+    NA,
+    "E",
+    "Tinamidae",
+    "Cracidae",
+    "Sciuridae",
+    "Callitrichidae",
+    "Pitheciidae",
+    "Atelidae",
+    "Cebidae",
+    "Primates",
+    "Felidae",
+    "Bradypodidae",
+    "Cervidae",
+    "Tayassuidae",
+    "Dasyprocta cf. fuliginosa",
+    "Procyonidae"
+    )
+    ) %>%
+#REMOVER *.sp
+  filter(! grepl('sp.', binomial))
+#ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+dados$genero <- word(dados$binomial,1)
+dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
+dados$populacao = str_replace(dados$populacao, " ", "_")
+dados$esforco= dados$esforco/1000
+```
+
+Exportar arquivo `*.rds` e `*.txt`
+
+```{r}
+saveRDS(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2018.rds")
+write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2018.txt")
 ```
