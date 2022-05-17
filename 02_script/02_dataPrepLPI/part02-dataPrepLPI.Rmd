@@ -220,5 +220,7 @@ print(taxas_anuais, n=Inf)
 Exportar arquivo para próxima etapa
 
 ```{r}
+#ADICIONAR NOMES DAS ESPÉCIES
+taxas_anuais$sp <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
 write.csv(taxas_anuais, here("03_dadosDeSaida/dados", "taxas_anuais.csv") )
 ```
