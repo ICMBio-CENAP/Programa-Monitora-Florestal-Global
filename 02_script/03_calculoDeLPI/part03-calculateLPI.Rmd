@@ -38,7 +38,7 @@ source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
 Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior através de `part02-dataPrepLPI.Rmd`
 
 ```{r}
-taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
+taxas_anuais <- read.csv("../../03_dadosDeSaida/dados/taxas_anuais.csv")
 ```
 
 Adicionar campo identificador `ID`
