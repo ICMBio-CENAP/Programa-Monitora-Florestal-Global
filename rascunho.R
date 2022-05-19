@@ -1,5 +1,4 @@
 
-
 taxas_anuais1 <- pivot_longer(taxas_anuais,
                               cols = starts_with("X"),
                               names_to = "populacao") 
@@ -44,18 +43,41 @@ ggplot(taxas_anuais)+
   taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
   taxas_anuais$ano <- gsub("X","", taxas_anuais$ano)
   #taxas_anuaisTeste <- taxas_anuais[,2:8]
+  library(here)
+  library(dbplyr)
+  library(tidyverse)
+  
+  mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+  #Contagem de UCs
+  ucs <- mydata %>%
+    group_by(cnuc,nome_UC) %>%
+    count()
+  
+  taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
+  taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")  
+  
+  source(here("02_script/funcoes", "LPIMain.R"))
+  source(here("02_script/funcoes", "create_infile.R"))
+  source(here("02_script/funcoes", "CalcLPI.R"))
+  source(here("02_script/funcoes", "ProcessFile.R"))
+  source(here("02_script/funcoes", "debug_print.R"))
+  source(here("02_script/funcoes", "calculate_index.R"))
+  source(here("02_script/funcoes", "bootstrap_lpi.R"))
+  source(here("02_script/funcoes", "plot_lpi.R"))
+  source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
   
   
-  ls("package:tidyverse")
-  search()
-library(tibble)
   library(ggplot2)
-  tibble::rownames_to_column(mydata_lpi)
-  for(UC in unique(taxas_anuais$cnuc)){
+
+
   
-lpi <- data.frame(ano = integer(), LPI_final = double(),CI_low = double(), CI_high = double())    
-mydata_lpi1
-lpi1 <- rbind(lpi1,mydata_lpi)
+  lpi <- data.frame(ano = integer(), LPI_final = double(),CI_low = double(), CI_high = double())    
+  
+  tibble::rownames_to_column(mydata_lpi)
+    
+    for(UC in unique(taxas_anuais$cnuc)){
+  
+lpiTemp <- rbind(lpi,mydata_lpi)
 
       
     mydata_lpi <- taxas_anuais[taxas_anuais$cnuc==UC,] %>%
