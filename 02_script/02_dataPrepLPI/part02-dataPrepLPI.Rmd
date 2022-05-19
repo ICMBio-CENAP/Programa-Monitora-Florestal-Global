@@ -200,8 +200,7 @@ for(i in 1:nrow(taxas_anuais)) {
   taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
 }
 taxas_anuais <- as_tibble(taxas_anuais)
-taxas_anuais %>%
-  print(n=Inf)
+#taxas_anuais %>%  print(n=Inf)
 ```
 
 Selecionar populações com taxa de avistamento média acima de 0.1 (1 ind/10km)
