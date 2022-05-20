@@ -118,3 +118,58 @@ lpiTemp <- rbind(lpi,mydata_lpi)
     #ggplot_lpi_modif(mydata_lpi, col="darkcyan", title = UC)
   }
   
+
+geom_smooth(method="loess", se=T) +
+
+records <- mydata %>%
+  group_by(nome_UC, populacao, ano, binomial) %>%
+  count() %>%
+  arrange(desc(nome_UC), desc(populacao), ano) %>%
+  filter(n > 60)
+
+ggplot(records, aes(x = factor(ano), y = n)) +
+  geom_bar(
+    aes(fill = binomial),
+    position = position_dodge2(preserve ="single"),
+    stat = "identity",
+    width = 1,
+    size = 1,
+    #fill = "blue"
+  )+
+  geom_hline(yintercept = 60, linetype = "dashed", color = "red")+
+  #ylim(0, 5) +
+  theme_bw() +
+  theme(
+    legend.position = "top",
+    strip.background = element_rect(fill = "grey90"),
+    strip.text.y = element_text(angle = 0, size = 10, color = "black"),# face = "bold"),
+    axis.text.x = element_text(
+      angle = 45,
+      vjust = 1,
+      hjust = 1,
+      colour = "black",
+      size = rel(1)
+    ),
+    axis.text.y = element_text(
+      angle = 0,
+      vjust = 1,
+      hjust = 1,
+      colour = "black",
+      size = rel(1)
+    ),
+    axis.title.y = element_text(
+      size = rel(1),
+      margin = margin(
+        t = 0,
+        r = 10,
+        b = 0,
+        l = 0
+      )
+    ),
+    axis.title.x = element_blank(),
+#    panel.spacing = unit(0.3, "lines"),
+#    pane
+  ) +
+  
+  facet_wrap(facet = vars(nome_UC)) +
+  ylab("NÚMERO DE REGISTROS")
