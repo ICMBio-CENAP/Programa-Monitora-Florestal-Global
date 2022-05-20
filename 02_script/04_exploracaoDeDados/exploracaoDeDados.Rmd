@@ -112,7 +112,7 @@ for(UC in unique(taxas_anuais$cnuc)){
   #Adicione uma coluna de UC e preencha todas as linhas com o nome da UC
   mydata_lpiTemp$uc <- temp
   #Pegue os anos e transforme em uma coluna
-  mydata_lpiTemp <-  tibble::rownames_to_column(mydata_lpiTemp) %>%
+  mydata_lpiTemp <- tibble::rownames_to_column(mydata_lpiTemp) %>%
     
     #Renomeie a coluna criada para ano
     rename(ano = rowname)
@@ -129,7 +129,8 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
     aes(ymin = CI_low, ymax = CI_high),
     fill = "mediumaquamarine",
     alpha = 0.9,
-    colour = "grey50"
+    colour = "grey50",
+    lwd = 0.3
     ) +
   
   geom_line(
@@ -139,29 +140,33 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
   
   geom_point() +
   
-  ylim(0,5) +
+  ylim(0, 5) +
   
   theme_bw() +
   
   theme(
     strip.background = element_rect(fill = "grey90"),
-    strip.text.y = element_text(angle = 0, size = 10, color = "black", face = "bold"),
+    
+    strip.text.y = element_text(angle = 0, size = 9, color = "black"),# face = "bold"),
+    
     axis.text.x = element_text(
       angle=45,
       vjust=1,
       hjust = 1,
       colour="black",
-      size=rel(1.3)
+      size=rel(1)
       ),
+    
     axis.text.y = element_text(
       angle=0,
       vjust=1,
       hjust = 1,
       colour="black",
-      size=rel(1.3)
+      size=rel(1)
       ),
+    
     axis.title.y = element_text(
-      size = rel(1.3),
+      size = rel(1),
       margin = margin(
         t = 0,
         r = 10,
@@ -169,11 +174,18 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
         l = 0
         )
       ),
+    
     axis.title.x = element_blank(),
-      panel.spacing = unit(0.8, "lines"),
+      panel.spacing = unit(0.3, "lines"),
+    
+    pane
+    
       ) +
 
   facet_grid(rows = vars(uc)) +
 
   ylab("LPI")
+
+#Salve o gráfico de saída.
+ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
 ```

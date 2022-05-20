@@ -93,7 +93,7 @@ LPIMain <- function(infile="Infile.txt",
                     # CalcLPI options...
                     MODEL_SELECTION_FLAG = 0,
                     GAM_GLOBAL_FLAG = 1,  # 1 = process by GAM method, 0 = process by chain method
-                    DATA_LENGTH_MIN = 2,
+                    DATA_LENGTH_MIN = 5,
                     AVG_TIME_BETWEEN_PTS_MAX = 100,
                     GLOBAL_GAM_FLAG_SHORT_DATA_FLAG = 0,  # set this if GAM model is also to be generated for the short time series else the log linear model will be used.
                     AUTO_DIAGNOSTIC_FLAG = 1,
