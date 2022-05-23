@@ -16,7 +16,6 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
-library(here)
 library(tidyverse)
 library(dplyr)
 ```
@@ -26,7 +25,7 @@ library(dplyr)
 Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
 
 ```{r}
-mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+mydata <- readRDS("../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.rds")
 ```
 
 CONTAGENS:
