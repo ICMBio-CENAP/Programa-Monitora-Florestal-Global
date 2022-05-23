@@ -16,21 +16,20 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
-library(here)
 library(tidyverse)
 ```
 
 Funções do pacote `Rlpi`. O pacote apresenta várias limitações e por isso adotamos o uso das funções.
 ```{r}
-source(here("02_script/funcoes", "LPIMain.R"))
-source(here("02_script/funcoes", "create_infile.R"))
-source(here("02_script/funcoes", "CalcLPI.R"))
-source(here("02_script/funcoes", "ProcessFile.R"))
-source(here("02_script/funcoes", "debug_print.R"))
-source(here("02_script/funcoes", "calculate_index.R"))
-source(here("02_script/funcoes", "bootstrap_lpi.R"))
-source(here("02_script/funcoes", "plot_lpi.R"))
-source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
+source("../../02_script/funcoes/LPIMain.R")
+source("../../02_script/funcoes/create_infile.R")
+source("../../02_script/funcoes/CalcLPI.R")
+source("../../02_script/funcoes/ProcessFile.R")
+source("../../02_script/funcoes/debug_print.R")
+source("../../02_script/funcoes/calculate_index.R")
+source("../../02_script/funcoes/bootstrap_lpi.R")
+source("../../02_script/funcoes/plot_lpi.R")
+source("../../02_script/funcoes/ggplot_lpi_modif.R")
 ```
 
 ### CÁLCULO DE LPI
