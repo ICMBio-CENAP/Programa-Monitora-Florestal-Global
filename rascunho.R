@@ -9,6 +9,28 @@
   taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
   taxas_anuais$ano <- gsub("X","", taxas_anuais$ano)
   #taxas_anuaisTeste <- taxas_anuais[,2:8]
+  library(here)
+  library(dbplyr)
+  library(tidyverse)
+  
+  mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+  #Contagem de UCs
+  ucs <- mydata %>%
+    group_by(cnuc,nome_UC) %>%
+    count()
+  
+  taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
+  taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")  
+  
+  source(here("02_script/funcoes", "LPIMain.R"))
+  source(here("02_script/funcoes", "create_infile.R"))
+  source(here("02_script/funcoes", "CalcLPI.R"))
+  source(here("02_script/funcoes", "ProcessFile.R"))
+  source(here("02_script/funcoes", "debug_print.R"))
+  source(here("02_script/funcoes", "calculate_index.R"))
+  source(here("02_script/funcoes", "bootstrap_lpi.R"))
+  source(here("02_script/funcoes", "plot_lpi.R"))
+  source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
   
   
   library(ggplot2)
@@ -48,6 +70,16 @@
       lpiTemp$uc <- temp
       #adiciona os dados no objeto
       lpi <- rbind(lpitemp,lpi)
+
+
+  
+  lpi <- data.frame(ano = integer(), LPI_final = double(),CI_low = double(), CI_high = double())    
+  
+  tibble::rownames_to_column(mydata_lpi)
+    
+    for(UC in unique(taxas_anuais$cnuc)){
+  
+lpiTemp <- rbind(lpi,mydata_lpi)
 
     mydata_lpi <- taxas_anuais[taxas_anuais$cnuc==UC,] %>%
       mutate(ID = 1:nrow(taxas_anuais[taxas_anuais$cnuc==UC,]))%>%
@@ -125,3 +157,60 @@
         strip.background = element_rect(colour="red", fill="#CCCCFF"))
   
   
+  }
+  
+
+geom_smooth(method="loess", se=T) +
+
+records <- mydata %>%
+  group_by(nome_UC, populacao, ano, binomial) %>%
+  count() %>%
+  arrange(desc(nome_UC), desc(populacao), ano) %>%
+  filter(n > 60)
+
+ggplot(records, aes(x = factor(ano), y = n)) +
+  geom_bar(
+    aes(fill = binomial),
+    position = position_dodge2(preserve ="single"),
+    stat = "identity",
+    width = 1,
+    size = 1,
+    #fill = "blue"
+  )+
+  geom_hline(yintercept = 60, linetype = "dashed", color = "red")+
+  #ylim(0, 5) +
+  theme_bw() +
+  theme(
+    legend.position = "top",
+    strip.background = element_rect(fill = "grey90"),
+    strip.text.y = element_text(angle = 0, size = 10, color = "black"),# face = "bold"),
+    axis.text.x = element_text(
+      angle = 45,
+      vjust = 1,
+      hjust = 1,
+      colour = "black",
+      size = rel(1)
+    ),
+    axis.text.y = element_text(
+      angle = 0,
+      vjust = 1,
+      hjust = 1,
+      colour = "black",
+      size = rel(1)
+    ),
+    axis.title.y = element_text(
+      size = rel(1),
+      margin = margin(
+        t = 0,
+        r = 10,
+        b = 0,
+        l = 0
+      )
+    ),
+    axis.title.x = element_blank(),
+#    panel.spacing = unit(0.3, "lines"),
+#    pane
+  ) +
+  
+  facet_wrap(facet = vars(nome_UC)) +
+  ylab("NÚMERO DE REGISTROS")
