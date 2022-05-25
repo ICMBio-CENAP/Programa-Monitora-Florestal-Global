@@ -16,23 +16,35 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
-library(tidyverse)
+library(here)
+source(here("02_script", "funcoes/pacotes.R"))
+pacotes("tidyverse","dplyr")
 ```
 
 Funções do pacote `Rlpi`. O pacote apresenta várias limitações e por isso adotamos o uso das funções.
 ```{r}
-source("../../02_script/funcoes/LPIMain.R")
-source("../../02_script/funcoes/create_infile.R")
-source("../../02_script/funcoes/CalcLPI.R")
-source("../../02_script/funcoes/ProcessFile.R")
-source("../../02_script/funcoes/debug_print.R")
-source("../../02_script/funcoes/calculate_index.R")
-source("../../02_script/funcoes/bootstrap_lpi.R")
-source("../../02_script/funcoes/plot_lpi.R")
-source("../../02_script/funcoes/ggplot_lpi_modif.R")
+source(here("02_script/funcoes", "LPIMain.R"))
+source(here("02_script/funcoes", "create_infile.R"))
+source(here("02_script/funcoes", "CalcLPI.R"))
+source(here("02_script/funcoes", "ProcessFile.R"))
+source(here("02_script/funcoes", "debug_print.R"))
+source(here("02_script/funcoes", "calculate_index.R"))
+source(here("02_script/funcoes", "bootstrap_lpi.R"))
+source(here("02_script/funcoes", "plot_lpi.R"))
+source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
 ```
 
 ### CÁLCULO DE LPI
+
+```{r}
+#Abra o arquivo de saída com os dados limpos
+mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+
+#Peque os nomes das UCs e o código CNUC
+ucs <- mydata %>%
+  group_by(cnuc, nome_UC) %>%
+  count()
+```
 
 Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior através de `part02-dataPrepLPI.Rmd`
 
