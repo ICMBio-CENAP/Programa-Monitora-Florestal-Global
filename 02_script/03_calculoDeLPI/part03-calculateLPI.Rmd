@@ -49,12 +49,25 @@ ucs <- mydata %>%
 Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior através de `part02-dataPrepLPI.Rmd`
 
 ```{r}
-taxas_anuais <- read.csv("../../03_dadosDeSaida/dados/taxas_anuais.csv")
+#Chame as taxas anuais geradas em part02-dataPrepLPI.Rmd 
+taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
+
+#Pegue nome das unidades
+taxas_anuais <- merge(taxas_anuais, ucs, by = "cnuc")  
 ```
 
 Adicionar campo identificador `ID`
 
 ```{r}
+#Crie um objeto para receber os dados de LIP
+lpi <- data.frame(
+  uc = character(),
+  ano = integer(),
+  LPI_final = double(),
+  CI_low = double(),
+  CI_high = double()
+  )
+#Ajuste os dados para análise de LPI
 mydata_lpi <- taxas_anuais %>%
   mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
   rename(Binomial = populacao) %>%
