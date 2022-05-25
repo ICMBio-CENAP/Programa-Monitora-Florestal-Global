@@ -10,7 +10,7 @@
   taxas_anuais$ano <- gsub("X","", taxas_anuais$ano)
   #taxas_anuaisTeste <- taxas_anuais[,2:8]
   library(here)
-  library(dbplyr)
+    library(dbplyr)
   library(tidyverse)
   
   mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
