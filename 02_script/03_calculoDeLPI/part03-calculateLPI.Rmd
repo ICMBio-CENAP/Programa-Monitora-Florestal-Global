@@ -12,8 +12,12 @@ Script para cálculo do LPI baseado nas instruções disponíveis [neste link](h
 
 **Em fase de TESTE**
 
-Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
+Adaptação:        Elildo Carvalho Jr, ICMBio/CENAP
+Desenvolvimento:  Fernando Lima, Algoritmo
 
+## PREPARAÇÃO
+
+### PACOTES
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
 library(here)
@@ -21,6 +25,7 @@ source(here("02_script", "funcoes/pacotes.R"))
 pacotes("tidyverse","dplyr")
 ```
 
+### FUNÇÕES LPI
 Funções do pacote `Rlpi`. O pacote apresenta várias limitações e por isso adotamos o uso das funções.
 ```{r}
 source(here("02_script/funcoes", "LPIMain.R"))
@@ -34,8 +39,7 @@ source(here("02_script/funcoes", "plot_lpi.R"))
 source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
 ```
 
-### CÁLCULO DE LPI
-
+### DADOS DE UCs
 ```{r}
 #Abra o arquivo de saída com os dados limpos
 mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
@@ -46,6 +50,9 @@ ucs <- mydata %>%
   count()
 ```
 
+### TAXAS ANUAIS
+
+#### Carregar e adicionar dados das UCs
 Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior através de `part02-dataPrepLPI.Rmd`
 
 ```{r}
@@ -56,7 +63,7 @@ taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
 taxas_anuais <- merge(taxas_anuais, ucs, by = "cnuc")  
 ```
 
-Adicionar campo identificador `ID`
+#### Adicionar campo identificador `ID`
 
 ```{r}
 #Crie um objeto para receber os dados de LIP
@@ -67,6 +74,11 @@ lpi <- data.frame(
   CI_low = double(),
   CI_high = double()
   )
+```
+
+#### Ajustes para cálculo de LPI
+Seleção de campos para cálculo de LPI
+```{r}
 #Ajuste os dados para análise de LPI
 mydata_lpi <- taxas_anuais %>%
   mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
@@ -74,14 +86,18 @@ mydata_lpi <- taxas_anuais %>%
   select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
 ```
 
-Ajustes e criação de objetos necessários para o cálculo de LPI
+## CÁLCULO DE LPI
+
+### PREPARAÇÃO
+
+#### Ajustes e criação de objetos necessários para o cálculo de LPI
 ```{r}
 # criar objetos que necessarios para lpi
 index_vector = rep(TRUE, nrow(mydata_lpi))
 year_vector <- 2014:2019
-
 ```
 
+#### CriaR Infile
 ```{r}
 # criar infile
 mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector, 
@@ -90,6 +106,8 @@ mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector,
                                start_col_name = colnames(mydata_lpi)[4], end_col_name = tail(colnames(mydata_lpi), n=1),
                                CUT_OFF_YEAR = year_vector[1])
 ```
+
+### CÁLCULO GERAL
 
 Cálculo geral de LPI (para todas as UCs)
 ```{r}
@@ -104,12 +122,13 @@ mydata_lpi <- LPIMain(#infile = here("lpi", "mydata_data_infile.txt"),
 
 ```
 
-
+#### Remover anos seguidos sem dados
 ```{r}
 # Remover NAs (anos seguidos sem dados)
 mydata_lpi <- mydata_lpi[complete.cases(mydata_lpi), ]
 ```
 
+#### Gerar gráfico com ajustes do CENAP/ICMBio
 ```{r}
 # Gerar gráfico mais bonito usando função ggplot_lpi_modif
 ggplot_lpi_modif(mydata_lpi, col="darkcyan")
@@ -170,6 +189,7 @@ ggplot(mydata_lpi, aes(x = 1:nrow(mydata_lpi), y = LPI_final, group = 1)) +
   ylab("LPI")
 ```
 
+### CÁLCULO POR UC
 
 ```{r, warning = FALSE}
 #Pegue o nome de cada UC
