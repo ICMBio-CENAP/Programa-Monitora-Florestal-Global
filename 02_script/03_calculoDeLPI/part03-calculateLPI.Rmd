@@ -168,6 +168,55 @@ ggplot(mydata_lpi, aes(x = 1:nrow(mydata_lpi), y = LPI_final, group = 1)) +
   #facet_grid(rows = vars(uc)) +
 
   ylab("LPI")
+```
 
 
+```{r, warning = FALSE}
+#Pegue o nome de cada UC
+for(UC in unique(taxas_anuais$cnuc)){
+
+  #mydata_LPI recebe a UC da vez
+  mydata_lpi <- taxas_anuais[taxas_anuais$cnuc == UC, ] %>%
+    #Adicione um campo de ID para a UC
+    dplyr::mutate(ID = 1:nrow(taxas_anuais[taxas_anuais$cnuc == UC, ])) %>%
+    #Renomeie o campo populacao para Binomial
+    rename(Binomial = populacao)
+    #Guarde o nome da UC para mim
+  temp <- unique(mydata_lpi$nome_UC)
+    #Selecione campos
+  
+  mydata_lpi <- mydata_lpi %>% dplyr::select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+  
+  index_vector = rep(TRUE, nrow(mydata_lpi))
+  year_vector <- 2014:2019
+  
+  mydata_infile <- create_infile(
+    mydata_lpi,
+    index_vector = index_vector,
+    name = "Infile",
+    start_col_name = colnames(mydata_lpi)[4],
+    end_col_name = tail(colnames(mydata_lpi), n=1),
+    CUT_OFF_YEAR = year_vector[1]
+    )
+  
+  mydata_lpi <- LPIMain(
+    infile = "Infile_infile.txt",
+    REF_YEAR = year_vector[1],
+    PLOT_MAX = tail(year_vector, n=1),
+    BOOT_STRAP_SIZE = 100
+    )
+  
+  #Pegue os dados de mydata_LPI
+  mydata_lpiTemp <- mydata_lpi
+  #Adicione uma coluna de UC e preencha todas as linhas com o nome da UC
+  mydata_lpiTemp$uc <- temp
+  #Pegue os anos e transforme em uma coluna
+  mydata_lpiTemp <- tibble::rownames_to_column(mydata_lpiTemp) %>%
+    
+    #Renomeie a coluna criada para ano
+    rename(ano = rowname)
+  
+  #Junte o objeto temporário com o lpi
+  lpi <- rbind(lpi, mydata_lpiTemp)
+  }
 ```
