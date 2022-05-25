@@ -241,6 +241,7 @@ for(UC in unique(taxas_anuais$cnuc)){
   }
 ```
 
+#### Gráfico por UC
 
 ```{r}
 ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
@@ -309,3 +310,5 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
 #Salve o gráfico de saída.
 ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
 ```
+
+[pH]
