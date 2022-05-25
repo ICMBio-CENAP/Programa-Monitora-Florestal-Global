@@ -17,7 +17,8 @@ Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
 ```{r pacotes, include=FALSE}
 rm(list = ls(all = TRUE))
 library(here)
-library(tidyverse)
+source(here("02_script", "funcoes/pacotes.R"))
+pacotes("tidyverse","dplyr")
 ```
 
 Funções do pacote `Rlpi`. O pacote apresenta várias limitações e por isso adotamos o uso das funções.
@@ -35,10 +36,20 @@ source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
 
 ### CÁLCULO DE LPI
 
+```{r}
+#Abra o arquivo de saída com os dados limpos
+mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+
+#Peque os nomes das UCs e o código CNUC
+ucs <- mydata %>%
+  group_by(cnuc, nome_UC) %>%
+  count()
+```
+
 Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior através de `part02-dataPrepLPI.Rmd`
 
 ```{r}
-taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
+taxas_anuais <- read.csv("../../03_dadosDeSaida/dados/taxas_anuais.csv")
 ```
 
 Adicionar campo identificador `ID`
@@ -90,4 +101,60 @@ mydata_lpi <- mydata_lpi[complete.cases(mydata_lpi), ]
 # Gerar gráfico mais bonito usando função ggplot_lpi_modif
 ggplot_lpi_modif(mydata_lpi, col="darkcyan")
 ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
+
+ggplot(mydata_lpi, aes(x = 1:nrow(mydata_lpi), y = LPI_final, group = 1)) +
+  #Intervalo de confiança
+  geom_ribbon(
+    aes(ymin = CI_low, ymax = CI_high),
+    fill = "mediumaquamarine",
+    alpha = 0.9,
+    colour = "grey50"
+    ) +
+  
+  geom_line(
+    lwd = 0.5,
+    colour = "grey50"
+    ) +#, lineend = "round") +
+  
+  geom_point() +
+  
+  ylim(0,2) +
+  
+  theme_bw() +
+  
+  theme(
+    strip.background = element_rect(fill = "grey90"),
+    strip.text.y = element_text(angle = 0, size = 10, color = "black", face = "bold"),
+    axis.text.x = element_text(
+      angle=45,
+      vjust=1,
+      hjust = 1,
+      colour="black",
+      size=rel(1.3)
+      ),
+    axis.text.y = element_text(
+      angle=0,
+      vjust=1,
+      hjust = 1,
+      colour="black",
+      size=rel(1.3)
+      ),
+    axis.title.y = element_text(
+      size = rel(1.3),
+      margin = margin(
+        t = 0,
+        r = 10,
+        b = 0,
+        l = 0
+        )
+      ),
+    axis.title.x = element_blank(),
+      panel.spacing = unit(0.8, "lines"),
+      ) +
+
+  #facet_grid(rows = vars(uc)) +
+
+  ylab("LPI")
+
+
 ```

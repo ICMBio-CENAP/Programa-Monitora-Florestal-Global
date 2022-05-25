@@ -1,0 +1,192 @@
+---
+title: "EXPLORAÇÃO DE DADOS"
+output:
+  pdf_document: default
+  html_notebook: default
+  word_document: default
+  html_document:
+    df_print: paged
+editor_options: 
+  chunk_output_type: inline
+---
+
+**Em fase de TESTE**
+
+Desenvolvimento: Fernando Lima, Algoritmo
+
+```{r pacotes, include=FALSE}
+rm(list = ls(all = TRUE))
+
+library(here)
+source(here("02_script", "funcoes/pacotes.R"))
+pacotes("tidyverse","dplyr")
+#library(tidyverse)
+#library(dplyr)
+#library(tibble)
+```
+
+
+```{r}
+#Abra o arquivo de saída com os dados limpos
+mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+
+#Peque os nomes das UCs e o código CNUC
+ucs <- mydata %>%
+  group_by(cnuc, nome_UC) %>%
+  count()
+```
+
+```{r}
+#Chame as taxas anuais geradas em part02-dataPrepLPI.Rmd 
+taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
+
+#Pegue nome das unidades
+taxas_anuais <- merge(taxas_anuais, ucs, by = "cnuc")  
+```
+
+```{r}
+#Chame funções LPI
+  source(here("02_script/funcoes", "LPIMain.R"))
+  source(here("02_script/funcoes", "create_infile.R"))
+  source(here("02_script/funcoes", "CalcLPI.R"))
+  source(here("02_script/funcoes", "ProcessFile.R"))
+  source(here("02_script/funcoes", "debug_print.R"))
+  source(here("02_script/funcoes", "calculate_index.R"))
+  source(here("02_script/funcoes", "bootstrap_lpi.R"))
+  source(here("02_script/funcoes", "plot_lpi.R"))
+  source(here("02_script/funcoes", "ggplot_lpi_modif.R"))
+```
+
+```{r}
+#Crie um objeto para receber os dados de LIP
+lpi <- data.frame(
+  uc = character(),
+  ano = integer(),
+  LPI_final = double(),
+  CI_low = double(),
+  CI_high = double()
+  )
+#Ajuste os dados para análise de LPI
+mydata_lpi <- taxas_anuais %>%
+  mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
+  rename(Binomial = populacao) %>%
+  select(cnuc, ID, nome_UC, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+```
+
+```{r, warning = FALSE}
+#Pegue o nome de cada UC
+for(UC in unique(taxas_anuais$cnuc)){
+
+  #mydata_LPI recebe a UC da vez
+  mydata_lpi <- taxas_anuais[taxas_anuais$cnuc == UC, ] %>%
+    #Adicione um campo de ID para a UC
+    dplyr::mutate(ID = 1:nrow(taxas_anuais[taxas_anuais$cnuc == UC, ])) %>%
+    #Renomeie o campo populacao para Binomial
+    rename(Binomial = populacao)
+    #Guarde o nome da UC para mim
+  temp <- unique(mydata_lpi$nome_UC)
+    #Selecione campos
+  
+  mydata_lpi <- mydata_lpi %>% dplyr::select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+  
+  index_vector = rep(TRUE, nrow(mydata_lpi))
+  year_vector <- 2014:2019
+  
+  mydata_infile <- create_infile(
+    mydata_lpi,
+    index_vector = index_vector,
+    name = "Infile",
+    start_col_name = colnames(mydata_lpi)[4],
+    end_col_name = tail(colnames(mydata_lpi), n=1),
+    CUT_OFF_YEAR = year_vector[1]
+    )
+  
+  mydata_lpi <- LPIMain(
+    infile = "Infile_infile.txt",
+    REF_YEAR = year_vector[1],
+    PLOT_MAX = tail(year_vector, n=1),
+    BOOT_STRAP_SIZE = 100
+    )
+  
+  #Pegue os dados de mydata_LPI
+  mydata_lpiTemp <- mydata_lpi
+  #Adicione uma coluna de UC e preencha todas as linhas com o nome da UC
+  mydata_lpiTemp$uc <- temp
+  #Pegue os anos e transforme em uma coluna
+  mydata_lpiTemp <- tibble::rownames_to_column(mydata_lpiTemp) %>%
+    
+    #Renomeie a coluna criada para ano
+    rename(ano = rowname)
+  
+  #Junte o objeto temporário com o lpi
+  lpi <- rbind(lpi, mydata_lpiTemp)
+  }
+```
+
+```{r}
+ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
+  #Intervalo de confiança
+  geom_ribbon(
+    aes(ymin = CI_low, ymax = CI_high),
+    fill = "mediumaquamarine",
+    alpha = 0.9,
+    colour = "grey50",
+    lwd = 0.3
+    ) +
+  
+  geom_line(
+    lwd = 0.5,
+    colour = "grey50"
+    ) +#, lineend = "round") +
+  
+  geom_point() +
+  
+  ylim(0, 5) +
+  
+  theme_bw() +
+  
+  theme(
+    strip.background = element_rect(fill = "grey90"),
+    
+    strip.text.y = element_text(angle = 0, size = 9, color = "black"),# face = "bold"),
+    
+    axis.text.x = element_text(
+      angle=45,
+      vjust=1,
+      hjust = 1,
+      colour="black",
+      size=rel(1)
+      ),
+    
+    axis.text.y = element_text(
+      angle=0,
+      vjust=1,
+      hjust = 1,
+      colour="black",
+      size=rel(1)
+      ),
+    
+    axis.title.y = element_text(
+      size = rel(1),
+      margin = margin(
+        t = 0,
+        r = 10,
+        b = 0,
+        l = 0
+        )
+      ),
+    
+    axis.title.x = element_blank(),
+      panel.spacing = unit(0.3, "lines")#,
+    
+    #pane
+    
+      ) +
+
+  facet_grid(rows = vars(uc)) +
+
+  ylab("LPI")
+
+#Salve o gráfico de saída.
+ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
+```
