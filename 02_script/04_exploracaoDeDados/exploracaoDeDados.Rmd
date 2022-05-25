@@ -25,6 +25,7 @@ pacotes("tidyverse","dplyr")
 #library(tibble)
 ```
 
+
 ```{r}
 #Abra o arquivo de saída com os dados limpos
 mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
@@ -176,9 +177,9 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
       ),
     
     axis.title.x = element_blank(),
-      panel.spacing = unit(0.3, "lines"),
+      panel.spacing = unit(0.3, "lines")#,
     
-    pane
+    #pane
     
       ) +
 
