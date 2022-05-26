@@ -11,7 +11,7 @@
 
 
 
-<title>Parte 03 - CÁLCULO DE LPI</title>
+<title>Parte 01 - Limpeza de Dados</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1760,377 +1760,360 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Parte 03 - CÁLCULO DE LPI</h1>
+<h1 class="title toc-ignore">Parte 01 - Limpeza de Dados</h1>
 
 </div>
 
 
 <!-- rnb-text-begin -->
-<p>Script para cálculo do LPI baseado nas instruções disponíveis <a href="https://github.com/Zoological-Society-of-London/rlpi">neste
+<p>Limpeza de dados para cálculo do LPI baseado nas instruções
+disponíveis <a href="https://github.com/Zoological-Society-of-London/rlpi">neste
 link</a>.</p>
 <p><strong>Em fase de TESTE</strong></p>
-<p>Adaptação: Elildo Carvalho Jr, ICMBio/CENAP Desenvolvimento: Fernando
-Lima, Algoritmo</p>
+<p>Adaptação: Elildo Carvalho Jr, ICMBio/CENAP</p>
+<p>Desenvolvimento: Fernando Lima, Algoritmo</p>
 <div id="preparação" class="section level2">
 <h2>PREPARAÇÃO</h2>
 <div id="pacotes" class="section level3">
 <h3>PACOTES</h3>
 <!-- rnb-text-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="funções-lpi" class="section level3">
-<h3>FUNÇÕES LPI</h3>
-<p>Funções do pacote <code>Rlpi</code>. O pacote apresenta várias
-limitações e por isso adotamos o uso das funções.</p>
-<!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKGhlcmUoXCIwMl9zY3JpcHQvZnVuY29lc1wiLCBcIkxQSU1haW4uUlwiKSlcbnNvdXJjZShoZXJlKFwiMDJfc2NyaXB0L2Z1bmNvZXNcIiwgXCJjcmVhdGVfaW5maWxlLlJcIikpXG5zb3VyY2UoaGVyZShcIjAyX3NjcmlwdC9mdW5jb2VzXCIsIFwiQ2FsY0xQSS5SXCIpKVxuc291cmNlKGhlcmUoXCIwMl9zY3JpcHQvZnVuY29lc1wiLCBcIlByb2Nlc3NGaWxlLlJcIikpXG5zb3VyY2UoaGVyZShcIjAyX3NjcmlwdC9mdW5jb2VzXCIsIFwiZGVidWdfcHJpbnQuUlwiKSlcbnNvdXJjZShoZXJlKFwiMDJfc2NyaXB0L2Z1bmNvZXNcIiwgXCJjYWxjdWxhdGVfaW5kZXguUlwiKSlcbnNvdXJjZShoZXJlKFwiMDJfc2NyaXB0L2Z1bmNvZXNcIiwgXCJib290c3RyYXBfbHBpLlJcIikpXG5zb3VyY2UoaGVyZShcIjAyX3NjcmlwdC9mdW5jb2VzXCIsIFwicGxvdF9scGkuUlwiKSlcbnNvdXJjZShoZXJlKFwiMDJfc2NyaXB0L2Z1bmNvZXNcIiwgXCJnZ3Bsb3RfbHBpX21vZGlmLlJcIikpXG5gYGAifQ== -->
-<pre class="r"><code>source(here(&quot;02_script/funcoes&quot;, &quot;LPIMain.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;create_infile.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;CalcLPI.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;ProcessFile.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;debug_print.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;calculate_index.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;bootstrap_lpi.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;plot_lpi.R&quot;))
-source(here(&quot;02_script/funcoes&quot;, &quot;ggplot_lpi_modif.R&quot;))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm0obGlzdCA9IGxzKGFsbCA9IFRSVUUpKVxuc291cmNlKFwiLi4vZnVuY29lcy9wYWNvdGVzLlJcIilcbnBhY290ZXMoXCJoZXJlXCIsIFwicmVhZHJcIixcImx1YnJpZGF0ZVwiLFwiZHBseXJcIixcInN0cmluZ3JcIilcbmBgYCJ9 -->
+<pre class="r"><code>rm(list = ls(all = TRUE))
+source(&quot;../funcoes/pacotes.R&quot;)
+pacotes(&quot;here&quot;, &quot;readr&quot;,&quot;lubridate&quot;,&quot;dplyr&quot;,&quot;stringr&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="dados-de-ucs" class="section level3">
-<h3>DADOS DE UCs</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0FicmEgbyBhcnF1aXZvIGRlIHNhw61kYSBjb20gb3MgZGFkb3MgbGltcG9zXG5teWRhdGEgPC0gcmVhZFJEUyhoZXJlKFwiMDNfZGFkb3NEZVNhaWRhL2RhZG9zXCIsIFwiZGFkb3NJQ01CaW9fMjAxNGEyMDE5LnJkc1wiKSlcblxuI1BlcXVlIG9zIG5vbWVzIGRhcyBVQ3MgZSBvIGPDs2RpZ28gQ05VQ1xudWNzIDwtIG15ZGF0YSAlPiVcbiAgZ3JvdXBfYnkoY251Yywgbm9tZV9VQykgJT4lXG4gIGNvdW50KClcbmBgYCJ9 -->
-<pre class="r"><code>#Abra o arquivo de saída com os dados limpos
-mydata &lt;- readRDS(here(&quot;03_dadosDeSaida/dados&quot;, &quot;dadosICMBio_2014a2019.rds&quot;))
+<!-- rnb-output-begin eyJkYXRhIjoiQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBoZXJlXG5oZXJlKCkgc3RhcnRzIGF0IEQ6L2dpdC9tb25pdG9yYUZsb3Jlc3RhbEdsb2JhbFxuQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiByZWFkclxuQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBsdWJyaWRhdGVcblxuQXR0YWNoaW5nIHBhY2thZ2U6IOKAmGx1YnJpZGF0ZeKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6YmFzZeKAmTpcblxuICAgIGRhdGUsIGludGVyc2VjdCwgc2V0ZGlmZiwgdW5pb25cblxuQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBkcGx5clxuXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYZHBseXLigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuVGhlIGZvbGxvd2luZyBvYmplY3RzIGFyZSBtYXNrZWQgZnJvbSDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuXG5DYXJyZWdhbmRvIHBhY290ZXMgZXhpZ2lkb3M6IHN0cmluZ3JcbiJ9 -->
+<pre><code>Carregando pacotes exigidos: here
+here() starts at D:/git/monitoraFlorestalGlobal
+Carregando pacotes exigidos: readr
+Carregando pacotes exigidos: lubridate
 
-#Peque os nomes das UCs e o código CNUC
-ucs &lt;- mydata %&gt;%
-  group_by(cnuc, nome_UC) %&gt;%
-  count()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="taxas-anuais" class="section level3">
-<h3>TAXAS ANUAIS</h3>
-<div id="carregar-e-adicionar-dados-das-ucs" class="section level4">
-<h4>Carregar e adicionar dados das UCs</h4>
-<p>Carregar dados. O arquivo <code>taxas_anuais.csv</code> deve ser
-gerado na etapa anterior através de
-<code>part02-dataPrepLPI.Rmd</code></p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0NoYW1lIGFzIHRheGFzIGFudWFpcyBnZXJhZGFzIGVtIHBhcnQwMi1kYXRhUHJlcExQSS5SbWQgXG50YXhhc19hbnVhaXMgPC0gcmVhZC5jc3YoaGVyZShcIjAzX2RhZG9zRGVTYWlkYS9kYWRvc1wiLCBcInRheGFzX2FudWFpcy5jc3ZcIikpXG5cbiNQZWd1ZSBub21lIGRhcyB1bmlkYWRlc1xudGF4YXNfYW51YWlzIDwtIG1lcmdlKHRheGFzX2FudWFpcywgdWNzLCBieSA9IFwiY251Y1wiKSAgXG5cbmBgYCJ9 -->
-<pre class="r"><code>#Chame as taxas anuais geradas em part02-dataPrepLPI.Rmd 
-taxas_anuais &lt;- read.csv(here(&quot;03_dadosDeSaida/dados&quot;, &quot;taxas_anuais.csv&quot;))
+Attaching package: ‘lubridate’
 
-#Pegue nome das unidades
-taxas_anuais &lt;- merge(taxas_anuais, ucs, by = &quot;cnuc&quot;)  
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="adicionar-campo-identificador-id" class="section level4">
-<h4>Adicionar campo identificador <code>ID</code></h4>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0NyaWUgdW0gb2JqZXRvIHBhcmEgcmVjZWJlciBvcyBkYWRvcyBkZSBMSVBcbmxwaSA8LSBkYXRhLmZyYW1lKFxuICB1YyA9IGNoYXJhY3RlcigpLFxuICBhbm8gPSBpbnRlZ2VyKCksXG4gIExQSV9maW5hbCA9IGRvdWJsZSgpLFxuICBDSV9sb3cgPSBkb3VibGUoKSxcbiAgQ0lfaGlnaCA9IGRvdWJsZSgpXG4gIClcbmBgYCJ9 -->
-<pre class="r"><code>#Crie um objeto para receber os dados de LIP
-lpi &lt;- data.frame(
-  uc = character(),
-  ano = integer(),
-  LPI_final = double(),
-  CI_low = double(),
-  CI_high = double()
-  )</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="ajustes-para-cálculo-de-lpi" class="section level4">
-<h4>Ajustes para cálculo de LPI</h4>
-<p>Seleção de campos para cálculo de LPI</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0FqdXN0ZSBvcyBkYWRvcyBwYXJhIGFuw6FsaXNlIGRlIExQSVxubXlkYXRhX2xwaSA8LSB0YXhhc19hbnVhaXMgJT4lXG4gIG11dGF0ZShJRCA9IGFzLm51bWVyaWMoMTpucm93KHRheGFzX2FudWFpcykpKSAlPiVcbiAgcmVuYW1lKEJpbm9taWFsID0gcG9wdWxhY2FvKSAlPiVcbiAgc2VsZWN0KGNudWMsIElELCBCaW5vbWlhbCwgWDIwMTQsIFgyMDE1LCBYMjAxNiwgWDIwMTcsIFgyMDE4LCBYMjAxOSlcbmBgYCJ9 -->
-<pre class="r"><code>#Ajuste os dados para análise de LPI
-mydata_lpi &lt;- taxas_anuais %&gt;%
-  mutate(ID = as.numeric(1:nrow(taxas_anuais))) %&gt;%
-  rename(Binomial = populacao) %&gt;%
-  select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-</div>
-<div id="cálculo-de-lpi" class="section level2">
-<h2>CÁLCULO DE LPI</h2>
-<div id="preparação-1" class="section level3">
-<h3>PREPARAÇÃO</h3>
-<div id="ajustes-e-criação-de-objetos-necessários-para-o-cálculo-de-lpi" class="section level4">
-<h4>Ajustes e criação de objetos necessários para o cálculo de LPI</h4>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjcmlhciBvYmpldG9zIHF1ZSBuZWNlc3NhcmlvcyBwYXJhIGxwaVxuaW5kZXhfdmVjdG9yID0gcmVwKFRSVUUsIG5yb3cobXlkYXRhX2xwaSkpXG55ZWFyX3ZlY3RvciA8LSAyMDE0OjIwMTlcbmBgYCJ9 -->
-<pre class="r"><code># criar objetos que necessarios para lpi
-index_vector = rep(TRUE, nrow(mydata_lpi))
-year_vector &lt;- 2014:2019</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="criar-infile" class="section level4">
-<h4>CriaR Infile</h4>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjcmlhciBpbmZpbGVcbm15ZGF0YV9pbmZpbGUgPC0gY3JlYXRlX2luZmlsZShteWRhdGFfbHBpLCBpbmRleF92ZWN0b3I9aW5kZXhfdmVjdG9yLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjbmFtZT1oZXJlKFwibHBpXCIsIFwibXlkYXRhX2RhdGFcIiksXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbmFtZSA9IFwiSW5maWxlXCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RhcnRfY29sX25hbWUgPSBjb2xuYW1lcyhteWRhdGFfbHBpKVs0XSwgZW5kX2NvbF9uYW1lID0gdGFpbChjb2xuYW1lcyhteWRhdGFfbHBpKSwgbj0xKSxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBDVVRfT0ZGX1lFQVIgPSB5ZWFyX3ZlY3RvclsxXSlcbmBgYCJ9 -->
-<pre class="r"><code># criar infile
-mydata_infile &lt;- create_infile(mydata_lpi, index_vector=index_vector, 
-                               #name=here(&quot;lpi&quot;, &quot;mydata_data&quot;),
-                               name = &quot;Infile&quot;,
-                               start_col_name = colnames(mydata_lpi)[4], end_col_name = tail(colnames(mydata_lpi), n=1),
-                               CUT_OFF_YEAR = year_vector[1])</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="cálculo-geral" class="section level3">
-<h3>CÁLCULO GERAL</h3>
-<p>Cálculo geral de LPI (para todas as UCs)</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDYWxjdWxhciBMUEkgY29tIDEwMCBib290c3RyYXBzXG4jc291cmNlKGhlcmUoXCJiaW5cIiwgXCJMUElNYWluLlJcIikpICMgYWRpY2lvbmFkbyBwb3IgbsOjbyB0ZXIgcGFjb3RlIHJscGlcbm15ZGF0YV9scGkgPC0gTFBJTWFpbigjaW5maWxlID0gaGVyZShcImxwaVwiLCBcIm15ZGF0YV9kYXRhX2luZmlsZS50eHRcIiksXG4gICAgICAgICAgICAgICAgICAgICAgaW5maWxlID0gXCJJbmZpbGVfaW5maWxlLnR4dFwiLFxuICAgICAgICAgICAgICAgICAgICAgICNiYXNlZGlyID0gaGVyZShcImxwaVwiKSxcbiAgICAgICAgICAgICAgICAgICAgICBSRUZfWUVBUiA9IHllYXJfdmVjdG9yWzFdLFxuICAgICAgICAgICAgICAgICAgICAgIFBMT1RfTUFYID0gdGFpbCh5ZWFyX3ZlY3Rvciwgbj0xKSxcbiAgICAgICAgICAgICAgICAgICAgICBCT09UX1NUUkFQX1NJWkUgPSAxMDApICMsIFZFUkJPU0U9RkFMU0UpXG5cbmBgYCJ9 -->
-<pre class="r"><code># Calcular LPI com 100 bootstraps
-#source(here(&quot;bin&quot;, &quot;LPIMain.R&quot;)) # adicionado por não ter pacote rlpi
-mydata_lpi &lt;- LPIMain(#infile = here(&quot;lpi&quot;, &quot;mydata_data_infile.txt&quot;),
-                      infile = &quot;Infile_infile.txt&quot;,
-                      #basedir = here(&quot;lpi&quot;),
-                      REF_YEAR = year_vector[1],
-                      PLOT_MAX = tail(year_vector, n=1),
-                      BOOT_STRAP_SIZE = 100) #, VERBOSE=FALSE)
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<div id="remover-anos-seguidos-sem-dados" class="section level4">
-<h4>Remover anos seguidos sem dados</h4>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZW1vdmVyIE5BcyAoYW5vcyBzZWd1aWRvcyBzZW0gZGFkb3MpXG5teWRhdGFfbHBpIDwtIG15ZGF0YV9scGlbY29tcGxldGUuY2FzZXMobXlkYXRhX2xwaSksIF1cbmBgYCJ9 -->
-<pre class="r"><code># Remover NAs (anos seguidos sem dados)
-mydata_lpi &lt;- mydata_lpi[complete.cases(mydata_lpi), ]</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="gerar-gráfico-com-ajustes-do-cenapicmbio" class="section level4">
-<h4>Gerar gráfico com ajustes do CENAP/ICMBio</h4>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBHZXJhciBncsOhZmljbyBtYWlzIGJvbml0byB1c2FuZG8gZnVuw6fDo28gZ2dwbG90X2xwaV9tb2RpZlxuZ2dwbG90X2xwaV9tb2RpZihteWRhdGFfbHBpLCBjb2w9XCJkYXJrY3lhblwiKVxuZ2dzYXZlKGZpbGUgPSBoZXJlKFwiMDNfZGFkb3NEZVNhaWRhL3Bsb3RzXCIsIFwibHBpR2xvYmFsLnBuZ1wiKSlcblxuZ2dwbG90KG15ZGF0YV9scGksIGFlcyh4ID0gMTpucm93KG15ZGF0YV9scGkpLCB5ID0gTFBJX2ZpbmFsLCBncm91cCA9IDEpKSArXG4gICNJbnRlcnZhbG8gZGUgY29uZmlhbsOnYVxuICBnZW9tX3JpYmJvbihcbiAgICBhZXMoeW1pbiA9IENJX2xvdywgeW1heCA9IENJX2hpZ2gpLFxuICAgIGZpbGwgPSBcIm1lZGl1bWFxdWFtYXJpbmVcIixcbiAgICBhbHBoYSA9IDAuOSxcbiAgICBjb2xvdXIgPSBcImdyZXk1MFwiXG4gICAgKSArXG4gIFxuICBnZW9tX2xpbmUoXG4gICAgbHdkID0gMC41LFxuICAgIGNvbG91ciA9IFwiZ3JleTUwXCJcbiAgICApICsjLCBsaW5lZW5kID0gXCJyb3VuZFwiKSArXG4gIFxuICBnZW9tX3BvaW50KCkgK1xuICBcbiAgeWxpbSgwLDIpICtcbiAgXG4gIHRoZW1lX2J3KCkgK1xuICBcbiAgdGhlbWUoXG4gICAgc3RyaXAuYmFja2dyb3VuZCA9IGVsZW1lbnRfcmVjdChmaWxsID0gXCJncmV5OTBcIiksXG4gICAgc3RyaXAudGV4dC55ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gMCwgc2l6ZSA9IDEwLCBjb2xvciA9IFwiYmxhY2tcIiwgZmFjZSA9IFwiYm9sZFwiKSxcbiAgICBheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dChcbiAgICAgIGFuZ2xlPTQ1LFxuICAgICAgdmp1c3Q9MSxcbiAgICAgIGhqdXN0ID0gMSxcbiAgICAgIGNvbG91cj1cImJsYWNrXCIsXG4gICAgICBzaXplPXJlbCgxLjMpXG4gICAgICApLFxuICAgIGF4aXMudGV4dC55ID0gZWxlbWVudF90ZXh0KFxuICAgICAgYW5nbGU9MCxcbiAgICAgIHZqdXN0PTEsXG4gICAgICBoanVzdCA9IDEsXG4gICAgICBjb2xvdXI9XCJibGFja1wiLFxuICAgICAgc2l6ZT1yZWwoMS4zKVxuICAgICAgKSxcbiAgICBheGlzLnRpdGxlLnkgPSBlbGVtZW50X3RleHQoXG4gICAgICBzaXplID0gcmVsKDEuMyksXG4gICAgICBtYXJnaW4gPSBtYXJnaW4oXG4gICAgICAgIHQgPSAwLFxuICAgICAgICByID0gMTAsXG4gICAgICAgIGIgPSAwLFxuICAgICAgICBsID0gMFxuICAgICAgICApXG4gICAgICApLFxuICAgIGF4aXMudGl0bGUueCA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICAgIHBhbmVsLnNwYWNpbmcgPSB1bml0KDAuOCwgXCJsaW5lc1wiKSxcbiAgICAgICkgK1xuXG4gICNmYWNldF9ncmlkKHJvd3MgPSB2YXJzKHVjKSkgK1xuXG4gIHlsYWIoXCJMUElcIilcbmBgYCJ9 -->
-<pre class="r"><code># Gerar gráfico mais bonito usando função ggplot_lpi_modif
-ggplot_lpi_modif(mydata_lpi, col=&quot;darkcyan&quot;)
-ggsave(file = here(&quot;03_dadosDeSaida/plots&quot;, &quot;lpiGlobal.png&quot;))
+The following objects are masked from ‘package:base’:
 
-ggplot(mydata_lpi, aes(x = 1:nrow(mydata_lpi), y = LPI_final, group = 1)) +
-  #Intervalo de confiança
-  geom_ribbon(
-    aes(ymin = CI_low, ymax = CI_high),
-    fill = &quot;mediumaquamarine&quot;,
-    alpha = 0.9,
-    colour = &quot;grey50&quot;
-    ) +
-  
-  geom_line(
-    lwd = 0.5,
-    colour = &quot;grey50&quot;
-    ) +#, lineend = &quot;round&quot;) +
-  
-  geom_point() +
-  
-  ylim(0,2) +
-  
-  theme_bw() +
-  
-  theme(
-    strip.background = element_rect(fill = &quot;grey90&quot;),
-    strip.text.y = element_text(angle = 0, size = 10, color = &quot;black&quot;, face = &quot;bold&quot;),
-    axis.text.x = element_text(
-      angle=45,
-      vjust=1,
-      hjust = 1,
-      colour=&quot;black&quot;,
-      size=rel(1.3)
-      ),
-    axis.text.y = element_text(
-      angle=0,
-      vjust=1,
-      hjust = 1,
-      colour=&quot;black&quot;,
-      size=rel(1.3)
-      ),
-    axis.title.y = element_text(
-      size = rel(1.3),
-      margin = margin(
-        t = 0,
-        r = 10,
-        b = 0,
-        l = 0
-        )
-      ),
-    axis.title.x = element_blank(),
-      panel.spacing = unit(0.8, &quot;lines&quot;),
-      ) +
+    date, intersect, setdiff, union
 
-  #facet_grid(rows = vars(uc)) +
+Carregando pacotes exigidos: dplyr
 
-  ylab(&quot;LPI&quot;)</code></pre>
-<!-- rnb-source-end -->
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Carregando pacotes exigidos: stringr</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
+<div id="dados-consolidados-de-mamíferos-e-aves" class="section level3">
+<h3>DADOS CONSOLIDADOS DE MAMÍFEROS E AVES</h3>
+<p>Caso haja necessidade de reutilizar os dados originais notar que foi
+necessário a limpeza dos comentários para evitar inúmeros erros
+relacionados a:</p>
+<ul>
+<li><p>Coordenadas geográficas:</p>
+<p>ex Linha 2298</p>
+<p><code>S 04° 16&quot; 44.1&quot;, W 55° 59&#39; 35.4&quot;</code></p></li>
+<li><p>Comentários com vírgulas:</p>
+<p>ex Linha 2517</p>
+<p><code>&quot;Distância estimada. estava na outra margem do igarapé: S 4° 36&#39; 32&quot;&quot;, w 56° 24&#39; 51.2&quot;&quot;&quot;</code></p></li>
+</ul>
 </div>
-<div id="cálculo-por-uc" class="section level3">
-<h3>CÁLCULO POR UC</h3>
+<div id="carregar-arquivos" class="section level3">
+<h3>Carregar arquivos</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1BlZ3VlIG8gbm9tZSBkZSBjYWRhIFVDXG5mb3IoVUMgaW4gdW5pcXVlKHRheGFzX2FudWFpcyRjbnVjKSl7XG5cbiAgI215ZGF0YV9MUEkgcmVjZWJlIGEgVUMgZGEgdmV6XG4gIG15ZGF0YV9scGkgPC0gdGF4YXNfYW51YWlzW3RheGFzX2FudWFpcyRjbnVjID09IFVDLCBdICU+JVxuICAgICNBZGljaW9uZSB1bSBjYW1wbyBkZSBJRCBwYXJhIGEgVUNcbiAgICBkcGx5cjo6bXV0YXRlKElEID0gMTpucm93KHRheGFzX2FudWFpc1t0YXhhc19hbnVhaXMkY251YyA9PSBVQywgXSkpICU+JVxuICAgICNSZW5vbWVpZSBvIGNhbXBvIHBvcHVsYWNhbyBwYXJhIEJpbm9taWFsXG4gICAgcmVuYW1lKEJpbm9taWFsID0gcG9wdWxhY2FvKVxuICAgICNHdWFyZGUgbyBub21lIGRhIFVDIHBhcmEgbWltXG4gIHRlbXAgPC0gdW5pcXVlKG15ZGF0YV9scGkkbm9tZV9VQylcbiAgICAjU2VsZWNpb25lIGNhbXBvc1xuICBcbiAgbXlkYXRhX2xwaSA8LSBteWRhdGFfbHBpICU+JSBkcGx5cjo6c2VsZWN0KGNudWMsIElELCBCaW5vbWlhbCwgWDIwMTQsIFgyMDE1LCBYMjAxNiwgWDIwMTcsIFgyMDE4LCBYMjAxOSlcbiAgXG4gIGluZGV4X3ZlY3RvciA9IHJlcChUUlVFLCBucm93KG15ZGF0YV9scGkpKVxuICB5ZWFyX3ZlY3RvciA8LSAyMDE0OjIwMTlcbiAgXG4gIG15ZGF0YV9pbmZpbGUgPC0gY3JlYXRlX2luZmlsZShcbiAgICBteWRhdGFfbHBpLFxuICAgIGluZGV4X3ZlY3RvciA9IGluZGV4X3ZlY3RvcixcbiAgICBuYW1lID0gXCJJbmZpbGVcIixcbiAgICBzdGFydF9jb2xfbmFtZSA9IGNvbG5hbWVzKG15ZGF0YV9scGkpWzRdLFxuICAgIGVuZF9jb2xfbmFtZSA9IHRhaWwoY29sbmFtZXMobXlkYXRhX2xwaSksIG49MSksXG4gICAgQ1VUX09GRl9ZRUFSID0geWVhcl92ZWN0b3JbMV1cbiAgICApXG4gIFxuICBteWRhdGFfbHBpIDwtIExQSU1haW4oXG4gICAgaW5maWxlID0gXCJJbmZpbGVfaW5maWxlLnR4dFwiLFxuICAgIFJFRl9ZRUFSID0geWVhcl92ZWN0b3JbMV0sXG4gICAgUExPVF9NQVggPSB0YWlsKHllYXJfdmVjdG9yLCBuPTEpLFxuICAgIEJPT1RfU1RSQVBfU0laRSA9IDEwMFxuICAgIClcbiAgXG4gICNQZWd1ZSBvcyBkYWRvcyBkZSBteWRhdGFfTFBJXG4gIG15ZGF0YV9scGlUZW1wIDwtIG15ZGF0YV9scGlcbiAgI0FkaWNpb25lIHVtYSBjb2x1bmEgZGUgVUMgZSBwcmVlbmNoYSB0b2RhcyBhcyBsaW5oYXMgY29tIG8gbm9tZSBkYSBVQ1xuICBteWRhdGFfbHBpVGVtcCR1YyA8LSB0ZW1wXG4gICNQZWd1ZSBvcyBhbm9zIGUgdHJhbnNmb3JtZSBlbSB1bWEgY29sdW5hXG4gIG15ZGF0YV9scGlUZW1wIDwtIHRpYmJsZTo6cm93bmFtZXNfdG9fY29sdW1uKG15ZGF0YV9scGlUZW1wKSAlPiVcbiAgICBcbiAgICAjUmVub21laWUgYSBjb2x1bmEgY3JpYWRhIHBhcmEgYW5vXG4gICAgcmVuYW1lKGFubyA9IHJvd25hbWUpXG4gIFxuICAjSnVudGUgbyBvYmpldG8gdGVtcG9yw6FyaW8gY29tIG8gbHBpXG4gIGxwaSA8LSByYmluZChscGksIG15ZGF0YV9scGlUZW1wKVxuICB9XG5gYGAifQ== -->
-<pre class="r"><code>#Pegue o nome de cada UC
-for(UC in unique(taxas_anuais$cnuc)){
-
-  #mydata_LPI recebe a UC da vez
-  mydata_lpi &lt;- taxas_anuais[taxas_anuais$cnuc == UC, ] %&gt;%
-    #Adicione um campo de ID para a UC
-    dplyr::mutate(ID = 1:nrow(taxas_anuais[taxas_anuais$cnuc == UC, ])) %&gt;%
-    #Renomeie o campo populacao para Binomial
-    rename(Binomial = populacao)
-    #Guarde o nome da UC para mim
-  temp &lt;- unique(mydata_lpi$nome_UC)
-    #Selecione campos
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gIHJlYWRyOjpyZWFkX2NzdihoZXJlKFwiMDFfZGFkb3NEZUVudHJhZGFcIiwgXCJQbGFuaWxoYS5jb25zb2xpZGFkYS5tYXN0b2F2ZXMuYXRlLjIwMTlhLmNzdlwiKSwgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSlcbmRhZG9zIDwtIHN1YnNldChkYWRvcywgc2VsZWN0ID0gYygxOjMwKSlcbmBgYCJ9 -->
+<pre class="r"><code>dados &lt;-  readr::read_csv(here(&quot;01_dadosDeEntrada&quot;, &quot;Planilha.consolidada.mastoaves.ate.2019a.csv&quot;), show_col_types = FALSE)
+dados &lt;- subset(dados, select = c(1:30))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div style="page-break-after: always;"></div>
+</div>
+<div id="ajustes-e-correções" class="section level3">
+<h3>AJUSTES E CORREÇÕES</h3>
+<ul>
+<li>Renomear colunas</li>
+<li>Ajustar formato de data e hora</li>
+<li>Criar campo de identificação de populações</li>
+<li>Remover colunas desnecessárias</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1JFTk9NRUFSIENPTFVOQVNcbmRhZG9zIDwtIGRhZG9zICU+JVxuICBkcGx5cjo6cmVuYW1lKFxuICAgICAgICAgY251YyA9IFwiQ0RVQ1wiLFxuICAgICAgICAgbm9tZV9VQyA9IFwiTG9jYWwgLSBOb21lIGRhIFVuaWRhZGUgZGUgQ29uc2VydmFjYW9cIixcbiAgICAgICAgIGVzdGFjYW9fYW1vc3RyYWwgPSBcIk51bWVybyBkYSBFc3RhY2FvIEFtb3N0cmFsXCIsXG4gICAgICAgICBub21lX2VhID0gXCJOb21lIGRhIEVBXCIsXG4gICAgICAgICBlc2ZvcmNvID0gXCJFc2ZvcmNvIGRlIGFtb3N0cmFnZW0gdGFtYW5obyBkYSB0cmlsaGEgKG0pXCIsXG4gICAgICAgICBkYXRhID0gXCJkYXRhIGRhIGFtb3N0cmFnZW1cIixcbiAgICAgICAgIGhvcmFfaW5pY2lvID0gXCJob3JhcmlvIGRlIGluaWNpbyAgKGg6bW0pXCIsXG4gICAgICAgICBob3JhX2ZpbSA9IFwiaG9yYXJpbyBkZSB0ZXJtaW5vIChoOm1tKVwiLFxuICAgICAgICAgYW5vID0gXCJBbm9cIixcbiAgICAgICAgIGNsYXNzZSA9IFwiQ2xhc3NlXCIsXG4gICAgICAgICBvcmRlbSA9IFwiT3JkZW1cIixcbiAgICAgICAgIGZhbWlsaWEgPSBcIkZhbWlsaWFcIixcbiAgICAgICAgIGdlbmVybyA9IFwiR2VuZXJvXCIsXG4gICAgICAgICBiaW5vbWlhbCA9IFwiRXNwZWNpZXMgdmFsaWRhZGFzIHBhcmEgYW5hbGlzZSBkbyBJQ01CaW9cIixcbiAgICAgICAgIG5fYW5pbWFpcyA9IFwibiBkZSBhbmltYWlzXCIsXG4gICAgICAgICBkaXN0YW5jaWEgPSBcImRpc3RhbmNpYSAobSkgZG8gYW5pbWFsIGVtIHJlbGFjYW8gYSB0cmlsaGFcIlxuICAgICAgICAgKSAlPiVcbiNBSlVTVEFSIEZPUk1BVE8gREUgREFUQVxuICBkcGx5cjo6bXV0YXRlKGRhdGEgPSBhcy5EYXRlKGRhdGEsIFwiJWQvJW0vJVlcIiksXG4gICAgICAgICBhbm8gPSB5ZWFyKGRhdGEpLFxuI0NSSUFSIENBTVBPIERFIElERU5USUZJQ0HDh8ODTyBERSBQT1BVTEHDh8OVRVNcbiAgICAgICAgIHBvcHVsYWNhbyA9IHBhc3RlKGJpbm9taWFsLCBjbnVjLCBzZXAgPVwiX1wiKSxcbiAgICAgICAgIHBvcHVsYWNhbyA9IHN0cl9yZXBsYWNlKHBvcHVsYWNhbywgXCIgXCIsIFwiX1wiKSkgJT4lXG4jUkVNT1ZFUiBDT0xVTkFTIERFU05FQ0VTU8OBUklBU1xuICBkcGx5cjo6c2VsZWN0KFxuICAgIGNudWMsXG4gICAgbm9tZV9VQyxcbiAgICBlc3RhY2FvX2Ftb3N0cmFsLFxuICAgIG5vbWVfZWEsXG4gICAgZXNmb3JjbyxcbiAgICBhbm8sXG4gICAgZGF0YSxcbiAgICBob3JhX2luaWNpbyxcbiAgICBob3JhX2ZpbSxcbiAgICBjbGFzc2UsXG4gICAgb3JkZW0sXG4gICAgZmFtaWxpYSxcbiAgICBnZW5lcm8sXG4gICAgYmlub21pYWwsXG4gICAgbl9hbmltYWlzLFxuICAgIGRpc3RhbmNpYSxcbiAgICBwb3B1bGFjYW9cbiAgICApXG5gYGAifQ== -->
+<pre class="r"><code>#RENOMEAR COLUNAS
+dados &lt;- dados %&gt;%
+  dplyr::rename(
+         cnuc = &quot;CDUC&quot;,
+         nome_UC = &quot;Local - Nome da Unidade de Conservacao&quot;,
+         estacao_amostral = &quot;Numero da Estacao Amostral&quot;,
+         nome_ea = &quot;Nome da EA&quot;,
+         esforco = &quot;Esforco de amostragem tamanho da trilha (m)&quot;,
+         data = &quot;data da amostragem&quot;,
+         hora_inicio = &quot;horario de inicio  (h:mm)&quot;,
+         hora_fim = &quot;horario de termino (h:mm)&quot;,
+         ano = &quot;Ano&quot;,
+         classe = &quot;Classe&quot;,
+         ordem = &quot;Ordem&quot;,
+         familia = &quot;Familia&quot;,
+         genero = &quot;Genero&quot;,
+         binomial = &quot;Especies validadas para analise do ICMBio&quot;,
+         n_animais = &quot;n de animais&quot;,
+         distancia = &quot;distancia (m) do animal em relacao a trilha&quot;
+         ) %&gt;%
+#AJUSTAR FORMATO DE DATA
+  dplyr::mutate(data = as.Date(data, &quot;%d/%m/%Y&quot;),
+         ano = year(data),
+#CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
+         populacao = paste(binomial, cnuc, sep =&quot;_&quot;),
+         populacao = str_replace(populacao, &quot; &quot;, &quot;_&quot;)) %&gt;%
+#REMOVER COLUNAS DESNECESSÁRIAS
+  dplyr::select(
+    cnuc,
+    nome_UC,
+    estacao_amostral,
+    nome_ea,
+    esforco,
+    ano,
+    data,
+    hora_inicio,
+    hora_fim,
+    classe,
+    ordem,
+    familia,
+    genero,
+    binomial,
+    n_animais,
+    distancia,
+    populacao
+    )</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div style="page-break-after: always;"></div>
+</div>
+<div id="correção-de-taxonomia" class="section level3">
+<h3>Correção de taxonomia</h3>
+<ul>
+<li>Correção de nomes científicos</li>
+<li>Remoção de identificações imprecisas</li>
+<li>Ajuste de identificador para cada população</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gZGFkb3MgJT4lXG4jQ09SUkXDh8ODTyBERSBOT01FUyBDSUVOVMONRklDT1NcbiAgZHBseXI6Om11dGF0ZShiaW5vbWlhbCA9IGNhc2Vfd2hlbihcbiAgYmlub21pYWwgPT0gXCJicmFkeXB1cyB2YXJpZWdhdHVzXCIgfiBcIkJyYWR5cHVzIHZhcmllZ2F0dXNcIixcbiAgYmlub21pYWwgPT0gXCJQdW1hIHlhZ291YXJvdW5kaVwiIH4gXCJIZXJwYWlsdXJ1cyB5YWdvdWFyb3VuZGlcIixcbiAgYmlub21pYWwgPT0gXCJMb250cmEgbG9uZ2ljYXVkYXRhXCIgfiBcIkxvbnRyYSBsb25naWNhdWRpc1wiLFxuICBiaW5vbWlhbCA9PSBcIlNwZW90aHVzIHZlbmF0aWN1c1wiIH4gXCJTcGVvdGhvcyB2ZW5hdGljdXNcIixcbiAgVFJVRSB+IGJpbm9taWFsXG4gIClcbiAgKSAlPiVcbiAgXG4jUkVNT1ZFUiBJREVOVElGSUNBw4fDlUVTIElNUFJFQ0lTQVNcbiAgICBkcGx5cjo6ZmlsdGVyKCEgYmlub21pYWwgICVpbiUgYyhcbiAgICBOQSxcbiAgICBcIkVcIixcbiAgICBcIlRpbmFtaWRhZVwiLFxuICAgIFwiQ3JhY2lkYWVcIixcbiAgICBcIlNjaXVyaWRhZVwiLFxuICAgIFwiQ2FsbGl0cmljaGlkYWVcIixcbiAgICBcIlBpdGhlY2lpZGFlXCIsXG4gICAgXCJBdGVsaWRhZVwiLFxuICAgIFwiQ2ViaWRhZVwiLFxuICAgIFwiUHJpbWF0ZXNcIixcbiAgICBcIkZlbGlkYWVcIixcbiAgICBcIkJyYWR5cG9kaWRhZVwiLFxuICAgIFwiQ2VydmlkYWVcIixcbiAgICBcIlRheWFzc3VpZGFlXCIsXG4gICAgXCJEYXN5cHJvY3RhIGNmLiBmdWxpZ2lub3NhXCIsXG4gICAgXCJQcm9jeW9uaWRhZVwiXG4gICAgKVxuICAgICkgJT4lXG4gIFxuI1JFTU9WRVIgKi5zcFxuICBkcGx5cjo6ZmlsdGVyKCEgZ3JlcGwoJ3NwLicsIGJpbm9taWFsKSlcblxuI0FUVUFMSVpBUiBJREVOVElGSUNBRE9SIERFIFBPUFVMQcOHw5VFU1xuZGFkb3MkZ2VuZXJvIDwtIHdvcmQoZGFkb3MkYmlub21pYWwsMSlcbmRhZG9zJHBvcHVsYWNhbyA9IHBhc3RlKGRhZG9zJGJpbm9taWFsLCBkYWRvcyRjbnVjLCBzZXAgPVwiX1wiKVxuZGFkb3MkcG9wdWxhY2FvID0gc3RyX3JlcGxhY2UoZGFkb3MkcG9wdWxhY2FvLCBcIiBcIiwgXCJfXCIpXG5kYWRvcyRlc2ZvcmNvPSBkYWRvcyRlc2ZvcmNvLzEwMDBcbmBgYCJ9 -->
+<pre class="r"><code>dados &lt;- dados %&gt;%
+#CORREÇÃO DE NOMES CIENTÍFICOS
+  dplyr::mutate(binomial = case_when(
+  binomial == &quot;bradypus variegatus&quot; ~ &quot;Bradypus variegatus&quot;,
+  binomial == &quot;Puma yagouaroundi&quot; ~ &quot;Herpailurus yagouaroundi&quot;,
+  binomial == &quot;Lontra longicaudata&quot; ~ &quot;Lontra longicaudis&quot;,
+  binomial == &quot;Speothus venaticus&quot; ~ &quot;Speothos venaticus&quot;,
+  TRUE ~ binomial
+  )
+  ) %&gt;%
   
-  mydata_lpi &lt;- mydata_lpi %&gt;% dplyr::select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
-  
-  index_vector = rep(TRUE, nrow(mydata_lpi))
-  year_vector &lt;- 2014:2019
-  
-  mydata_infile &lt;- create_infile(
-    mydata_lpi,
-    index_vector = index_vector,
-    name = &quot;Infile&quot;,
-    start_col_name = colnames(mydata_lpi)[4],
-    end_col_name = tail(colnames(mydata_lpi), n=1),
-    CUT_OFF_YEAR = year_vector[1]
+#REMOVER IDENTIFICAÇÕES IMPRECISAS
+    dplyr::filter(! binomial  %in% c(
+    NA,
+    &quot;E&quot;,
+    &quot;Tinamidae&quot;,
+    &quot;Cracidae&quot;,
+    &quot;Sciuridae&quot;,
+    &quot;Callitrichidae&quot;,
+    &quot;Pitheciidae&quot;,
+    &quot;Atelidae&quot;,
+    &quot;Cebidae&quot;,
+    &quot;Primates&quot;,
+    &quot;Felidae&quot;,
+    &quot;Bradypodidae&quot;,
+    &quot;Cervidae&quot;,
+    &quot;Tayassuidae&quot;,
+    &quot;Dasyprocta cf. fuliginosa&quot;,
+    &quot;Procyonidae&quot;
     )
+    ) %&gt;%
   
-  mydata_lpi &lt;- LPIMain(
-    infile = &quot;Infile_infile.txt&quot;,
-    REF_YEAR = year_vector[1],
-    PLOT_MAX = tail(year_vector, n=1),
-    BOOT_STRAP_SIZE = 100
-    )
-  
-  #Pegue os dados de mydata_LPI
-  mydata_lpiTemp &lt;- mydata_lpi
-  #Adicione uma coluna de UC e preencha todas as linhas com o nome da UC
-  mydata_lpiTemp$uc &lt;- temp
-  #Pegue os anos e transforme em uma coluna
-  mydata_lpiTemp &lt;- tibble::rownames_to_column(mydata_lpiTemp) %&gt;%
-    
-    #Renomeie a coluna criada para ano
-    rename(ano = rowname)
-  
-  #Junte o objeto temporário com o lpi
-  lpi &lt;- rbind(lpi, mydata_lpiTemp)
-  }</code></pre>
+#REMOVER *.sp
+  dplyr::filter(! grepl(&#39;sp.&#39;, binomial))
+
+#ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+dados$genero &lt;- word(dados$binomial,1)
+dados$populacao = paste(dados$binomial, dados$cnuc, sep =&quot;_&quot;)
+dados$populacao = str_replace(dados$populacao, &quot; &quot;, &quot;_&quot;)
+dados$esforco= dados$esforco/1000</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<div id="gráfico-por-uc" class="section level4">
-<h4>Gráfico por UC</h4>
+</div>
+<div id="exportar-arquivos-.rds-e-.txt" class="section level3">
+<h3>Exportar arquivos <code>*.rds</code> e <code>*.txt</code></h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGxwaSwgYWVzKHggPSBmYWN0b3IoYW5vKSwgeSA9IExQSV9maW5hbCwgZ3JvdXAgPSAxKSkgK1xuICAjSW50ZXJ2YWxvIGRlIGNvbmZpYW7Dp2FcbiAgZ2VvbV9yaWJib24oXG4gICAgYWVzKHltaW4gPSBDSV9sb3csIHltYXggPSBDSV9oaWdoKSxcbiAgICBmaWxsID0gXCJtZWRpdW1hcXVhbWFyaW5lXCIsXG4gICAgYWxwaGEgPSAwLjksXG4gICAgY29sb3VyID0gXCJncmV5NTBcIixcbiAgICBsd2QgPSAwLjNcbiAgICApICtcbiAgXG4gIGdlb21fbGluZShcbiAgICBsd2QgPSAwLjUsXG4gICAgY29sb3VyID0gXCJncmV5NTBcIlxuICAgICkgKyMsIGxpbmVlbmQgPSBcInJvdW5kXCIpICtcbiAgXG4gIGdlb21fcG9pbnQoKSArXG4gIFxuICB5bGltKDAsIDUpICtcbiAgXG4gIHRoZW1lX2J3KCkgK1xuICBcbiAgdGhlbWUoXG4gICAgc3RyaXAuYmFja2dyb3VuZCA9IGVsZW1lbnRfcmVjdChmaWxsID0gXCJncmV5OTBcIiksXG4gICAgXG4gICAgc3RyaXAudGV4dC55ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gMCwgc2l6ZSA9IDksIGNvbG9yID0gXCJibGFja1wiKSwjIGZhY2UgPSBcImJvbGRcIiksXG4gICAgXG4gICAgYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoXG4gICAgICBhbmdsZT00NSxcbiAgICAgIHZqdXN0PTEsXG4gICAgICBoanVzdCA9IDEsXG4gICAgICBjb2xvdXI9XCJibGFja1wiLFxuICAgICAgc2l6ZT1yZWwoMSlcbiAgICAgICksXG4gICAgXG4gICAgYXhpcy50ZXh0LnkgPSBlbGVtZW50X3RleHQoXG4gICAgICBhbmdsZT0wLFxuICAgICAgdmp1c3Q9MSxcbiAgICAgIGhqdXN0ID0gMSxcbiAgICAgIGNvbG91cj1cImJsYWNrXCIsXG4gICAgICBzaXplPXJlbCgxKVxuICAgICAgKSxcbiAgICBcbiAgICBheGlzLnRpdGxlLnkgPSBlbGVtZW50X3RleHQoXG4gICAgICBzaXplID0gcmVsKDEpLFxuICAgICAgbWFyZ2luID0gbWFyZ2luKFxuICAgICAgICB0ID0gMCxcbiAgICAgICAgciA9IDEwLFxuICAgICAgICBiID0gMCxcbiAgICAgICAgbCA9IDBcbiAgICAgICAgKVxuICAgICAgKSxcbiAgICBcbiAgICBheGlzLnRpdGxlLnggPSBlbGVtZW50X2JsYW5rKCksXG4gICAgICBwYW5lbC5zcGFjaW5nID0gdW5pdCgwLjMsIFwibGluZXNcIikjLFxuICAgIFxuICAgICNwYW5lXG4gICAgXG4gICAgICApICtcblxuICBmYWNldF9ncmlkKHJvd3MgPSB2YXJzKHVjKSkgK1xuXG4gIHlsYWIoXCJMUElcIilcblxuI1NhbHZlIG8gZ3LDoWZpY28gZGUgc2HDrWRhLlxuZ2dzYXZlKGZpbGUgPSBoZXJlKFwiMDNfZGFkb3NEZVNhaWRhL3Bsb3RzXCIsIFwibHBpR2xvYmFsLnBuZ1wiKSlcbmBgYCJ9 -->
-<pre class="r"><code>ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
-  #Intervalo de confiança
-  geom_ribbon(
-    aes(ymin = CI_low, ymax = CI_high),
-    fill = &quot;mediumaquamarine&quot;,
-    alpha = 0.9,
-    colour = &quot;grey50&quot;,
-    lwd = 0.3
-    ) +
-  
-  geom_line(
-    lwd = 0.5,
-    colour = &quot;grey50&quot;
-    ) +#, lineend = &quot;round&quot;) +
-  
-  geom_point() +
-  
-  ylim(0, 5) +
-  
-  theme_bw() +
-  
-  theme(
-    strip.background = element_rect(fill = &quot;grey90&quot;),
-    
-    strip.text.y = element_text(angle = 0, size = 9, color = &quot;black&quot;),# face = &quot;bold&quot;),
-    
-    axis.text.x = element_text(
-      angle=45,
-      vjust=1,
-      hjust = 1,
-      colour=&quot;black&quot;,
-      size=rel(1)
-      ),
-    
-    axis.text.y = element_text(
-      angle=0,
-      vjust=1,
-      hjust = 1,
-      colour=&quot;black&quot;,
-      size=rel(1)
-      ),
-    
-    axis.title.y = element_text(
-      size = rel(1),
-      margin = margin(
-        t = 0,
-        r = 10,
-        b = 0,
-        l = 0
-        )
-      ),
-    
-    axis.title.x = element_blank(),
-      panel.spacing = unit(0.3, &quot;lines&quot;)#,
-    
-    #pane
-    
-      ) +
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2F2ZVJEUyhkYWRvcywgaGVyZShcIjAzX2RhZG9zRGVTYWlkYS9kYWRvc1wiLCBcImRhZG9zSUNNQmlvXzIwMTRhMjAxOS5yZHNcIikpXG5cbnJlYWRyOjp3cml0ZV9jc3YoZGFkb3MsIGhlcmUoXCIwM19kYWRvc0RlU2FpZGEvZGFkb3NcIiwgXCJkYWRvc0lDTUJpb18yMDE0YTIwMTkudHh0XCIpKVxuYGBgIn0= -->
+<pre class="r"><code>saveRDS(dados, here(&quot;03_dadosDeSaida/dados&quot;, &quot;dadosICMBio_2014a2019.rds&quot;))
 
-  facet_grid(rows = vars(uc)) +
-
-  ylab(&quot;LPI&quot;)
-
-#Salve o gráfico de saída.
-ggsave(file = here(&quot;03_dadosDeSaida/plots&quot;, &quot;lpiGlobal.png&quot;))</code></pre>
+readr::write_csv(dados, here(&quot;03_dadosDeSaida/dados&quot;, &quot;dadosICMBio_2014a2019.txt&quot;))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>[pH]</p>
-<!-- rnb-text-end -->
+<div style="page-break-after: always;"></div>
 </div>
+<div id="dados-consolidados-florestal" class="section level3">
+<h3>DADOS CONSOLIDADOS FLORESTAL</h3>
+<p>Caso haja necessidade de reutilizar os dados originais notar que foi
+necessário a limpeza dos comentários para evitar inúmeros erros
+(descritos acima).</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gcmVhZHI6OnJlYWRfY3N2KFxuICBoZXJlKFwiMDFfZGFkb3NEZUVudHJhZGFcIiwgXCJEYWRvc19GbG9yZXN0YWxfMTRhMThfZGlzcG9uaWJpbGl6YWNhbzEuY3N2XCIpLFxuICBzaG93X2NvbF90eXBlcyA9IEZBTFNFKVxuYGBgIn0= -->
+<pre class="r"><code>dados &lt;- readr::read_csv(
+  here(&quot;01_dadosDeEntrada&quot;, &quot;Dados_Florestal_14a18_disponibilizacao1.csv&quot;),
+  show_col_types = FALSE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="ajustes-e-correções-1" class="section level3">
+<h3>AJUSTES E CORREÇÕES</h3>
+<ul>
+<li>Renomear colunas</li>
+<li>Ajustar formato de data e hora</li>
+<li>Ajustar formato de distância</li>
+<li>Criar campo de identificação de populações</li>
+<li>Remover colunas desnecessárias</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1JFTk9NRUFSIENPTFVOQVNcbmRhZG9zIDwtIGRhZG9zICU+JVxuICBkcGx5cjo6cmVuYW1lKFxuICAgIGNudWMgPSBcIkNhZGFzdHJvIE5hY2lvbmFsIGRlIFVuaWRhZGVzIGRlIENvbnNlcnZhw6fDo28gKENOVUMpXCIsXG4gICAgbm9tZV9VQyA9IFwiVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvIChVQylcIixcbiAgICBlc3RhY2FvX2Ftb3N0cmFsID0gXCJOw7ptZXJvIGRhIEVzdGHDp8OjbyBBbW9zdHJhbFwiLFxuICAgIG5vbWVfZWEgPSBcIk5vbWUgZGEgRXN0YcOnw6NvIEFtb3N0cmFsXCIsXG4gICAgZXNmb3JjbyA9IFwiRXNmb3LDp28gZGUgYW1vc3RyYWdlbSAobWV0cm9zIHBlcmNvcnJpZG9zIHBvciBkaWEpXCIsXG4gICAgZGF0YSA9IFwiZGF0YSBkYSBhbW9zdHJhZ2VtIChkZC9tbS9hYWFhKVwiLFxuICAgIGhvcmFfaW5pY2lvID0gXCJIb3LDoXJpbyBkZSBpbsOtY2lvICAoaGg6bW0pXCIsXG4gICAgaG9yYV9maW0gPSBcIkhvcsOhcmlvIGRlIHTDqXJtaW5vIChoaDptbSlcIixcbiAgICBhbm8gPSBcIkFub1wiLFxuICAgIGNsYXNzZSA9IFwiQ2xhc3NlXCIsXG4gICAgb3JkZW0gPSBcIk9yZGVtXCIsXG4gICAgZmFtaWxpYSA9IFwiRmFtw61saWFcIixcbiAgICBnZW5lcm8gPSBcIkfDqm5lcm9cIixcbiAgICBiaW5vbWlhbCA9IFwiRXNww6ljaWVzIHZhbGlkYWRhcyBwZWxvIElDTUJpb1wiLFxuICAgIG5fYW5pbWFpcyA9IFwiTsKwIGRlIGFuaW1haXNcIixcbiAgICBkaXN0YW5jaWEgPSBcIkRpc3TDom5jaWEgcGVycGVuZGljdWxhciAgKG0pIGRvIGFuaW1hbCBlbSByZWxhw6fDo28gYSB0cmlsaGFcIlxuICAgICkgJT4lXG4jQUpVU1RBUiBGT1JNQVRPIERFIERBVEEsIEhPUkEgRSBESVNUw4JOQ0lBXG4gIGRwbHlyOjptdXRhdGUoXG4gICAgZGF0YSA9IGFzLkRhdGUoZGF0YSwgXCIlZC8lbS8lWVwiKSxcbiAgICBkaXN0YW5jaWEgPSAgc3RyX3JlcGxhY2UoZGlzdGFuY2lhLCBcIixcIiwgXCIuXCIpLFxuICAgIGRpc3RhbmNpYSA9IGFzLm51bWVyaWMoZGlzdGFuY2lhKSxcbiNDUklBUiBDQU1QTyBERSBJREVOVElGSUNBw4fDg08gREUgUE9QVUxBw4fDlUVTXG4gICAgcG9wdWxhY2FvID0gcGFzdGUoYmlub21pYWwsIGNudWMsIHNlcCA9XCJfXCIpLFxuICAgIHBvcHVsYWNhbyA9IHN0cl9yZXBsYWNlKHBvcHVsYWNhbywgXCIgXCIsIFwiX1wiKVxuICAgICkgJT4lXG4jUkVNT1ZFUiBDT0xVTkFTIERFU05FQ0VTU8OBUklBU1xuICBkcGx5cjo6c2VsZWN0KFxuICAgIGNudWMsXG4gICAgbm9tZV9VQyxcbiAgICBlc3RhY2FvX2Ftb3N0cmFsLFxuICAgIG5vbWVfZWEsXG4gICAgZXNmb3JjbyxcbiAgICBhbm8sXG4gICAgZGF0YSxcbiAgICBob3JhX2luaWNpbyxcbiAgICBob3JhX2ZpbSxcbiAgICBjbGFzc2UsXG4gICAgb3JkZW0sXG4gICAgZmFtaWxpYSxcbiAgICBnZW5lcm8sXG4gICAgYmlub21pYWwsXG4gICAgbl9hbmltYWlzLFxuICAgIGRpc3RhbmNpYSxcbiAgICBwb3B1bGFjYW8pXG4jQUpVU1RFIFJFU0VYIFJJTyBPVVJPIFBSRVRPXG5kYWRvcyRjbnVjIDwtIGdzdWIoXCIjUkVGIVwiLFwiMjU2XCIsIGRhZG9zJGNudWMpXG5gYGAifQ== -->
+<pre class="r"><code>#RENOMEAR COLUNAS
+dados &lt;- dados %&gt;%
+  dplyr::rename(
+    cnuc = &quot;Cadastro Nacional de Unidades de Conservação (CNUC)&quot;,
+    nome_UC = &quot;Unidade de Conservação (UC)&quot;,
+    estacao_amostral = &quot;Número da Estação Amostral&quot;,
+    nome_ea = &quot;Nome da Estação Amostral&quot;,
+    esforco = &quot;Esforço de amostragem (metros percorridos por dia)&quot;,
+    data = &quot;data da amostragem (dd/mm/aaaa)&quot;,
+    hora_inicio = &quot;Horário de início  (hh:mm)&quot;,
+    hora_fim = &quot;Horário de término (hh:mm)&quot;,
+    ano = &quot;Ano&quot;,
+    classe = &quot;Classe&quot;,
+    ordem = &quot;Ordem&quot;,
+    familia = &quot;Família&quot;,
+    genero = &quot;Gênero&quot;,
+    binomial = &quot;Espécies validadas pelo ICMBio&quot;,
+    n_animais = &quot;N° de animais&quot;,
+    distancia = &quot;Distância perpendicular  (m) do animal em relação a trilha&quot;
+    ) %&gt;%
+#AJUSTAR FORMATO DE DATA, HORA E DISTÂNCIA
+  dplyr::mutate(
+    data = as.Date(data, &quot;%d/%m/%Y&quot;),
+    distancia =  str_replace(distancia, &quot;,&quot;, &quot;.&quot;),
+    distancia = as.numeric(distancia),
+#CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
+    populacao = paste(binomial, cnuc, sep =&quot;_&quot;),
+    populacao = str_replace(populacao, &quot; &quot;, &quot;_&quot;)
+    ) %&gt;%
+#REMOVER COLUNAS DESNECESSÁRIAS
+  dplyr::select(
+    cnuc,
+    nome_UC,
+    estacao_amostral,
+    nome_ea,
+    esforco,
+    ano,
+    data,
+    hora_inicio,
+    hora_fim,
+    classe,
+    ordem,
+    familia,
+    genero,
+    binomial,
+    n_animais,
+    distancia,
+    populacao)
+#AJUSTE RESEX RIO OURO PRETO
+dados$cnuc &lt;- gsub(&quot;#REF!&quot;,&quot;256&quot;, dados$cnuc)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="correção-de-taxonomia-1" class="section level3">
+<h3>Correção de taxonomia</h3>
+<ul>
+<li>Correção de nomes científicos</li>
+<li>Remoção de identificações imprecisas</li>
+<li>Ajuste de identificador para cada população</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFkb3MgPC0gZGFkb3MgJT4lXG4jQ09SUkXDh8ODTyBERSBOT01FUyBDSUVOVMONRklDT1NcbmRwbHlyOjptdXRhdGUoXG4gIGJpbm9taWFsID0gY2FzZV93aGVuKFxuICAgIGJpbm9taWFsID09IFwiYnJhZHlwdXMgdmFyaWVnYXR1c1wiIH4gXCJCcmFkeXB1cyB2YXJpZWdhdHVzXCIsXG4gICAgYmlub21pYWwgPT0gXCJQdW1hIHlhZ291YXJvdW5kaVwiIH4gXCJIZXJwYWlsdXJ1cyB5YWdvdWFyb3VuZGlcIixcbiAgICBiaW5vbWlhbCA9PSBcIkxvbnRyYSBsb25naWNhdWRhdGFcIiB+IFwiTG9udHJhIGxvbmdpY2F1ZGlzXCIsXG4gICAgYmlub21pYWwgPT0gXCJTcGVvdGh1cyB2ZW5hdGljdXNcIiB+IFwiU3Blb3Rob3MgdmVuYXRpY3VzXCIsXG4gICAgVFJVRSB+IGJpbm9taWFsXG4gICAgKVxuICApICU+JVxuI1JFTU9WRVIgSURFTlRJRklDQcOHw5VFUyBJTVBSRUNJU0FTXG4gIGRwbHlyOjpmaWx0ZXIoXG4gICAgIWJpbm9taWFsICVpbiUgYyhcbiAgICAgIE5BLFxuICAgICAgXCJFXCIsXG4gICAgICBcIlRpbmFtaWRhZVwiLFxuICAgICAgXCJDcmFjaWRhZVwiLFxuICAgICAgXCJTY2l1cmlkYWVcIixcbiAgICAgIFwiQ2FsbGl0cmljaGlkYWVcIixcbiAgICAgIFwiUGl0aGVjaWlkYWVcIixcbiAgICAgIFwiQXRlbGlkYWVcIixcbiAgICAgIFwiQ2ViaWRhZVwiLFxuICAgICAgXCJQcmltYXRlc1wiLFxuICAgICAgXCJGZWxpZGFlXCIsXG4gICAgICBcIkJyYWR5cG9kaWRhZVwiLFxuICAgICAgXCJDZXJ2aWRhZVwiLFxuICAgICAgXCJUYXlhc3N1aWRhZVwiLFxuICAgICAgXCJEYXN5cHJvY3RhIGNmLiBmdWxpZ2lub3NhXCIsXG4gICAgICBcIlByb2N5b25pZGFlXCJcbiAgICAgICksXG4gICAgKSAlPiVcbiNSRU1PVkVSICouc3BcbiAgZHBseXI6OmZpbHRlcighZ3JlcGwoJ3NwLicsIGJpbm9taWFsKSlcbiNBVFVBTElaQVIgSURFTlRJRklDQURPUiBERSBQT1BVTEHDh8OVRVNcbmRhZG9zJGdlbmVybyA8LSB3b3JkKGRhZG9zJGJpbm9taWFsLDEpXG5kYWRvcyRwb3B1bGFjYW8gPSBwYXN0ZShkYWRvcyRiaW5vbWlhbCwgZGFkb3MkY251Yywgc2VwID1cIl9cIilcbmRhZG9zJHBvcHVsYWNhbyA9IHN0cl9yZXBsYWNlKGRhZG9zJHBvcHVsYWNhbywgXCIgXCIsIFwiX1wiKVxuZGFkb3MkZXNmb3Jjbz0gZGFkb3MkZXNmb3Jjby8xMDAwXG5gYGAifQ== -->
+<pre class="r"><code>dados &lt;- dados %&gt;%
+#CORREÇÃO DE NOMES CIENTÍFICOS
+dplyr::mutate(
+  binomial = case_when(
+    binomial == &quot;bradypus variegatus&quot; ~ &quot;Bradypus variegatus&quot;,
+    binomial == &quot;Puma yagouaroundi&quot; ~ &quot;Herpailurus yagouaroundi&quot;,
+    binomial == &quot;Lontra longicaudata&quot; ~ &quot;Lontra longicaudis&quot;,
+    binomial == &quot;Speothus venaticus&quot; ~ &quot;Speothos venaticus&quot;,
+    TRUE ~ binomial
+    )
+  ) %&gt;%
+#REMOVER IDENTIFICAÇÕES IMPRECISAS
+  dplyr::filter(
+    !binomial %in% c(
+      NA,
+      &quot;E&quot;,
+      &quot;Tinamidae&quot;,
+      &quot;Cracidae&quot;,
+      &quot;Sciuridae&quot;,
+      &quot;Callitrichidae&quot;,
+      &quot;Pitheciidae&quot;,
+      &quot;Atelidae&quot;,
+      &quot;Cebidae&quot;,
+      &quot;Primates&quot;,
+      &quot;Felidae&quot;,
+      &quot;Bradypodidae&quot;,
+      &quot;Cervidae&quot;,
+      &quot;Tayassuidae&quot;,
+      &quot;Dasyprocta cf. fuliginosa&quot;,
+      &quot;Procyonidae&quot;
+      ),
+    ) %&gt;%
+#REMOVER *.sp
+  dplyr::filter(!grepl(&#39;sp.&#39;, binomial))
+#ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
+dados$genero &lt;- word(dados$binomial,1)
+dados$populacao = paste(dados$binomial, dados$cnuc, sep =&quot;_&quot;)
+dados$populacao = str_replace(dados$populacao, &quot; &quot;, &quot;_&quot;)
+dados$esforco= dados$esforco/1000</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="exportar-arquivos-.rds-e-.txt-1" class="section level3">
+<h3>Exportar arquivos <code>*.rds</code> e <code>*.txt</code></h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2F2ZVJEUyhkYWRvcywgaGVyZShcIjAzX2RhZG9zRGVTYWlkYS9kYWRvc1wiLCBcImRhZG9zSUNNQmlvXzIwMTRhMjAxOC5yZHNcIikpXG5yZWFkcjo6d3JpdGVfY3N2KGRhZG9zLCBoZXJlKFwiMDNfZGFkb3NEZVNhaWRhL2RhZG9zXCIsIFwiZGFkb3NJQ01CaW9fMjAxNGEyMDE4LnR4dFwiKSlcbmBgYCJ9 -->
+<pre class="r"><code>saveRDS(dados, here(&quot;03_dadosDeSaida/dados&quot;, &quot;dadosICMBio_2014a2018.rds&quot;))
+readr::write_csv(dados, here(&quot;03_dadosDeSaida/dados&quot;, &quot;dadosICMBio_2014a2018.txt&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnRlIDAzIC0gQ8OBTENVTE8gREUgTFBJIg0Kb3V0cHV0Og0KICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQNCiAgaHRtbF9ub3RlYm9vazogZGVmYXVsdA0KICB3b3JkX2RvY3VtZW50OiBkZWZhdWx0DQogIGh0bWxfZG9jdW1lbnQ6DQogICAgZGZfcHJpbnQ6IHBhZ2VkDQotLS0NCg0KU2NyaXB0IHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7VlcyBkaXNwb27DrXZlaXMgW25lc3RlIGxpbmtdKGh0dHBzOi8vZ2l0aHViLmNvbS9ab29sb2dpY2FsLVNvY2lldHktb2YtTG9uZG9uL3JscGkpLg0KDQoqKkVtIGZhc2UgZGUgVEVTVEUqKg0KDQpBZGFwdGHDp8OjbzogICAgICAgIEVsaWxkbyBDYXJ2YWxobyBKciwgSUNNQmlvL0NFTkFQDQpEZXNlbnZvbHZpbWVudG86ICBGZXJuYW5kbyBMaW1hLCBBbGdvcml0bW8NCg0KIyMgUFJFUEFSQcOHw4NPDQoNCiMjIyBQQUNPVEVTDQpgYGB7ciBwYWNvdGVzLCBpbmNsdWRlPUZBTFNFfQ0Kcm0obGlzdCA9IGxzKGFsbCA9IFRSVUUpKQ0KbGlicmFyeShoZXJlKQ0Kc291cmNlKGhlcmUoIjAyX3NjcmlwdCIsICJmdW5jb2VzL3BhY290ZXMuUiIpKQ0KcGFjb3RlcygidGlkeXZlcnNlIiwiZHBseXIiKQ0KYGBgDQoNCiMjIyBGVU7Dh8OVRVMgTFBJDQpGdW7Dp8O1ZXMgZG8gcGFjb3RlIGBSbHBpYC4gTyBwYWNvdGUgYXByZXNlbnRhIHbDoXJpYXMgbGltaXRhw6fDtWVzIGUgcG9yIGlzc28gYWRvdGFtb3MgbyB1c28gZGFzIGZ1bsOnw7Vlcy4NCmBgYHtyfQ0Kc291cmNlKGhlcmUoIjAyX3NjcmlwdC9mdW5jb2VzIiwgIkxQSU1haW4uUiIpKQ0Kc291cmNlKGhlcmUoIjAyX3NjcmlwdC9mdW5jb2VzIiwgImNyZWF0ZV9pbmZpbGUuUiIpKQ0Kc291cmNlKGhlcmUoIjAyX3NjcmlwdC9mdW5jb2VzIiwgIkNhbGNMUEkuUiIpKQ0Kc291cmNlKGhlcmUoIjAyX3NjcmlwdC9mdW5jb2VzIiwgIlByb2Nlc3NGaWxlLlIiKSkNCnNvdXJjZShoZXJlKCIwMl9zY3JpcHQvZnVuY29lcyIsICJkZWJ1Z19wcmludC5SIikpDQpzb3VyY2UoaGVyZSgiMDJfc2NyaXB0L2Z1bmNvZXMiLCAiY2FsY3VsYXRlX2luZGV4LlIiKSkNCnNvdXJjZShoZXJlKCIwMl9zY3JpcHQvZnVuY29lcyIsICJib290c3RyYXBfbHBpLlIiKSkNCnNvdXJjZShoZXJlKCIwMl9zY3JpcHQvZnVuY29lcyIsICJwbG90X2xwaS5SIikpDQpzb3VyY2UoaGVyZSgiMDJfc2NyaXB0L2Z1bmNvZXMiLCAiZ2dwbG90X2xwaV9tb2RpZi5SIikpDQpgYGANCg0KIyMjIERBRE9TIERFIFVDcw0KYGBge3J9DQojQWJyYSBvIGFycXVpdm8gZGUgc2HDrWRhIGNvbSBvcyBkYWRvcyBsaW1wb3MNCm15ZGF0YSA8LSByZWFkUkRTKGhlcmUoIjAzX2RhZG9zRGVTYWlkYS9kYWRvcyIsICJkYWRvc0lDTUJpb18yMDE0YTIwMTkucmRzIikpDQoNCiNQZXF1ZSBvcyBub21lcyBkYXMgVUNzIGUgbyBjw7NkaWdvIENOVUMNCnVjcyA8LSBteWRhdGEgJT4lDQogIGdyb3VwX2J5KGNudWMsIG5vbWVfVUMpICU+JQ0KICBjb3VudCgpDQpgYGANCg0KIyMjIFRBWEFTIEFOVUFJUw0KDQojIyMjIENhcnJlZ2FyIGUgYWRpY2lvbmFyIGRhZG9zIGRhcyBVQ3MNCkNhcnJlZ2FyIGRhZG9zLiBPIGFycXVpdm8gYHRheGFzX2FudWFpcy5jc3ZgIGRldmUgc2VyIGdlcmFkbyBuYSBldGFwYSBhbnRlcmlvciBhdHJhdsOpcyBkZSBgcGFydDAyLWRhdGFQcmVwTFBJLlJtZGANCg0KYGBge3J9DQojQ2hhbWUgYXMgdGF4YXMgYW51YWlzIGdlcmFkYXMgZW0gcGFydDAyLWRhdGFQcmVwTFBJLlJtZCANCnRheGFzX2FudWFpcyA8LSByZWFkLmNzdihoZXJlKCIwM19kYWRvc0RlU2FpZGEvZGFkb3MiLCAidGF4YXNfYW51YWlzLmNzdiIpKQ0KDQojUGVndWUgbm9tZSBkYXMgdW5pZGFkZXMNCnRheGFzX2FudWFpcyA8LSBtZXJnZSh0YXhhc19hbnVhaXMsIHVjcywgYnkgPSAiY251YyIpICANCmBgYA0KDQojIyMjIEFkaWNpb25hciBjYW1wbyBpZGVudGlmaWNhZG9yIGBJRGANCg0KYGBge3J9DQojQ3JpZSB1bSBvYmpldG8gcGFyYSByZWNlYmVyIG9zIGRhZG9zIGRlIExJUA0KbHBpIDwtIGRhdGEuZnJhbWUoDQogIHVjID0gY2hhcmFjdGVyKCksDQogIGFubyA9IGludGVnZXIoKSwNCiAgTFBJX2ZpbmFsID0gZG91YmxlKCksDQogIENJX2xvdyA9IGRvdWJsZSgpLA0KICBDSV9oaWdoID0gZG91YmxlKCkNCiAgKQ0KYGBgDQoNCiMjIyMgQWp1c3RlcyBwYXJhIGPDoWxjdWxvIGRlIExQSQ0KU2VsZcOnw6NvIGRlIGNhbXBvcyBwYXJhIGPDoWxjdWxvIGRlIExQSQ0KYGBge3J9DQojQWp1c3RlIG9zIGRhZG9zIHBhcmEgYW7DoWxpc2UgZGUgTFBJDQpteWRhdGFfbHBpIDwtIHRheGFzX2FudWFpcyAlPiUNCiAgbXV0YXRlKElEID0gYXMubnVtZXJpYygxOm5yb3codGF4YXNfYW51YWlzKSkpICU+JQ0KICByZW5hbWUoQmlub21pYWwgPSBwb3B1bGFjYW8pICU+JQ0KICBzZWxlY3QoY251YywgSUQsIEJpbm9taWFsLCBYMjAxNCwgWDIwMTUsIFgyMDE2LCBYMjAxNywgWDIwMTgsIFgyMDE5KQ0KYGBgDQoNCiMjIEPDgUxDVUxPIERFIExQSQ0KDQojIyMgUFJFUEFSQcOHw4NPDQoNCiMjIyMgQWp1c3RlcyBlIGNyaWHDp8OjbyBkZSBvYmpldG9zIG5lY2Vzc8OhcmlvcyBwYXJhIG8gY8OhbGN1bG8gZGUgTFBJDQpgYGB7cn0NCiMgY3JpYXIgb2JqZXRvcyBxdWUgbmVjZXNzYXJpb3MgcGFyYSBscGkNCmluZGV4X3ZlY3RvciA9IHJlcChUUlVFLCBucm93KG15ZGF0YV9scGkpKQ0KeWVhcl92ZWN0b3IgPC0gMjAxNDoyMDE5DQpgYGANCg0KIyMjIyBDcmlhUiBJbmZpbGUNCmBgYHtyfQ0KIyBjcmlhciBpbmZpbGUNCm15ZGF0YV9pbmZpbGUgPC0gY3JlYXRlX2luZmlsZShteWRhdGFfbHBpLCBpbmRleF92ZWN0b3I9aW5kZXhfdmVjdG9yLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjbmFtZT1oZXJlKCJscGkiLCAibXlkYXRhX2RhdGEiKSwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBuYW1lID0gIkluZmlsZSIsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RhcnRfY29sX25hbWUgPSBjb2xuYW1lcyhteWRhdGFfbHBpKVs0XSwgZW5kX2NvbF9uYW1lID0gdGFpbChjb2xuYW1lcyhteWRhdGFfbHBpKSwgbj0xKSwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBDVVRfT0ZGX1lFQVIgPSB5ZWFyX3ZlY3RvclsxXSkNCmBgYA0KDQojIyMgQ8OBTENVTE8gR0VSQUwNCg0KQ8OhbGN1bG8gZ2VyYWwgZGUgTFBJIChwYXJhIHRvZGFzIGFzIFVDcykNCmBgYHtyfQ0KIyBDYWxjdWxhciBMUEkgY29tIDEwMCBib290c3RyYXBzDQojc291cmNlKGhlcmUoImJpbiIsICJMUElNYWluLlIiKSkgIyBhZGljaW9uYWRvIHBvciBuw6NvIHRlciBwYWNvdGUgcmxwaQ0KbXlkYXRhX2xwaSA8LSBMUElNYWluKCNpbmZpbGUgPSBoZXJlKCJscGkiLCAibXlkYXRhX2RhdGFfaW5maWxlLnR4dCIpLA0KICAgICAgICAgICAgICAgICAgICAgIGluZmlsZSA9ICJJbmZpbGVfaW5maWxlLnR4dCIsDQogICAgICAgICAgICAgICAgICAgICAgI2Jhc2VkaXIgPSBoZXJlKCJscGkiKSwNCiAgICAgICAgICAgICAgICAgICAgICBSRUZfWUVBUiA9IHllYXJfdmVjdG9yWzFdLA0KICAgICAgICAgICAgICAgICAgICAgIFBMT1RfTUFYID0gdGFpbCh5ZWFyX3ZlY3Rvciwgbj0xKSwNCiAgICAgICAgICAgICAgICAgICAgICBCT09UX1NUUkFQX1NJWkUgPSAxMDApICMsIFZFUkJPU0U9RkFMU0UpDQoNCmBgYA0KDQojIyMjIFJlbW92ZXIgYW5vcyBzZWd1aWRvcyBzZW0gZGFkb3MNCmBgYHtyfQ0KIyBSZW1vdmVyIE5BcyAoYW5vcyBzZWd1aWRvcyBzZW0gZGFkb3MpDQpteWRhdGFfbHBpIDwtIG15ZGF0YV9scGlbY29tcGxldGUuY2FzZXMobXlkYXRhX2xwaSksIF0NCmBgYA0KDQojIyMjIEdlcmFyIGdyw6FmaWNvIGNvbSBhanVzdGVzIGRvIENFTkFQL0lDTUJpbw0KYGBge3J9DQojIEdlcmFyIGdyw6FmaWNvIG1haXMgYm9uaXRvIHVzYW5kbyBmdW7Dp8OjbyBnZ3Bsb3RfbHBpX21vZGlmDQpnZ3Bsb3RfbHBpX21vZGlmKG15ZGF0YV9scGksIGNvbD0iZGFya2N5YW4iKQ0KZ2dzYXZlKGZpbGUgPSBoZXJlKCIwM19kYWRvc0RlU2FpZGEvcGxvdHMiLCAibHBpR2xvYmFsLnBuZyIpKQ0KDQpnZ3Bsb3QobXlkYXRhX2xwaSwgYWVzKHggPSAxOm5yb3cobXlkYXRhX2xwaSksIHkgPSBMUElfZmluYWwsIGdyb3VwID0gMSkpICsNCiAgI0ludGVydmFsbyBkZSBjb25maWFuw6dhDQogIGdlb21fcmliYm9uKA0KICAgIGFlcyh5bWluID0gQ0lfbG93LCB5bWF4ID0gQ0lfaGlnaCksDQogICAgZmlsbCA9ICJtZWRpdW1hcXVhbWFyaW5lIiwNCiAgICBhbHBoYSA9IDAuOSwNCiAgICBjb2xvdXIgPSAiZ3JleTUwIg0KICAgICkgKw0KICANCiAgZ2VvbV9saW5lKA0KICAgIGx3ZCA9IDAuNSwNCiAgICBjb2xvdXIgPSAiZ3JleTUwIg0KICAgICkgKyMsIGxpbmVlbmQgPSAicm91bmQiKSArDQogIA0KICBnZW9tX3BvaW50KCkgKw0KICANCiAgeWxpbSgwLDIpICsNCiAgDQogIHRoZW1lX2J3KCkgKw0KICANCiAgdGhlbWUoDQogICAgc3RyaXAuYmFja2dyb3VuZCA9IGVsZW1lbnRfcmVjdChmaWxsID0gImdyZXk5MCIpLA0KICAgIHN0cmlwLnRleHQueSA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDAsIHNpemUgPSAxMCwgY29sb3IgPSAiYmxhY2siLCBmYWNlID0gImJvbGQiKSwNCiAgICBheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dCgNCiAgICAgIGFuZ2xlPTQ1LA0KICAgICAgdmp1c3Q9MSwNCiAgICAgIGhqdXN0ID0gMSwNCiAgICAgIGNvbG91cj0iYmxhY2siLA0KICAgICAgc2l6ZT1yZWwoMS4zKQ0KICAgICAgKSwNCiAgICBheGlzLnRleHQueSA9IGVsZW1lbnRfdGV4dCgNCiAgICAgIGFuZ2xlPTAsDQogICAgICB2anVzdD0xLA0KICAgICAgaGp1c3QgPSAxLA0KICAgICAgY29sb3VyPSJibGFjayIsDQogICAgICBzaXplPXJlbCgxLjMpDQogICAgICApLA0KICAgIGF4aXMudGl0bGUueSA9IGVsZW1lbnRfdGV4dCgNCiAgICAgIHNpemUgPSByZWwoMS4zKSwNCiAgICAgIG1hcmdpbiA9IG1hcmdpbigNCiAgICAgICAgdCA9IDAsDQogICAgICAgIHIgPSAxMCwNCiAgICAgICAgYiA9IDAsDQogICAgICAgIGwgPSAwDQogICAgICAgICkNCiAgICAgICksDQogICAgYXhpcy50aXRsZS54ID0gZWxlbWVudF9ibGFuaygpLA0KICAgICAgcGFuZWwuc3BhY2luZyA9IHVuaXQoMC44LCAibGluZXMiKSwNCiAgICAgICkgKw0KDQogICNmYWNldF9ncmlkKHJvd3MgPSB2YXJzKHVjKSkgKw0KDQogIHlsYWIoIkxQSSIpDQpgYGANCg0KIyMjIEPDgUxDVUxPIFBPUiBVQw0KDQpgYGB7ciwgd2FybmluZyA9IEZBTFNFfQ0KI1BlZ3VlIG8gbm9tZSBkZSBjYWRhIFVDDQpmb3IoVUMgaW4gdW5pcXVlKHRheGFzX2FudWFpcyRjbnVjKSl7DQoNCiAgI215ZGF0YV9MUEkgcmVjZWJlIGEgVUMgZGEgdmV6DQogIG15ZGF0YV9scGkgPC0gdGF4YXNfYW51YWlzW3RheGFzX2FudWFpcyRjbnVjID09IFVDLCBdICU+JQ0KICAgICNBZGljaW9uZSB1bSBjYW1wbyBkZSBJRCBwYXJhIGEgVUMNCiAgICBkcGx5cjo6bXV0YXRlKElEID0gMTpucm93KHRheGFzX2FudWFpc1t0YXhhc19hbnVhaXMkY251YyA9PSBVQywgXSkpICU+JQ0KICAgICNSZW5vbWVpZSBvIGNhbXBvIHBvcHVsYWNhbyBwYXJhIEJpbm9taWFsDQogICAgcmVuYW1lKEJpbm9taWFsID0gcG9wdWxhY2FvKQ0KICAgICNHdWFyZGUgbyBub21lIGRhIFVDIHBhcmEgbWltDQogIHRlbXAgPC0gdW5pcXVlKG15ZGF0YV9scGkkbm9tZV9VQykNCiAgICAjU2VsZWNpb25lIGNhbXBvcw0KICANCiAgbXlkYXRhX2xwaSA8LSBteWRhdGFfbHBpICU+JSBkcGx5cjo6c2VsZWN0KGNudWMsIElELCBCaW5vbWlhbCwgWDIwMTQsIFgyMDE1LCBYMjAxNiwgWDIwMTcsIFgyMDE4LCBYMjAxOSkNCiAgDQogIGluZGV4X3ZlY3RvciA9IHJlcChUUlVFLCBucm93KG15ZGF0YV9scGkpKQ0KICB5ZWFyX3ZlY3RvciA8LSAyMDE0OjIwMTkNCiAgDQogIG15ZGF0YV9pbmZpbGUgPC0gY3JlYXRlX2luZmlsZSgNCiAgICBteWRhdGFfbHBpLA0KICAgIGluZGV4X3ZlY3RvciA9IGluZGV4X3ZlY3RvciwNCiAgICBuYW1lID0gIkluZmlsZSIsDQogICAgc3RhcnRfY29sX25hbWUgPSBjb2xuYW1lcyhteWRhdGFfbHBpKVs0XSwNCiAgICBlbmRfY29sX25hbWUgPSB0YWlsKGNvbG5hbWVzKG15ZGF0YV9scGkpLCBuPTEpLA0KICAgIENVVF9PRkZfWUVBUiA9IHllYXJfdmVjdG9yWzFdDQogICAgKQ0KICANCiAgbXlkYXRhX2xwaSA8LSBMUElNYWluKA0KICAgIGluZmlsZSA9ICJJbmZpbGVfaW5maWxlLnR4dCIsDQogICAgUkVGX1lFQVIgPSB5ZWFyX3ZlY3RvclsxXSwNCiAgICBQTE9UX01BWCA9IHRhaWwoeWVhcl92ZWN0b3IsIG49MSksDQogICAgQk9PVF9TVFJBUF9TSVpFID0gMTAwDQogICAgKQ0KICANCiAgI1BlZ3VlIG9zIGRhZG9zIGRlIG15ZGF0YV9MUEkNCiAgbXlkYXRhX2xwaVRlbXAgPC0gbXlkYXRhX2xwaQ0KICAjQWRpY2lvbmUgdW1hIGNvbHVuYSBkZSBVQyBlIHByZWVuY2hhIHRvZGFzIGFzIGxpbmhhcyBjb20gbyBub21lIGRhIFVDDQogIG15ZGF0YV9scGlUZW1wJHVjIDwtIHRlbXANCiAgI1BlZ3VlIG9zIGFub3MgZSB0cmFuc2Zvcm1lIGVtIHVtYSBjb2x1bmENCiAgbXlkYXRhX2xwaVRlbXAgPC0gdGliYmxlOjpyb3duYW1lc190b19jb2x1bW4obXlkYXRhX2xwaVRlbXApICU+JQ0KICAgIA0KICAgICNSZW5vbWVpZSBhIGNvbHVuYSBjcmlhZGEgcGFyYSBhbm8NCiAgICByZW5hbWUoYW5vID0gcm93bmFtZSkNCiAgDQogICNKdW50ZSBvIG9iamV0byB0ZW1wb3LDoXJpbyBjb20gbyBscGkNCiAgbHBpIDwtIHJiaW5kKGxwaSwgbXlkYXRhX2xwaVRlbXApDQogIH0NCmBgYA0KDQojIyMjIEdyw6FmaWNvIHBvciBVQw0KDQpgYGB7cn0NCmdncGxvdChscGksIGFlcyh4ID0gZmFjdG9yKGFubyksIHkgPSBMUElfZmluYWwsIGdyb3VwID0gMSkpICsNCiAgI0ludGVydmFsbyBkZSBjb25maWFuw6dhDQogIGdlb21fcmliYm9uKA0KICAgIGFlcyh5bWluID0gQ0lfbG93LCB5bWF4ID0gQ0lfaGlnaCksDQogICAgZmlsbCA9ICJtZWRpdW1hcXVhbWFyaW5lIiwNCiAgICBhbHBoYSA9IDAuOSwNCiAgICBjb2xvdXIgPSAiZ3JleTUwIiwNCiAgICBsd2QgPSAwLjMNCiAgICApICsNCiAgDQogIGdlb21fbGluZSgNCiAgICBsd2QgPSAwLjUsDQogICAgY29sb3VyID0gImdyZXk1MCINCiAgICApICsjLCBsaW5lZW5kID0gInJvdW5kIikgKw0KICANCiAgZ2VvbV9wb2ludCgpICsNCiAgDQogIHlsaW0oMCwgNSkgKw0KICANCiAgdGhlbWVfYncoKSArDQogIA0KICB0aGVtZSgNCiAgICBzdHJpcC5iYWNrZ3JvdW5kID0gZWxlbWVudF9yZWN0KGZpbGwgPSAiZ3JleTkwIiksDQogICAgDQogICAgc3RyaXAudGV4dC55ID0gZWxlbWVudF90ZXh0KGFuZ2xlID0gMCwgc2l6ZSA9IDksIGNvbG9yID0gImJsYWNrIiksIyBmYWNlID0gImJvbGQiKSwNCiAgICANCiAgICBheGlzLnRleHQueCA9IGVsZW1lbnRfdGV4dCgNCiAgICAgIGFuZ2xlPTQ1LA0KICAgICAgdmp1c3Q9MSwNCiAgICAgIGhqdXN0ID0gMSwNCiAgICAgIGNvbG91cj0iYmxhY2siLA0KICAgICAgc2l6ZT1yZWwoMSkNCiAgICAgICksDQogICAgDQogICAgYXhpcy50ZXh0LnkgPSBlbGVtZW50X3RleHQoDQogICAgICBhbmdsZT0wLA0KICAgICAgdmp1c3Q9MSwNCiAgICAgIGhqdXN0ID0gMSwNCiAgICAgIGNvbG91cj0iYmxhY2siLA0KICAgICAgc2l6ZT1yZWwoMSkNCiAgICAgICksDQogICAgDQogICAgYXhpcy50aXRsZS55ID0gZWxlbWVudF90ZXh0KA0KICAgICAgc2l6ZSA9IHJlbCgxKSwNCiAgICAgIG1hcmdpbiA9IG1hcmdpbigNCiAgICAgICAgdCA9IDAsDQogICAgICAgIHIgPSAxMCwNCiAgICAgICAgYiA9IDAsDQogICAgICAgIGwgPSAwDQogICAgICAgICkNCiAgICAgICksDQogICAgDQogICAgYXhpcy50aXRsZS54ID0gZWxlbWVudF9ibGFuaygpLA0KICAgICAgcGFuZWwuc3BhY2luZyA9IHVuaXQoMC4zLCAibGluZXMiKSMsDQogICAgDQogICAgI3BhbmUNCiAgICANCiAgICAgICkgKw0KDQogIGZhY2V0X2dyaWQocm93cyA9IHZhcnModWMpKSArDQoNCiAgeWxhYigiTFBJIikNCg0KI1NhbHZlIG8gZ3LDoWZpY28gZGUgc2HDrWRhLg0KZ2dzYXZlKGZpbGUgPSBoZXJlKCIwM19kYWRvc0RlU2FpZGEvcGxvdHMiLCAibHBpR2xvYmFsLnBuZyIpKQ0KYGBgDQoNCltwSF0=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnRlIDAxIC0gTGltcGV6YSBkZSBEYWRvcyINCm91dHB1dDoNCiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0DQogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQNCi0tLQ0KDQpMaW1wZXphIGRlIGRhZG9zIHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7VlcyBkaXNwb27DrXZlaXMgW25lc3RlIGxpbmtdKGh0dHBzOi8vZ2l0aHViLmNvbS9ab29sb2dpY2FsLVNvY2lldHktb2YtTG9uZG9uL3JscGkpLg0KDQoqKkVtIGZhc2UgZGUgVEVTVEUqKg0KDQpBZGFwdGHDp8OjbzogRWxpbGRvIENhcnZhbGhvIEpyLCBJQ01CaW8vQ0VOQVANCg0KRGVzZW52b2x2aW1lbnRvOiBGZXJuYW5kbyBMaW1hLCBBbGdvcml0bW8NCg0KIyMgUFJFUEFSQcOHw4NPDQoNCiMjIyBQQUNPVEVTDQoNCmBgYHtyIHBhY290ZXMsIG1lc3NhZ2U9RkFMU0V9DQpybShsaXN0ID0gbHMoYWxsID0gVFJVRSkpDQpzb3VyY2UoIi4uL2Z1bmNvZXMvcGFjb3Rlcy5SIikNCnBhY290ZXMoImhlcmUiLCAicmVhZHIiLCJsdWJyaWRhdGUiLCJkcGx5ciIsInN0cmluZ3IiKQ0KYGBgDQoNCiMjIyBEQURPUyBDT05TT0xJREFET1MgREUgTUFNw41GRVJPUyBFIEFWRVMNCg0KQ2FzbyBoYWphIG5lY2Vzc2lkYWRlIGRlIHJldXRpbGl6YXIgb3MgZGFkb3Mgb3JpZ2luYWlzIG5vdGFyIHF1ZSBmb2kgbmVjZXNzw6FyaW8gYSBsaW1wZXphIGRvcyBjb21lbnTDoXJpb3MgcGFyYSBldml0YXIgaW7Dum1lcm9zIGVycm9zIHJlbGFjaW9uYWRvcyBhOg0KDQotICAgQ29vcmRlbmFkYXMgZ2VvZ3LDoWZpY2FzOg0KDQogICAgZXggTGluaGEgMjI5OA0KDQogICAgYFMgMDTCsCAxNiIgNDQuMSIsIFcgNTXCsCA1OScgMzUuNCJgDQoNCi0gICBDb21lbnTDoXJpb3MgY29tIHbDrXJndWxhczoNCg0KICAgIGV4IExpbmhhIDI1MTcNCg0KICAgIGAiRGlzdMOibmNpYSBlc3RpbWFkYS4gZXN0YXZhIG5hIG91dHJhIG1hcmdlbSBkbyBpZ2FyYXDDqTogUyA0wrAgMzYnIDMyIiIsIHcgNTbCsCAyNCcgNTEuMiIiImANCg0KIyMjIENhcnJlZ2FyIGFycXVpdm9zDQpgYGB7ciBsZWl0dXJhLCB3YXJuaW5nPUZBTFNFfQ0KZGFkb3MgPC0gIHJlYWRyOjpyZWFkX2NzdigNCiAgaGVyZSgiMDFfZGFkb3NEZUVudHJhZGEiLCAiUGxhbmlsaGEuY29uc29saWRhZGEubWFzdG9hdmVzLmF0ZS4yMDE5YS5jc3YiKSwNCiAgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkNCmRhZG9zIDwtIHN1YnNldChkYWRvcywgc2VsZWN0ID0gYygxOjMwKSkNCmBgYA0KDQpcbmV3cGFnZQ0KDQojIyMgQUpVU1RFUyBFIENPUlJFw4fDlUVTDQotICAgUmVub21lYXIgY29sdW5hcw0KLSAgIEFqdXN0YXIgZm9ybWF0byBkZSBkYXRhIGUgaG9yYQ0KLSAgIENyaWFyIGNhbXBvIGRlIGlkZW50aWZpY2HDp8OjbyBkZSBwb3B1bGHDp8O1ZXMNCi0gICBSZW1vdmVyIGNvbHVuYXMgZGVzbmVjZXNzw6FyaWFzDQpgYGB7cn0NCiNSRU5PTUVBUiBDT0xVTkFTDQpkYWRvcyA8LSBkYWRvcyAlPiUNCiAgZHBseXI6OnJlbmFtZSgNCiAgICAgICAgIGNudWMgPSAiQ0RVQyIsDQogICAgICAgICBub21lX1VDID0gIkxvY2FsIC0gTm9tZSBkYSBVbmlkYWRlIGRlIENvbnNlcnZhY2FvIiwNCiAgICAgICAgIGVzdGFjYW9fYW1vc3RyYWwgPSAiTnVtZXJvIGRhIEVzdGFjYW8gQW1vc3RyYWwiLA0KICAgICAgICAgbm9tZV9lYSA9ICJOb21lIGRhIEVBIiwNCiAgICAgICAgIGVzZm9yY28gPSAiRXNmb3JjbyBkZSBhbW9zdHJhZ2VtIHRhbWFuaG8gZGEgdHJpbGhhIChtKSIsDQogICAgICAgICBkYXRhID0gImRhdGEgZGEgYW1vc3RyYWdlbSIsDQogICAgICAgICBob3JhX2luaWNpbyA9ICJob3JhcmlvIGRlIGluaWNpbyAgKGg6bW0pIiwNCiAgICAgICAgIGhvcmFfZmltID0gImhvcmFyaW8gZGUgdGVybWlubyAoaDptbSkiLA0KICAgICAgICAgYW5vID0gIkFubyIsDQogICAgICAgICBjbGFzc2UgPSAiQ2xhc3NlIiwNCiAgICAgICAgIG9yZGVtID0gIk9yZGVtIiwNCiAgICAgICAgIGZhbWlsaWEgPSAiRmFtaWxpYSIsDQogICAgICAgICBnZW5lcm8gPSAiR2VuZXJvIiwNCiAgICAgICAgIGJpbm9taWFsID0gIkVzcGVjaWVzIHZhbGlkYWRhcyBwYXJhIGFuYWxpc2UgZG8gSUNNQmlvIiwNCiAgICAgICAgIG5fYW5pbWFpcyA9ICJuIGRlIGFuaW1haXMiLA0KICAgICAgICAgZGlzdGFuY2lhID0gImRpc3RhbmNpYSAobSkgZG8gYW5pbWFsIGVtIHJlbGFjYW8gYSB0cmlsaGEiDQogICAgICAgICApICU+JQ0KI0FKVVNUQVIgRk9STUFUTyBERSBEQVRBLCBDUklBUiBJREVOVElGSUNBw4fDg08gREUgUE9QVUxBw4fDlUVTDQogIGRwbHlyOjptdXRhdGUoDQogICAgZGF0YSA9IGFzLkRhdGUoZGF0YSwgIiVkLyVtLyVZIiksIGFubyA9IHllYXIoZGF0YSksDQogICAgcG9wdWxhY2FvID0gcGFzdGUoYmlub21pYWwsIGNudWMsIHNlcCA9Il8iKSwNCiAgICBwb3B1bGFjYW8gPSBzdHJfcmVwbGFjZShwb3B1bGFjYW8sICIgIiwgIl8iKQ0KICAgICkgJT4lDQojUkVNT1ZFUiBDT0xVTkFTIERFU05FQ0VTU8OBUklBUw0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBlc3RhY2FvX2Ftb3N0cmFsLA0KICAgIG5vbWVfZWEsDQogICAgZXNmb3JjbywNCiAgICBhbm8sDQogICAgZGF0YSwNCiAgICBob3JhX2luaWNpbywNCiAgICBob3JhX2ZpbSwNCiAgICBjbGFzc2UsDQogICAgb3JkZW0sDQogICAgZmFtaWxpYSwNCiAgICBnZW5lcm8sDQogICAgYmlub21pYWwsDQogICAgbl9hbmltYWlzLA0KICAgIGRpc3RhbmNpYSwNCiAgICBwb3B1bGFjYW8pDQpgYGANCg0KXG5ld3BhZ2UNCg0KIyMjIENvcnJlw6fDo28gZGUgdGF4b25vbWlhDQotICAgQ29ycmXDp8OjbyBkZSBub21lcyBjaWVudMOtZmljb3MNCi0gICBSZW1vw6fDo28gZGUgaWRlbnRpZmljYcOnw7VlcyBpbXByZWNpc2FzDQotICAgQWp1c3RlIGRlIGlkZW50aWZpY2Fkb3IgcGFyYSBjYWRhIHBvcHVsYcOnw6NvDQpgYGB7cn0NCmRhZG9zIDwtIGRhZG9zICU+JQ0KI0NPUlJFw4fDg08gREUgTk9NRVMgQ0lFTlTDjUZJQ09TDQogIGRwbHlyOjptdXRhdGUoDQogICAgYmlub21pYWwgPSBjYXNlX3doZW4oDQogICAgICBiaW5vbWlhbCA9PSAiYnJhZHlwdXMgdmFyaWVnYXR1cyIgfiAiQnJhZHlwdXMgdmFyaWVnYXR1cyIsDQogICAgICBiaW5vbWlhbCA9PSAiUHVtYSB5YWdvdWFyb3VuZGkiIH4gIkhlcnBhaWx1cnVzIHlhZ291YXJvdW5kaSIsDQogICAgICBiaW5vbWlhbCA9PSAiTG9udHJhIGxvbmdpY2F1ZGF0YSIgfiAiTG9udHJhIGxvbmdpY2F1ZGlzIiwNCiAgICAgIGJpbm9taWFsID09ICJTcGVvdGh1cyB2ZW5hdGljdXMiIH4gIlNwZW90aG9zIHZlbmF0aWN1cyIsDQogICAgICBUUlVFIH4gYmlub21pYWwNCiAgICAgICkNCiAgICApICU+JQ0KI1JFTU9WRVIgSURFTlRJRklDQcOHw5VFUyBJTVBSRUNJU0FTDQogICAgZHBseXI6OmZpbHRlcigNCiAgICAgICFiaW5vbWlhbCAlaW4lIGMoDQogICAgICAgIE5BLA0KICAgICAgICAiRSIsDQogICAgICAgICJUaW5hbWlkYWUiLA0KICAgICAgICAiQ3JhY2lkYWUiLA0KICAgICAgICAiU2NpdXJpZGFlIiwNCiAgICAgICAgIkNhbGxpdHJpY2hpZGFlIiwNCiAgICAgICAgIlBpdGhlY2lpZGFlIiwNCiAgICAgICAgIkF0ZWxpZGFlIiwNCiAgICAgICAgIkNlYmlkYWUiLA0KICAgICAgICAiUHJpbWF0ZXMiLA0KICAgICAgICAiRmVsaWRhZSIsDQogICAgICAgICJCcmFkeXBvZGlkYWUiLA0KICAgICAgICAiQ2VydmlkYWUiLA0KICAgICAgICAiVGF5YXNzdWlkYWUiLA0KICAgICAgICAiRGFzeXByb2N0YSBjZi4gZnVsaWdpbm9zYSIsDQogICAgICAgICJQcm9jeW9uaWRhZSINCiAgICAgICAgKQ0KICAgICAgKSAlPiUNCiNSRU1PVkVSICouc3ANCiAgZHBseXI6OmZpbHRlcigNCiAgICAhZ3JlcGwoJ3NwLicsIGJpbm9taWFsKSkNCiNBVFVBTElaQVIgSURFTlRJRklDQURPUiBERSBQT1BVTEHDh8OVRVMNCmRhZG9zJGdlbmVybyA8LSB3b3JkKGRhZG9zJGJpbm9taWFsLDEpDQpkYWRvcyRwb3B1bGFjYW8gPSBwYXN0ZShkYWRvcyRiaW5vbWlhbCwgZGFkb3MkY251Yywgc2VwID0iXyIpDQpkYWRvcyRwb3B1bGFjYW8gPSBzdHJfcmVwbGFjZShkYWRvcyRwb3B1bGFjYW8sICIgIiwgIl8iKQ0KZGFkb3MkZXNmb3Jjbz0gZGFkb3MkZXNmb3Jjby8xMDAwDQpgYGANCg0KIyMjIEV4cG9ydGFyIGFycXVpdm9zIGAqLnJkc2AgZSBgKi50eHRgDQoNCmBgYHtyIGV4cG9ydGFyfQ0Kc2F2ZVJEUyhkYWRvcywgaGVyZSgiMDNfZGFkb3NEZVNhaWRhL2RhZG9zIiwgImRhZG9zSUNNQmlvXzIwMTRhMjAxOS5yZHMiKSkNCg0KcmVhZHI6OndyaXRlX2NzdihkYWRvcywgaGVyZSgiMDNfZGFkb3NEZVNhaWRhL2RhZG9zIiwgImRhZG9zSUNNQmlvXzIwMTRhMjAxOS50eHQiKSkNCmBgYA0KDQpcbmV3cGFnZQ0KDQojIyMgREFET1MgQ09OU09MSURBRE9TIEZMT1JFU1RBTA0KDQpDYXNvIGhhamEgbmVjZXNzaWRhZGUgZGUgcmV1dGlsaXphciBvcyBkYWRvcyBvcmlnaW5haXMgbm90YXIgcXVlIGZvaSBuZWNlc3PDoXJpbyBhIGxpbXBlemEgZG9zIGNvbWVudMOhcmlvcyBwYXJhIGV2aXRhciBpbsO6bWVyb3MgZXJyb3MgKGRlc2NyaXRvcyBhY2ltYSkuDQoNCmBgYHtyfQ0KZGFkb3MgPC0gcmVhZHI6OnJlYWRfY3N2KA0KICBoZXJlKCIwMV9kYWRvc0RlRW50cmFkYSIsICJEYWRvc19GbG9yZXN0YWxfMTRhMThfZGlzcG9uaWJpbGl6YWNhbzEuY3N2IiksDQogIHNob3dfY29sX3R5cGVzID0gRkFMU0UpDQpgYGANCg0KIyMjIEFKVVNURVMgRSBDT1JSRcOHw5VFUw0KLSAgIFJlbm9tZWFyIGNvbHVuYXMNCi0gICBBanVzdGFyIGZvcm1hdG8gZGUgZGF0YSBlIGhvcmENCi0gICBBanVzdGFyIGZvcm1hdG8gZGUgZGlzdMOibmNpYQ0KLSAgIENyaWFyIGNhbXBvIGRlIGlkZW50aWZpY2HDp8OjbyBkZSBwb3B1bGHDp8O1ZXMNCi0gICBSZW1vdmVyIGNvbHVuYXMgZGVzbmVjZXNzw6FyaWFzDQpgYGB7cn0NCiNSRU5PTUVBUiBDT0xVTkFTDQpkYWRvcyA8LSBkYWRvcyAlPiUNCiAgZHBseXI6OnJlbmFtZSgNCiAgICBjbnVjID0gIkNhZGFzdHJvIE5hY2lvbmFsIGRlIFVuaWRhZGVzIGRlIENvbnNlcnZhw6fDo28gKENOVUMpIiwNCiAgICBub21lX1VDID0gIlVuaWRhZGUgZGUgQ29uc2VydmHDp8OjbyAoVUMpIiwNCiAgICBlc3RhY2FvX2Ftb3N0cmFsID0gIk7Dum1lcm8gZGEgRXN0YcOnw6NvIEFtb3N0cmFsIiwNCiAgICBub21lX2VhID0gIk5vbWUgZGEgRXN0YcOnw6NvIEFtb3N0cmFsIiwNCiAgICBlc2ZvcmNvID0gIkVzZm9yw6dvIGRlIGFtb3N0cmFnZW0gKG1ldHJvcyBwZXJjb3JyaWRvcyBwb3IgZGlhKSIsDQogICAgZGF0YSA9ICJkYXRhIGRhIGFtb3N0cmFnZW0gKGRkL21tL2FhYWEpIiwNCiAgICBob3JhX2luaWNpbyA9ICJIb3LDoXJpbyBkZSBpbsOtY2lvICAoaGg6bW0pIiwNCiAgICBob3JhX2ZpbSA9ICJIb3LDoXJpbyBkZSB0w6lybWlubyAoaGg6bW0pIiwNCiAgICBhbm8gPSAiQW5vIiwNCiAgICBjbGFzc2UgPSAiQ2xhc3NlIiwNCiAgICBvcmRlbSA9ICJPcmRlbSIsDQogICAgZmFtaWxpYSA9ICJGYW3DrWxpYSIsDQogICAgZ2VuZXJvID0gIkfDqm5lcm8iLA0KICAgIGJpbm9taWFsID0gIkVzcMOpY2llcyB2YWxpZGFkYXMgcGVsbyBJQ01CaW8iLA0KICAgIG5fYW5pbWFpcyA9ICJOwrAgZGUgYW5pbWFpcyIsDQogICAgZGlzdGFuY2lhID0gIkRpc3TDom5jaWEgcGVycGVuZGljdWxhciAgKG0pIGRvIGFuaW1hbCBlbSByZWxhw6fDo28gYSB0cmlsaGEiDQogICAgKSAlPiUNCiNBSlVTVEFSIEZPUk1BVE8gREUgREFUQSwgSE9SQSBFIERJU1TDgk5DSUENCiAgZHBseXI6Om11dGF0ZSgNCiAgICBkYXRhID0gYXMuRGF0ZShkYXRhLCAiJWQvJW0vJVkiKSwNCiAgICBkaXN0YW5jaWEgPSAgc3RyX3JlcGxhY2UoZGlzdGFuY2lhLCAiLCIsICIuIiksDQogICAgZGlzdGFuY2lhID0gYXMubnVtZXJpYyhkaXN0YW5jaWEpLA0KI0NSSUFSIENBTVBPIERFIElERU5USUZJQ0HDh8ODTyBERSBQT1BVTEHDh8OVRVMNCiAgICBwb3B1bGFjYW8gPSBwYXN0ZShiaW5vbWlhbCwgY251Yywgc2VwID0iXyIpLA0KICAgIHBvcHVsYWNhbyA9IHN0cl9yZXBsYWNlKHBvcHVsYWNhbywgIiAiLCAiXyIpDQogICAgKSAlPiUNCiNSRU1PVkVSIENPTFVOQVMgREVTTkVDRVNTw4FSSUFTDQogIGRwbHlyOjpzZWxlY3QoDQogICAgY251YywNCiAgICBub21lX1VDLA0KICAgIGVzdGFjYW9fYW1vc3RyYWwsDQogICAgbm9tZV9lYSwNCiAgICBlc2ZvcmNvLA0KICAgIGFubywNCiAgICBkYXRhLA0KICAgIGhvcmFfaW5pY2lvLA0KICAgIGhvcmFfZmltLA0KICAgIGNsYXNzZSwNCiAgICBvcmRlbSwNCiAgICBmYW1pbGlhLA0KICAgIGdlbmVybywNCiAgICBiaW5vbWlhbCwNCiAgICBuX2FuaW1haXMsDQogICAgZGlzdGFuY2lhLA0KICAgIHBvcHVsYWNhbykNCiNBSlVTVEUgUkVTRVggUklPIE9VUk8gUFJFVE8NCmRhZG9zJGNudWMgPC0gZ3N1YigiI1JFRiEiLCIyNTYiLCBkYWRvcyRjbnVjKQ0KYGBgDQoNCiMjIyBDb3JyZcOnw6NvIGRlIHRheG9ub21pYQ0KLSAgIENvcnJlw6fDo28gZGUgbm9tZXMgY2llbnTDrWZpY29zDQotICAgUmVtb8Onw6NvIGRlIGlkZW50aWZpY2HDp8O1ZXMgaW1wcmVjaXNhcw0KLSAgIEFqdXN0ZSBkZSBpZGVudGlmaWNhZG9yIHBhcmEgY2FkYSBwb3B1bGHDp8Ojbw0KYGBge3J9DQpkYWRvcyA8LSBkYWRvcyAlPiUNCiNDT1JSRcOHw4NPIERFIE5PTUVTIENJRU5Uw41GSUNPUw0KZHBseXI6Om11dGF0ZSgNCiAgYmlub21pYWwgPSBjYXNlX3doZW4oDQogICAgYmlub21pYWwgPT0gImJyYWR5cHVzIHZhcmllZ2F0dXMiIH4gIkJyYWR5cHVzIHZhcmllZ2F0dXMiLA0KICAgIGJpbm9taWFsID09ICJQdW1hIHlhZ291YXJvdW5kaSIgfiAiSGVycGFpbHVydXMgeWFnb3Vhcm91bmRpIiwNCiAgICBiaW5vbWlhbCA9PSAiTG9udHJhIGxvbmdpY2F1ZGF0YSIgfiAiTG9udHJhIGxvbmdpY2F1ZGlzIiwNCiAgICBiaW5vbWlhbCA9PSAiU3Blb3RodXMgdmVuYXRpY3VzIiB+ICJTcGVvdGhvcyB2ZW5hdGljdXMiLA0KICAgIFRSVUUgfiBiaW5vbWlhbA0KICAgICkNCiAgKSAlPiUNCiNSRU1PVkVSIElERU5USUZJQ0HDh8OVRVMgSU1QUkVDSVNBUw0KICBkcGx5cjo6ZmlsdGVyKA0KICAgICFiaW5vbWlhbCAlaW4lIGMoDQogICAgICBOQSwNCiAgICAgICJFIiwNCiAgICAgICJUaW5hbWlkYWUiLA0KICAgICAgIkNyYWNpZGFlIiwNCiAgICAgICJTY2l1cmlkYWUiLA0KICAgICAgIkNhbGxpdHJpY2hpZGFlIiwNCiAgICAgICJQaXRoZWNpaWRhZSIsDQogICAgICAiQXRlbGlkYWUiLA0KICAgICAgIkNlYmlkYWUiLA0KICAgICAgIlByaW1hdGVzIiwNCiAgICAgICJGZWxpZGFlIiwNCiAgICAgICJCcmFkeXBvZGlkYWUiLA0KICAgICAgIkNlcnZpZGFlIiwNCiAgICAgICJUYXlhc3N1aWRhZSIsDQogICAgICAiRGFzeXByb2N0YSBjZi4gZnVsaWdpbm9zYSIsDQogICAgICAiUHJvY3lvbmlkYWUiDQogICAgICApLA0KICAgICkgJT4lDQojUkVNT1ZFUiAqLnNwDQogIGRwbHlyOjpmaWx0ZXIoIWdyZXBsKCdzcC4nLCBiaW5vbWlhbCkpDQojQVRVQUxJWkFSIElERU5USUZJQ0FET1IgREUgUE9QVUxBw4fDlUVTDQpkYWRvcyRnZW5lcm8gPC0gd29yZChkYWRvcyRiaW5vbWlhbCwxKQ0KZGFkb3MkcG9wdWxhY2FvID0gcGFzdGUoZGFkb3MkYmlub21pYWwsIGRhZG9zJGNudWMsIHNlcCA9Il8iKQ0KZGFkb3MkcG9wdWxhY2FvID0gc3RyX3JlcGxhY2UoZGFkb3MkcG9wdWxhY2FvLCAiICIsICJfIikNCmRhZG9zJGVzZm9yY289IGRhZG9zJGVzZm9yY28vMTAwMA0KYGBgDQoNCiMjIyBFeHBvcnRhciBhcnF1aXZvcyBgKi5yZHNgIGUgYCoudHh0YA0KYGBge3J9DQpzYXZlUkRTKGRhZG9zLCBoZXJlKCIwM19kYWRvc0RlU2FpZGEvZGFkb3MiLCAiZGFkb3NJQ01CaW9fMjAxNGEyMDE4LnJkcyIpKQ0KcmVhZHI6OndyaXRlX2NzdihkYWRvcywgaGVyZSgiMDNfZGFkb3NEZVNhaWRhL2RhZG9zIiwgImRhZG9zSUNNQmlvXzIwMTRhMjAxOC50eHQiKSkNCmBgYA0K</div>
 
 
 
@@ -2177,7 +2160,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("part03-calculateLPI.Rmd");
+  window.initializeSourceEmbed("parte01-limpezaDeDados.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
