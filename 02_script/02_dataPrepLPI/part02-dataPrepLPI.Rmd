@@ -306,7 +306,9 @@ taxas_anuais <- taxas_anuais %>%
                 )%>%
   dplyr::select(-media)
 
-print(taxas_anuais, n=Inf)
+#GERAR TABELA
+knitr::kable(taxas_anuais, caption = "Número de registros anuais por população")
+
 ```
 
 ```{r}
