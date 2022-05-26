@@ -6,209 +6,305 @@ output:
   word_document: default
   html_document:
     df_print: paged
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
-Script de preparação de dados para cálculo do LPI baseado nas instruções disponíveis [neste link](https://github.com/Zoological-Society-of-London/rlpi).
+Script de preparação de dados para cálculo do LPI baseado nas instruções
+disponíveis [neste
+link](https://github.com/Zoological-Society-of-London/rlpi).
 
 **Em fase de TESTE**
 
-Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
+Adaptação: Elildo Carvalho Jr, ICMBio/CENAP
 
-```{r pacotes, include=FALSE}
+Desenvolvimento: Fernando Lima, Algoritmo
+
+## PREPARAÇÃO
+
+### PACOTES
+
+```{r pacotes, message=FALSE}
 rm(list = ls(all = TRUE))
-library(tidyverse)
-library(dplyr)
+source("../funcoes/pacotes.R")
+pacotes("here", "dplyr","tidyverse", "knitr")
 ```
 
 ### PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI
 
-Carregar dados. O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior através de `part01-fixRawData.Rmd`
+O arquivo `dadosICMBio_2014a2019.rds` deve ser gerado na etapa anterior
+através de `part01-fixRawData.Rmd`
+
+### Carregar arquivos
 
 ```{r}
-mydata <- readRDS("../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.rds")
+mydata <- readRDS(
+  here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
 ```
+\newpage
+### Contagens
 
-CONTAGENS:
-- UCs
-- Espécies
-- Populações
 ```{r}
 #Contagem de UCs
 ucs <- mydata %>%
-  group_by(cnuc,nome_UC) %>%
-  count()
+  dplyr::group_by(
+    cnuc,
+    nome_UC
+    )%>%
+  dplyr::count()
 #Contagem de espécies
 sp <- mydata %>%
-  group_by(classe, ordem, familia, genero, binomial) %>%
-  count() %>%
-  arrange(desc(n))
+  dplyr::group_by(
+    classe,
+    ordem,
+    familia,
+    genero,
+    binomial
+    )%>%
+  dplyr::count(
+    )%>%
+  dplyr::arrange(
+    desc(n))
 #Contagem de populações
 population <- mydata %>%
-  group_by(nome_UC, populacao, cnuc) %>%
-  count() %>%
-  arrange(desc(n)) %>%
-  filter()
+  dplyr::group_by(
+    nome_UC,
+    populacao,
+    cnuc
+    )%>%
+  dplyr::count(
+    )%>%
+  dplyr::arrange(
+    desc(n)
+    )%>%
+  dplyr::filter()
 ```
+\newpage
+### Cálculo de esforço
 
-Cálculo de esforço
-
-```{r, message=FALSE}
+```{r message=FALSE, paged.print=FALSE}
 effort <- mydata %>%
-#AGRUPAR PODE UNIDADE DE CONSERVAÇÃO E ANO
-  group_by(cnuc, nome_UC, ano) %>%
+#AGRUPAR POR UNIDADE DE CONSERVAÇÃO E ANO
+  dplyr::group_by(
+    cnuc,
+    nome_UC,
+    ano
+    )%>%
 #SOMAR ESFORÇO ANUAL POR UNIDADE DE CONSERVAÇÃO
-  summarize(sum(esforco, na.rm = TRUE)) %>%
+  dplyr::summarize(
+    sum(esforco,
+        na.rm = TRUE)
+    )%>%
 #RENOMEAR COLUNA RESULTANTE
-  rename(effort = "sum(esforco, na.rm = TRUE)") #%>%
-#FILTRAR PELO QUE SERIA O ESFORÇO MÍNIMO
-  #filter(effort > 149)
+  dplyr::rename(
+    effort = "sum(esforco, na.rm = TRUE)")
 ```
 
 ### Seleção por critérios
 
-Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem e mais de 149 km de esforço anual.
+Selecionar UCs Seleção de UCs com mais de 1 ano de amostragem.
 
 ```{r}
 ucs_selecionadas <- effort %>%
-  group_by(cnuc) %>% 
-  count() %>%
-  filter(n > 1) %>%
-  pull(cnuc)
-ucs_selecionadas
+  dplyr::group_by(cnuc
+           )%>% 
+  dplyr::count(
+    )%>%
+  dplyr::filter(n > 1
+                )%>%
+  dplyr::pull(cnuc)
 ```
 
-Filtrar
+### Filtrar
 
 Filtrar dados gerais mantendo somente UCs selecionadas
 
 ```{r}
 mydata <- mydata %>%
-  filter(cnuc %in% ucs_selecionadas)
-mydata
+  dplyr::filter(cnuc %in% ucs_selecionadas)
 ```
+\newpage
+## ESFORÇO ANUAL
+### Esforço anual em km
 
-Esforço anual em km
-
-```{r}
+```{r, message=FALSE}
 esforco_anual <- mydata %>%
-  group_by(cnuc, ano) %>%
-  summarize(esforco = sum(esforco, na.rm = TRUE))
-
+  dplyr::group_by(
+    cnuc,
+    ano
+    )%>%
+  dplyr::summarize(
+    esforco = sum(
+      esforco,
+      na.rm = TRUE)
+    )
+#CÁLCULO PARA RELATÓRIO
 esforcoAnualReport <- mydata %>%
-  group_by(cnuc,nome_UC, ano) %>%
-  summarize(esforco = sum(esforco, na.rm = TRUE))
+  dplyr::group_by(
+    cnuc,
+    nome_UC,
+    ano
+    )%>%
+  dplyr::summarize(
+    esforco = sum(
+      esforco,
+      na.rm = TRUE)
+    )
 ```
 
-Esforço anual em formato *wide* (QPEHE)
-
+### Esforço anual em formato *wide*
 ```{r}
 esforco_anual_wide <- esforco_anual %>%
-  pivot_wider(names_from = ano, values_from = esforco) %>%
-  select(cnuc,
-         `2014`,
-         `2015`,
-         `2016`,
-         `2017`,
-         `2018`,
-         `2019`
-         ) %>%
-  ungroup()
-
+  tidyr::pivot_wider(
+    names_from = ano,
+    values_from = esforco
+    )%>%
+  dplyr::select(
+    cnuc,
+    `2014`,
+    `2015`,
+    `2016`,
+    `2017`,
+    `2018`,
+    `2019`,
+    `2020`
+    )%>%
+  dplyr::ungroup()
+#CÁLCULO PARA RELATÓRIO
 esforcoAnualWideReport <- esforcoAnualReport %>%
-  pivot_wider(names_from = ano, values_from = esforco) %>%
-  select(cnuc,
-         nome_UC,
-         `2014`,
-         `2015`,
-         `2016`,
-         `2017`,
-         `2018`,
-         `2019`
-         ) %>%
-  ungroup()
-
+  tidyr::pivot_wider(
+    names_from = ano,
+    values_from = esforco
+    )%>%
+  dplyr::select(
+    cnuc,
+    nome_UC,
+    `2014`,
+    `2015`,
+    `2016`,
+    `2017`,
+    `2018`,
+    `2019`,
+    `2020`
+    )%>%
+  dplyr::ungroup(
+  )%>%
+  dplyr::rename(CNUC = "cnuc","Unidade de Conservação" = "nome_UC")
+#GERAR TABELA
+knitr::kable(esforcoAnualWideReport, caption = "Esforço anual das Unidades de Conservação")
 ```
+\newpage
+## NÚMERO DE REGISTROS
+### Número de registros anuais
 
 ```{r}
-
-```
-
-
-Número de registros anuais
-
-```{r}
-#NÚMERO DE REGISTROS ANÁLISE
 n_registros <- mydata %>%
-  group_by(cnuc, ano, populacao) %>%
-  count() #%>%
- # mutate(n = as.numeric(n))
+  dplyr::group_by(
+    cnuc,
+    ano,
+    populacao
+    )%>%
+  dplyr::count()
 #NÚMERO DE REGISTROS PARA O RELATÓRIO
 nRegistrosReport <- mydata %>%
-  group_by(cnuc, nome_UC, ano, populacao) %>%
-  count() #%>%
- # mutate(n = as.numeric(n))
+  dplyr::group_by(
+    cnuc,
+    nome_UC,
+    ano,
+    populacao
+    )%>%
+  dplyr::count()
 ```
 
-Número de registros anuais em formato *wide*
+### Número de registros anuais em formato *wide*
 
 ```{r}
-#PARA ANÁLISE
 n_registros_wide <- n_registros %>%
-  pivot_wider(names_from = ano, values_from = n) %>%
-  select(cnuc,
-         populacao,
-         `2014`,
-         `2015`,
-         `2016`,
-         `2017`,
-         `2018`,
-         `2019`
-         ) %>%
-  replace(is.na(.), 0) %>%
-  ungroup()
-n_registros_wide
+  tidyr::pivot_wider(
+    names_from = ano,
+    values_from = n
+    )%>%
+  dplyr::select(
+    cnuc,
+    populacao,
+    `2014`,
+    `2015`,
+    `2016`,
+    `2017`,
+    `2018`,
+    `2019`,
+    `2020`
+    )%>%
+  replace(is.na(.), 0
+          )%>%
+  dplyr::ungroup()
 #PARA RELATÓRIO
 nRegistrosWideReport <- nRegistrosReport %>%
-  pivot_wider(names_from = ano, values_from = n) %>%
-  select(cnuc,
-         nome_UC,
-         populacao,
-         `2014`,
-         `2015`,
-         `2016`,
-         `2017`,
-         `2018`,
-         `2019`
-         ) %>%
-  replace(is.na(.), 0) %>%
-  ungroup()
-#n_registros_report
-
+  tidyr::pivot_wider(
+    names_from = ano,
+    values_from = n
+    )%>%
+  dplyr::select(
+    cnuc,
+    nome_UC,
+    populacao,
+    `2014`,
+    `2015`,
+    `2016`,
+    `2017`,
+    `2018`,
+    `2019`,
+    `2020`
+    )%>%
+  replace(is.na(.), 0
+          )%>%
+  dplyr::ungroup(
+    )%>%
+  dplyr::rename(CNUC = "cnuc","Unidade de Conservação" = "nome_UC", "População" = "populacao")
+#GERAR TABELA
+knitr::kable(nRegistrosWideReport , caption = "Número de registros anuais por população")
 ```
+\newpage
+## TAXA DE ENCONTRO ANUAL
 
-### Taxa de encontro anual
+Estimativa de abundância relativa (número de registros por esforço).
 
-Estimativa de abundância relativa (número de registros por esforço). Neste caso *NAs* devem ser mantidos.
+
+Neste caso *NAs* devem ser mantidos.
 
 ```{r}
 taxas_anuais <- data.frame(n_registros_wide)
 esforcos_anuais <- data.frame(esforco_anual_wide)
+
 for(i in 1:nrow(taxas_anuais)) {
   cnuc_temp <- taxas_anuais[i, "cnuc"]
-  esforco_temp <- esforcos_anuais %>% filter(cnuc == cnuc_temp) %>% select(-cnuc)
-  taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
+  
+  esforco_temp <- esforcos_anuais %>%
+    dplyr::filter(
+      cnuc == cnuc_temp
+      )%>%
+    dplyr::select(-cnuc)
+  
+  taxas_anuais[i, 3:9] <- round(taxas_anuais[i, 3:9]/esforco_temp, 3)
 }
+
 taxas_anuais <- as_tibble(taxas_anuais)
 #taxas_anuais %>%  print(n=Inf)
 ```
 
-Selecionar populações com taxa de avistamento média acima de 0.1 (1 ind/10km)
+### Seleção por critério
+Selecionar populações com taxa de avistamento média acima de 0.1 (1
+ind/10km)
 
 ```{r}
 taxas_anuais <- taxas_anuais %>%
-  mutate(media = rowMeans(.[,3:8])) %>%
-  filter(media > 0.1) %>%
-  select(-media)
+  dplyr::mutate(
+    media = rowMeans(.[,3:9], na.rm = TRUE )
+    )%>%
+  dplyr::filter(media > 0.1
+                )%>%
+  dplyr::select(-media)
 
 print(taxas_anuais, n=Inf)
 ```
@@ -221,17 +317,16 @@ print(taxas_anuais, n=Inf)
 
 ```
 
-taxas_anuaisLonger <- taxas_anuais[,-1]
-taxas_anuais <-
-taxas_anuaisLonger %>%
-    pivot_longer(!populacao, names_to = "ano", values_to = "index")
+taxas_anuaisLonger \<- taxas_anuais[,-1] taxas_anuais \<-
+taxas_anuaisLonger %\>% pivot_longer(!populacao, names_to = "ano",
+values_to = "index")
 
 taxas_anuais$cnuc <- substring(taxas_anuais$populacao,nchar(taxas_anuais$populacao)-2,nchar(taxas_anuais$populacao))
-taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
-taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
-taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
-taxas_anuais$ano <- gsub("X","", taxas_anuais$ano)
-#taxas_anuaisTeste <- taxas_anuais[,2:8]
+taxas_anuais \<- merge(taxas_anuais,ucs, by = "cnuc")
+taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4) taxas_anuais$especie
+\<- gsub("\_"," ", taxas_anuais$especie) taxas_anuais$ano \<-
+gsub("X","", taxas_anuais\$ano) #taxas_anuaisTeste \<-
+taxas_anuais[,2:8]
 
 Exportar arquivo para próxima etapa
 
