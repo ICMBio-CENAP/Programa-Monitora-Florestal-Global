@@ -149,6 +149,8 @@ dados$genero <- word(dados$binomial,1)
 dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
 dados$populacao = str_replace(dados$populacao, " ", "_")
 dados$esforco= dados$esforco/1000
+#AJUSTE ANO
+dados$ano <- gsub(2109, 2019, dados$ano)
 ```
 
 ### Exportar arquivos `*.rds` e `*.txt`
