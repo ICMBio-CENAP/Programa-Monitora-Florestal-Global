@@ -323,48 +323,141 @@ taxas_anuais <- taxas_anuais %>%
                 )%>%
   dplyr::select(-media)
 
-taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
 #GERAR TABELA
-knitr::kable(taxas_anuais, caption = "Taxas anuais por população")
+#knitr::kable(taxas_anuais, caption = "Taxas anuais por população")
 ```
 
 ```{r, results='asis'}
-for (tabela in unique(taxas_anuais$CNUC)) {
+#PEGUE TAXAS ANUAIS PARA FAZER UMA TABELA
+taxas_anuaisTable <- taxas_anuais
+#RETIRE CNUC
+#taxas_anuaisLonger <- taxas_anuaisTable[,-1]
+#TRANSPÕE
+#taxas_anuaisTable <-
+ #   taxas_anuaisLonger %>%
+  #  tidyr::pivot_longer(
+   #   !populacao,
+    #  names_to = "ano",
+     # values_to = "index"
+      #)
+#PEGUE O CÓDIGO DA UC
+#taxas_anuaisTable$cnuc <- substring(
+ # taxas_anuaisTable$populacao,
+  #nchar(taxas_anuaisTable$populacao)-2,
+  #nchar(taxas_anuaisTable$populacao)
+  #)
+#RETIRE _
+#taxas_anuaisTable$cnuc <- as.numeric(gsub("_","", taxas_anuaisTable$cnuc))
+#PEGUE O NOME DAS UCs
+taxas_anuaisTable <- merge(taxas_anuaisTable,ucs, by =  "cnuc")
+#PEGUE O NOME DAS ESPÉCIES
+taxas_anuaisTable$especie <- substr(
+  taxas_anuaisTable$populacao,
+  1,
+  nchar(taxas_anuaisTable$populacao)-4
+  )
+#RETIRE _
+taxas_anuaisTable$especie <- gsub("_"," ", taxas_anuaisTable$especie)
+#RETIRE X DE ANO
+#taxas_anuaisTable$ano <- as.factor(gsub("X","", taxas_anuaisTable$ano))
+
+taxas_anuaisTable <- taxas_anuaisTable %>%
+  dplyr::select(
+    nome_UC,
+    ano,
+    especie,
+    index
+  )#%>%
+  dplyr::rename(
+    "Unidade de Conservação" = nome_UC,
+    Ano = ano,
+    "Espécie" = especie
+  )
+
+```
+
+```{r, results='asis'}
+for (tabela in unique(taxas_anuaisTable$`Unidade de Conservação`)) {
   print(
     knitr::kable( 
-      taxas_anuais[taxas_anuais$CNUC == tabela, ],
+      taxas_anuaisTable[taxas_anuaisTable$`Unidade de Conservação` == tabela, ],
       caption = paste(
         "Número de registros anuais por população",
         "-",
-        unique(taxas_anuais$nome_UC[taxas_anuais$CNUC == tabela]
+        unique(taxas_anuaisTable$`Unidade de Conservação`[taxas_anuaisTable$`Unidade de Conservação` == tabela]
                ),
         sep = " "),
       align = "cllrrrrrrr")
     )
 }
+
 ```
 
 
 ```{r}
-taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
-#taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
-#taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
-#taxas_anuaisTeste <- taxas_anuais[,2:8]
+for(UC in unique(taxas_anuaisTable$`Unidade de Conservação`)){
+  temp <- taxas_anuaisTable[taxas_anuaisTable$`Unidade de Conservação` == UC,]
+
+  print(ggplot(temp, aes(x = factor(Ano), y = index, group = 1)) +
+  geom_line(
+    lwd = 0.5,
+    colour = "grey50"
+    ) +#, lineend = "round") +
+  
+  geom_point() +
+  
+  #ylim(0, 5) +
+  
+  theme_bw() +
+  
+  theme(
+    strip.background = element_rect(fill = "grey90"),
+    
+    strip.text.y = element_text(angle = 0, size = 9, color = "black"),# face = "bold"),
+    
+    axis.text.x = element_text(
+      angle=45,
+      vjust=1,
+      hjust = 1,
+      colour="black",
+      size=rel(1)
+      ),
+    
+    axis.text.y = element_text(
+      angle=0,
+      vjust=1,
+      hjust = 1,
+      colour="black",
+      size=rel(1)
+      ),
+    
+    axis.title.y = element_text(
+      size = rel(1),
+      margin = margin(
+        t = 0,
+        r = 10,
+        b = 0,
+        l = 0
+        )
+      ),
+    
+    axis.title.x = element_blank(),
+      panel.spacing = unit(0.3, "lines")#,
+    
+    #pane
+    
+      ) +
+  facet_grid(rows = vars(`Espécie`))+
+  #facet_wrap(facets = vars(`Espécie`)) +
+
+  ylab("LPI"))
+  
+}
 
 ```
 
-taxas_anuaisLonger \<- taxas_anuais[,-1] taxas_anuais \<-
-taxas_anuaisLonger %\>% pivot_longer(!populacao, names_to = "ano",
-values_to = "index")
 
-taxas_anuais$cnuc <- substring(taxas_anuais$populacao,nchar(taxas_anuais$populacao)-2,nchar(taxas_anuais$populacao))
-taxas_anuais \<- merge(taxas_anuais,ucs, by = "cnuc")
-taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4) taxas_anuais$especie
-\<- gsub("\_"," ", taxas_anuais$especie) taxas_anuais$ano \<-
-gsub("X","", taxas_anuais\$ano) #taxas_anuaisTeste \<-
-taxas_anuais[,2:8]
-
-Exportar arquivo para próxima etapa
+```{r}
 
 ```{r}
 #ADICIONAR NOMES DAS ESPÉCIES
