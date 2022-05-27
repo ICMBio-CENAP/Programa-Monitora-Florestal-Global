@@ -263,8 +263,25 @@ nRegistrosWideReport <- nRegistrosReport %>%
     )%>%
   dplyr::rename(CNUC = "cnuc","Unidade de Conservação" = "nome_UC", "População" = "populacao")
 #GERAR TABELA
-knitr::kable(nRegistrosWideReport , caption = "Número de registros anuais por população")
+#knitr::kable(nRegistrosWideReport , caption = "Número de registros anuais por população", align = "cllrrrrrrr")
 ```
+
+```{r, results='asis'}
+for (tabela in unique(nRegistrosWideReport$CNUC)) {
+  print(
+    knitr::kable(
+      nRegistrosWideReport[nRegistrosWideReport$CNUC == tabela, ],
+      caption = paste(
+        "Número de registros anuais por população",
+        "-",
+        unique(nRegistrosWideReport$`Unidade de Conservação`[nRegistrosWideReport$CNUC == tabela]
+               ),
+        sep = " "),
+      align = "cllrrrrrrr")
+    )
+}
+```
+
 \newpage
 ## TAXA DE ENCONTRO ANUAL
 
@@ -306,13 +323,30 @@ taxas_anuais <- taxas_anuais %>%
                 )%>%
   dplyr::select(-media)
 
+taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
 #GERAR TABELA
-knitr::kable(taxas_anuais, caption = "Número de registros anuais por população")
-
+knitr::kable(taxas_anuais, caption = "Taxas anuais por população")
 ```
 
+```{r, results='asis'}
+for (tabela in unique(taxas_anuais$CNUC)) {
+  print(
+    knitr::kable( 
+      taxas_anuais[taxas_anuais$CNUC == tabela, ],
+      caption = paste(
+        "Número de registros anuais por população",
+        "-",
+        unique(taxas_anuais$nome_UC[taxas_anuais$CNUC == tabela]
+               ),
+        sep = " "),
+      align = "cllrrrrrrr")
+    )
+}
+```
+
+
 ```{r}
-#taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
+taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
 #taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
 #taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
 #taxas_anuaisTeste <- taxas_anuais[,2:8]
