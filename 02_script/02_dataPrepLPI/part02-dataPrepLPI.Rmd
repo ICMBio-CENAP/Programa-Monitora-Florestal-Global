@@ -1,5 +1,5 @@
 ---
-title: "Parte 02 - PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI"
+title: "Parte 02 - PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI E CÁLCULO DE TAXA DE ENCONTRO ANUAL"
 output:
   pdf_document: default
   html_notebook: default
@@ -28,7 +28,7 @@ Desenvolvimento: Fernando Lima, Algoritmo
 ```{r pacotes, message=FALSE}
 rm(list = ls(all = TRUE))
 source("../funcoes/pacotes.R")
-pacotes("here", "dplyr","tidyverse", "knitr")
+pacotes("here", "dplyr","tidyverse", "knitr","readr")
 ```
 
 ### PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI
@@ -262,14 +262,32 @@ nRegistrosWideReport <- nRegistrosReport %>%
   dplyr::ungroup(
     )%>%
   dplyr::rename(CNUC = "cnuc","Unidade de Conservação" = "nome_UC", "População" = "populacao")
-#GERAR TABELA
-knitr::kable(nRegistrosWideReport , caption = "Número de registros anuais por população")
 ```
+
+### Número de registros por população
+
+Opcional. Para visualizar as tabelas altere include = FALSE para TRUE
+
+```{r, results='asis', include=FALSE}
+for (tabela in unique(nRegistrosWideReport$CNUC)) {
+  print(
+    knitr::kable(
+      nRegistrosWideReport[nRegistrosWideReport$CNUC == tabela, ],
+      caption = paste(
+        "Número de registros anuais por população",
+        "-",
+        unique(nRegistrosWideReport$`Unidade de Conservação`[nRegistrosWideReport$CNUC == tabela]
+               ),
+        sep = " "),
+      align = "cllrrrrrrr")
+    )
+}
+```
+
 \newpage
 ## TAXA DE ENCONTRO ANUAL
 
 Estimativa de abundância relativa (número de registros por esforço).
-
 
 Neste caso *NAs* devem ser mantidos.
 
@@ -305,33 +323,57 @@ taxas_anuais <- taxas_anuais %>%
   dplyr::filter(media > 0.1
                 )%>%
   dplyr::select(-media)
-
-print(taxas_anuais, n=Inf)
 ```
 
-```{r}
-#taxas_anuais <- merge(taxas_anuais,ucs, by =  "cnuc")
-#taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
-#taxas_anuais$especie <- gsub("_"," ", taxas_anuais$especie)
-#taxas_anuaisTeste <- taxas_anuais[,2:8]
-
+```{r, results='asis'}
+#PEGUE TAXAS ANUAIS PARA FAZER UMA TABELA
+taxas_anuaisTable <- taxas_anuais
+#PEGUE O NOME DAS UCs
+taxas_anuaisTable <- merge(
+  taxas_anuaisTable,ucs, by =  "cnuc")
+#PEGUE O NOME DAS ESPÉCIES
+taxas_anuaisTable$especie <- substr(
+  taxas_anuaisTable$populacao,
+  1,
+  nchar(taxas_anuaisTable$populacao)-4
+  )
+#RETIRE _
+taxas_anuaisTable$especie <- gsub("_"," ", taxas_anuaisTable$especie)
+#SELECIONE APENAS O QUE IMPORTA
+taxas_anuaisTable <- taxas_anuaisTable %>%
+  dplyr::select(
+    nome_UC,
+    especie,
+    starts_with("X")
+    )%>%
+  dplyr::rename(
+    "Unidade de Conservação" = nome_UC,
+    "Espécie" = especie,
+    )
+#RETIRE X DOS ANOS
+names(taxas_anuaisTable) = gsub(pattern = "X", replacement = "", x = names(taxas_anuaisTable))
 ```
 
-taxas_anuaisLonger \<- taxas_anuais[,-1] taxas_anuais \<-
-taxas_anuaisLonger %\>% pivot_longer(!populacao, names_to = "ano",
-values_to = "index")
+### Tabelas com taxas anuais por Unidade de Conservação
 
-taxas_anuais$cnuc <- substring(taxas_anuais$populacao,nchar(taxas_anuais$populacao)-2,nchar(taxas_anuais$populacao))
-taxas_anuais \<- merge(taxas_anuais,ucs, by = "cnuc")
-taxas_anuais$especie <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4) taxas_anuais$especie
-\<- gsub("\_"," ", taxas_anuais$especie) taxas_anuais$ano \<-
-gsub("X","", taxas_anuais\$ano) #taxas_anuaisTeste \<-
-taxas_anuais[,2:8]
-
-Exportar arquivo para próxima etapa
-
+```{r, results='asis'}
+for (tabela in unique(taxas_anuaisTable$`Unidade de Conservação`)) {
+  print(
+    knitr::kable( 
+      taxas_anuaisTable[taxas_anuaisTable$`Unidade de Conservação` == tabela, ],
+      caption = paste(
+        "Taxa de encontro anual por população",
+        "-",
+        unique(taxas_anuaisTable$`Unidade de Conservação`[taxas_anuaisTable$`Unidade de Conservação` == tabela]
+               ),
+        sep = " "),
+      align = "cllrrrrrrr")
+    )
+}
+```
+ 
+## EXPORTA ARQUIVO DE TAXAS ANUAIS 
+ 
 ```{r}
-#ADICIONAR NOMES DAS ESPÉCIES
-taxas_anuais$sp <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
-write.csv(taxas_anuais, here("03_dadosDeSaida/dados", "taxas_anuais.csv") )
+readr::write_csv(taxas_anuais, here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
 ```
