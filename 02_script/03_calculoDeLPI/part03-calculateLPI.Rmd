@@ -46,8 +46,8 @@ mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
 
 #Peque os nomes das UCs e o código CNUC
 ucs <- mydata %>%
-  group_by(cnuc, nome_UC) %>%
-  count()
+  dplyr::group_by(cnuc, nome_UC) %>%
+  dplyr::count()
 ```
 
 ### TAXAS ANUAIS
@@ -81,9 +81,9 @@ Seleção de campos para cálculo de LPI
 ```{r}
 #Ajuste os dados para análise de LPI
 mydata_lpi <- taxas_anuais %>%
-  mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
-  rename(Binomial = populacao) %>%
-  select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+  dplyr::mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
+  dplyr::rename(Binomial = populacao) %>%
+  dplyr::select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
 ```
 
 ## CÁLCULO DE LPI
