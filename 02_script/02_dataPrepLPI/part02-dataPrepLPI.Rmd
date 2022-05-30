@@ -17,9 +17,9 @@ link](https://github.com/Zoological-Society-of-London/rlpi).
 
 **Em fase de TESTE**
 
-Adaptação: Elildo Carvalho Jr, ICMBio/CENAP
+Adaptação:        Elildo Carvalho Jr, ICMBio/CENAP
 
-Desenvolvimento: Fernando Lima, Algoritmo
+Desenvolvimento:  Fernando Lima, Algoritmo
 
 ## PREPARAÇÃO
 
