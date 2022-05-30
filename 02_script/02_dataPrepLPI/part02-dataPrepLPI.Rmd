@@ -1,5 +1,5 @@
 ---
-title: "Parte 02 - PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI"
+title: "Parte 02 - PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI E CÁLCULO DE TAXA DE ENCONTRO ANUAL"
 output:
   pdf_document: default
   html_notebook: default
@@ -28,7 +28,7 @@ Desenvolvimento: Fernando Lima, Algoritmo
 ```{r pacotes, message=FALSE}
 rm(list = ls(all = TRUE))
 source("../funcoes/pacotes.R")
-pacotes("here", "dplyr","tidyverse", "knitr")
+pacotes("here", "dplyr","tidyverse", "knitr","readr")
 ```
 
 ### PREPARAÇÃO DE DADOS PARA CÁLCULO DE LPI
@@ -262,11 +262,13 @@ nRegistrosWideReport <- nRegistrosReport %>%
   dplyr::ungroup(
     )%>%
   dplyr::rename(CNUC = "cnuc","Unidade de Conservação" = "nome_UC", "População" = "populacao")
-#GERAR TABELA
-#knitr::kable(nRegistrosWideReport , caption = "Número de registros anuais por população", align = "cllrrrrrrr")
 ```
 
-```{r, results='asis'}
+### Número de registros por população
+
+Opcional. Para visualizar as tabelas altere include = FALSE para TRUE
+
+```{r, results='asis', include=FALSE}
 for (tabela in unique(nRegistrosWideReport$CNUC)) {
   print(
     knitr::kable(
@@ -286,7 +288,6 @@ for (tabela in unique(nRegistrosWideReport$CNUC)) {
 ## TAXA DE ENCONTRO ANUAL
 
 Estimativa de abundância relativa (número de registros por esforço).
-
 
 Neste caso *NAs* devem ser mantidos.
 
@@ -322,34 +323,14 @@ taxas_anuais <- taxas_anuais %>%
   dplyr::filter(media > 0.1
                 )%>%
   dplyr::select(-media)
-
-#GERAR TABELA
-#knitr::kable(taxas_anuais, caption = "Taxas anuais por população")
 ```
 
 ```{r, results='asis'}
 #PEGUE TAXAS ANUAIS PARA FAZER UMA TABELA
 taxas_anuaisTable <- taxas_anuais
-#RETIRE CNUC
-#taxas_anuaisLonger <- taxas_anuaisTable[,-1]
-#TRANSPÕE
-#taxas_anuaisTable <-
- #   taxas_anuaisLonger %>%
-  #  tidyr::pivot_longer(
-   #   !populacao,
-    #  names_to = "ano",
-     # values_to = "index"
-      #)
-#PEGUE O CÓDIGO DA UC
-#taxas_anuaisTable$cnuc <- substring(
- # taxas_anuaisTable$populacao,
-  #nchar(taxas_anuaisTable$populacao)-2,
-  #nchar(taxas_anuaisTable$populacao)
-  #)
-#RETIRE _
-#taxas_anuaisTable$cnuc <- as.numeric(gsub("_","", taxas_anuaisTable$cnuc))
 #PEGUE O NOME DAS UCs
-taxas_anuaisTable <- merge(taxas_anuaisTable,ucs, by =  "cnuc")
+taxas_anuaisTable <- merge(
+  taxas_anuaisTable,ucs, by =  "cnuc")
 #PEGUE O NOME DAS ESPÉCIES
 taxas_anuaisTable$especie <- substr(
   taxas_anuaisTable$populacao,
@@ -358,23 +339,22 @@ taxas_anuaisTable$especie <- substr(
   )
 #RETIRE _
 taxas_anuaisTable$especie <- gsub("_"," ", taxas_anuaisTable$especie)
-#RETIRE X DE ANO
-#taxas_anuaisTable$ano <- as.factor(gsub("X","", taxas_anuaisTable$ano))
-
+#SELECIONE APENAS O QUE IMPORTA
 taxas_anuaisTable <- taxas_anuaisTable %>%
   dplyr::select(
     nome_UC,
-    ano,
     especie,
-    index
-  )#%>%
+    starts_with("X")
+    )%>%
   dplyr::rename(
     "Unidade de Conservação" = nome_UC,
-    Ano = ano,
-    "Espécie" = especie
-  )
-
+    "Espécie" = especie,
+    )
+#RETIRE X DOS ANOS
+names(taxas_anuaisTable) = gsub(pattern = "X", replacement = "", x = names(taxas_anuaisTable))
 ```
+
+### Tabelas com taxas anuais por Unidade de Conservação
 
 ```{r, results='asis'}
 for (tabela in unique(taxas_anuaisTable$`Unidade de Conservação`)) {
@@ -382,7 +362,7 @@ for (tabela in unique(taxas_anuaisTable$`Unidade de Conservação`)) {
     knitr::kable( 
       taxas_anuaisTable[taxas_anuaisTable$`Unidade de Conservação` == tabela, ],
       caption = paste(
-        "Número de registros anuais por população",
+        "Taxa de encontro anual por população",
         "-",
         unique(taxas_anuaisTable$`Unidade de Conservação`[taxas_anuaisTable$`Unidade de Conservação` == tabela]
                ),
@@ -390,77 +370,10 @@ for (tabela in unique(taxas_anuaisTable$`Unidade de Conservação`)) {
       align = "cllrrrrrrr")
     )
 }
-
 ```
-
-
+ 
+## EXPORTA ARQUIVO DE TAXAS ANUAIS 
+ 
 ```{r}
-for(UC in unique(taxas_anuaisTable$`Unidade de Conservação`)){
-  temp <- taxas_anuaisTable[taxas_anuaisTable$`Unidade de Conservação` == UC,]
-
-  print(ggplot(temp, aes(x = factor(Ano), y = index, group = 1)) +
-  geom_line(
-    lwd = 0.5,
-    colour = "grey50"
-    ) +#, lineend = "round") +
-  
-  geom_point() +
-  
-  #ylim(0, 5) +
-  
-  theme_bw() +
-  
-  theme(
-    strip.background = element_rect(fill = "grey90"),
-    
-    strip.text.y = element_text(angle = 0, size = 9, color = "black"),# face = "bold"),
-    
-    axis.text.x = element_text(
-      angle=45,
-      vjust=1,
-      hjust = 1,
-      colour="black",
-      size=rel(1)
-      ),
-    
-    axis.text.y = element_text(
-      angle=0,
-      vjust=1,
-      hjust = 1,
-      colour="black",
-      size=rel(1)
-      ),
-    
-    axis.title.y = element_text(
-      size = rel(1),
-      margin = margin(
-        t = 0,
-        r = 10,
-        b = 0,
-        l = 0
-        )
-      ),
-    
-    axis.title.x = element_blank(),
-      panel.spacing = unit(0.3, "lines")#,
-    
-    #pane
-    
-      ) +
-  facet_grid(rows = vars(`Espécie`))+
-  #facet_wrap(facets = vars(`Espécie`)) +
-
-  ylab("LPI"))
-  
-}
-
-```
-
-
-```{r}
-
-```{r}
-#ADICIONAR NOMES DAS ESPÉCIES
-taxas_anuais$sp <- substr(taxas_anuais$populacao,1,nchar(taxas_anuais$populacao)-4)
-write.csv(taxas_anuais, here("03_dadosDeSaida/dados", "taxas_anuais.csv") )
+readr::write_csv(taxas_anuais, here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
 ```
