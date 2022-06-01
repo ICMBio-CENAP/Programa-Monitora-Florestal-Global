@@ -1868,9 +1868,8 @@ population &lt;- mydata %&gt;%
   dplyr::rename(
     effort = &quot;sum(esforco, na.rm = TRUE)&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGVcbnVzaW5nIHRoZSBgLmdyb3Vwc2AgYXJndW1lbnQuXG4ifQ== -->
-<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override
-using the `.groups` argument.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGUgdXNpbmcgdGhlIGAuZ3JvdXBzYCBhcmd1bWVudC5cbiJ9 -->
+<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override using the `.groups` argument.</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1898,9 +1897,13 @@ using the `.groups` argument.</code></pre>
 <p>Filtrar dados gerais mantendo somente UCs selecionadas</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXlkYXRhIDwtIG15ZGF0YSAlPiVcbiAgZHBseXI6OmZpbHRlcihjbnVjICVpbiUgdWNzX3NlbGVjaW9uYWRhcylcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXlkYXRhIDwtIG15ZGF0YSAlPiVcbiAgZHBseXI6OmZpbHRlcihjbnVjICVpbiUgdWNzX3NlbGVjaW9uYWRhc1xuICAgICAgICAgICAgICAgICklPiVcbiAgZHBseXI6OmZpbHRlcihcbiAgICBjbnVjICE9MTgxMFxuICApXG5gYGAifQ== -->
 <pre class="r"><code>mydata &lt;- mydata %&gt;%
-  dplyr::filter(cnuc %in% ucs_selecionadas)</code></pre>
+  dplyr::filter(cnuc %in% ucs_selecionadas
+                )%&gt;%
+  dplyr::filter(
+    cnuc !=1810
+  )</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1925,9 +1928,8 @@ using the `.groups` argument.</code></pre>
       na.rm = TRUE)
     )</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLiBZb3UgY2FuIG92ZXJyaWRlIHVzaW5nIHRoZVxuYC5ncm91cHNgIGFyZ3VtZW50LlxuIn0= -->
-<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;. You can override using the
-`.groups` argument.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLiBZb3UgY2FuIG92ZXJyaWRlIHVzaW5nIHRoZSBgLmdyb3Vwc2AgYXJndW1lbnQuXG4ifQ== -->
+<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;. You can override using the `.groups` argument.</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0PDgUxDVUxPIFBBUkEgUkVMQVTDk1JJT1xuZXNmb3Jjb0FudWFsUmVwb3J0IDwtIG15ZGF0YSAlPiVcbiAgZHBseXI6Omdyb3VwX2J5KFxuICAgIGNudWMsXG4gICAgbm9tZV9VQyxcbiAgICBhbm9cbiAgICApJT4lXG4gIGRwbHlyOjpzdW1tYXJpemUoXG4gICAgZXNmb3JjbyA9IHN1bShcbiAgICAgIGVzZm9yY28sXG4gICAgICBuYS5ybSA9IFRSVUUpXG4gICAgKVxuYGBgIn0= -->
 <pre class="r"><code>#CÁLCULO PARA RELATÓRIO
@@ -1943,9 +1945,8 @@ esforcoAnualReport &lt;- mydata %&gt;%
       na.rm = TRUE)
     )</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGVcbnVzaW5nIHRoZSBgLmdyb3Vwc2AgYXJndW1lbnQuXG4ifQ== -->
-<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override
-using the `.groups` argument.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGUgdXNpbmcgdGhlIGAuZ3JvdXBzYCBhcmd1bWVudC5cbiJ9 -->
+<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override using the `.groups` argument.</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1954,7 +1955,7 @@ using the `.groups` argument.</code></pre>
 <h3>Esforço anual em formato <em>wide</em></h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXNmb3Jjb19hbnVhbF93aWRlIDwtIGVzZm9yY29fYW51YWwgJT4lXG4gIHRpZHlyOjpwaXZvdF93aWRlcihcbiAgICBuYW1lc19mcm9tID0gYW5vLFxuICAgIHZhbHVlc19mcm9tID0gZXNmb3Jjb1xuICAgICklPiVcbiAgZHBseXI6OnNlbGVjdChcbiAgICBjbnVjLFxuICAgIGAyMDE0YCxcbiAgICBgMjAxNWAsXG4gICAgYDIwMTZgLFxuICAgIGAyMDE3YCxcbiAgICBgMjAxOGAsXG4gICAgYDIwMTlgLFxuICAgIGAyMDIwYFxuICAgICklPiVcbiAgZHBseXI6OnVuZ3JvdXAoKVxuI0PDgUxDVUxPIFBBUkEgUkVMQVTDk1JJT1xuZXNmb3Jjb0FudWFsV2lkZVJlcG9ydCA8LSBlc2ZvcmNvQW51YWxSZXBvcnQgJT4lXG4gIHRpZHlyOjpwaXZvdF93aWRlcihcbiAgICBuYW1lc19mcm9tID0gYW5vLFxuICAgIHZhbHVlc19mcm9tID0gZXNmb3Jjb1xuICAgICklPiVcbiAgZHBseXI6OnNlbGVjdChcbiAgICBjbnVjLFxuICAgIG5vbWVfVUMsXG4gICAgYDIwMTRgLFxuICAgIGAyMDE1YCxcbiAgICBgMjAxNmAsXG4gICAgYDIwMTdgLFxuICAgIGAyMDE4YCxcbiAgICBgMjAxOWAsXG4gICAgYDIwMjBgXG4gICAgKSU+JVxuICBkcGx5cjo6dW5ncm91cChcbiAgKSU+JVxuICBkcGx5cjo6cmVuYW1lKENOVUMgPSBcImNudWNcIixcIlVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb1wiID0gXCJub21lX1VDXCIpXG4jR0VSQVIgVEFCRUxBXG5rbml0cjo6a2FibGUoZXNmb3Jjb0FudWFsV2lkZVJlcG9ydCwgY2FwdGlvbiA9IFwiRXNmb3LDp28gYW51YWwgZGFzIFVuaWRhZGVzIGRlIENvbnNlcnZhw6fDo29cIilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXNmb3Jjb19hbnVhbF93aWRlIDwtIGVzZm9yY29fYW51YWwgJT4lXG4gIHRpZHlyOjpwaXZvdF93aWRlcihcbiAgICBuYW1lc19mcm9tID0gYW5vLFxuICAgIHZhbHVlc19mcm9tID0gZXNmb3Jjb1xuICAgICklPiVcbiAgZHBseXI6OnNlbGVjdChcbiAgICBjbnVjLFxuICAgIGAyMDE0YCxcbiAgICBgMjAxNWAsXG4gICAgYDIwMTZgLFxuICAgIGAyMDE3YCxcbiAgICBgMjAxOGAsXG4gICAgYDIwMTlgXG4gICAgKSU+JVxuICBkcGx5cjo6dW5ncm91cCgpXG4jQ8OBTENVTE8gUEFSQSBSRUxBVMOTUklPXG5lc2ZvcmNvQW51YWxXaWRlUmVwb3J0IDwtIGVzZm9yY29BbnVhbFJlcG9ydCAlPiVcbiAgdGlkeXI6OnBpdm90X3dpZGVyKFxuICAgIG5hbWVzX2Zyb20gPSBhbm8sXG4gICAgdmFsdWVzX2Zyb20gPSBlc2ZvcmNvXG4gICAgKSU+JVxuICBkcGx5cjo6c2VsZWN0KFxuICAgIGNudWMsXG4gICAgbm9tZV9VQyxcbiAgICBgMjAxNGAsXG4gICAgYDIwMTVgLFxuICAgIGAyMDE2YCxcbiAgICBgMjAxN2AsXG4gICAgYDIwMThgLFxuICAgIGAyMDE5YFxuICAgICklPiVcbiAgZHBseXI6OnVuZ3JvdXAoXG4gICklPiVcbiAgZHBseXI6OnJlbmFtZShDTlVDID0gXCJjbnVjXCIsXCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29cIiA9IFwibm9tZV9VQ1wiKVxuI0dFUkFSIFRBQkVMQVxua25pdHI6OmthYmxlKGVzZm9yY29BbnVhbFdpZGVSZXBvcnQsIGNhcHRpb24gPSBcIkVzZm9yw6dvIGFudWFsIGRhcyBVbmlkYWRlcyBkZSBDb25zZXJ2YcOnw6NvXCIpXG5gYGAifQ== -->
 <pre class="r"><code>esforco_anual_wide &lt;- esforco_anual %&gt;%
   tidyr::pivot_wider(
     names_from = ano,
@@ -1967,8 +1968,7 @@ using the `.groups` argument.</code></pre>
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%&gt;%
   dplyr::ungroup()
 #CÁLCULO PARA RELATÓRIO
@@ -1985,8 +1985,7 @@ esforcoAnualWideReport &lt;- esforcoAnualReport %&gt;%
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%&gt;%
   dplyr::ungroup(
   )%&gt;%
@@ -1997,18 +1996,17 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 
 <!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
 
-<table style="width:100%;">
+<table>
 <caption>Esforço anual das Unidades de Conservação</caption>
 <colgroup>
 <col width="6%" />
-<col width="37%" />
-<col width="8%" />
+<col width="40%" />
+<col width="9%" />
 <col width="7%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
-<col width="8%" />
-<col width="6%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2020,7 +2018,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <th align="right">2017</th>
 <th align="right">2018</th>
 <th align="right">2019</th>
-<th align="right">2020</th>
 </tr>
 </thead>
 <tbody>
@@ -2033,7 +2030,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">82.55</td>
 <td align="right">80.00</td>
 <td align="right">NA</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">60</td>
@@ -2044,14 +2040,12 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">28.70</td>
 <td align="right">36.90</td>
 <td align="right">25.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">76</td>
 <td align="left">Esec Serra Geral do Tocantins</td>
 <td align="right">4.90</td>
 <td align="right">4.9</td>
-<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -2066,7 +2060,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">80.00</td>
 <td align="right">120.00</td>
 <td align="right">115.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">136</td>
@@ -2077,7 +2070,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">93.00</td>
 <td align="right">80.00</td>
 <td align="right">NA</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">142</td>
@@ -2085,7 +2077,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">13.20</td>
 <td align="right">26.4</td>
 <td align="right">22.00</td>
-<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -2099,7 +2090,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">15.20</td>
 <td align="right">20.35</td>
 <td align="right">NA</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">148</td>
@@ -2109,7 +2099,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">6.00</td>
 <td align="right">4.00</td>
 <td align="right">2.00</td>
-<td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
 <tr class="odd">
@@ -2121,7 +2110,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">NA</td>
 <td align="right">20.00</td>
 <td align="right">65.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">151</td>
@@ -2132,7 +2120,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">125.00</td>
 <td align="right">80.00</td>
 <td align="right">113.20</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">152</td>
@@ -2141,7 +2128,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">11.5</td>
 <td align="right">8.60</td>
 <td align="right">4.00</td>
-<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -2154,7 +2140,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">85.00</td>
 <td align="right">130.00</td>
 <td align="right">145.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">172</td>
@@ -2163,7 +2148,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">NA</td>
 <td align="right">50.00</td>
 <td align="right">30.00</td>
-<td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -2176,7 +2160,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">70.00</td>
 <td align="right">90.00</td>
 <td align="right">70.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">187</td>
@@ -2187,7 +2170,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">125.00</td>
 <td align="right">120.00</td>
 <td align="right">125.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">188</td>
@@ -2198,7 +2180,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">30.00</td>
 <td align="right">50.00</td>
 <td align="right">75.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">189</td>
@@ -2209,7 +2190,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">45.00</td>
 <td align="right">40.00</td>
 <td align="right">30.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">207</td>
@@ -2219,7 +2199,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">30.00</td>
 <td align="right">24.00</td>
 <td align="right">32.00</td>
-<td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
 <tr class="odd">
@@ -2231,7 +2210,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">105.00</td>
 <td align="right">155.00</td>
 <td align="right">125.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">211</td>
@@ -2242,7 +2220,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">70.00</td>
 <td align="right">80.00</td>
 <td align="right">85.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">213</td>
@@ -2253,7 +2230,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">125.00</td>
 <td align="right">130.00</td>
 <td align="right">152.30</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">221</td>
@@ -2263,7 +2239,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">NA</td>
 <td align="right">15.00</td>
 <td align="right">80.00</td>
-<td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
 <tr class="odd">
@@ -2275,7 +2250,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">NA</td>
 <td align="right">140.00</td>
 <td align="right">120.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">232</td>
@@ -2286,7 +2260,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">90.00</td>
 <td align="right">100.00</td>
 <td align="right">105.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">256</td>
@@ -2297,7 +2270,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">64.20</td>
 <td align="right">107.85</td>
 <td align="right">104.85</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">258</td>
@@ -2308,7 +2280,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">120.00</td>
 <td align="right">60.00</td>
 <td align="right">75.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">259</td>
@@ -2319,7 +2290,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">400.00</td>
 <td align="right">320.00</td>
 <td align="right">340.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">274</td>
@@ -2330,7 +2300,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">50.00</td>
 <td align="right">95.00</td>
 <td align="right">65.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="right">281</td>
@@ -2341,7 +2310,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">110.00</td>
 <td align="right">90.00</td>
 <td align="right">95.00</td>
-<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="right">1633</td>
@@ -2352,18 +2320,6 @@ knitr::kable(esforcoAnualWideReport, caption = &quot;Esforço anual das Unidades
 <td align="right">40.00</td>
 <td align="right">120.00</td>
 <td align="right">115.00</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="right">1810</td>
-<td align="left">Resex Renascer</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">120.00</td>
-<td align="right">NA</td>
-<td align="right">120</td>
 </tr>
 </tbody>
 </table>
@@ -2407,7 +2363,7 @@ nRegistrosReport &lt;- mydata %&gt;%
 <h3>Número de registros anuais em formato <em>wide</em></h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubl9yZWdpc3Ryb3Nfd2lkZSA8LSBuX3JlZ2lzdHJvcyAlPiVcbiAgdGlkeXI6OnBpdm90X3dpZGVyKFxuICAgIG5hbWVzX2Zyb20gPSBhbm8sXG4gICAgdmFsdWVzX2Zyb20gPSBuXG4gICAgKSU+JVxuICBkcGx5cjo6c2VsZWN0KFxuICAgIGNudWMsXG4gICAgcG9wdWxhY2FvLFxuICAgIGAyMDE0YCxcbiAgICBgMjAxNWAsXG4gICAgYDIwMTZgLFxuICAgIGAyMDE3YCxcbiAgICBgMjAxOGAsXG4gICAgYDIwMTlgLFxuICAgIGAyMDIwYFxuICAgICklPiVcbiAgcmVwbGFjZSguLGlzLm5hKC4pLCAwXG4gICAgICAgICAgKSU+JVxuICBkcGx5cjo6dW5ncm91cCgpXG4jUEFSQSBSRUxBVMOTUklPXG5uUmVnaXN0cm9zV2lkZVJlcG9ydCA8LSBuUmVnaXN0cm9zUmVwb3J0ICU+JVxuICB0aWR5cjo6cGl2b3Rfd2lkZXIoXG4gICAgbmFtZXNfZnJvbSA9IGFubyxcbiAgICB2YWx1ZXNfZnJvbSA9IG5cbiAgICApJT4lXG4gIGRwbHlyOjpzZWxlY3QoXG4gICAgY251YyxcbiAgICBub21lX1VDLFxuICAgIHBvcHVsYWNhbyxcbiAgICBgMjAxNGAsXG4gICAgYDIwMTVgLFxuICAgIGAyMDE2YCxcbiAgICBgMjAxN2AsXG4gICAgYDIwMThgLFxuICAgIGAyMDE5YCxcbiAgICBgMjAyMGBcbiAgICApJT4lXG4gIHJlcGxhY2UoaXMubmEoLiksIDBcbiAgICAgICAgICApJT4lXG4gIGRwbHlyOjp1bmdyb3VwKFxuICAgICklPiVcbiAgZHBseXI6OnJlbmFtZShDTlVDID0gXCJjbnVjXCIsXCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29cIiA9IFwibm9tZV9VQ1wiLCBcIlBvcHVsYcOnw6NvXCIgPSBcInBvcHVsYWNhb1wiKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubl9yZWdpc3Ryb3Nfd2lkZSA8LSBuX3JlZ2lzdHJvcyAlPiVcbiAgdGlkeXI6OnBpdm90X3dpZGVyKFxuICAgIG5hbWVzX2Zyb20gPSBhbm8sXG4gICAgdmFsdWVzX2Zyb20gPSBuXG4gICAgKSU+JVxuICBkcGx5cjo6c2VsZWN0KFxuICAgIGNudWMsXG4gICAgcG9wdWxhY2FvLFxuICAgIGAyMDE0YCxcbiAgICBgMjAxNWAsXG4gICAgYDIwMTZgLFxuICAgIGAyMDE3YCxcbiAgICBgMjAxOGAsXG4gICAgYDIwMTlgXG4gICAgKSU+JVxuICByZXBsYWNlKGlzLm5hKC4pLCAwXG4gICAgICAgICAgKSU+JVxuICBkcGx5cjo6dW5ncm91cCgpXG4jUEFSQSBSRUxBVMOTUklPXG5uUmVnaXN0cm9zV2lkZVJlcG9ydCA8LSBuUmVnaXN0cm9zUmVwb3J0ICU+JVxuICB0aWR5cjo6cGl2b3Rfd2lkZXIoXG4gICAgbmFtZXNfZnJvbSA9IGFubyxcbiAgICB2YWx1ZXNfZnJvbSA9IG5cbiAgICApJT4lXG4gIGRwbHlyOjpzZWxlY3QoXG4gICAgY251YyxcbiAgICBub21lX1VDLFxuICAgIHBvcHVsYWNhbyxcbiAgICBgMjAxNGAsXG4gICAgYDIwMTVgLFxuICAgIGAyMDE2YCxcbiAgICBgMjAxN2AsXG4gICAgYDIwMThgLFxuICAgIGAyMDE5YFxuICAgICklPiVcbiAgcmVwbGFjZShpcy5uYSguKSwgMFxuICAgICAgICAgICklPiVcbiAgZHBseXI6OnVuZ3JvdXAoXG4gICAgKSU+JVxuICBkcGx5cjo6cmVuYW1lKENOVUMgPSBcImNudWNcIixcIlVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb1wiID0gXCJub21lX1VDXCIsIFwiUG9wdWxhw6fDo29cIiA9IFwicG9wdWxhY2FvXCIpXG5gYGAifQ== -->
 <pre class="r"><code>n_registros_wide &lt;- n_registros %&gt;%
   tidyr::pivot_wider(
     names_from = ano,
@@ -2421,10 +2377,9 @@ nRegistrosReport &lt;- mydata %&gt;%
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%&gt;%
-  replace(.,is.na(.), 0
+  replace(is.na(.), 0
           )%&gt;%
   dplyr::ungroup()
 #PARA RELATÓRIO
@@ -2442,8 +2397,7 @@ nRegistrosWideReport &lt;- nRegistrosReport %&gt;%
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%&gt;%
   replace(is.na(.), 0
           )%&gt;%
@@ -2470,12 +2424,13 @@ esforço).</p>
 <p>Neste caso <em>NAs</em> devem ser mantidos.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGF4YXNfYW51YWlzIDwtIGRhdGEuZnJhbWUobl9yZWdpc3Ryb3Nfd2lkZSlcbmVzZm9yY29zX2FudWFpcyA8LSBkYXRhLmZyYW1lKGVzZm9yY29fYW51YWxfd2lkZSlcblxuZm9yKGkgaW4gMTpucm93KHRheGFzX2FudWFpcykpIHtcbiAgY251Y190ZW1wIDwtIHRheGFzX2FudWFpc1tpLCBcImNudWNcIl1cbiAgXG4gIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lXG4gICAgZHBseXI6OmZpbHRlcihcbiAgICAgIGNudWMgPT0gY251Y190ZW1wXG4gICAgICApJT4lXG4gICAgZHBseXI6OnNlbGVjdCgtY251YylcbiAgXG4gIHRheGFzX2FudWFpc1tpLCAzOjldIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjldL2VzZm9yY29fdGVtcCwgMylcbn1cblxudGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpXG4jdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpXG5gYGAifQ== -->
-<pre class="r"><code>taxas_anuais &lt;- data.frame(n_registros_wide)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudGF4YXNfYW51YWlzIDwtIGRhdGEuZnJhbWUobl9yZWdpc3Ryb3Nfd2lkZSlcbmVzZm9yY29zX2FudWFpcyA8LSBkYXRhLmZyYW1lKGVzZm9yY29fYW51YWxfd2lkZSlcblxuZm9yKGkgaW4gMTpucm93KHRheGFzX2FudWFpcykpIHtcbiAgY251Y190ZW1wIDwtIHRheGFzX2FudWFpc1tpLCBcXGNudWNcXF1cbiAgXG4gIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lXG4gICAgZHBseXI6OmZpbHRlcihcbiAgICAgIGNudWMgPT0gY251Y190ZW1wXG4gICAgICApJT4lXG4gICAgZHBseXI6OnNlbGVjdCgtY251YylcbiAgXG4gIHRheGFzX2FudWFpc1tpLCAzOjldIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjldL2VzZm9yY29fdGVtcCwgMylcbn1cblxudGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpXG4jdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpXG5gYGBcbmBgYCJ9 -->
+<pre class="r"><code>```r
+taxas_anuais &lt;- data.frame(n_registros_wide)
 esforcos_anuais &lt;- data.frame(esforco_anual_wide)
 
 for(i in 1:nrow(taxas_anuais)) {
-  cnuc_temp &lt;- taxas_anuais[i, &quot;cnuc&quot;]
+  cnuc_temp &lt;- taxas_anuais[i, \cnuc\]
   
   esforco_temp &lt;- esforcos_anuais %&gt;%
     dplyr::filter(
@@ -2488,72 +2443,124 @@ for(i in 1:nrow(taxas_anuais)) {
 
 taxas_anuais &lt;- as_tibble(taxas_anuais)
 #taxas_anuais %&gt;%  print(n=Inf)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<div id="seleção-por-critério" class="section level3">
-<h3>Seleção por critério</h3>
-<p>Selecionar populações com taxa de avistamento média acima de 0.1 (1
-ind/10km)</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGF4YXNfYW51YWlzIDwtIHRheGFzX2FudWFpcyAlPiVcbiAgZHBseXI6Om11dGF0ZShcbiAgICBtZWRpYSA9IHJvd01lYW5zKC5bLDM6OV0sIG5hLnJtID0gVFJVRSApXG4gICAgKSU+JVxuICBkcGx5cjo6ZmlsdGVyKG1lZGlhID4gMC4xXG4gICAgICAgICAgICAgICAgKSU+JVxuICBkcGx5cjo6c2VsZWN0KC1tZWRpYSlcbmBgYCJ9 -->
-<pre class="r"><code>taxas_anuais &lt;- taxas_anuais %&gt;%
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+### Seleção por critério
+Selecionar populações com taxa de avistamento média acima de 0.1 (1
+ind/10km)
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudGF4YXNfYW51YWlzIDwtIHRheGFzX2FudWFpcyAlPiVcbiAgZHBseXI6Om11dGF0ZShcbiAgICBtZWRpYSA9IHJvd01lYW5zKC5bLDM6OV0sIG5hLnJtID0gVFJVRSApXG4gICAgKSU+JVxuICBkcGx5cjo6ZmlsdGVyKG1lZGlhID4gMC4xXG4gICAgICAgICAgICAgICAgKSU+JVxuICBkcGx5cjo6c2VsZWN0KC1tZWRpYSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+taxas_anuais &lt;- taxas_anuais %&gt;%
   dplyr::mutate(
     media = rowMeans(.[,3:9], na.rm = TRUE )
     )%&gt;%
   dplyr::filter(media &gt; 0.1
                 )%&gt;%
   dplyr::select(-media)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1JFVElSRSBfXG50YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIGdzdWIoXCJfXCIsXCIgXCIsIHRheGFzX2FudWFpc1RhYmxlJGVzcGVjaWUpXG5cbmBgYCJ9 -->
-<pre class="r"><code>#RETIRE _
-taxas_anuaisTable$especie &lt;- gsub(&quot;_&quot;,&quot; &quot;, taxas_anuaisTable$especie)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI1JFVElSRSBfXG50YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIGdzdWIoXFxfXFwsXFwgXFwsIHRheGFzX2FudWFpc1RhYmxlJGVzcGVjaWUpXG5cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+#RETIRE _
+taxas_anuaisTable$especie &lt;- gsub(\_\,\ \, taxas_anuaisTable$especie)
 </code></pre>
-<!-- rnb-source-end -->
-<p>Error in <code>$&lt;-.data.frame</code>(<code>*tmp*</code>, especie,
-value = character(0)) : replacement has 0 rows, data has 115</p>
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="tabelas-com-taxas-anuais-por-unidade-de-conservação" class="section level3">
-<h3>Tabelas com taxas anuais por Unidade de Conservação</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gKSkge1xuICBwcmludChcbiAgICBrbml0cjo6a2FibGUoIFxuICAgICAgdGF4YXNfYW51YWlzVGFibGVbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhLCBdLFxuICAgICAgY2FwdGlvbiA9IHBhc3RlKFxuICAgICAgICBcIlRheGEgZGUgZW5jb250cm8gYW51YWwgcG9yIHBvcHVsYcOnw6NvXCIsXG4gICAgICAgIFwiLVwiLFxuICAgICAgICB1bmlxdWUodGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2BbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhXVxuICAgICAgICAgICAgICAgKSxcbiAgICAgICAgc2VwID0gXCIgXCIpLFxuICAgICAgYWxpZ24gPSBcImNsbHJycnJycnJcIilcbiAgICApXG59XG5gYGAifQ== -->
-<pre class="r"><code>for (tabela in unique(taxas_anuaisTable$`Unidade de Conservação`)) {
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+### Tabelas com taxas anuais por Unidade de Conservação
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw4PCp8ODwqNvYCkpIHtcbiAgcHJpbnQoXG4gICAga25pdHI6OmthYmxlKCBcbiAgICAgIHRheGFzX2FudWFpc1RhYmxlW3RheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw4PCp8ODwqNvYCA9PSB0YWJlbGEsIF0sXG4gICAgICBjYXB0aW9uID0gcGFzdGUoXG4gICAgICAgIFxcVGF4YSBkZSBlbmNvbnRybyBhbnVhbCBwb3IgcG9wdWxhw4PCp8ODwqNvXFwsXG4gICAgICAgIFxcLVxcLFxuICAgICAgICB1bmlxdWUodGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDg8Knw4PCo29gW3RheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw4PCp8ODwqNvYCA9PSB0YWJlbGFdXG4gICAgICAgICAgICAgICApLFxuICAgICAgICBzZXAgPSBcXCBcXCksXG4gICAgICBhbGlnbiA9IFxcY2xscnJycnJyclxcKVxuICAgIClcbn1cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+for (tabela in unique(taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o`)) {
   print(
     knitr::kable( 
-      taxas_anuaisTable[taxas_anuaisTable$`Unidade de Conservação` == tabela, ],
+      taxas_anuaisTable[taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o` == tabela, ],
       caption = paste(
-        &quot;Taxa de encontro anual por população&quot;,
-        &quot;-&quot;,
-        unique(taxas_anuaisTable$`Unidade de Conservação`[taxas_anuaisTable$`Unidade de Conservação` == tabela]
+        \Taxa de encontro anual por populaÃ§Ã£o\,
+        \-\,
+        unique(taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o`[taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o` == tabela]
                ),
-        sep = &quot; &quot;),
-      align = &quot;cllrrrrrrr&quot;)
+        sep = \ \),
+      align = \cllrrrrrrr\)
     )
 }</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="exporta-arquivo-de-taxas-anuais" class="section level2">
-<h2>EXPORTA ARQUIVO DE TAXAS ANUAIS</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVhZHI6OndyaXRlX2Nzdih0YXhhc19hbnVhaXMsIGhlcmUoXCIwM19kYWRvc0RlU2FpZGEvZGFkb3NcIiwgXCJ0YXhhc19hbnVhaXMuY3N2XCIpKVxuYGBgIn0= -->
-<pre class="r"><code>readr::write_csv(taxas_anuais, here(&quot;03_dadosDeSaida/dados&quot;, &quot;taxas_anuais.csv&quot;))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+ 
+## EXPORTA ARQUIVO DE TAXAS ANUAIS 
+ 
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucmVhZHI6OndyaXRlX2Nzdih0YXhhc19hbnVhaXMsIGhlcmUoXFwwM19kYWRvc0RlU2FpZGEvZGFkb3NcXCwgXFx0YXhhc19hbnVhaXMuY3N2XFwpKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+readr::write_csv(taxas_anuais, here(\03_dadosDeSaida/dados\, \taxas_anuais.csv\))</code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnRlIDAyIC0gUFJFUEFSQcOHw4NPIERFIERBRE9TIFBBUkEgQ8OBTENVTE8gREUgTFBJIEUgQ8OBTENVTE8gREUgVEFYQSBERSBFTkNPTlRSTyBBTlVBTCINCm91dHB1dDoNCiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0DQogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQNCiAgd29yZF9kb2N1bWVudDogZGVmYXVsdA0KICBodG1sX2RvY3VtZW50Og0KICAgIGRmX3ByaW50OiBwYWdlZA0KZWRpdG9yX29wdGlvbnM6IA0KICBtYXJrZG93bjogDQogICAgd3JhcDogNzINCi0tLQ0KDQpTY3JpcHQgZGUgcHJlcGFyYcOnw6NvIGRlIGRhZG9zIHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7Vlcw0KZGlzcG9uw612ZWlzIFtuZXN0ZQ0KbGlua10oaHR0cHM6Ly9naXRodWIuY29tL1pvb2xvZ2ljYWwtU29jaWV0eS1vZi1Mb25kb24vcmxwaSkuDQoNCioqRW0gZmFzZSBkZSBURVNURSoqDQoNCkFkYXB0YcOnw6NvOiAgICAgICAgRWxpbGRvIENhcnZhbGhvIEpyLCBJQ01CaW8vQ0VOQVANCg0KRGVzZW52b2x2aW1lbnRvOiAgRmVybmFuZG8gTGltYSwgQWxnb3JpdG1vDQoNCiMjIFBSRVBBUkHDh8ODTw0KDQojIyMgUEFDT1RFUw0KDQpgYGB7ciBwYWNvdGVzLCBtZXNzYWdlPUZBTFNFfQ0Kcm0obGlzdCA9IGxzKGFsbCA9IFRSVUUpKQ0Kc291cmNlKCIuLi9mdW5jb2VzL3BhY290ZXMuUiIpDQpwYWNvdGVzKCJoZXJlIiwgImRwbHlyIiwidGlkeXZlcnNlIiwgImtuaXRyIiwicmVhZHIiKQ0KYGBgDQoNCiMjIyBQUkVQQVJBw4fDg08gREUgREFET1MgUEFSQSBDw4FMQ1VMTyBERSBMUEkNCg0KTyBhcnF1aXZvIGBkYWRvc0lDTUJpb18yMDE0YTIwMTkucmRzYCBkZXZlIHNlciBnZXJhZG8gbmEgZXRhcGEgYW50ZXJpb3INCmF0cmF2w6lzIGRlIGBwYXJ0MDEtZml4UmF3RGF0YS5SbWRgDQoNCiMjIyBDYXJyZWdhciBhcnF1aXZvcw0KDQpgYGB7cn0NCm15ZGF0YSA8LSByZWFkUkRTKA0KICBoZXJlKCIwM19kYWRvc0RlU2FpZGEvZGFkb3MiLCAiZGFkb3NJQ01CaW9fMjAxNGEyMDE5LnJkcyIpKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIENvbnRhZ2Vucw0KDQpgYGB7cn0NCiNDb250YWdlbSBkZSBVQ3MNCnVjcyA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIG5vbWVfVUMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQojQ29udGFnZW0gZGUgZXNww6ljaWVzDQpzcCA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbGFzc2UsDQogICAgb3JkZW0sDQogICAgZmFtaWxpYSwNCiAgICBnZW5lcm8sDQogICAgYmlub21pYWwNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikpDQojQ29udGFnZW0gZGUgcG9wdWxhw6fDtWVzDQpwb3B1bGF0aW9uIDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIG5vbWVfVUMsDQogICAgcG9wdWxhY2FvLA0KICAgIGNudWMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIoKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIEPDoWxjdWxvIGRlIGVzZm9yw6dvDQoNCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIHBhZ2VkLnByaW50PUZBTFNFfQ0KZWZmb3J0IDwtIG15ZGF0YSAlPiUNCiNBR1JVUEFSIFBPUiBVTklEQURFIERFIENPTlNFUlZBw4fDg08gRSBBTk8NCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBhbm8NCiAgICApJT4lDQojU09NQVIgRVNGT1LDh08gQU5VQUwgUE9SIFVOSURBREUgREUgQ09OU0VSVkHDh8ODTw0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIHN1bShlc2ZvcmNvLA0KICAgICAgICBuYS5ybSA9IFRSVUUpDQogICAgKSU+JQ0KI1JFTk9NRUFSIENPTFVOQSBSRVNVTFRBTlRFDQogIGRwbHlyOjpyZW5hbWUoDQogICAgZWZmb3J0ID0gInN1bShlc2ZvcmNvLCBuYS5ybSA9IFRSVUUpIikNCmBgYA0KDQojIyMgU2VsZcOnw6NvIHBvciBjcml0w6lyaW9zDQoNClNlbGVjaW9uYXIgVUNzIFNlbGXDp8OjbyBkZSBVQ3MgY29tIG1haXMgZGUgMSBhbm8gZGUgYW1vc3RyYWdlbS4NCg0KYGBge3J9DQp1Y3Nfc2VsZWNpb25hZGFzIDwtIGVmZm9ydCAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KGNudWMNCiAgICAgICAgICAgKSU+JSANCiAgZHBseXI6OmNvdW50KA0KICAgICklPiUNCiAgZHBseXI6OmZpbHRlcihuID4gMQ0KICAgICAgICAgICAgICAgICklPiUNCiAgZHBseXI6OnB1bGwoY251YykNCmBgYA0KDQojIyMgRmlsdHJhcg0KDQpGaWx0cmFyIGRhZG9zIGdlcmFpcyBtYW50ZW5kbyBzb21lbnRlIFVDcyBzZWxlY2lvbmFkYXMNCg0KYGBge3J9DQpteWRhdGEgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6ZmlsdGVyKGNudWMgJWluJSB1Y3Nfc2VsZWNpb25hZGFzKQ0KYGBgDQpcbmV3cGFnZQ0KIyMgRVNGT1LDh08gQU5VQUwNCiMjIyBFc2ZvcsOnbyBhbnVhbCBlbSBrbQ0KDQpgYGB7ciwgbWVzc2FnZT1GQUxTRX0NCmVzZm9yY29fYW51YWwgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6Z3JvdXBfYnkoDQogICAgY251YywNCiAgICBhbm8NCiAgICApJT4lDQogIGRwbHlyOjpzdW1tYXJpemUoDQogICAgZXNmb3JjbyA9IHN1bSgNCiAgICAgIGVzZm9yY28sDQogICAgICBuYS5ybSA9IFRSVUUpDQogICAgKQ0KI0PDgUxDVUxPIFBBUkEgUkVMQVTDk1JJTw0KZXNmb3Jjb0FudWFsUmVwb3J0IDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBhbm8NCiAgICApJT4lDQogIGRwbHlyOjpzdW1tYXJpemUoDQogICAgZXNmb3JjbyA9IHN1bSgNCiAgICAgIGVzZm9yY28sDQogICAgICBuYS5ybSA9IFRSVUUpDQogICAgKQ0KYGBgDQoNCiMjIyBFc2ZvcsOnbyBhbnVhbCBlbSBmb3JtYXRvICp3aWRlKg0KYGBge3J9DQplc2ZvcmNvX2FudWFsX3dpZGUgPC0gZXNmb3Jjb19hbnVhbCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBlc2ZvcmNvDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgYDIwMTRgLA0KICAgIGAyMDE1YCwNCiAgICBgMjAxNmAsDQogICAgYDIwMTdgLA0KICAgIGAyMDE4YCwNCiAgICBgMjAxOWAsDQogICAgYDIwMjBgDQogICAgKSU+JQ0KICBkcGx5cjo6dW5ncm91cCgpDQojQ8OBTENVTE8gUEFSQSBSRUxBVMOTUklPDQplc2ZvcmNvQW51YWxXaWRlUmVwb3J0IDwtIGVzZm9yY29BbnVhbFJlcG9ydCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBlc2ZvcmNvDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YCwNCiAgICBgMjAyMGANCiAgICApJT4lDQogIGRwbHlyOjp1bmdyb3VwKA0KICApJT4lDQogIGRwbHlyOjpyZW5hbWUoQ05VQyA9ICJjbnVjIiwiVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvIiA9ICJub21lX1VDIikNCiNHRVJBUiBUQUJFTEENCmtuaXRyOjprYWJsZShlc2ZvcmNvQW51YWxXaWRlUmVwb3J0LCBjYXB0aW9uID0gIkVzZm9yw6dvIGFudWFsIGRhcyBVbmlkYWRlcyBkZSBDb25zZXJ2YcOnw6NvIikNCmBgYA0KXG5ld3BhZ2UNCiMjIE7Dmk1FUk8gREUgUkVHSVNUUk9TDQojIyMgTsO6bWVybyBkZSByZWdpc3Ryb3MgYW51YWlzDQoNCmBgYHtyfQ0Kbl9yZWdpc3Ryb3MgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6Z3JvdXBfYnkoDQogICAgY251YywNCiAgICBhbm8sDQogICAgcG9wdWxhY2FvDQogICAgKSU+JQ0KICBkcGx5cjo6Y291bnQoKQ0KI07Dmk1FUk8gREUgUkVHSVNUUk9TIFBBUkEgTyBSRUxBVMOTUklPDQpuUmVnaXN0cm9zUmVwb3J0IDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBhbm8sDQogICAgcG9wdWxhY2FvDQogICAgKSU+JQ0KICBkcGx5cjo6Y291bnQoKQ0KYGBgDQoNCiMjIyBOw7ptZXJvIGRlIHJlZ2lzdHJvcyBhbnVhaXMgZW0gZm9ybWF0byAqd2lkZSoNCg0KYGBge3J9DQpuX3JlZ2lzdHJvc193aWRlIDwtIG5fcmVnaXN0cm9zICU+JQ0KICB0aWR5cjo6cGl2b3Rfd2lkZXIoDQogICAgbmFtZXNfZnJvbSA9IGFubywNCiAgICB2YWx1ZXNfZnJvbSA9IG4NCiAgICApJT4lDQogIGRwbHlyOjpzZWxlY3QoDQogICAgY251YywNCiAgICBwb3B1bGFjYW8sDQogICAgYDIwMTRgLA0KICAgIGAyMDE1YCwNCiAgICBgMjAxNmAsDQogICAgYDIwMTdgLA0KICAgIGAyMDE4YCwNCiAgICBgMjAxOWAsDQogICAgYDIwMjBgDQogICAgKSU+JQ0KICByZXBsYWNlKGlzLm5hKC4pLCAwDQogICAgICAgICAgKSU+JQ0KICBkcGx5cjo6dW5ncm91cCgpDQojUEFSQSBSRUxBVMOTUklPDQpuUmVnaXN0cm9zV2lkZVJlcG9ydCA8LSBuUmVnaXN0cm9zUmVwb3J0ICU+JQ0KICB0aWR5cjo6cGl2b3Rfd2lkZXIoDQogICAgbmFtZXNfZnJvbSA9IGFubywNCiAgICB2YWx1ZXNfZnJvbSA9IG4NCiAgICApJT4lDQogIGRwbHlyOjpzZWxlY3QoDQogICAgY251YywNCiAgICBub21lX1VDLA0KICAgIHBvcHVsYWNhbywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YCwNCiAgICBgMjAyMGANCiAgICApJT4lDQogIHJlcGxhY2UoaXMubmEoLiksIDANCiAgICAgICAgICApJT4lDQogIGRwbHlyOjp1bmdyb3VwKA0KICAgICklPiUNCiAgZHBseXI6OnJlbmFtZShDTlVDID0gImNudWMiLCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gIm5vbWVfVUMiLCAiUG9wdWxhw6fDo28iID0gInBvcHVsYWNhbyIpDQpgYGANCg0KIyMjIE7Dum1lcm8gZGUgcmVnaXN0cm9zIHBvciBwb3B1bGHDp8Ojbw0KDQpPcGNpb25hbC4gUGFyYSB2aXN1YWxpemFyIGFzIHRhYmVsYXMgYWx0ZXJlIGluY2x1ZGUgPSBGQUxTRSBwYXJhIFRSVUUNCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnLCBpbmNsdWRlPUZBTFNFfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMpKSB7DQogIHByaW50KA0KICAgIGtuaXRyOjprYWJsZSgNCiAgICAgIG5SZWdpc3Ryb3NXaWRlUmVwb3J0W25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiTsO6bWVybyBkZSByZWdpc3Ryb3MgYW51YWlzIHBvciBwb3B1bGHDp8OjbyIsDQogICAgICAgICItIiwNCiAgICAgICAgdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gW25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhXQ0KICAgICAgICAgICAgICAgKSwNCiAgICAgICAgc2VwID0gIiAiKSwNCiAgICAgIGFsaWduID0gImNsbHJycnJycnIiKQ0KICAgICkNCn0NCmBgYA0KDQpcbmV3cGFnZQ0KIyMgVEFYQSBERSBFTkNPTlRSTyBBTlVBTA0KDQpFc3RpbWF0aXZhIGRlIGFidW5kw6JuY2lhIHJlbGF0aXZhIChuw7ptZXJvIGRlIHJlZ2lzdHJvcyBwb3IgZXNmb3LDp28pLg0KDQpOZXN0ZSBjYXNvICpOQXMqIGRldmVtIHNlciBtYW50aWRvcy4NCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gZGF0YS5mcmFtZShuX3JlZ2lzdHJvc193aWRlKQ0KZXNmb3Jjb3NfYW51YWlzIDwtIGRhdGEuZnJhbWUoZXNmb3Jjb19hbnVhbF93aWRlKQ0KDQpmb3IoaSBpbiAxOm5yb3codGF4YXNfYW51YWlzKSkgew0KICBjbnVjX3RlbXAgPC0gdGF4YXNfYW51YWlzW2ksICJjbnVjIl0NCiAgDQogIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lDQogICAgZHBseXI6OmZpbHRlcigNCiAgICAgIGNudWMgPT0gY251Y190ZW1wDQogICAgICApJT4lDQogICAgZHBseXI6OnNlbGVjdCgtY251YykNCiAgDQogIHRheGFzX2FudWFpc1tpLCAzOjldIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjldL2VzZm9yY29fdGVtcCwgMykNCn0NCg0KdGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpDQojdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpDQpgYGANCg0KIyMjIFNlbGXDp8OjbyBwb3IgY3JpdMOpcmlvDQpTZWxlY2lvbmFyIHBvcHVsYcOnw7VlcyBjb20gdGF4YSBkZSBhdmlzdGFtZW50byBtw6lkaWEgYWNpbWEgZGUgMC4xICgxDQppbmQvMTBrbSkNCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gdGF4YXNfYW51YWlzICU+JQ0KICBkcGx5cjo6bXV0YXRlKA0KICAgIG1lZGlhID0gcm93TWVhbnMoLlssMzo5XSwgbmEucm0gPSBUUlVFICkNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIobWVkaWEgPiAwLjENCiAgICAgICAgICAgICAgICApJT4lDQogIGRwbHlyOjpzZWxlY3QoLW1lZGlhKQ0KYGBgDQoNCmBgYHtyLCByZXN1bHRzPSdhc2lzJ30NCiNQRUdVRSBUQVhBUyBBTlVBSVMgUEFSQSBGQVpFUiBVTUEgVEFCRUxBDQp0YXhhc19hbnVhaXNUYWJsZSA8LSB0YXhhc19hbnVhaXMNCiNQRUdVRSBPIE5PTUUgREFTIFVDcw0KdGF4YXNfYW51YWlzVGFibGUgPC0gbWVyZ2UoDQogIHRheGFzX2FudWFpc1RhYmxlLHVjcywgYnkgPSAgImNudWMiKQ0KI1BFR1VFIE8gTk9NRSBEQVMgRVNQw4lDSUVTDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIHN1YnN0cigNCiAgdGF4YXNfYW51YWlzVGFibGUkcG9wdWxhY2FvLA0KICAxLA0KICBuY2hhcih0YXhhc19hbnVhaXNUYWJsZSRwb3B1bGFjYW8pLTQNCiAgKQ0KI1JFVElSRSBfDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIGdzdWIoIl8iLCIgIiwgdGF4YXNfYW51YWlzVGFibGUkZXNwZWNpZSkNCiNTRUxFQ0lPTkUgQVBFTkFTIE8gUVVFIElNUE9SVEENCnRheGFzX2FudWFpc1RhYmxlIDwtIHRheGFzX2FudWFpc1RhYmxlICU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIG5vbWVfVUMsDQogICAgZXNwZWNpZSwNCiAgICBzdGFydHNfd2l0aCgiWCIpDQogICAgKSU+JQ0KICBkcGx5cjo6cmVuYW1lKA0KICAgICJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gbm9tZV9VQywNCiAgICAiRXNww6ljaWUiID0gZXNwZWNpZSwNCiAgICApDQojUkVUSVJFIFggRE9TIEFOT1MNCm5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSA9IGdzdWIocGF0dGVybiA9ICJYIiwgcmVwbGFjZW1lbnQgPSAiIiwgeCA9IG5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSkNCmBgYA0KDQojIyMgVGFiZWxhcyBjb20gdGF4YXMgYW51YWlzIHBvciBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28NCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gKSkgew0KICBwcmludCgNCiAgICBrbml0cjo6a2FibGUoIA0KICAgICAgdGF4YXNfYW51YWlzVGFibGVbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiVGF4YSBkZSBlbmNvbnRybyBhbnVhbCBwb3IgcG9wdWxhw6fDo28iLA0KICAgICAgICAiLSIsDQogICAgICAgIHVuaXF1ZSh0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYFt0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYCA9PSB0YWJlbGFdDQogICAgICAgICAgICAgICApLA0KICAgICAgICBzZXAgPSAiICIpLA0KICAgICAgYWxpZ24gPSAiY2xscnJycnJyciIpDQogICAgKQ0KfQ0KYGBgDQogDQojIyBFWFBPUlRBIEFSUVVJVk8gREUgVEFYQVMgQU5VQUlTIA0KIA0KYGBge3J9DQpyZWFkcjo6d3JpdGVfY3N2KHRheGFzX2FudWFpcywgaGVyZSgiMDNfZGFkb3NEZVNhaWRhL2RhZG9zIiwgInRheGFzX2FudWFpcy5jc3YiKSkNCmBgYA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnRlIDAyIC0gUFJFUEFSQcOHw4NPIERFIERBRE9TIFBBUkEgQ8OBTENVTE8gREUgTFBJIEUgQ8OBTENVTE8gREUgVEFYQSBERSBFTkNPTlRSTyBBTlVBTCINCm91dHB1dDoNCiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0DQogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQNCiAgd29yZF9kb2N1bWVudDogZGVmYXVsdA0KICBodG1sX2RvY3VtZW50Og0KICAgIGRmX3ByaW50OiBwYWdlZA0KZWRpdG9yX29wdGlvbnM6IA0KICBtYXJrZG93bjogDQogICAgd3JhcDogNzINCi0tLQ0KDQpTY3JpcHQgZGUgcHJlcGFyYcOnw6NvIGRlIGRhZG9zIHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7Vlcw0KZGlzcG9uw612ZWlzIFtuZXN0ZQ0KbGlua10oaHR0cHM6Ly9naXRodWIuY29tL1pvb2xvZ2ljYWwtU29jaWV0eS1vZi1Mb25kb24vcmxwaSkuDQoNCioqRW0gZmFzZSBkZSBURVNURSoqDQoNCkFkYXB0YcOnw6NvOiAgICAgICAgRWxpbGRvIENhcnZhbGhvIEpyLCBJQ01CaW8vQ0VOQVANCg0KRGVzZW52b2x2aW1lbnRvOiAgRmVybmFuZG8gTGltYSwgQWxnb3JpdG1vDQoNCiMjIFBSRVBBUkHDh8ODTw0KDQojIyMgUEFDT1RFUw0KDQpgYGB7ciBwYWNvdGVzLCBtZXNzYWdlPUZBTFNFfQ0Kcm0obGlzdCA9IGxzKGFsbCA9IFRSVUUpKQ0Kc291cmNlKCIuLi9mdW5jb2VzL3BhY290ZXMuUiIpDQpwYWNvdGVzKCJoZXJlIiwgImRwbHlyIiwidGlkeXZlcnNlIiwgImtuaXRyIiwicmVhZHIiKQ0KYGBgDQoNCiMjIyBQUkVQQVJBw4fDg08gREUgREFET1MgUEFSQSBDw4FMQ1VMTyBERSBMUEkNCg0KTyBhcnF1aXZvIGBkYWRvc0lDTUJpb18yMDE0YTIwMTkucmRzYCBkZXZlIHNlciBnZXJhZG8gbmEgZXRhcGEgYW50ZXJpb3INCmF0cmF2w6lzIGRlIGBwYXJ0MDEtZml4UmF3RGF0YS5SbWRgDQoNCiMjIyBDYXJyZWdhciBhcnF1aXZvcw0KDQpgYGB7cn0NCm15ZGF0YSA8LSByZWFkUkRTKA0KICBoZXJlKCIwM19kYWRvc0RlU2FpZGEvZGFkb3MiLCAiZGFkb3NJQ01CaW9fMjAxNGEyMDE5LnJkcyIpKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIENvbnRhZ2Vucw0KDQpgYGB7cn0NCiNDb250YWdlbSBkZSBVQ3MNCnVjcyA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIG5vbWVfVUMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQojQ29udGFnZW0gZGUgZXNww6ljaWVzDQpzcCA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbGFzc2UsDQogICAgb3JkZW0sDQogICAgZmFtaWxpYSwNCiAgICBnZW5lcm8sDQogICAgYmlub21pYWwNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikpDQojQ29udGFnZW0gZGUgcG9wdWxhw6fDtWVzDQpwb3B1bGF0aW9uIDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIG5vbWVfVUMsDQogICAgcG9wdWxhY2FvLA0KICAgIGNudWMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIoKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIEPDoWxjdWxvIGRlIGVzZm9yw6dvDQoNCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIHBhZ2VkLnByaW50PUZBTFNFfQ0KZWZmb3J0IDwtIG15ZGF0YSAlPiUNCiNBR1JVUEFSIFBPUiBVTklEQURFIERFIENPTlNFUlZBw4fDg08gRSBBTk8NCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBhbm8NCiAgICApJT4lDQojU09NQVIgRVNGT1LDh08gQU5VQUwgUE9SIFVOSURBREUgREUgQ09OU0VSVkHDh8ODTw0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIHN1bShlc2ZvcmNvLA0KICAgICAgICBuYS5ybSA9IFRSVUUpDQogICAgKSU+JQ0KI1JFTk9NRUFSIENPTFVOQSBSRVNVTFRBTlRFDQogIGRwbHlyOjpyZW5hbWUoDQogICAgZWZmb3J0ID0gInN1bShlc2ZvcmNvLCBuYS5ybSA9IFRSVUUpIikNCmBgYA0KDQojIyMgU2VsZcOnw6NvIHBvciBjcml0w6lyaW9zDQoNClNlbGVjaW9uYXIgVUNzIFNlbGXDp8OjbyBkZSBVQ3MgY29tIG1haXMgZGUgMSBhbm8gZGUgYW1vc3RyYWdlbS4NCg0KYGBge3J9DQp1Y3Nfc2VsZWNpb25hZGFzIDwtIGVmZm9ydCAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KGNudWMNCiAgICAgICAgICAgKSU+JSANCiAgZHBseXI6OmNvdW50KA0KICAgICklPiUNCiAgZHBseXI6OmZpbHRlcihuID4gMQ0KICAgICAgICAgICAgICAgICklPiUNCiAgZHBseXI6OnB1bGwoY251YykNCmBgYA0KDQojIyMgRmlsdHJhcg0KDQpGaWx0cmFyIGRhZG9zIGdlcmFpcyBtYW50ZW5kbyBzb21lbnRlIFVDcyBzZWxlY2lvbmFkYXMNCg0KYGBge3J9DQpteWRhdGEgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6ZmlsdGVyKGNudWMgJWluJSB1Y3Nfc2VsZWNpb25hZGFzDQogICAgICAgICAgICAgICAgKSU+JQ0KICBkcGx5cjo6ZmlsdGVyKA0KICAgIGNudWMgIT0xODEwDQogICkNCmBgYA0KXG5ld3BhZ2UNCiMjIEVTRk9Sw4dPIEFOVUFMDQojIyMgRXNmb3LDp28gYW51YWwgZW0ga20NCg0KYGBge3IsIG1lc3NhZ2U9RkFMU0V9DQplc2ZvcmNvX2FudWFsIDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgYW5vDQogICAgKSU+JQ0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIGVzZm9yY28gPSBzdW0oDQogICAgICBlc2ZvcmNvLA0KICAgICAgbmEucm0gPSBUUlVFKQ0KICAgICkNCiNDw4FMQ1VMTyBQQVJBIFJFTEFUw5NSSU8NCmVzZm9yY29BbnVhbFJlcG9ydCA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIG5vbWVfVUMsDQogICAgYW5vDQogICAgKSU+JQ0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIGVzZm9yY28gPSBzdW0oDQogICAgICBlc2ZvcmNvLA0KICAgICAgbmEucm0gPSBUUlVFKQ0KICAgICkNCmBgYA0KDQojIyMgRXNmb3LDp28gYW51YWwgZW0gZm9ybWF0byAqd2lkZSoNCmBgYHtyfQ0KZXNmb3Jjb19hbnVhbF93aWRlIDwtIGVzZm9yY29fYW51YWwgJT4lDQogIHRpZHlyOjpwaXZvdF93aWRlcigNCiAgICBuYW1lc19mcm9tID0gYW5vLA0KICAgIHZhbHVlc19mcm9tID0gZXNmb3Jjbw0KICAgICklPiUNCiAgZHBseXI6OnNlbGVjdCgNCiAgICBjbnVjLA0KICAgIGAyMDE0YCwNCiAgICBgMjAxNWAsDQogICAgYDIwMTZgLA0KICAgIGAyMDE3YCwNCiAgICBgMjAxOGAsDQogICAgYDIwMTlgDQogICAgKSU+JQ0KICBkcGx5cjo6dW5ncm91cCgpDQojQ8OBTENVTE8gUEFSQSBSRUxBVMOTUklPDQplc2ZvcmNvQW51YWxXaWRlUmVwb3J0IDwtIGVzZm9yY29BbnVhbFJlcG9ydCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBlc2ZvcmNvDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YA0KICAgICklPiUNCiAgZHBseXI6OnVuZ3JvdXAoDQogICklPiUNCiAgZHBseXI6OnJlbmFtZShDTlVDID0gImNudWMiLCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gIm5vbWVfVUMiKQ0KI0dFUkFSIFRBQkVMQQ0Ka25pdHI6OmthYmxlKGVzZm9yY29BbnVhbFdpZGVSZXBvcnQsIGNhcHRpb24gPSAiRXNmb3LDp28gYW51YWwgZGFzIFVuaWRhZGVzIGRlIENvbnNlcnZhw6fDo28iKQ0KYGBgDQpcbmV3cGFnZQ0KIyMgTsOaTUVSTyBERSBSRUdJU1RST1MNCiMjIyBOw7ptZXJvIGRlIHJlZ2lzdHJvcyBhbnVhaXMNCg0KYGBge3J9DQpuX3JlZ2lzdHJvcyA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIGFubywNCiAgICBwb3B1bGFjYW8NCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQojTsOaTUVSTyBERSBSRUdJU1RST1MgUEFSQSBPIFJFTEFUw5NSSU8NCm5SZWdpc3Ryb3NSZXBvcnQgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6Z3JvdXBfYnkoDQogICAgY251YywNCiAgICBub21lX1VDLA0KICAgIGFubywNCiAgICBwb3B1bGFjYW8NCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQpgYGANCg0KIyMjIE7Dum1lcm8gZGUgcmVnaXN0cm9zIGFudWFpcyBlbSBmb3JtYXRvICp3aWRlKg0KDQpgYGB7cn0NCm5fcmVnaXN0cm9zX3dpZGUgPC0gbl9yZWdpc3Ryb3MgJT4lDQogIHRpZHlyOjpwaXZvdF93aWRlcigNCiAgICBuYW1lc19mcm9tID0gYW5vLA0KICAgIHZhbHVlc19mcm9tID0gbg0KICAgICklPiUNCiAgZHBseXI6OnNlbGVjdCgNCiAgICBjbnVjLA0KICAgIHBvcHVsYWNhbywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YA0KICAgICklPiUNCiAgcmVwbGFjZShpcy5uYSguKSwgMA0KICAgICAgICAgICklPiUNCiAgZHBseXI6OnVuZ3JvdXAoKQ0KI1BBUkEgUkVMQVTDk1JJTw0KblJlZ2lzdHJvc1dpZGVSZXBvcnQgPC0gblJlZ2lzdHJvc1JlcG9ydCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBuDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBwb3B1bGFjYW8sDQogICAgYDIwMTRgLA0KICAgIGAyMDE1YCwNCiAgICBgMjAxNmAsDQogICAgYDIwMTdgLA0KICAgIGAyMDE4YCwNCiAgICBgMjAxOWANCiAgICApJT4lDQogIHJlcGxhY2UoaXMubmEoLiksIDANCiAgICAgICAgICApJT4lDQogIGRwbHlyOjp1bmdyb3VwKA0KICAgICklPiUNCiAgZHBseXI6OnJlbmFtZShDTlVDID0gImNudWMiLCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gIm5vbWVfVUMiLCAiUG9wdWxhw6fDo28iID0gInBvcHVsYWNhbyIpDQpgYGANCg0KIyMjIE7Dum1lcm8gZGUgcmVnaXN0cm9zIHBvciBwb3B1bGHDp8Ojbw0KDQpPcGNpb25hbC4gUGFyYSB2aXN1YWxpemFyIGFzIHRhYmVsYXMgYWx0ZXJlIGluY2x1ZGUgPSBGQUxTRSBwYXJhIFRSVUUNCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnLCBpbmNsdWRlPUZBTFNFfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMpKSB7DQogIHByaW50KA0KICAgIGtuaXRyOjprYWJsZSgNCiAgICAgIG5SZWdpc3Ryb3NXaWRlUmVwb3J0W25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiTsO6bWVybyBkZSByZWdpc3Ryb3MgYW51YWlzIHBvciBwb3B1bGHDp8OjbyIsDQogICAgICAgICItIiwNCiAgICAgICAgdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gW25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhXQ0KICAgICAgICAgICAgICAgKSwNCiAgICAgICAgc2VwID0gIiAiKSwNCiAgICAgIGFsaWduID0gImNsbHJycnJycnIiKQ0KICAgICkNCn0NCmBgYA0KDQpcbmV3cGFnZQ0KIyMgVEFYQSBERSBFTkNPTlRSTyBBTlVBTA0KDQpFc3RpbWF0aXZhIGRlIGFidW5kw6JuY2lhIHJlbGF0aXZhIChuw7ptZXJvIGRlIHJlZ2lzdHJvcyBwb3IgZXNmb3LDp28pLg0KDQpOZXN0ZSBjYXNvICpOQXMqIGRldmVtIHNlciBtYW50aWRvcy4NCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gZGF0YS5mcmFtZShuX3JlZ2lzdHJvc193aWRlKQ0KZXNmb3Jjb3NfYW51YWlzIDwtIGRhdGEuZnJhbWUoZXNmb3Jjb19hbnVhbF93aWRlKQ0KDQpmb3IoaSBpbiAxOm5yb3codGF4YXNfYW51YWlzKSkgew0KICBjbnVjX3RlbXAgPC0gdGF4YXNfYW51YWlzW2ksICJjbnVjIl0NCiAgDQogIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lDQogICAgZHBseXI6OmZpbHRlcigNCiAgICAgIGNudWMgPT0gY251Y190ZW1wDQogICAgICApJT4lDQogICAgZHBseXI6OnNlbGVjdCgtY251YykNCiAgDQogIHRheGFzX2FudWFpc1tpLCAzOjhdIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjhdL2VzZm9yY29fdGVtcCwgMykNCn0NCg0KdGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpDQojdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpDQpgYGANCg0KIyMjIFNlbGXDp8OjbyBwb3IgY3JpdMOpcmlvDQpTZWxlY2lvbmFyIHBvcHVsYcOnw7VlcyBjb20gdGF4YSBkZSBhdmlzdGFtZW50byBtw6lkaWEgYWNpbWEgZGUgMC4xICgxDQppbmQvMTBrbSkNCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gdGF4YXNfYW51YWlzICU+JQ0KICBkcGx5cjo6bXV0YXRlKA0KICAgIG1lZGlhID0gcm93TWVhbnMoLlssMzo4XSwgbmEucm0gPSBUUlVFICkNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIobWVkaWEgPiAwLjENCiAgICAgICAgICAgICAgICApJT4lDQogIGRwbHlyOjpzZWxlY3QoLW1lZGlhKQ0KYGBgDQoNCmBgYHtyLCByZXN1bHRzPSdhc2lzJ30NCiNQRUdVRSBUQVhBUyBBTlVBSVMgUEFSQSBGQVpFUiBVTUEgVEFCRUxBDQp0YXhhc19hbnVhaXNUYWJsZSA8LSB0YXhhc19hbnVhaXMNCiNQRUdVRSBPIE5PTUUgREFTIFVDcw0KdGF4YXNfYW51YWlzVGFibGUgPC0gbWVyZ2UoDQogIHRheGFzX2FudWFpc1RhYmxlLHVjcywgYnkgPSAgImNudWMiKQ0KI1BFR1VFIE8gTk9NRSBEQVMgRVNQw4lDSUVTDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIHN1YnN0cigNCiAgdGF4YXNfYW51YWlzVGFibGUkcG9wdWxhY2FvLA0KICAxLA0KICBuY2hhcih0YXhhc19hbnVhaXNUYWJsZSRwb3B1bGFjYW8pLTQNCiAgKQ0KI1JFVElSRSBfDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIGdzdWIoIl8iLCIgIiwgdGF4YXNfYW51YWlzVGFibGUkZXNwZWNpZSkNCiNTRUxFQ0lPTkUgQVBFTkFTIE8gUVVFIElNUE9SVEENCnRheGFzX2FudWFpc1RhYmxlIDwtIHRheGFzX2FudWFpc1RhYmxlICU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIG5vbWVfVUMsDQogICAgZXNwZWNpZSwNCiAgICBzdGFydHNfd2l0aCgiWCIpDQogICAgKSU+JQ0KICBkcGx5cjo6cmVuYW1lKA0KICAgICJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gbm9tZV9VQywNCiAgICAiRXNww6ljaWUiID0gZXNwZWNpZSwNCiAgICApDQojUkVUSVJFIFggRE9TIEFOT1MNCm5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSA9IGdzdWIocGF0dGVybiA9ICJYIiwgcmVwbGFjZW1lbnQgPSAiIiwgeCA9IG5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSkNCmBgYA0KDQojIyMgVGFiZWxhcyBjb20gdGF4YXMgYW51YWlzIHBvciBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28NCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gKSkgew0KICBwcmludCgNCiAgICBrbml0cjo6a2FibGUoIA0KICAgICAgdGF4YXNfYW51YWlzVGFibGVbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiVGF4YSBkZSBlbmNvbnRybyBhbnVhbCBwb3IgcG9wdWxhw6fDo28iLA0KICAgICAgICAiLSIsDQogICAgICAgIHVuaXF1ZSh0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYFt0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYCA9PSB0YWJlbGFdDQogICAgICAgICAgICAgICApLA0KICAgICAgICBzZXAgPSAiICIpLA0KICAgICAgYWxpZ24gPSAiY2xscnJycnJyciIpDQogICAgKQ0KfQ0KYGBgDQogDQojIyBFWFBPUlRBIEFSUVVJVk8gREUgVEFYQVMgQU5VQUlTIA0KIA0KYGBge3J9DQpyZWFkcjo6d3JpdGVfY3N2KHRheGFzX2FudWFpcywgaGVyZSgiMDNfZGFkb3NEZVNhaWRhL2RhZG9zIiwgInRheGFzX2FudWFpcy5jc3YiKSkNCmBgYA0K</div>
 
 
 
