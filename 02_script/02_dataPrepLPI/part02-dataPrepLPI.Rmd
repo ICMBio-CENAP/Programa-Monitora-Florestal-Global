@@ -122,7 +122,11 @@ Filtrar dados gerais mantendo somente UCs selecionadas
 
 ```{r}
 mydata <- mydata %>%
-  dplyr::filter(cnuc %in% ucs_selecionadas)
+  dplyr::filter(cnuc %in% ucs_selecionadas
+                )%>%
+  dplyr::filter(
+    cnuc !=1810
+  )
 ```
 \newpage
 ## ESFORÇO ANUAL
@@ -167,8 +171,7 @@ esforco_anual_wide <- esforco_anual %>%
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%>%
   dplyr::ungroup()
 #CÁLCULO PARA RELATÓRIO
@@ -185,8 +188,7 @@ esforcoAnualWideReport <- esforcoAnualReport %>%
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%>%
   dplyr::ungroup(
   )%>%
@@ -233,8 +235,7 @@ n_registros_wide <- n_registros %>%
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%>%
   replace(is.na(.), 0
           )%>%
@@ -254,8 +255,7 @@ nRegistrosWideReport <- nRegistrosReport %>%
     `2016`,
     `2017`,
     `2018`,
-    `2019`,
-    `2020`
+    `2019`
     )%>%
   replace(is.na(.), 0
           )%>%
@@ -304,7 +304,7 @@ for(i in 1:nrow(taxas_anuais)) {
       )%>%
     dplyr::select(-cnuc)
   
-  taxas_anuais[i, 3:9] <- round(taxas_anuais[i, 3:9]/esforco_temp, 3)
+  taxas_anuais[i, 3:8] <- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
 }
 
 taxas_anuais <- as_tibble(taxas_anuais)
@@ -318,7 +318,7 @@ ind/10km)
 ```{r}
 taxas_anuais <- taxas_anuais %>%
   dplyr::mutate(
-    media = rowMeans(.[,3:9], na.rm = TRUE )
+    media = rowMeans(.[,3:8], na.rm = TRUE )
     )%>%
   dplyr::filter(media > 0.1
                 )%>%
