@@ -228,7 +228,7 @@ LPIMain <- function(infile="Infile.txt",
   # Trying this - don't know why it wouldn't be ok, just means we're only processing lamdas that
   # we're going to plot?
   # *******
-  DSize = PLOT_MAX - REF_YEAR + 2
+  DSize = PLOT_MAX - REF_YEAR + 1 #era 2
   
   # Create an empty data frame (create matrix, then convert) to put species lambdas in
   # Here we create a data fram with no rows, then use rbind.fill to add to it (which will
