@@ -214,3 +214,50 @@ ggplot(records, aes(x = factor(ano), y = n)) +
   
   facet_wrap(facet = vars(nome_UC)) +
   ylab("NÚMERO DE REGISTROS")
+
+#PEGUE TAXAS ANUAIS PARA FAZER UMA TABELA
+taxas_anuaisTable <- taxas_anuais
+#RETIRE CNUC
+#taxas_anuaisLonger <- taxas_anuaisTable[,-1]
+#TRANSPÕE
+#taxas_anuaisTable <-
+#   taxas_anuaisLonger %>%
+#  tidyr::pivot_longer(
+#   !populacao,
+#  names_to = "ano",
+# values_to = "index"
+#)
+#PEGUE O CÓDIGO DA UC
+#taxas_anuaisTable$cnuc <- substring(
+# taxas_anuaisTable$populacao,
+#nchar(taxas_anuaisTable$populacao)-2,
+#nchar(taxas_anuaisTable$populacao)
+#)
+#RETIRE _
+#taxas_anuaisTable$cnuc <- as.numeric(gsub("_","", taxas_anuaisTable$cnuc))
+#PEGUE O NOME DAS UCs
+taxas_anuaisTable <- merge(taxas_anuaisTable,ucs, by =  "cnuc")
+#PEGUE O NOME DAS ESPÉCIES
+taxas_anuaisTable$especie <- substr(
+  taxas_anuaisTable$populacao,
+  1,
+  nchar(taxas_anuaisTable$populacao)-4
+)
+#RETIRE _
+taxas_anuaisTable$especie <- gsub("_"," ", taxas_anuaisTable$especie)
+#RETIRE X DE ANO
+#taxas_anuaisTable$ano <- as.factor(gsub("X","", taxas_anuaisTable$ano))
+
+taxas_anuaisTable <- taxas_anuaisTable %>%
+  dplyr::select(
+    nome_UC,
+    ano,
+    especie,
+    index
+  )#%>%
+dplyr::rename(
+  "Unidade de Conservação" = nome_UC,
+  Ano = ano,
+  "Espécie" = especie
+)
+

@@ -46,8 +46,8 @@ mydata <- readRDS(here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
 
 #Peque os nomes das UCs e o código CNUC
 ucs <- mydata %>%
-  group_by(cnuc, nome_UC) %>%
-  count()
+  dplyr::group_by(cnuc, nome_UC) %>%
+  dplyr::count()
 ```
 
 ### TAXAS ANUAIS
@@ -59,8 +59,14 @@ Carregar dados. O arquivo `taxas_anuais.csv` deve ser gerado na etapa anterior a
 #Chame as taxas anuais geradas em part02-dataPrepLPI.Rmd 
 taxas_anuais <- read.csv(here("03_dadosDeSaida/dados", "taxas_anuais.csv"))
 
+
 #Pegue nome das unidades
-taxas_anuais <- merge(taxas_anuais, ucs, by = "cnuc")  
+taxas_anuais <- merge(taxas_anuais, ucs, by = "cnuc")
+taxas_anuais <- taxas_anuais %>%
+dplyr::select(cnuc, nome_UC, populacao, X2014, X2015, X2016, X2017, X2018, X2019) %>%
+dplyr::filter(
+    cnuc !=1810)
+  
 ```
 
 #### Adicionar campo identificador `ID`
@@ -81,9 +87,9 @@ Seleção de campos para cálculo de LPI
 ```{r}
 #Ajuste os dados para análise de LPI
 mydata_lpi <- taxas_anuais %>%
-  mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
-  rename(Binomial = populacao) %>%
-  select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+  dplyr::mutate(ID = as.numeric(1:nrow(taxas_anuais))) %>%
+  dplyr::rename(Binomial = populacao) %>%
+  dplyr::select(cnuc, ID, nome_UC, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
 ```
 
 ## CÁLCULO DE LPI
@@ -93,18 +99,29 @@ mydata_lpi <- taxas_anuais %>%
 #### Ajustes e criação de objetos necessários para o cálculo de LPI
 ```{r}
 # criar objetos que necessarios para lpi
+years <- mydata_lpi
+names(years) = gsub(pattern = "X", replacement = "", x = names(years))
+x <- as.vector(colnames(years)[5])
+y <- as.vector(colnames(years[tail(names(years), 1)]))
 index_vector = rep(TRUE, nrow(mydata_lpi))
-year_vector <- 2014:2019
+year_vector <- x:y
 ```
 
 #### CriaR Infile
 ```{r}
 # criar infile
-mydata_infile <- create_infile(mydata_lpi, index_vector=index_vector, 
-                               #name=here("lpi", "mydata_data"),
-                               name = "Infile",
-                               start_col_name = colnames(mydata_lpi)[4], end_col_name = tail(colnames(mydata_lpi), n=1),
-                               CUT_OFF_YEAR = year_vector[1])
+mydata_infile <- create_infile(
+  mydata_lpi,
+  index_vector = index_vector,
+  #name=here("lpi", "mydata_data"),
+  name = "Infile",
+  start_col_name = colnames(
+    mydata_lpi)[5],
+  end_col_name = tail(
+    colnames(
+      mydata_lpi),
+    n=1),
+  CUT_OFF_YEAR = year_vector[1])
 ```
 
 ### CÁLCULO GERAL
@@ -200,21 +217,31 @@ for(UC in unique(taxas_anuais$cnuc)){
     #Adicione um campo de ID para a UC
     dplyr::mutate(ID = 1:nrow(taxas_anuais[taxas_anuais$cnuc == UC, ])) %>%
     #Renomeie o campo populacao para Binomial
-    rename(Binomial = populacao)
+    rename(Binomial = populacao
+           )%>%
+    relocate(ID, .after = Binomial)%>%
+    
+    select_if(~ !any(is.na(.)))
     #Guarde o nome da UC para mim
   temp <- unique(mydata_lpi$nome_UC)
     #Selecione campos
   
-  mydata_lpi <- mydata_lpi %>% dplyr::select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
+  #mydata_lpi <- mydata_lpi %>% dplyr::select(cnuc, ID, Binomial, X2014, X2015, X2016, X2017, X2018, X2019)
   
+  #mydata_lpi <- taxas_anuais[taxas_anuais$cnuc == 151, ]
+  years <- mydata_lpi
+  names(years) = gsub(pattern = "X", replacement = "", x = names(years))
+  x <- as.vector(colnames(years)[5])
+  y <- as.vector(colnames(years[tail(names(years), 1)]))
+
   index_vector = rep(TRUE, nrow(mydata_lpi))
-  year_vector <- 2014:2019
+  year_vector <- x:y
   
   mydata_infile <- create_infile(
     mydata_lpi,
     index_vector = index_vector,
     name = "Infile",
-    start_col_name = colnames(mydata_lpi)[4],
+    start_col_name = colnames(mydata_lpi)[5],
     end_col_name = tail(colnames(mydata_lpi), n=1),
     CUT_OFF_YEAR = year_vector[1]
     )
@@ -244,7 +271,10 @@ for(UC in unique(taxas_anuais$cnuc)){
 #### Gráfico por UC
 
 ```{r}
-ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
+
+for (grafico in unique(lpi$uc)) {
+  print(ggplot(lpi[lpi$uc == grafico,], aes(x = factor(ano), y = LPI_final, group = 1)) +
+  ggtitle(paste("LPI","-", unique(lpi$uc[lpi$uc == grafico]), sep = " "))+
   #Intervalo de confiança
   geom_ribbon(
     aes(ymin = CI_low, ymax = CI_high),
@@ -268,14 +298,14 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
   theme(
     strip.background = element_rect(fill = "grey90"),
     
-    strip.text.y = element_text(angle = 0, size = 9, color = "black"),# face = "bold"),
+    strip.text.y = element_text(angle = 0, size = 1, color = "black"),# face = "bold"),
     
     axis.text.x = element_text(
       angle=45,
       vjust=1,
       hjust = 1,
       colour="black",
-      size=rel(1)
+      size=rel(0.9)
       ),
     
     axis.text.y = element_text(
@@ -283,14 +313,14 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
       vjust=1,
       hjust = 1,
       colour="black",
-      size=rel(1)
+      size=rel(0.9)
       ),
     
     axis.title.y = element_text(
       size = rel(1),
       margin = margin(
         t = 0,
-        r = 10,
+        r = 5,
         b = 0,
         l = 0
         )
@@ -303,12 +333,14 @@ ggplot(lpi, aes(x = factor(ano), y = LPI_final, group = 1)) +
     
       ) +
 
-  facet_grid(rows = vars(uc)) +
+  #facet_grid(rows = vars(uc)) +
+ # facet_wrap(facets = vars(uc))+
 
-  ylab("LPI")
+  ylab("LPI"))
 
+}  
 #Salve o gráfico de saída.
-ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
+#ggsave(file = here("03_dadosDeSaida/plots", "lpiGlobal.png"))
 ```
 
 [pH]

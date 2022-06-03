@@ -1,5 +1,5 @@
 ---
-title: "Parte 01 - Limpeza de Dados"
+title: "Parte 01 - LIMPEZA DE DADOS"
 output:
   pdf_document: default
   html_notebook: default
@@ -9,9 +9,9 @@ Limpeza de dados para cálculo do LPI baseado nas instruções disponíveis [nes
 
 **Em fase de TESTE**
 
-Adaptação: Elildo Carvalho Jr, ICMBio/CENAP
+Adaptação:        Elildo Carvalho Jr, ICMBio/CENAP
 
-Desenvolvimento: Fernando Lima, Algoritmo
+Desenvolvimento:  Fernando Lima, Algoritmo
 
 ## PREPARAÇÃO
 
