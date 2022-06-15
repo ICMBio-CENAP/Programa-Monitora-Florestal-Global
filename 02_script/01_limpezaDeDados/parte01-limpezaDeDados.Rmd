@@ -1,5 +1,5 @@
 ---
-title: "Parte 01 - Limpeza de Dados"
+title: "Parte 01 - LIMPEZA DE DADOS"
 output:
   pdf_document: default
   html_notebook: default
@@ -9,17 +9,18 @@ Limpeza de dados para cálculo do LPI baseado nas instruções disponíveis [nes
 
 **Em fase de TESTE**
 
-Adaptação: Elildo Carvalho Jr, ICMBio/CENAP e Fernando Lima, Algoritmo
+Adaptação:        Elildo Carvalho Jr, ICMBio/CENAP
 
-```{r pacotes, include=FALSE}
+Desenvolvimento:  Fernando Lima, Algoritmo
+
+## PREPARAÇÃO
+
+### PACOTES
+
+```{r pacotes, message=FALSE}
 rm(list = ls(all = TRUE))
 source("../funcoes/pacotes.R")
-pacotes("readr","lubridate","dplyr","stringr")
-#library(here)
-#library(readr)
-#library(lubridate)
-#library(dplyr)
-#library(stringr)
+pacotes("here", "readr","lubridate","dplyr","stringr")
 ```
 
 ### DADOS CONSOLIDADOS DE MAMÍFEROS E AVES
@@ -38,14 +39,21 @@ Caso haja necessidade de reutilizar os dados originais notar que foi necessário
 
     `"Distância estimada. estava na outra margem do igarapé: S 4° 36' 32"", w 56° 24' 51.2"""`
 
+### Carregar arquivos
 ```{r leitura, warning=FALSE}
-dados <-  readr::read_csv("../../01_dadosDeEntrada/Planilha.consolidada.mastoaves.ate.2019a.csv", show_col_types = FALSE)
+dados <-  readr::read_csv(
+  here("01_dadosDeEntrada", "Planilha.consolidada.mastoaves.ate.2019a.csv"),
+  show_col_types = FALSE)
 dados <- subset(dados, select = c(1:30))
 ```
+
 \newpage
 
-#### AJUSTES
-
+### AJUSTES E CORREÇÕES
+-   Renomear colunas
+-   Ajustar formato de data e hora
+-   Criar campo de identificação de populações
+-   Remover colunas desnecessárias
 ```{r}
 #RENOMEAR COLUNAS
 dados <- dados %>%
@@ -67,12 +75,12 @@ dados <- dados %>%
          n_animais = "n de animais",
          distancia = "distancia (m) do animal em relacao a trilha"
          ) %>%
-#AJUSTAR FORMATO DE DATA
-  dplyr::mutate(data = as.Date(data, "%d/%m/%Y"),
-         ano = year(data),
-#CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
-         populacao = paste(binomial, cnuc, sep ="_"),
-         populacao = str_replace(populacao, " ", "_")) %>%
+#AJUSTAR FORMATO DE DATA, CRIAR IDENTIFICAÇÃO DE POPULAÇÕES
+  dplyr::mutate(
+    data = as.Date(data, "%d/%m/%Y"), ano = year(data),
+    populacao = paste(binomial, cnuc, sep ="_"),
+    populacao = str_replace(populacao, " ", "_")
+    ) %>%
 #REMOVER COLUNAS DESNECESSÁRIAS
   dplyr::select(
     cnuc,
@@ -91,59 +99,68 @@ dados <- dados %>%
     binomial,
     n_animais,
     distancia,
-    populacao
-    )
+    populacao)
 ```
 
+\newpage
+
+### Correção de taxonomia
+-   Correção de nomes científicos
+-   Remoção de identificações imprecisas
+-   Ajuste de identificador para cada população
 ```{r}
 dados <- dados %>%
 #CORREÇÃO DE NOMES CIENTÍFICOS
-
-  dplyr::mutate(binomial = case_when(
-  binomial == "bradypus variegatus" ~ "Bradypus variegatus",
-  binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
-  binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
-  binomial == "Speothus venaticus" ~ "Speothos venaticus",
-  
-  TRUE ~ binomial
-  )
-  ) %>%
-
-  #REMOVER IDENTIFICAÇÕES IMPRECISAS
-  dplyr::filter(! binomial  %in% c(
-    NA,
-    "E",
-    "Tinamidae",
-    "Cracidae",
-    "Sciuridae",
-    "Callitrichidae",
-    "Pitheciidae",
-    "Atelidae",
-    "Cebidae",
-    "Primates",
-    "Felidae",
-    "Bradypodidae",
-    "Cervidae",
-    "Tayassuidae",
-    "Dasyprocta cf. fuliginosa",
-    "Procyonidae"
-    )
+  dplyr::mutate(
+    binomial = case_when(
+      binomial == "bradypus variegatus" ~ "Bradypus variegatus",
+      binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
+      binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
+      binomial == "Speothus venaticus" ~ "Speothos venaticus",
+      TRUE ~ binomial
+      )
     ) %>%
+#REMOVER IDENTIFICAÇÕES IMPRECISAS
+    dplyr::filter(
+      !binomial %in% c(
+        NA,
+        "E",
+        "Tinamidae",
+        "Cracidae",
+        "Sciuridae",
+        "Callitrichidae",
+        "Pitheciidae",
+        "Atelidae",
+        "Cebidae",
+        "Primates",
+        "Felidae",
+        "Bradypodidae",
+        "Cervidae",
+        "Tayassuidae",
+        "Dasyprocta cf. fuliginosa",
+        "Procyonidae"
+        )
+      ) %>%
 #REMOVER *.sp
-  dplyr::filter(! grepl('sp.', binomial))
+  dplyr::filter(
+    !grepl('sp.', binomial))
 #ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
 dados$genero <- word(dados$binomial,1)
 dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
 dados$populacao = str_replace(dados$populacao, " ", "_")
 dados$esforco= dados$esforco/1000
+#AJUSTE ANO
+dados$ano <- gsub(2109, 2019, dados$ano)
 ```
 
-Exportar arquivos `*.rds` e `*.txt`
+### Exportar arquivos `*.rds` e `*.txt`
 
 ```{r exportar}
-saveRDS(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.rds")
-write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.txt")
+saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.rds"))
+
+readr::write_csv(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2019.txt"))
 ```
+
 \newpage
 
 ### DADOS CONSOLIDADOS FLORESTAL
@@ -151,15 +168,21 @@ write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2019.txt")
 Caso haja necessidade de reutilizar os dados originais notar que foi necessário a limpeza dos comentários para evitar inúmeros erros (descritos acima).
 
 ```{r}
-dados <-  readr::read_csv("../../01_dadosDeEntrada/Dados_Florestal_14a18_disponibilizacao1.csv", show_col_types = FALSE)
+dados <- readr::read_csv(
+  here("01_dadosDeEntrada", "Dados_Florestal_14a18_disponibilizacao1.csv"),
+  show_col_types = FALSE)
 ```
 
-### AJUSTES
-
+### AJUSTES E CORREÇÕES
+-   Renomear colunas
+-   Ajustar formato de data e hora
+-   Ajustar formato de distância
+-   Criar campo de identificação de populações
+-   Remover colunas desnecessárias
 ```{r}
 #RENOMEAR COLUNAS
 dados <- dados %>%
-  rename(
+  dplyr::rename(
     cnuc = "Cadastro Nacional de Unidades de Conservação (CNUC)",
     nome_UC = "Unidade de Conservação (UC)",
     estacao_amostral = "Número da Estação Amostral",
@@ -177,10 +200,9 @@ dados <- dados %>%
     n_animais = "N° de animais",
     distancia = "Distância perpendicular  (m) do animal em relação a trilha"
     ) %>%
-#AJUSTAR FORMATO DE DATA
-  mutate(
+#AJUSTAR FORMATO DE DATA, HORA E DISTÂNCIA
+  dplyr::mutate(
     data = as.Date(data, "%d/%m/%Y"),
-#AJUSTAR FORMATO DE DISTÂNCIA
     distancia =  str_replace(distancia, ",", "."),
     distancia = as.numeric(distancia),
 #CRIAR CAMPO DE IDENTIFICAÇÃO DE POPULAÇÕES
@@ -188,7 +210,7 @@ dados <- dados %>%
     populacao = str_replace(populacao, " ", "_")
     ) %>%
 #REMOVER COLUNAS DESNECESSÁRIAS
-  select(
+  dplyr::select(
     cnuc,
     nome_UC,
     estacao_amostral,
@@ -205,55 +227,50 @@ dados <- dados %>%
     binomial,
     n_animais,
     distancia,
-    populacao
-    )
-
+    populacao)
 #AJUSTE RESEX RIO OURO PRETO
 dados$cnuc <- gsub("#REF!","256", dados$cnuc)
 ```
 
-Correção de taxonomia
-
+### Correção de taxonomia
 -   Correção de nomes científicos
-
--   Exclusão de identificações imprecisas
-
--   Atualizar campo identificador `populacao`
-
+-   Remoção de identificações imprecisas
+-   Ajuste de identificador para cada população
 ```{r}
 dados <- dados %>%
 #CORREÇÃO DE NOMES CIENTÍFICOS
-mutate(binomial = case_when(
-  binomial == "bradypus variegatus" ~ "Bradypus variegatus",
-  binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
-  binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
-  binomial == "Speothus venaticus" ~ "Speothos venaticus",
-  
-  TRUE ~ binomial
-  )
+dplyr::mutate(
+  binomial = case_when(
+    binomial == "bradypus variegatus" ~ "Bradypus variegatus",
+    binomial == "Puma yagouaroundi" ~ "Herpailurus yagouaroundi",
+    binomial == "Lontra longicaudata" ~ "Lontra longicaudis",
+    binomial == "Speothus venaticus" ~ "Speothos venaticus",
+    TRUE ~ binomial
+    )
   ) %>%
 #REMOVER IDENTIFICAÇÕES IMPRECISAS
-  filter(! binomial  %in% c(
-    NA,
-    "E",
-    "Tinamidae",
-    "Cracidae",
-    "Sciuridae",
-    "Callitrichidae",
-    "Pitheciidae",
-    "Atelidae",
-    "Cebidae",
-    "Primates",
-    "Felidae",
-    "Bradypodidae",
-    "Cervidae",
-    "Tayassuidae",
-    "Dasyprocta cf. fuliginosa",
-    "Procyonidae"
-    )
+  dplyr::filter(
+    !binomial %in% c(
+      NA,
+      "E",
+      "Tinamidae",
+      "Cracidae",
+      "Sciuridae",
+      "Callitrichidae",
+      "Pitheciidae",
+      "Atelidae",
+      "Cebidae",
+      "Primates",
+      "Felidae",
+      "Bradypodidae",
+      "Cervidae",
+      "Tayassuidae",
+      "Dasyprocta cf. fuliginosa",
+      "Procyonidae"
+      ),
     ) %>%
 #REMOVER *.sp
-  filter(! grepl('sp.', binomial))
+  dplyr::filter(!grepl('sp.', binomial))
 #ATUALIZAR IDENTIFICADOR DE POPULAÇÕES
 dados$genero <- word(dados$binomial,1)
 dados$populacao = paste(dados$binomial, dados$cnuc, sep ="_")
@@ -261,9 +278,8 @@ dados$populacao = str_replace(dados$populacao, " ", "_")
 dados$esforco= dados$esforco/1000
 ```
 
-Exportar arquivo `*.rds` e `*.txt`
-
+### Exportar arquivos `*.rds` e `*.txt`
 ```{r}
-saveRDS(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2018.rds")
-write_csv(dados, "../../03_dadosDeSaida/dados/dadosICMBio_2014a2018.txt")
+saveRDS(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2018.rds"))
+readr::write_csv(dados, here("03_dadosDeSaida/dados", "dadosICMBio_2014a2018.txt"))
 ```
