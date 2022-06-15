@@ -1784,6 +1784,36 @@ link</a>.</p>
 source(&quot;../funcoes/pacotes.R&quot;)
 pacotes(&quot;here&quot;, &quot;dplyr&quot;,&quot;tidyverse&quot;, &quot;knitr&quot;,&quot;readr&quot;)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBoZXJlXG5oZXJlKCkgc3RhcnRzIGF0IEQ6L2dpdC9Qcm9ncmFtYS1Nb25pdG9yYS1GbG9yZXN0YWwtR2xvYmFsLUNFTkFQXG5DYXJyZWdhbmRvIHBhY290ZXMgZXhpZ2lkb3M6IGRwbHlyXG5cbkF0dGFjaGluZyBwYWNrYWdlOiDigJhkcGx5cuKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6c3RhdHPigJk6XG5cbiAgICBmaWx0ZXIsIGxhZ1xuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6YmFzZeKAmTpcblxuICAgIGludGVyc2VjdCwgc2V0ZGlmZiwgc2V0ZXF1YWwsIHVuaW9uXG5cbkNhcnJlZ2FuZG8gcGFjb3RlcyBleGlnaWRvczogdGlkeXZlcnNlXG5SZWdpc3RlcmVkIFMzIG1ldGhvZHMgb3ZlcndyaXR0ZW4gYnkgJ2RicGx5cic6XG4gIG1ldGhvZCAgICAgICAgIGZyb21cbiAgcHJpbnQudGJsX2xhenkgICAgIFxuICBwcmludC50Ymxfc3FsICAgICAgXG4tLSBBdHRhY2hpbmcgcGFja2FnZXMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gdGlkeXZlcnNlIDEuMy4xIC0tXG7DosuGxaEgZ2dwbG90MiAzLjMuNSAgICAgw6LLhsWhIHB1cnJyICAgMC4zLjRcbsOiy4bFoSB0aWJibGUgIDMuMS42ICAgICDDosuGxaEgc3RyaW5nciAxLjQuMFxuw6LLhsWhIHRpZHlyICAgMS4yLjAgICAgIMOiy4bFoSBmb3JjYXRzIDAuNS4xXG7DosuGxaEgcmVhZHIgICAyLjEuMiAgICAgXG4tLSBDb25mbGljdHMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gdGlkeXZlcnNlX2NvbmZsaWN0cygpIC0tXG54IGRwbHlyOjpmaWx0ZXIoKSBtYXNrcyBzdGF0czo6ZmlsdGVyKClcbnggZHBseXI6OmxhZygpICAgIG1hc2tzIHN0YXRzOjpsYWcoKVxuQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBrbml0clxuIn0= -->
+<pre><code>Carregando pacotes exigidos: here
+here() starts at D:/git/Programa-Monitora-Florestal-Global-CENAP
+Carregando pacotes exigidos: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Carregando pacotes exigidos: tidyverse
+Registered S3 methods overwritten by &#39;dbplyr&#39;:
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+-- Attaching packages -------------------------------------------------- tidyverse 1.3.1 --
+âˆš ggplot2 3.3.5     âˆš purrr   0.3.4
+âˆš tibble  3.1.6     âˆš stringr 1.4.0
+âˆš tidyr   1.2.0     âˆš forcats 0.5.1
+âˆš readr   2.1.2     
+-- Conflicts ----------------------------------------------------- tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Carregando pacotes exigidos: knitr</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1868,8 +1898,9 @@ population &lt;- mydata %&gt;%
   dplyr::rename(
     effort = &quot;sum(esforco, na.rm = TRUE)&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGUgdXNpbmcgdGhlIGAuZ3JvdXBzYCBhcmd1bWVudC5cbiJ9 -->
-<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override using the `.groups` argument.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGUgdXNpbmcgdGhlXG5gLmdyb3Vwc2AgYXJndW1lbnQuXG4ifQ== -->
+<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override using the
+`.groups` argument.</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1945,8 +1976,9 @@ esforcoAnualReport &lt;- mydata %&gt;%
       na.rm = TRUE)
     )</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGUgdXNpbmcgdGhlIGAuZ3JvdXBzYCBhcmd1bWVudC5cbiJ9 -->
-<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override using the `.groups` argument.</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NudWMnLCAnbm9tZV9VQycuIFlvdSBjYW4gb3ZlcnJpZGUgdXNpbmcgdGhlXG5gLmdyb3Vwc2AgYXJndW1lbnQuXG4ifQ== -->
+<pre><code>`summarise()` has grouped output by &#39;cnuc&#39;, &#39;nome_UC&#39;. You can override using the
+`.groups` argument.</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2414,6 +2446,18 @@ nRegistrosWideReport &lt;- nRegistrosReport %&gt;%
 TRUE</p>
 <!-- rnb-text-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="seleção-por-critério" class="section level3">
+<h3>Seleção por critério</h3>
+<p>Espécies com registro suficiente para estimativa de densidade por
+análise de transectos lineares.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-plot-begin eyJoZWlnaHQiOjQzMi42MzI5LCJ3aWR0aCI6NzAwLCJzaXplX2JlaGF2aW9yIjowLCJjb25kaXRpb25zIjpbXX0= -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -2424,13 +2468,12 @@ esforço).</p>
 <p>Neste caso <em>NAs</em> devem ser mantidos.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudGF4YXNfYW51YWlzIDwtIGRhdGEuZnJhbWUobl9yZWdpc3Ryb3Nfd2lkZSlcbmVzZm9yY29zX2FudWFpcyA8LSBkYXRhLmZyYW1lKGVzZm9yY29fYW51YWxfd2lkZSlcblxuZm9yKGkgaW4gMTpucm93KHRheGFzX2FudWFpcykpIHtcbiAgY251Y190ZW1wIDwtIHRheGFzX2FudWFpc1tpLCBcXGNudWNcXF1cbiAgXG4gIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lXG4gICAgZHBseXI6OmZpbHRlcihcbiAgICAgIGNudWMgPT0gY251Y190ZW1wXG4gICAgICApJT4lXG4gICAgZHBseXI6OnNlbGVjdCgtY251YylcbiAgXG4gIHRheGFzX2FudWFpc1tpLCAzOjldIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjldL2VzZm9yY29fdGVtcCwgMylcbn1cblxudGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpXG4jdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpXG5gYGBcbmBgYCJ9 -->
-<pre class="r"><code>```r
-taxas_anuais &lt;- data.frame(n_registros_wide)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGF4YXNfYW51YWlzIDwtIGRhdGEuZnJhbWUobl9yZWdpc3Ryb3Nfd2lkZSlcbmVzZm9yY29zX2FudWFpcyA8LSBkYXRhLmZyYW1lKGVzZm9yY29fYW51YWxfd2lkZSlcblxuZm9yKGkgaW4gMTpucm93KHRheGFzX2FudWFpcykpIHtcbiAgY251Y190ZW1wIDwtIHRheGFzX2FudWFpc1tpLCBcImNudWNcIl1cbiAgXG4gIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lXG4gICAgZHBseXI6OmZpbHRlcihcbiAgICAgIGNudWMgPT0gY251Y190ZW1wXG4gICAgICApJT4lXG4gICAgZHBseXI6OnNlbGVjdCgtY251YylcbiAgXG4gIHRheGFzX2FudWFpc1tpLCAzOjhdIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjhdL2VzZm9yY29fdGVtcCwgMylcbn1cblxudGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpXG4jdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpXG5gYGAifQ== -->
+<pre class="r"><code>taxas_anuais &lt;- data.frame(n_registros_wide)
 esforcos_anuais &lt;- data.frame(esforco_anual_wide)
 
 for(i in 1:nrow(taxas_anuais)) {
-  cnuc_temp &lt;- taxas_anuais[i, \cnuc\]
+  cnuc_temp &lt;- taxas_anuais[i, &quot;cnuc&quot;]
   
   esforco_temp &lt;- esforcos_anuais %&gt;%
     dplyr::filter(
@@ -2438,129 +2481,2417 @@ for(i in 1:nrow(taxas_anuais)) {
       )%&gt;%
     dplyr::select(-cnuc)
   
-  taxas_anuais[i, 3:9] &lt;- round(taxas_anuais[i, 3:9]/esforco_temp, 3)
+  taxas_anuais[i, 3:8] &lt;- round(taxas_anuais[i, 3:8]/esforco_temp, 3)
 }
 
 taxas_anuais &lt;- as_tibble(taxas_anuais)
 #taxas_anuais %&gt;%  print(n=Inf)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-### Seleção por critério
-Selecionar populações com taxa de avistamento média acima de 0.1 (1
-ind/10km)
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudGF4YXNfYW51YWlzIDwtIHRheGFzX2FudWFpcyAlPiVcbiAgZHBseXI6Om11dGF0ZShcbiAgICBtZWRpYSA9IHJvd01lYW5zKC5bLDM6OV0sIG5hLnJtID0gVFJVRSApXG4gICAgKSU+JVxuICBkcGx5cjo6ZmlsdGVyKG1lZGlhID4gMC4xXG4gICAgICAgICAgICAgICAgKSU+JVxuICBkcGx5cjo6c2VsZWN0KC1tZWRpYSlcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-taxas_anuais &lt;- taxas_anuais %&gt;%
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="seleção-por-critério-1" class="section level3">
+<h3>Seleção por critério</h3>
+<p>Selecionar populações com taxa de avistamento média acima de 0.1 (1
+ind/10km)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGF4YXNfYW51YWlzIDwtIHRheGFzX2FudWFpcyAlPiVcbiAgZHBseXI6Om11dGF0ZShcbiAgICBtZWRpYSA9IHJvd01lYW5zKC5bLDM6OF0sIG5hLnJtID0gVFJVRSApXG4gICAgKSU+JVxuICBkcGx5cjo6ZmlsdGVyKG1lZGlhID4gMC4xXG4gICAgICAgICAgICAgICAgKSU+JVxuICBkcGx5cjo6c2VsZWN0KC1tZWRpYSlcbmBgYCJ9 -->
+<pre class="r"><code>taxas_anuais &lt;- taxas_anuais %&gt;%
   dplyr::mutate(
-    media = rowMeans(.[,3:9], na.rm = TRUE )
+    media = rowMeans(.[,3:8], na.rm = TRUE )
     )%&gt;%
   dplyr::filter(media &gt; 0.1
                 )%&gt;%
   dplyr::select(-media)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI1JFVElSRSBfXG50YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIGdzdWIoXFxfXFwsXFwgXFwsIHRheGFzX2FudWFpc1RhYmxlJGVzcGVjaWUpXG5cbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1BFR1VFIFRBWEFTIEFOVUFJUyBQQVJBIEZBWkVSIFVNQSBUQUJFTEFcbnRheGFzX2FudWFpc1RhYmxlIDwtIHRheGFzX2FudWFpc1xuI1BFR1VFIE8gTk9NRSBEQVMgVUNzXG50YXhhc19hbnVhaXNUYWJsZSA8LSBtZXJnZShcbiAgdGF4YXNfYW51YWlzVGFibGUsdWNzLCBieSA9ICBcImNudWNcIilcbiNQRUdVRSBPIE5PTUUgREFTIEVTUMOJQ0lFU1xudGF4YXNfYW51YWlzVGFibGUkZXNwZWNpZSA8LSBzdWJzdHIoXG4gIHRheGFzX2FudWFpc1RhYmxlJHBvcHVsYWNhbyxcbiAgMSxcbiAgbmNoYXIodGF4YXNfYW51YWlzVGFibGUkcG9wdWxhY2FvKS00XG4gIClcbiNSRVRJUkUgX1xudGF4YXNfYW51YWlzVGFibGUkZXNwZWNpZSA8LSBnc3ViKFwiX1wiLFwiIFwiLCB0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llKVxuI1NFTEVDSU9ORSBBUEVOQVMgTyBRVUUgSU1QT1JUQVxudGF4YXNfYW51YWlzVGFibGUgPC0gdGF4YXNfYW51YWlzVGFibGUgJT4lXG4gIGRwbHlyOjpzZWxlY3QoXG4gICAgbm9tZV9VQyxcbiAgICBlc3BlY2llLFxuICAgIHN0YXJ0c193aXRoKFwiWFwiKVxuICAgICklPiVcbiAgZHBseXI6OnJlbmFtZShcbiAgICBcIlVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb1wiID0gbm9tZV9VQyxcbiAgICBcIkVzcMOpY2llXCIgPSBlc3BlY2llLFxuICAgIClcbiNSRVRJUkUgWCBET1MgQU5PU1xubmFtZXModGF4YXNfYW51YWlzVGFibGUpID0gZ3N1YihwYXR0ZXJuID0gXCJYXCIsIHJlcGxhY2VtZW50ID0gXCJcIiwgeCA9IG5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSlcbmBgYCJ9 -->
+<pre class="r"><code>#PEGUE TAXAS ANUAIS PARA FAZER UMA TABELA
+taxas_anuaisTable &lt;- taxas_anuais
+#PEGUE O NOME DAS UCs
+taxas_anuaisTable &lt;- merge(
+  taxas_anuaisTable,ucs, by =  &quot;cnuc&quot;)
+#PEGUE O NOME DAS ESPÉCIES
+taxas_anuaisTable$especie &lt;- substr(
+  taxas_anuaisTable$populacao,
+  1,
+  nchar(taxas_anuaisTable$populacao)-4
+  )
 #RETIRE _
-taxas_anuaisTable$especie &lt;- gsub(\_\,\ \, taxas_anuaisTable$especie)
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-### Tabelas com taxas anuais por Unidade de Conservação
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw4PCp8ODwqNvYCkpIHtcbiAgcHJpbnQoXG4gICAga25pdHI6OmthYmxlKCBcbiAgICAgIHRheGFzX2FudWFpc1RhYmxlW3RheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw4PCp8ODwqNvYCA9PSB0YWJlbGEsIF0sXG4gICAgICBjYXB0aW9uID0gcGFzdGUoXG4gICAgICAgIFxcVGF4YSBkZSBlbmNvbnRybyBhbnVhbCBwb3IgcG9wdWxhw4PCp8ODwqNvXFwsXG4gICAgICAgIFxcLVxcLFxuICAgICAgICB1bmlxdWUodGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDg8Knw4PCo29gW3RheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw4PCp8ODwqNvYCA9PSB0YWJlbGFdXG4gICAgICAgICAgICAgICApLFxuICAgICAgICBzZXAgPSBcXCBcXCksXG4gICAgICBhbGlnbiA9IFxcY2xscnJycnJyclxcKVxuICAgIClcbn1cbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-for (tabela in unique(taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o`)) {
+taxas_anuaisTable$especie &lt;- gsub(&quot;_&quot;,&quot; &quot;, taxas_anuaisTable$especie)
+#SELECIONE APENAS O QUE IMPORTA
+taxas_anuaisTable &lt;- taxas_anuaisTable %&gt;%
+  dplyr::select(
+    nome_UC,
+    especie,
+    starts_with(&quot;X&quot;)
+    )%&gt;%
+  dplyr::rename(
+    &quot;Unidade de Conservação&quot; = nome_UC,
+    &quot;Espécie&quot; = especie,
+    )
+#RETIRE X DOS ANOS
+names(taxas_anuaisTable) = gsub(pattern = &quot;X&quot;, replacement = &quot;&quot;, x = names(taxas_anuaisTable))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="tabelas-com-taxas-anuais-por-unidade-de-conservação" class="section level3">
+<h3>Tabelas com taxas anuais por Unidade de Conservação</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gKSkge1xuICBwcmludChcbiAgICBrbml0cjo6a2FibGUoIFxuICAgICAgdGF4YXNfYW51YWlzVGFibGVbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhLCBdLFxuICAgICAgY2FwdGlvbiA9IHBhc3RlKFxuICAgICAgICBcIlRheGEgZGUgZW5jb250cm8gYW51YWwgcG9yIHBvcHVsYcOnw6NvXCIsXG4gICAgICAgIFwiLVwiLFxuICAgICAgICB1bmlxdWUodGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2BbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhXVxuICAgICAgICAgICAgICAgKSxcbiAgICAgICAgc2VwID0gXCIgXCIpLFxuICAgICAgYWxpZ24gPSBcImNsbHJycnJycnJcIilcbiAgICApXG59XG5gYGAifQ== -->
+<pre class="r"><code>for (tabela in unique(taxas_anuaisTable$`Unidade de Conservação`)) {
   print(
     knitr::kable( 
-      taxas_anuaisTable[taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o` == tabela, ],
+      taxas_anuaisTable[taxas_anuaisTable$`Unidade de Conservação` == tabela, ],
       caption = paste(
-        \Taxa de encontro anual por populaÃ§Ã£o\,
-        \-\,
-        unique(taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o`[taxas_anuaisTable$`Unidade de ConservaÃ§Ã£o` == tabela]
+        &quot;Taxa de encontro anual por população&quot;,
+        &quot;-&quot;,
+        unique(taxas_anuaisTable$`Unidade de Conservação`[taxas_anuaisTable$`Unidade de Conservação` == tabela]
                ),
-        sep = \ \),
-      align = \cllrrrrrrr\)
+        sep = &quot; &quot;),
+      align = &quot;cllrrrrrrr&quot;)
     )
 }</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
+<!-- rnb-source-end -->
 
-&lt;!-- rnb-chunk-end --&gt;
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Esec Terra do
+Meio</caption>
+<colgroup>
+<col width="29%" />
+<col width="28%" />
+<col width="7%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Esec Terra do Meio</td>
+<td align="left">Callicebus vieira</td>
+<td align="left">0.340</td>
+<td align="right">NA</td>
+<td align="right">0.184</td>
+<td align="right">0.291</td>
+<td align="right">0.250</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="center">Esec Terra do Meio</td>
+<td align="left">Crax fasciolat</td>
+<td align="left">0.266</td>
+<td align="right">NA</td>
+<td align="right">0.066</td>
+<td align="right">0.109</td>
+<td align="right">0.050</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">Esec Terra do Meio</td>
+<td align="left">Dasyprocta croconot</td>
+<td align="left">1.229</td>
+<td align="right">NA</td>
+<td align="right">0.779</td>
+<td align="right">0.896</td>
+<td align="right">0.887</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="center">Esec Terra do Meio</td>
+<td align="left">Guerlinguetus aestuan</td>
+<td align="left">0.266</td>
+<td align="right">NA</td>
+<td align="right">0.169</td>
+<td align="right">0.267</td>
+<td align="right">0.325</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">Esec Terra do Meio</td>
+<td align="left">Odontophorus gujanensi</td>
+<td align="left">0.296</td>
+<td align="right">NA</td>
+<td align="right">0.110</td>
+<td align="right">0.157</td>
+<td align="right">0.200</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="center">Esec Terra do Meio</td>
+<td align="left">Pauxi tuberos</td>
+<td align="left">0.355</td>
+<td align="right">NA</td>
+<td align="right">0.118</td>
+<td align="right">0.242</td>
+<td align="right">0.100</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">Esec Terra do Meio</td>
+<td align="left">Sapajus apell</td>
+<td align="left">0.400</td>
+<td align="right">NA</td>
+<td align="right">0.353</td>
+<td align="right">0.557</td>
+<td align="right">0.262</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
 
 
-&lt;!-- rnb-text-begin --&gt;
-
- 
-## EXPORTA ARQUIVO DE TAXAS ANUAIS 
- 
-
-&lt;!-- rnb-text-end --&gt;
+<!-- rnb-html-end -->
 
 
-&lt;!-- rnb-chunk-begin --&gt;
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Esec Niquiá</caption>
+<colgroup>
+<col width="3%" />
+<col width="31%" />
+<col width="22%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">8</td>
+<td align="center">Esec Niquiá</td>
+<td align="left">Cebus olivaceu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.035</td>
+<td align="right">0.190</td>
+<td align="right">0.16</td>
+</tr>
+<tr class="even">
+<td align="left">9</td>
+<td align="center">Esec Niquiá</td>
+<td align="left">Ortalis motmo</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.105</td>
+<td align="right">0.108</td>
+<td align="right">0.20</td>
+</tr>
+<tr class="odd">
+<td align="left">10</td>
+<td align="center">Esec Niquiá</td>
+<td align="left">Penelope jacquac</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.000</td>
+<td align="right">0.081</td>
+<td align="right">0.32</td>
+</tr>
+</tbody>
+</table>
 
 
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucmVhZHI6OndyaXRlX2Nzdih0YXhhc19hbnVhaXMsIGhlcmUoXFwwM19kYWRvc0RlU2FpZGEvZGFkb3NcXCwgXFx0YXhhc19hbnVhaXMuY3N2XFwpKVxuYGBgXG5gYGAifQ== --&gt;
+<!-- rnb-html-end -->
 
-```r
-```r
-readr::write_csv(taxas_anuais, here(\03_dadosDeSaida/dados\, \taxas_anuais.csv\))</code></pre>
-<p>```</p>
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Esec Serra Geral do
+Tocantins</caption>
+<colgroup>
+<col width="3%" />
+<col width="36%" />
+<col width="23%" />
+<col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">11</td>
+<td align="center">Esec Serra Geral do Tocantins</td>
+<td align="left">Rhynchotus rufescen</td>
+<td align="left">0.408</td>
+<td align="right">0.000</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">12</td>
+<td align="center">Esec Serra Geral do Tocantins</td>
+<td align="left">Dasypus novemcinctu</td>
+<td align="left">0.000</td>
+<td align="right">0.204</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">13</td>
+<td align="center">Esec Serra Geral do Tocantins</td>
+<td align="left">Mazama gouazoubir</td>
+<td align="left">0.000</td>
+<td align="right">0.408</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Flona do
+Jamari</caption>
+<colgroup>
+<col width="3%" />
+<col width="28%" />
+<col width="26%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">14</td>
+<td align="center">Flona do Jamari</td>
+<td align="left">Ateles chamek</td>
+<td align="left">0.12</td>
+<td align="right">0.167</td>
+<td align="right">0.154</td>
+<td align="right">0.125</td>
+<td align="right">0.075</td>
+<td align="right">0.113</td>
+</tr>
+<tr class="even">
+<td align="left">15</td>
+<td align="center">Flona do Jamari</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">0.16</td>
+<td align="right">0.300</td>
+<td align="right">0.446</td>
+<td align="right">0.262</td>
+<td align="right">0.133</td>
+<td align="right">0.130</td>
+</tr>
+<tr class="odd">
+<td align="left">16</td>
+<td align="center">Flona do Jamari</td>
+<td align="left">Pauxi tuberosa</td>
+<td align="left">0.20</td>
+<td align="right">0.100</td>
+<td align="right">0.200</td>
+<td align="right">0.062</td>
+<td align="right">0.025</td>
+<td align="right">0.087</td>
+</tr>
+<tr class="even">
+<td align="left">17</td>
+<td align="center">Flona do Jamari</td>
+<td align="left">Saguinus weddelli</td>
+<td align="left">0.12</td>
+<td align="right">0.067</td>
+<td align="right">0.138</td>
+<td align="right">0.162</td>
+<td align="right">0.092</td>
+<td align="right">0.078</td>
+</tr>
+<tr class="odd">
+<td align="left">18</td>
+<td align="center">Flona do Jamari</td>
+<td align="left">Sapajus apella</td>
+<td align="left">0.28</td>
+<td align="right">0.067</td>
+<td align="right">0.308</td>
+<td align="right">0.288</td>
+<td align="right">0.175</td>
+<td align="right">0.200</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna da
+Amazônia</caption>
+<colgroup>
+<col width="3%" />
+<col width="30%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">19</td>
+<td align="center">Parna da Amazônia</td>
+<td align="left">Dasyprocta croconota</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.376</td>
+<td align="right">0.188</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">20</td>
+<td align="center">Parna da Amazônia</td>
+<td align="left">Mico humeralifer</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.097</td>
+<td align="right">0.125</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">21</td>
+<td align="center">Parna da Amazônia</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.344</td>
+<td align="right">0.425</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna da Serra da
+Bocaina</caption>
+<colgroup>
+<col width="3%" />
+<col width="33%" />
+<col width="21%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">22</td>
+<td align="center">Parna da Serra da Bocaina</td>
+<td align="left">Penelope obscura</td>
+<td align="left">0.227</td>
+<td align="right">0.189</td>
+<td align="right">0.318</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna da Serra da
+Bodoquena</caption>
+<colgroup>
+<col width="3%" />
+<col width="36%" />
+<col width="15%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">23</td>
+<td align="center">Parna da Serra da Bodoquena</td>
+<td align="left">Sapajus cay</td>
+<td align="left">0.131</td>
+<td align="right">0.565</td>
+<td align="right">0.673</td>
+<td align="right">0.329</td>
+<td align="right">0.541</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Parna da Serra do
+Cipó</caption>
+<colgroup>
+<col width="3%" />
+<col width="29%" />
+<col width="28%" />
+<col width="7%" />
+<col width="6%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">24</td>
+<td align="center">Parna da Serra do Cipó</td>
+<td align="left">Callithrix penicillata</td>
+<td align="left">0.375</td>
+<td align="right">NA</td>
+<td align="right">0.333</td>
+<td align="right">0.5</td>
+<td align="right">0.5</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna da Serra do
+Divisor</caption>
+<colgroup>
+<col width="3%" />
+<col width="32%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">25</td>
+<td align="center">Parna da Serra do Divisor</td>
+<td align="left">Aburria cumanensis</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.10</td>
+<td align="right">0.138</td>
+</tr>
+<tr class="even">
+<td align="left">26</td>
+<td align="center">Parna da Serra do Divisor</td>
+<td align="left">Ateles chamek</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.15</td>
+<td align="right">0.169</td>
+</tr>
+<tr class="odd">
+<td align="left">27</td>
+<td align="center">Parna da Serra do Divisor</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.30</td>
+<td align="right">0.185</td>
+</tr>
+<tr class="even">
+<td align="left">28</td>
+<td align="center">Parna da Serra do Divisor</td>
+<td align="left">Myoprocta pratti</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.15</td>
+<td align="right">0.092</td>
+</tr>
+<tr class="odd">
+<td align="left">29</td>
+<td align="center">Parna da Serra do Divisor</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.35</td>
+<td align="right">0.462</td>
+</tr>
+<tr class="even">
+<td align="left">30</td>
+<td align="center">Parna da Serra do Divisor</td>
+<td align="left">Pithecia monachus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.30</td>
+<td align="right">0.062</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna da Serra do
+Pardo</caption>
+<colgroup>
+<col width="3%" />
+<col width="29%" />
+<col width="27%" />
+<col width="5%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">31</td>
+<td align="center">Parna da Serra do Pardo</td>
+<td align="left">Dasyprocta croconota</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.667</td>
+<td align="right">0.688</td>
+<td align="right">0.450</td>
+<td align="right">0.866</td>
+</tr>
+<tr class="even">
+<td align="left">32</td>
+<td align="center">Parna da Serra do Pardo</td>
+<td align="left">Guerlinguetus aestuans</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.114</td>
+<td align="right">0.176</td>
+<td align="right">0.112</td>
+<td align="right">0.088</td>
+</tr>
+<tr class="odd">
+<td align="left">33</td>
+<td align="center">Parna da Serra do Pardo</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.514</td>
+<td align="right">0.432</td>
+<td align="right">0.500</td>
+<td align="right">0.477</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Parna da Serra dos
+Órgãos</caption>
+<colgroup>
+<col width="3%" />
+<col width="31%" />
+<col width="27%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">34</td>
+<td align="center">Parna da Serra dos Órgãos</td>
+<td align="left">Brachyteles arachnoides</td>
+<td align="left">0.290</td>
+<td align="right">0.348</td>
+<td align="right">0.000</td>
+<td align="right">0.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">35</td>
+<td align="center">Parna da Serra dos Órgãos</td>
+<td align="left">Odontophorus capueira</td>
+<td align="left">0.290</td>
+<td align="right">0.000</td>
+<td align="right">0.698</td>
+<td align="right">0.0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">36</td>
+<td align="center">Parna da Serra dos Órgãos</td>
+<td align="left">Sapajus nigritus</td>
+<td align="left">0.145</td>
+<td align="right">0.261</td>
+<td align="right">0.000</td>
+<td align="right">0.5</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Parna do Cabo
+Orange</caption>
+<colgroup>
+<col width="3%" />
+<col width="29%" />
+<col width="24%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">37</td>
+<td align="center">Parna do Cabo Orange</td>
+<td align="left">Dasyprocta leporina</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.188</td>
+<td align="right">0.141</td>
+<td align="right">0.092</td>
+<td align="right">0.055</td>
+</tr>
+<tr class="even">
+<td align="left">38</td>
+<td align="center">Parna do Cabo Orange</td>
+<td align="left">Myoprocta acouchy</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.118</td>
+<td align="right">0.118</td>
+<td align="right">0.131</td>
+<td align="right">0.110</td>
+</tr>
+<tr class="odd">
+<td align="left">39</td>
+<td align="center">Parna do Cabo Orange</td>
+<td align="left">Saguinus midas</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.106</td>
+<td align="right">0.071</td>
+<td align="right">0.231</td>
+<td align="right">0.110</td>
+</tr>
+<tr class="even">
+<td align="left">40</td>
+<td align="center">Parna do Cabo Orange</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.306</td>
+<td align="right">0.306</td>
+<td align="right">0.300</td>
+<td align="right">0.241</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna do
+Iguaçu</caption>
+<colgroup>
+<col width="4%" />
+<col width="32%" />
+<col width="22%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">41</td>
+<td align="center">Parna do Iguaçu</td>
+<td align="left">Sapajus nigritus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.48</td>
+<td align="right">0.267</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna do Jaú</caption>
+<colgroup>
+<col width="3%" />
+<col width="30%" />
+<col width="22%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">42</td>
+<td align="center">Parna do Jaú</td>
+<td align="left">Myoprocta pratti</td>
+<td align="left">NA</td>
+<td align="right">0.137</td>
+<td align="right">0.105</td>
+<td align="right">0.129</td>
+<td align="right">0.144</td>
+<td align="right">0.286</td>
+</tr>
+<tr class="even">
+<td align="left">43</td>
+<td align="center">Parna do Jaú</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">NA</td>
+<td align="right">0.105</td>
+<td align="right">0.114</td>
+<td align="right">0.171</td>
+<td align="right">0.067</td>
+<td align="right">0.129</td>
+</tr>
+<tr class="odd">
+<td align="left">44</td>
+<td align="center">Parna do Jaú</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">0.147</td>
+<td align="right">0.190</td>
+<td align="right">0.371</td>
+<td align="right">0.089</td>
+<td align="right">0.286</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Parna Montanhas do
+Tumucumaque</caption>
+<colgroup>
+<col width="3%" />
+<col width="35%" />
+<col width="22%" />
+<col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">45</td>
+<td align="center">Parna Montanhas do Tumucumaque</td>
+<td align="left">Dasyprocta leporina</td>
+<td align="left">0.5</td>
+<td align="right">0.212</td>
+<td align="right">0.289</td>
+<td align="right">0.072</td>
+<td align="right">0.083</td>
+<td align="right">0.144</td>
+</tr>
+<tr class="even">
+<td align="left">46</td>
+<td align="center">Parna Montanhas do Tumucumaque</td>
+<td align="left">Myoprocta acouchy</td>
+<td align="left">0.3</td>
+<td align="right">0.200</td>
+<td align="right">0.233</td>
+<td align="right">0.136</td>
+<td align="right">0.050</td>
+<td align="right">0.208</td>
+</tr>
+<tr class="odd">
+<td align="left">47</td>
+<td align="center">Parna Montanhas do Tumucumaque</td>
+<td align="left">Saguinus midas</td>
+<td align="left">0.4</td>
+<td align="right">0.175</td>
+<td align="right">0.256</td>
+<td align="right">0.160</td>
+<td align="right">0.275</td>
+<td align="right">0.176</td>
+</tr>
+<tr class="even">
+<td align="left">48</td>
+<td align="center">Parna Montanhas do Tumucumaque</td>
+<td align="left">Tinamus major</td>
+<td align="left">0.1</td>
+<td align="right">0.112</td>
+<td align="right">0.267</td>
+<td align="right">0.272</td>
+<td align="right">0.150</td>
+<td align="right">0.240</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna da Serra da
+Cutia</caption>
+<colgroup>
+<col width="3%" />
+<col width="30%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="6%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">49</td>
+<td align="center">Parna da Serra da Cutia</td>
+<td align="left">Ateles chamek</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.200</td>
+<td align="right">0.26</td>
+<td align="right">0.080</td>
+</tr>
+<tr class="even">
+<td align="left">50</td>
+<td align="center">Parna da Serra da Cutia</td>
+<td align="left">Callicebus brunneus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.233</td>
+<td align="right">0.20</td>
+<td align="right">0.240</td>
+</tr>
+<tr class="odd">
+<td align="left">51</td>
+<td align="center">Parna da Serra da Cutia</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.300</td>
+<td align="right">0.30</td>
+<td align="right">0.333</td>
+</tr>
+<tr class="even">
+<td align="left">52</td>
+<td align="center">Parna da Serra da Cutia</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.100</td>
+<td align="right">0.64</td>
+<td align="right">0.293</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Parna Serra da
+Mocidade</caption>
+<colgroup>
+<col width="3%" />
+<col width="30%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">53</td>
+<td align="center">Parna Serra da Mocidade</td>
+<td align="left">Cebus olivaceus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.044</td>
+<td align="right">0.050</td>
+<td align="right">0.300</td>
+</tr>
+<tr class="even">
+<td align="left">54</td>
+<td align="center">Parna Serra da Mocidade</td>
+<td align="left">Chiropotes chiropotes</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.067</td>
+<td align="right">0.175</td>
+<td align="right">0.467</td>
+</tr>
+<tr class="odd">
+<td align="left">55</td>
+<td align="center">Parna Serra da Mocidade</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.111</td>
+<td align="right">0.075</td>
+<td align="right">0.200</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Rebio do
+Gurupi</caption>
+<colgroup>
+<col width="3%" />
+<col width="28%" />
+<col width="27%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">56</td>
+<td align="center">Rebio do Gurupi</td>
+<td align="left">Chiropotes satanas</td>
+<td align="left">NA</td>
+<td align="right">0.444</td>
+<td align="right">0.100</td>
+<td align="right">0.125</td>
+<td align="right">0.125</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">57</td>
+<td align="center">Rebio do Gurupi</td>
+<td align="left">Dasyprocta prymnolopha</td>
+<td align="left">NA</td>
+<td align="right">0.111</td>
+<td align="right">0.133</td>
+<td align="right">1.042</td>
+<td align="right">1.562</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">58</td>
+<td align="center">Rebio do Gurupi</td>
+<td align="left">Pecari tajacu</td>
+<td align="left">NA</td>
+<td align="right">0.333</td>
+<td align="right">0.067</td>
+<td align="right">0.125</td>
+<td align="right">0.062</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">59</td>
+<td align="center">Rebio do Gurupi</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">0.111</td>
+<td align="right">0.033</td>
+<td align="right">0.250</td>
+<td align="right">0.156</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">60</td>
+<td align="center">Rebio do Gurupi</td>
+<td align="left">Alouatta belzebul</td>
+<td align="left">NA</td>
+<td align="right">0.000</td>
+<td align="right">0.233</td>
+<td align="right">0.208</td>
+<td align="right">0.094</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">61</td>
+<td align="center">Rebio do Gurupi</td>
+<td align="left">Guerlinguetus aestuans</td>
+<td align="left">NA</td>
+<td align="right">0.000</td>
+<td align="right">0.067</td>
+<td align="right">0.375</td>
+<td align="right">0.312</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Rebio do Jaru</caption>
+<colgroup>
+<col width="3%" />
+<col width="28%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">62</td>
+<td align="center">Rebio do Jaru</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.309</td>
+<td align="right">0.257</td>
+<td align="right">0.252</td>
+<td align="right">0.384</td>
+</tr>
+<tr class="even">
+<td align="left">63</td>
+<td align="center">Rebio do Jaru</td>
+<td align="left">Lagothrix cana</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.127</td>
+<td align="right">0.143</td>
+<td align="right">0.297</td>
+<td align="right">0.296</td>
+</tr>
+<tr class="odd">
+<td align="left">64</td>
+<td align="center">Rebio do Jaru</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.064</td>
+<td align="right">0.210</td>
+<td align="right">0.123</td>
+<td align="right">0.168</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Rebio do
+Tapirapé</caption>
+<colgroup>
+<col width="3%" />
+<col width="29%" />
+<col width="24%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">65</td>
+<td align="center">Rebio do Tapirapé</td>
+<td align="left">Dasyprocta leporina</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.233</td>
+<td align="right">0.400</td>
+<td align="right">0.350</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">66</td>
+<td align="center">Rebio do Tapirapé</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.200</td>
+<td align="right">0.114</td>
+<td align="right">0.075</td>
+<td align="right">0.224</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Rebio do
+Uatumã</caption>
+<colgroup>
+<col width="3%" />
+<col width="28%" />
+<col width="24%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">67</td>
+<td align="center">Rebio do Uatumã</td>
+<td align="left">Ateles paniscus</td>
+<td align="left">0.235</td>
+<td align="right">0.288</td>
+<td align="right">0.160</td>
+<td align="right">0.152</td>
+<td align="right">0.177</td>
+<td align="right">0.151</td>
+</tr>
+<tr class="even">
+<td align="left">68</td>
+<td align="center">Rebio do Uatumã</td>
+<td align="left">Crax alector</td>
+<td align="left">0.165</td>
+<td align="right">0.376</td>
+<td align="right">0.160</td>
+<td align="right">0.112</td>
+<td align="right">0.146</td>
+<td align="right">0.085</td>
+</tr>
+<tr class="odd">
+<td align="left">69</td>
+<td align="center">Rebio do Uatumã</td>
+<td align="left">Dasyprocta leporina</td>
+<td align="left">0.209</td>
+<td align="right">0.472</td>
+<td align="right">0.440</td>
+<td align="right">0.232</td>
+<td align="right">0.269</td>
+<td align="right">0.335</td>
+</tr>
+<tr class="even">
+<td align="left">70</td>
+<td align="center">Rebio do Uatumã</td>
+<td align="left">Myoprocta acouchy</td>
+<td align="left">0.609</td>
+<td align="right">1.288</td>
+<td align="right">1.567</td>
+<td align="right">0.760</td>
+<td align="right">1.069</td>
+<td align="right">1.182</td>
+</tr>
+<tr class="odd">
+<td align="left">71</td>
+<td align="center">Rebio do Uatumã</td>
+<td align="left">Psophia crepitans</td>
+<td align="left">0.122</td>
+<td align="right">0.200</td>
+<td align="right">0.133</td>
+<td align="right">0.128</td>
+<td align="right">0.108</td>
+<td align="right">0.085</td>
+</tr>
+<tr class="even">
+<td align="left">72</td>
+<td align="center">Rebio do Uatumã</td>
+<td align="left">Sapajus apella</td>
+<td align="left">0.191</td>
+<td align="right">0.272</td>
+<td align="right">0.267</td>
+<td align="right">0.264</td>
+<td align="right">0.308</td>
+<td align="right">0.236</td>
+</tr>
+<tr class="odd">
+<td align="left">73</td>
+<td align="center">Rebio do Uatumã</td>
+<td align="left">Tinamus major</td>
+<td align="left">0.270</td>
+<td align="right">0.304</td>
+<td align="right">0.493</td>
+<td align="right">0.208</td>
+<td align="right">0.177</td>
+<td align="right">0.250</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Resex Barreiro das
+Antas</caption>
+<colgroup>
+<col width="3%" />
+<col width="31%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">74</td>
+<td align="center">Resex Barreiro das Antas</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.267</td>
+<td align="right">0.300</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">75</td>
+<td align="center">Resex Barreiro das Antas</td>
+<td align="left">Pecari tajacu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.267</td>
+<td align="right">0.038</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">76</td>
+<td align="center">Resex Barreiro das Antas</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.467</td>
+<td align="right">0.262</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Resex Chico
+Mendes</caption>
+<colgroup>
+<col width="3%" />
+<col width="29%" />
+<col width="27%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">77</td>
+<td align="center">Resex Chico Mendes</td>
+<td align="left">Alouatta puruensis</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.086</td>
+<td align="right">0.167</td>
+</tr>
+<tr class="even">
+<td align="left">78</td>
+<td align="center">Resex Chico Mendes</td>
+<td align="left">Callicebus cupreus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.121</td>
+<td align="right">0.167</td>
+</tr>
+<tr class="odd">
+<td align="left">79</td>
+<td align="center">Resex Chico Mendes</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.157</td>
+<td align="right">0.150</td>
+</tr>
+<tr class="even">
+<td align="left">80</td>
+<td align="center">Resex Chico Mendes</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.229</td>
+<td align="right">0.183</td>
+</tr>
+<tr class="odd">
+<td align="left">81</td>
+<td align="center">Resex Chico Mendes</td>
+<td align="left">Saguinus imperator</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.157</td>
+<td align="right">0.175</td>
+</tr>
+<tr class="even">
+<td align="left">82</td>
+<td align="center">Resex Chico Mendes</td>
+<td align="left">Saimiri boliviensis</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.200</td>
+<td align="right">0.150</td>
+</tr>
+<tr class="odd">
+<td align="left">83</td>
+<td align="center">Resex Chico Mendes</td>
+<td align="left">Sapajus macrocephalus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.286</td>
+<td align="right">0.242</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Resex
+Cazumbá-Iracema</caption>
+<colgroup>
+<col width="3%" />
+<col width="28%" />
+<col width="26%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="5%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">84</td>
+<td align="center">Resex Cazumbá-Iracema</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">0.232</td>
+<td align="right">0.271</td>
+<td align="right">0.256</td>
+<td align="right">0.100</td>
+<td align="right">0.17</td>
+<td align="right">0.200</td>
+</tr>
+<tr class="even">
+<td align="left">85</td>
+<td align="center">Resex Cazumbá-Iracema</td>
+<td align="left">Pecari tajacu</td>
+<td align="left">0.168</td>
+<td align="right">0.153</td>
+<td align="right">0.111</td>
+<td align="right">0.111</td>
+<td align="right">0.18</td>
+<td align="right">0.095</td>
+</tr>
+<tr class="odd">
+<td align="left">86</td>
+<td align="center">Resex Cazumbá-Iracema</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">0.211</td>
+<td align="right">0.200</td>
+<td align="right">0.178</td>
+<td align="right">0.200</td>
+<td align="right">0.27</td>
+<td align="right">0.286</td>
+</tr>
+<tr class="even">
+<td align="left">87</td>
+<td align="center">Resex Cazumbá-Iracema</td>
+<td align="left">Sapajus macrocephalus</td>
+<td align="left">0.189</td>
+<td align="right">0.153</td>
+<td align="right">0.200</td>
+<td align="right">0.189</td>
+<td align="right">0.16</td>
+<td align="right">0.152</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Resex Rio Ouro
+Preto</caption>
+<colgroup>
+<col width="3%" />
+<col width="29%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">88</td>
+<td align="center">Resex Rio Ouro Preto</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.109</td>
+<td align="right">0.139</td>
+<td align="right">0.181</td>
+</tr>
+<tr class="even">
+<td align="left">89</td>
+<td align="center">Resex Rio Ouro Preto</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.514</td>
+<td align="right">0.297</td>
+<td align="right">0.343</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Resex Riozinho do
+Anfrísio</caption>
+<colgroup>
+<col width="3%" />
+<col width="31%" />
+<col width="26%" />
+<col width="5%" />
+<col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">90</td>
+<td align="center">Resex Riozinho do Anfrísio</td>
+<td align="left">Callicebus moloch</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.150</td>
+<td align="right">0.042</td>
+<td align="right">0.350</td>
+<td align="right">0.067</td>
+</tr>
+<tr class="even">
+<td align="left">91</td>
+<td align="center">Resex Riozinho do Anfrísio</td>
+<td align="left">Dasyprocta croconota</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.775</td>
+<td align="right">0.583</td>
+<td align="right">1.283</td>
+<td align="right">0.627</td>
+</tr>
+<tr class="odd">
+<td align="left">92</td>
+<td align="center">Resex Riozinho do Anfrísio</td>
+<td align="left">Mazama americana</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.025</td>
+<td align="right">0.108</td>
+<td align="right">0.333</td>
+<td align="right">0.040</td>
+</tr>
+<tr class="even">
+<td align="left">93</td>
+<td align="center">Resex Riozinho do Anfrísio</td>
+<td align="left">Odontophorus gujanensis</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.300</td>
+<td align="right">0.125</td>
+<td align="right">0.050</td>
+<td align="right">0.240</td>
+</tr>
+<tr class="odd">
+<td align="left">94</td>
+<td align="center">Resex Riozinho do Anfrísio</td>
+<td align="left">Pauxi tuberosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.075</td>
+<td align="right">0.100</td>
+<td align="right">0.133</td>
+<td align="right">0.173</td>
+</tr>
+<tr class="even">
+<td align="left">95</td>
+<td align="center">Resex Riozinho do Anfrísio</td>
+<td align="left">Psophia dextralis</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.100</td>
+<td align="right">0.083</td>
+<td align="right">0.233</td>
+<td align="right">0.067</td>
+</tr>
+<tr class="odd">
+<td align="left">96</td>
+<td align="center">Resex Riozinho do Anfrísio</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.650</td>
+<td align="right">0.167</td>
+<td align="right">0.567</td>
+<td align="right">0.320</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table>
+<caption>Taxa de encontro anual por população - Resex
+Tapajós-Arapiuns</caption>
+<colgroup>
+<col width="3%" />
+<col width="28%" />
+<col width="25%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">97</td>
+<td align="center">Resex Tapajós-Arapiuns</td>
+<td align="left">Dasyprocta croconota</td>
+<td align="left">0.10</td>
+<td align="right">0.553</td>
+<td align="right">0.768</td>
+<td align="right">0.605</td>
+<td align="right">0.584</td>
+<td align="right">0.665</td>
+</tr>
+<tr class="even">
+<td align="left">98</td>
+<td align="center">Resex Tapajós-Arapiuns</td>
+<td align="left">Sapajus apella</td>
+<td align="left">0.16</td>
+<td align="right">0.102</td>
+<td align="right">0.102</td>
+<td align="right">0.222</td>
+<td align="right">0.225</td>
+<td align="right">0.218</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Resex Alto
+Tarauacá</caption>
+<colgroup>
+<col width="4%" />
+<col width="28%" />
+<col width="27%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">99</td>
+<td align="center">Resex Alto Tarauacá</td>
+<td align="left">Myoprocta pratti</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.06</td>
+<td align="right">0.158</td>
+<td align="right">0.446</td>
+</tr>
+<tr class="even">
+<td align="left">100</td>
+<td align="center">Resex Alto Tarauacá</td>
+<td align="left">Odontophorus stellatus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.04</td>
+<td align="right">0.116</td>
+<td align="right">0.246</td>
+</tr>
+<tr class="odd">
+<td align="left">101</td>
+<td align="center">Resex Alto Tarauacá</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.20</td>
+<td align="right">0.442</td>
+<td align="right">0.538</td>
+</tr>
+<tr class="even">
+<td align="left">102</td>
+<td align="center">Resex Alto Tarauacá</td>
+<td align="left">Pithecia irrorata</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.08</td>
+<td align="right">0.137</td>
+<td align="right">0.169</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna do
+Juruena</caption>
+<colgroup>
+<col width="4%" />
+<col width="28%" />
+<col width="26%" />
+<col width="5%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">103</td>
+<td align="center">Parna do Juruena</td>
+<td align="left">Ateles chamek</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.186</td>
+<td align="right">0.273</td>
+<td align="right">0.244</td>
+<td align="right">0.168</td>
+</tr>
+<tr class="even">
+<td align="left">104</td>
+<td align="center">Parna do Juruena</td>
+<td align="left">Dasyprocta fuliginosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.200</td>
+<td align="right">0.209</td>
+<td align="right">0.256</td>
+<td align="right">0.347</td>
+</tr>
+<tr class="odd">
+<td align="left">105</td>
+<td align="center">Parna do Juruena</td>
+<td align="left">Lagothrix cana</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.200</td>
+<td align="right">0.164</td>
+<td align="right">0.267</td>
+<td align="right">0.084</td>
+</tr>
+<tr class="even">
+<td align="left">106</td>
+<td align="center">Parna do Juruena</td>
+<td align="left">Mico melanurus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.157</td>
+<td align="right">0.136</td>
+<td align="right">0.133</td>
+<td align="right">0.042</td>
+</tr>
+<tr class="odd">
+<td align="left">107</td>
+<td align="center">Parna do Juruena</td>
+<td align="left">Pauxi tuberosa</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.171</td>
+<td align="right">0.182</td>
+<td align="right">0.211</td>
+<td align="right">0.095</td>
+</tr>
+<tr class="even">
+<td align="left">108</td>
+<td align="center">Parna do Juruena</td>
+<td align="left">Sapajus apella</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">0.221</td>
+<td align="right">0.291</td>
+<td align="right">0.211</td>
+<td align="right">0.168</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+
+<!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImtuaXRfYXNpcyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
+
+<table style="width:100%;">
+<caption>Taxa de encontro anual por população - Parna
+Mapinguari</caption>
+<colgroup>
+<col width="4%" />
+<col width="28%" />
+<col width="26%" />
+<col width="6%" />
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Unidade de Conservação</th>
+<th align="left">Espécie</th>
+<th align="left">2014</th>
+<th align="right">2015</th>
+<th align="right">2016</th>
+<th align="right">2017</th>
+<th align="right">2018</th>
+<th align="right">2019</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">109</td>
+<td align="center">Parna Mapinguari</td>
+<td align="left">Lagothrix cana</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.250</td>
+<td align="right">0.075</td>
+<td align="right">0.130</td>
+</tr>
+<tr class="even">
+<td align="left">110</td>
+<td align="center">Parna Mapinguari</td>
+<td align="left">Penelope jacquacu</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.225</td>
+<td align="right">0.217</td>
+<td align="right">0.183</td>
+</tr>
+<tr class="odd">
+<td align="left">111</td>
+<td align="center">Parna Mapinguari</td>
+<td align="left">Sapajus macrocephalus</td>
+<td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">0.500</td>
+<td align="right">0.092</td>
+<td align="right">0.157</td>
+</tr>
+</tbody>
+</table>
+
+
+<!-- rnb-html-end -->
+
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="exporta-arquivo-de-taxas-anuais" class="section level2">
+<h2>EXPORTA ARQUIVO DE TAXAS ANUAIS</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVhZHI6OndyaXRlX2Nzdih0YXhhc19hbnVhaXMsIGhlcmUoXCIwM19kYWRvc0RlU2FpZGEvZGFkb3NcIiwgXCJ0YXhhc19hbnVhaXMuY3N2XCIpKVxuYGBgIn0= -->
+<pre class="r"><code>readr::write_csv(taxas_anuais, here(&quot;03_dadosDeSaida/dados&quot;, &quot;taxas_anuais.csv&quot;))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnRlIDAyIC0gUFJFUEFSQcOHw4NPIERFIERBRE9TIFBBUkEgQ8OBTENVTE8gREUgTFBJIEUgQ8OBTENVTE8gREUgVEFYQSBERSBFTkNPTlRSTyBBTlVBTCINCm91dHB1dDoNCiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0DQogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQNCiAgd29yZF9kb2N1bWVudDogZGVmYXVsdA0KICBodG1sX2RvY3VtZW50Og0KICAgIGRmX3ByaW50OiBwYWdlZA0KZWRpdG9yX29wdGlvbnM6IA0KICBtYXJrZG93bjogDQogICAgd3JhcDogNzINCi0tLQ0KDQpTY3JpcHQgZGUgcHJlcGFyYcOnw6NvIGRlIGRhZG9zIHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7Vlcw0KZGlzcG9uw612ZWlzIFtuZXN0ZQ0KbGlua10oaHR0cHM6Ly9naXRodWIuY29tL1pvb2xvZ2ljYWwtU29jaWV0eS1vZi1Mb25kb24vcmxwaSkuDQoNCioqRW0gZmFzZSBkZSBURVNURSoqDQoNCkFkYXB0YcOnw6NvOiAgICAgICAgRWxpbGRvIENhcnZhbGhvIEpyLCBJQ01CaW8vQ0VOQVANCg0KRGVzZW52b2x2aW1lbnRvOiAgRmVybmFuZG8gTGltYSwgQWxnb3JpdG1vDQoNCiMjIFBSRVBBUkHDh8ODTw0KDQojIyMgUEFDT1RFUw0KDQpgYGB7ciBwYWNvdGVzLCBtZXNzYWdlPUZBTFNFfQ0Kcm0obGlzdCA9IGxzKGFsbCA9IFRSVUUpKQ0Kc291cmNlKCIuLi9mdW5jb2VzL3BhY290ZXMuUiIpDQpwYWNvdGVzKCJoZXJlIiwgImRwbHlyIiwidGlkeXZlcnNlIiwgImtuaXRyIiwicmVhZHIiKQ0KYGBgDQoNCiMjIyBQUkVQQVJBw4fDg08gREUgREFET1MgUEFSQSBDw4FMQ1VMTyBERSBMUEkNCg0KTyBhcnF1aXZvIGBkYWRvc0lDTUJpb18yMDE0YTIwMTkucmRzYCBkZXZlIHNlciBnZXJhZG8gbmEgZXRhcGEgYW50ZXJpb3INCmF0cmF2w6lzIGRlIGBwYXJ0MDEtZml4UmF3RGF0YS5SbWRgDQoNCiMjIyBDYXJyZWdhciBhcnF1aXZvcw0KDQpgYGB7cn0NCm15ZGF0YSA8LSByZWFkUkRTKA0KICBoZXJlKCIwM19kYWRvc0RlU2FpZGEvZGFkb3MiLCAiZGFkb3NJQ01CaW9fMjAxNGEyMDE5LnJkcyIpKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIENvbnRhZ2Vucw0KDQpgYGB7cn0NCiNDb250YWdlbSBkZSBVQ3MNCnVjcyA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIG5vbWVfVUMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQojQ29udGFnZW0gZGUgZXNww6ljaWVzDQpzcCA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbGFzc2UsDQogICAgb3JkZW0sDQogICAgZmFtaWxpYSwNCiAgICBnZW5lcm8sDQogICAgYmlub21pYWwNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikpDQojQ29udGFnZW0gZGUgcG9wdWxhw6fDtWVzDQpwb3B1bGF0aW9uIDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIG5vbWVfVUMsDQogICAgcG9wdWxhY2FvLA0KICAgIGNudWMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIoKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIEPDoWxjdWxvIGRlIGVzZm9yw6dvDQoNCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIHBhZ2VkLnByaW50PUZBTFNFfQ0KZWZmb3J0IDwtIG15ZGF0YSAlPiUNCiNBR1JVUEFSIFBPUiBVTklEQURFIERFIENPTlNFUlZBw4fDg08gRSBBTk8NCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBhbm8NCiAgICApJT4lDQojU09NQVIgRVNGT1LDh08gQU5VQUwgUE9SIFVOSURBREUgREUgQ09OU0VSVkHDh8ODTw0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIHN1bShlc2ZvcmNvLA0KICAgICAgICBuYS5ybSA9IFRSVUUpDQogICAgKSU+JQ0KI1JFTk9NRUFSIENPTFVOQSBSRVNVTFRBTlRFDQogIGRwbHlyOjpyZW5hbWUoDQogICAgZWZmb3J0ID0gInN1bShlc2ZvcmNvLCBuYS5ybSA9IFRSVUUpIikNCmBgYA0KDQojIyMgU2VsZcOnw6NvIHBvciBjcml0w6lyaW9zDQoNClNlbGVjaW9uYXIgVUNzIFNlbGXDp8OjbyBkZSBVQ3MgY29tIG1haXMgZGUgMSBhbm8gZGUgYW1vc3RyYWdlbS4NCg0KYGBge3J9DQp1Y3Nfc2VsZWNpb25hZGFzIDwtIGVmZm9ydCAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KGNudWMNCiAgICAgICAgICAgKSU+JSANCiAgZHBseXI6OmNvdW50KA0KICAgICklPiUNCiAgZHBseXI6OmZpbHRlcihuID4gMQ0KICAgICAgICAgICAgICAgICklPiUNCiAgZHBseXI6OnB1bGwoY251YykNCmBgYA0KDQojIyMgRmlsdHJhcg0KDQpGaWx0cmFyIGRhZG9zIGdlcmFpcyBtYW50ZW5kbyBzb21lbnRlIFVDcyBzZWxlY2lvbmFkYXMNCg0KYGBge3J9DQpteWRhdGEgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6ZmlsdGVyKGNudWMgJWluJSB1Y3Nfc2VsZWNpb25hZGFzDQogICAgICAgICAgICAgICAgKSU+JQ0KICBkcGx5cjo6ZmlsdGVyKA0KICAgIGNudWMgIT0xODEwDQogICkNCmBgYA0KXG5ld3BhZ2UNCiMjIEVTRk9Sw4dPIEFOVUFMDQojIyMgRXNmb3LDp28gYW51YWwgZW0ga20NCg0KYGBge3IsIG1lc3NhZ2U9RkFMU0V9DQplc2ZvcmNvX2FudWFsIDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgYW5vDQogICAgKSU+JQ0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIGVzZm9yY28gPSBzdW0oDQogICAgICBlc2ZvcmNvLA0KICAgICAgbmEucm0gPSBUUlVFKQ0KICAgICkNCiNDw4FMQ1VMTyBQQVJBIFJFTEFUw5NSSU8NCmVzZm9yY29BbnVhbFJlcG9ydCA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIG5vbWVfVUMsDQogICAgYW5vDQogICAgKSU+JQ0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIGVzZm9yY28gPSBzdW0oDQogICAgICBlc2ZvcmNvLA0KICAgICAgbmEucm0gPSBUUlVFKQ0KICAgICkNCmBgYA0KDQojIyMgRXNmb3LDp28gYW51YWwgZW0gZm9ybWF0byAqd2lkZSoNCmBgYHtyfQ0KZXNmb3Jjb19hbnVhbF93aWRlIDwtIGVzZm9yY29fYW51YWwgJT4lDQogIHRpZHlyOjpwaXZvdF93aWRlcigNCiAgICBuYW1lc19mcm9tID0gYW5vLA0KICAgIHZhbHVlc19mcm9tID0gZXNmb3Jjbw0KICAgICklPiUNCiAgZHBseXI6OnNlbGVjdCgNCiAgICBjbnVjLA0KICAgIGAyMDE0YCwNCiAgICBgMjAxNWAsDQogICAgYDIwMTZgLA0KICAgIGAyMDE3YCwNCiAgICBgMjAxOGAsDQogICAgYDIwMTlgDQogICAgKSU+JQ0KICBkcGx5cjo6dW5ncm91cCgpDQojQ8OBTENVTE8gUEFSQSBSRUxBVMOTUklPDQplc2ZvcmNvQW51YWxXaWRlUmVwb3J0IDwtIGVzZm9yY29BbnVhbFJlcG9ydCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBlc2ZvcmNvDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YA0KICAgICklPiUNCiAgZHBseXI6OnVuZ3JvdXAoDQogICklPiUNCiAgZHBseXI6OnJlbmFtZShDTlVDID0gImNudWMiLCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gIm5vbWVfVUMiKQ0KI0dFUkFSIFRBQkVMQQ0Ka25pdHI6OmthYmxlKGVzZm9yY29BbnVhbFdpZGVSZXBvcnQsIGNhcHRpb24gPSAiRXNmb3LDp28gYW51YWwgZGFzIFVuaWRhZGVzIGRlIENvbnNlcnZhw6fDo28iKQ0KYGBgDQpcbmV3cGFnZQ0KIyMgTsOaTUVSTyBERSBSRUdJU1RST1MNCiMjIyBOw7ptZXJvIGRlIHJlZ2lzdHJvcyBhbnVhaXMNCg0KYGBge3J9DQpuX3JlZ2lzdHJvcyA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIGFubywNCiAgICBwb3B1bGFjYW8NCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQojTsOaTUVSTyBERSBSRUdJU1RST1MgUEFSQSBPIFJFTEFUw5NSSU8NCm5SZWdpc3Ryb3NSZXBvcnQgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6Z3JvdXBfYnkoDQogICAgY251YywNCiAgICBub21lX1VDLA0KICAgIGFubywNCiAgICBwb3B1bGFjYW8NCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQpgYGANCg0KIyMjIE7Dum1lcm8gZGUgcmVnaXN0cm9zIGFudWFpcyBlbSBmb3JtYXRvICp3aWRlKg0KDQpgYGB7cn0NCm5fcmVnaXN0cm9zX3dpZGUgPC0gbl9yZWdpc3Ryb3MgJT4lDQogIHRpZHlyOjpwaXZvdF93aWRlcigNCiAgICBuYW1lc19mcm9tID0gYW5vLA0KICAgIHZhbHVlc19mcm9tID0gbg0KICAgICklPiUNCiAgZHBseXI6OnNlbGVjdCgNCiAgICBjbnVjLA0KICAgIHBvcHVsYWNhbywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YA0KICAgICklPiUNCiAgcmVwbGFjZShpcy5uYSguKSwgMA0KICAgICAgICAgICklPiUNCiAgZHBseXI6OnVuZ3JvdXAoKQ0KI1BBUkEgUkVMQVTDk1JJTw0KblJlZ2lzdHJvc1dpZGVSZXBvcnQgPC0gblJlZ2lzdHJvc1JlcG9ydCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBuDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBwb3B1bGFjYW8sDQogICAgYDIwMTRgLA0KICAgIGAyMDE1YCwNCiAgICBgMjAxNmAsDQogICAgYDIwMTdgLA0KICAgIGAyMDE4YCwNCiAgICBgMjAxOWANCiAgICApJT4lDQogIHJlcGxhY2UoaXMubmEoLiksIDANCiAgICAgICAgICApJT4lDQogIGRwbHlyOjp1bmdyb3VwKA0KICAgICklPiUNCiAgZHBseXI6OnJlbmFtZShDTlVDID0gImNudWMiLCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gIm5vbWVfVUMiLCAiUG9wdWxhw6fDo28iID0gInBvcHVsYWNhbyIpDQpgYGANCg0KIyMjIE7Dum1lcm8gZGUgcmVnaXN0cm9zIHBvciBwb3B1bGHDp8Ojbw0KDQpPcGNpb25hbC4gUGFyYSB2aXN1YWxpemFyIGFzIHRhYmVsYXMgYWx0ZXJlIGluY2x1ZGUgPSBGQUxTRSBwYXJhIFRSVUUNCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnLCBpbmNsdWRlPUZBTFNFfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMpKSB7DQogIHByaW50KA0KICAgIGtuaXRyOjprYWJsZSgNCiAgICAgIG5SZWdpc3Ryb3NXaWRlUmVwb3J0W25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiTsO6bWVybyBkZSByZWdpc3Ryb3MgYW51YWlzIHBvciBwb3B1bGHDp8OjbyIsDQogICAgICAgICItIiwNCiAgICAgICAgdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gW25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhXQ0KICAgICAgICAgICAgICAgKSwNCiAgICAgICAgc2VwID0gIiAiKSwNCiAgICAgIGFsaWduID0gImNsbHJycnJycnIiKQ0KICAgICkNCn0NCmBgYA0KDQpcbmV3cGFnZQ0KIyMgVEFYQSBERSBFTkNPTlRSTyBBTlVBTA0KDQpFc3RpbWF0aXZhIGRlIGFidW5kw6JuY2lhIHJlbGF0aXZhIChuw7ptZXJvIGRlIHJlZ2lzdHJvcyBwb3IgZXNmb3LDp28pLg0KDQpOZXN0ZSBjYXNvICpOQXMqIGRldmVtIHNlciBtYW50aWRvcy4NCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gZGF0YS5mcmFtZShuX3JlZ2lzdHJvc193aWRlKQ0KZXNmb3Jjb3NfYW51YWlzIDwtIGRhdGEuZnJhbWUoZXNmb3Jjb19hbnVhbF93aWRlKQ0KDQpmb3IoaSBpbiAxOm5yb3codGF4YXNfYW51YWlzKSkgew0KICBjbnVjX3RlbXAgPC0gdGF4YXNfYW51YWlzW2ksICJjbnVjIl0NCiAgDQogIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lDQogICAgZHBseXI6OmZpbHRlcigNCiAgICAgIGNudWMgPT0gY251Y190ZW1wDQogICAgICApJT4lDQogICAgZHBseXI6OnNlbGVjdCgtY251YykNCiAgDQogIHRheGFzX2FudWFpc1tpLCAzOjhdIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjhdL2VzZm9yY29fdGVtcCwgMykNCn0NCg0KdGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpDQojdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpDQpgYGANCg0KIyMjIFNlbGXDp8OjbyBwb3IgY3JpdMOpcmlvDQpTZWxlY2lvbmFyIHBvcHVsYcOnw7VlcyBjb20gdGF4YSBkZSBhdmlzdGFtZW50byBtw6lkaWEgYWNpbWEgZGUgMC4xICgxDQppbmQvMTBrbSkNCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gdGF4YXNfYW51YWlzICU+JQ0KICBkcGx5cjo6bXV0YXRlKA0KICAgIG1lZGlhID0gcm93TWVhbnMoLlssMzo4XSwgbmEucm0gPSBUUlVFICkNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIobWVkaWEgPiAwLjENCiAgICAgICAgICAgICAgICApJT4lDQogIGRwbHlyOjpzZWxlY3QoLW1lZGlhKQ0KYGBgDQoNCmBgYHtyLCByZXN1bHRzPSdhc2lzJ30NCiNQRUdVRSBUQVhBUyBBTlVBSVMgUEFSQSBGQVpFUiBVTUEgVEFCRUxBDQp0YXhhc19hbnVhaXNUYWJsZSA8LSB0YXhhc19hbnVhaXMNCiNQRUdVRSBPIE5PTUUgREFTIFVDcw0KdGF4YXNfYW51YWlzVGFibGUgPC0gbWVyZ2UoDQogIHRheGFzX2FudWFpc1RhYmxlLHVjcywgYnkgPSAgImNudWMiKQ0KI1BFR1VFIE8gTk9NRSBEQVMgRVNQw4lDSUVTDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIHN1YnN0cigNCiAgdGF4YXNfYW51YWlzVGFibGUkcG9wdWxhY2FvLA0KICAxLA0KICBuY2hhcih0YXhhc19hbnVhaXNUYWJsZSRwb3B1bGFjYW8pLTQNCiAgKQ0KI1JFVElSRSBfDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIGdzdWIoIl8iLCIgIiwgdGF4YXNfYW51YWlzVGFibGUkZXNwZWNpZSkNCiNTRUxFQ0lPTkUgQVBFTkFTIE8gUVVFIElNUE9SVEENCnRheGFzX2FudWFpc1RhYmxlIDwtIHRheGFzX2FudWFpc1RhYmxlICU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIG5vbWVfVUMsDQogICAgZXNwZWNpZSwNCiAgICBzdGFydHNfd2l0aCgiWCIpDQogICAgKSU+JQ0KICBkcGx5cjo6cmVuYW1lKA0KICAgICJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gbm9tZV9VQywNCiAgICAiRXNww6ljaWUiID0gZXNwZWNpZSwNCiAgICApDQojUkVUSVJFIFggRE9TIEFOT1MNCm5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSA9IGdzdWIocGF0dGVybiA9ICJYIiwgcmVwbGFjZW1lbnQgPSAiIiwgeCA9IG5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSkNCmBgYA0KDQojIyMgVGFiZWxhcyBjb20gdGF4YXMgYW51YWlzIHBvciBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28NCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gKSkgew0KICBwcmludCgNCiAgICBrbml0cjo6a2FibGUoIA0KICAgICAgdGF4YXNfYW51YWlzVGFibGVbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiVGF4YSBkZSBlbmNvbnRybyBhbnVhbCBwb3IgcG9wdWxhw6fDo28iLA0KICAgICAgICAiLSIsDQogICAgICAgIHVuaXF1ZSh0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYFt0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYCA9PSB0YWJlbGFdDQogICAgICAgICAgICAgICApLA0KICAgICAgICBzZXAgPSAiICIpLA0KICAgICAgYWxpZ24gPSAiY2xscnJycnJyciIpDQogICAgKQ0KfQ0KYGBgDQogDQojIyBFWFBPUlRBIEFSUVVJVk8gREUgVEFYQVMgQU5VQUlTIA0KIA0KYGBge3J9DQpyZWFkcjo6d3JpdGVfY3N2KHRheGFzX2FudWFpcywgaGVyZSgiMDNfZGFkb3NEZVNhaWRhL2RhZG9zIiwgInRheGFzX2FudWFpcy5jc3YiKSkNCmBgYA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBhcnRlIDAyIC0gUFJFUEFSQcOHw4NPIERFIERBRE9TIFBBUkEgQ8OBTENVTE8gREUgTFBJIEUgQ8OBTENVTE8gREUgVEFYQSBERSBFTkNPTlRSTyBBTlVBTCINCm91dHB1dDoNCiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0DQogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQNCiAgd29yZF9kb2N1bWVudDogZGVmYXVsdA0KICBodG1sX2RvY3VtZW50Og0KICAgIGRmX3ByaW50OiBwYWdlZA0KZWRpdG9yX29wdGlvbnM6IA0KICBtYXJrZG93bjogDQogICAgd3JhcDogNzINCi0tLQ0KDQpTY3JpcHQgZGUgcHJlcGFyYcOnw6NvIGRlIGRhZG9zIHBhcmEgY8OhbGN1bG8gZG8gTFBJIGJhc2VhZG8gbmFzIGluc3RydcOnw7Vlcw0KZGlzcG9uw612ZWlzIFtuZXN0ZQ0KbGlua10oaHR0cHM6Ly9naXRodWIuY29tL1pvb2xvZ2ljYWwtU29jaWV0eS1vZi1Mb25kb24vcmxwaSkuDQoNCioqRW0gZmFzZSBkZSBURVNURSoqDQoNCkFkYXB0YcOnw6NvOiAgICAgICAgRWxpbGRvIENhcnZhbGhvIEpyLCBJQ01CaW8vQ0VOQVANCg0KRGVzZW52b2x2aW1lbnRvOiAgRmVybmFuZG8gTGltYSwgQWxnb3JpdG1vDQoNCiMjIFBSRVBBUkHDh8ODTw0KDQojIyMgUEFDT1RFUw0KDQpgYGB7ciBwYWNvdGVzLCBtZXNzYWdlPUZBTFNFfQ0Kcm0obGlzdCA9IGxzKGFsbCA9IFRSVUUpKQ0Kc291cmNlKCIuLi9mdW5jb2VzL3BhY290ZXMuUiIpDQpwYWNvdGVzKCJoZXJlIiwgImRwbHlyIiwidGlkeXZlcnNlIiwgImtuaXRyIiwicmVhZHIiKQ0KYGBgDQoNCiMjIyBQUkVQQVJBw4fDg08gREUgREFET1MgUEFSQSBDw4FMQ1VMTyBERSBMUEkNCg0KTyBhcnF1aXZvIGBkYWRvc0lDTUJpb18yMDE0YTIwMTkucmRzYCBkZXZlIHNlciBnZXJhZG8gbmEgZXRhcGEgYW50ZXJpb3INCmF0cmF2w6lzIGRlIGBwYXJ0MDEtZml4UmF3RGF0YS5SbWRgDQoNCiMjIyBDYXJyZWdhciBhcnF1aXZvcw0KDQpgYGB7cn0NCm15ZGF0YSA8LSByZWFkUkRTKA0KICBoZXJlKCIwM19kYWRvc0RlU2FpZGEvZGFkb3MiLCAiZGFkb3NJQ01CaW9fMjAxNGEyMDE5LnJkcyIpKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIENvbnRhZ2Vucw0KDQpgYGB7cn0NCiNDb250YWdlbSBkZSBVQ3MNCnVjcyA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIG5vbWVfVUMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQojQ29udGFnZW0gZGUgZXNww6ljaWVzDQpzcCA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbGFzc2UsDQogICAgb3JkZW0sDQogICAgZmFtaWxpYSwNCiAgICBnZW5lcm8sDQogICAgYmlub21pYWwNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikpDQojQ29udGFnZW0gZGUgcG9wdWxhw6fDtWVzDQpwb3B1bGF0aW9uIDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIG5vbWVfVUMsDQogICAgcG9wdWxhY2FvLA0KICAgIGNudWMNCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgNCiAgICApJT4lDQogIGRwbHlyOjphcnJhbmdlKA0KICAgIGRlc2MobikNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIoKQ0KYGBgDQpcbmV3cGFnZQ0KIyMjIEPDoWxjdWxvIGRlIGVzZm9yw6dvDQoNCmBgYHtyIG1lc3NhZ2U9RkFMU0UsIHBhZ2VkLnByaW50PUZBTFNFfQ0KZWZmb3J0IDwtIG15ZGF0YSAlPiUNCiNBR1JVUEFSIFBPUiBVTklEQURFIERFIENPTlNFUlZBw4fDg08gRSBBTk8NCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBhbm8NCiAgICApJT4lDQojU09NQVIgRVNGT1LDh08gQU5VQUwgUE9SIFVOSURBREUgREUgQ09OU0VSVkHDh8ODTw0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIHN1bShlc2ZvcmNvLA0KICAgICAgICBuYS5ybSA9IFRSVUUpDQogICAgKSU+JQ0KI1JFTk9NRUFSIENPTFVOQSBSRVNVTFRBTlRFDQogIGRwbHlyOjpyZW5hbWUoDQogICAgZWZmb3J0ID0gInN1bShlc2ZvcmNvLCBuYS5ybSA9IFRSVUUpIikNCmBgYA0KDQojIyMgU2VsZcOnw6NvIHBvciBjcml0w6lyaW9zDQoNClNlbGVjaW9uYXIgVUNzIFNlbGXDp8OjbyBkZSBVQ3MgY29tIG1haXMgZGUgMSBhbm8gZGUgYW1vc3RyYWdlbS4NCg0KYGBge3J9DQp1Y3Nfc2VsZWNpb25hZGFzIDwtIGVmZm9ydCAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KGNudWMNCiAgICAgICAgICAgKSU+JSANCiAgZHBseXI6OmNvdW50KA0KICAgICklPiUNCiAgZHBseXI6OmZpbHRlcihuID4gMQ0KICAgICAgICAgICAgICAgICklPiUNCiAgZHBseXI6OnB1bGwoY251YykNCmBgYA0KDQojIyMgRmlsdHJhcg0KDQpGaWx0cmFyIGRhZG9zIGdlcmFpcyBtYW50ZW5kbyBzb21lbnRlIFVDcyBzZWxlY2lvbmFkYXMNCg0KYGBge3J9DQpteWRhdGEgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6ZmlsdGVyKGNudWMgJWluJSB1Y3Nfc2VsZWNpb25hZGFzDQogICAgICAgICAgICAgICAgKSU+JQ0KICBkcGx5cjo6ZmlsdGVyKA0KICAgIGNudWMgIT0xODEwDQogICkNCmBgYA0KXG5ld3BhZ2UNCiMjIEVTRk9Sw4dPIEFOVUFMDQojIyMgRXNmb3LDp28gYW51YWwgZW0ga20NCg0KYGBge3IsIG1lc3NhZ2U9RkFMU0V9DQplc2ZvcmNvX2FudWFsIDwtIG15ZGF0YSAlPiUNCiAgZHBseXI6Omdyb3VwX2J5KA0KICAgIGNudWMsDQogICAgYW5vDQogICAgKSU+JQ0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIGVzZm9yY28gPSBzdW0oDQogICAgICBlc2ZvcmNvLA0KICAgICAgbmEucm0gPSBUUlVFKQ0KICAgICkNCiNDw4FMQ1VMTyBQQVJBIFJFTEFUw5NSSU8NCmVzZm9yY29BbnVhbFJlcG9ydCA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIG5vbWVfVUMsDQogICAgYW5vDQogICAgKSU+JQ0KICBkcGx5cjo6c3VtbWFyaXplKA0KICAgIGVzZm9yY28gPSBzdW0oDQogICAgICBlc2ZvcmNvLA0KICAgICAgbmEucm0gPSBUUlVFKQ0KICAgICkNCmBgYA0KDQojIyMgRXNmb3LDp28gYW51YWwgZW0gZm9ybWF0byAqd2lkZSoNCmBgYHtyfQ0KZXNmb3Jjb19hbnVhbF93aWRlIDwtIGVzZm9yY29fYW51YWwgJT4lDQogIHRpZHlyOjpwaXZvdF93aWRlcigNCiAgICBuYW1lc19mcm9tID0gYW5vLA0KICAgIHZhbHVlc19mcm9tID0gZXNmb3Jjbw0KICAgICklPiUNCiAgZHBseXI6OnNlbGVjdCgNCiAgICBjbnVjLA0KICAgIGAyMDE0YCwNCiAgICBgMjAxNWAsDQogICAgYDIwMTZgLA0KICAgIGAyMDE3YCwNCiAgICBgMjAxOGAsDQogICAgYDIwMTlgDQogICAgKSU+JQ0KICBkcGx5cjo6dW5ncm91cCgpDQojQ8OBTENVTE8gUEFSQSBSRUxBVMOTUklPDQplc2ZvcmNvQW51YWxXaWRlUmVwb3J0IDwtIGVzZm9yY29BbnVhbFJlcG9ydCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBlc2ZvcmNvDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YA0KICAgICklPiUNCiAgZHBseXI6OnVuZ3JvdXAoDQogICklPiUNCiAgZHBseXI6OnJlbmFtZShDTlVDID0gImNudWMiLCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gIm5vbWVfVUMiKQ0KI0dFUkFSIFRBQkVMQQ0Ka25pdHI6OmthYmxlKGVzZm9yY29BbnVhbFdpZGVSZXBvcnQsIGNhcHRpb24gPSAiRXNmb3LDp28gYW51YWwgZGFzIFVuaWRhZGVzIGRlIENvbnNlcnZhw6fDo28iKQ0KYGBgDQpcbmV3cGFnZQ0KIyMgTsOaTUVSTyBERSBSRUdJU1RST1MNCiMjIyBOw7ptZXJvIGRlIHJlZ2lzdHJvcyBhbnVhaXMNCg0KYGBge3J9DQpuX3JlZ2lzdHJvcyA8LSBteWRhdGEgJT4lDQogIGRwbHlyOjpncm91cF9ieSgNCiAgICBjbnVjLA0KICAgIGFubywNCiAgICBwb3B1bGFjYW8NCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQojTsOaTUVSTyBERSBSRUdJU1RST1MgUEFSQSBPIFJFTEFUw5NSSU8NCm5SZWdpc3Ryb3NSZXBvcnQgPC0gbXlkYXRhICU+JQ0KICBkcGx5cjo6Z3JvdXBfYnkoDQogICAgY251YywNCiAgICBub21lX1VDLA0KICAgIGFubywNCiAgICBwb3B1bGFjYW8NCiAgICApJT4lDQogIGRwbHlyOjpjb3VudCgpDQpgYGANCg0KIyMjIE7Dum1lcm8gZGUgcmVnaXN0cm9zIGFudWFpcyBlbSBmb3JtYXRvICp3aWRlKg0KDQpgYGB7cn0NCm5fcmVnaXN0cm9zX3dpZGUgPC0gbl9yZWdpc3Ryb3MgJT4lDQogIHRpZHlyOjpwaXZvdF93aWRlcigNCiAgICBuYW1lc19mcm9tID0gYW5vLA0KICAgIHZhbHVlc19mcm9tID0gbg0KICAgICklPiUNCiAgZHBseXI6OnNlbGVjdCgNCiAgICBjbnVjLA0KICAgIHBvcHVsYWNhbywNCiAgICBgMjAxNGAsDQogICAgYDIwMTVgLA0KICAgIGAyMDE2YCwNCiAgICBgMjAxN2AsDQogICAgYDIwMThgLA0KICAgIGAyMDE5YA0KICAgICklPiUNCiAgcmVwbGFjZShpcy5uYSguKSwgMA0KICAgICAgICAgICklPiUNCiAgZHBseXI6OnVuZ3JvdXAoKQ0KI1BBUkEgUkVMQVTDk1JJTw0KblJlZ2lzdHJvc1dpZGVSZXBvcnQgPC0gblJlZ2lzdHJvc1JlcG9ydCAlPiUNCiAgdGlkeXI6OnBpdm90X3dpZGVyKA0KICAgIG5hbWVzX2Zyb20gPSBhbm8sDQogICAgdmFsdWVzX2Zyb20gPSBuDQogICAgKSU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIGNudWMsDQogICAgbm9tZV9VQywNCiAgICBwb3B1bGFjYW8sDQogICAgYDIwMTRgLA0KICAgIGAyMDE1YCwNCiAgICBgMjAxNmAsDQogICAgYDIwMTdgLA0KICAgIGAyMDE4YCwNCiAgICBgMjAxOWANCiAgICApJT4lDQogIHJlcGxhY2UoaXMubmEoLiksIDANCiAgICAgICAgICApJT4lDQogIGRwbHlyOjp1bmdyb3VwKA0KICAgICklPiUNCiAgZHBseXI6OnJlbmFtZShDTlVDID0gImNudWMiLCJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gIm5vbWVfVUMiLCAiUG9wdWxhw6fDo28iID0gInBvcHVsYWNhbyIpDQpgYGANCg0KIyMjIE7Dum1lcm8gZGUgcmVnaXN0cm9zIHBvciBwb3B1bGHDp8Ojbw0KDQpPcGNpb25hbC4gUGFyYSB2aXN1YWxpemFyIGFzIHRhYmVsYXMgYWx0ZXJlIGluY2x1ZGUgPSBGQUxTRSBwYXJhIFRSVUUNCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnLCBpbmNsdWRlPUZBTFNFfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMpKSB7DQogIHByaW50KA0KICAgIGtuaXRyOjprYWJsZSgNCiAgICAgIG5SZWdpc3Ryb3NXaWRlUmVwb3J0W25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiTsO6bWVybyBkZSByZWdpc3Ryb3MgYW51YWlzIHBvciBwb3B1bGHDp8OjbyIsDQogICAgICAgICItIiwNCiAgICAgICAgdW5pcXVlKG5SZWdpc3Ryb3NXaWRlUmVwb3J0JGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gW25SZWdpc3Ryb3NXaWRlUmVwb3J0JENOVUMgPT0gdGFiZWxhXQ0KICAgICAgICAgICAgICAgKSwNCiAgICAgICAgc2VwID0gIiAiKSwNCiAgICAgIGFsaWduID0gImNsbHJycnJycnIiKQ0KICAgICkNCn0NCmBgYA0KDQojIyMgU2VsZcOnw6NvIHBvciBjcml0w6lyaW8NCg0KRXNww6ljaWVzIGNvbSByZWdpc3RybyBzdWZpY2llbnRlIHBhcmEgZXN0aW1hdGl2YSBkZSBkZW5zaWRhZGUgcG9yIGFuw6FsaXNlIGRlIHRyYW5zZWN0b3MgbGluZWFyZXMuDQpgYGB7cn0NCnJlY29yZHMgPC0gbXlkYXRhICU+JQ0KICBncm91cF9ieShub21lX1VDLCBwb3B1bGFjYW8sIGFubywgYmlub21pYWwpICU+JQ0KICBjb3VudCgpICU+JQ0KICBhcnJhbmdlKGRlc2Mobm9tZV9VQyksIGRlc2MocG9wdWxhY2FvKSwgYW5vKSAlPiUNCiAgZmlsdGVyKG4gPiA2MCkNCg0KZ2dwbG90KHJlY29yZHMsIGFlcyh4ID0gZmFjdG9yKGFubyksIHkgPSBuKSkgKw0KICBnZW9tX2JhcigNCiAgICBhZXMoZmlsbCA9IGJpbm9taWFsKSwNCiAgICBwb3NpdGlvbiA9IHBvc2l0aW9uX2RvZGdlMihwcmVzZXJ2ZSA9InNpbmdsZSIpLA0KICAgIHN0YXQgPSAiaWRlbnRpdHkiLA0KICAgIHdpZHRoID0gMSwNCiAgICBzaXplID0gMSwNCiAgICAjZmlsbCA9ICJibHVlIg0KICApKw0KICBnZW9tX2hsaW5lKHlpbnRlcmNlcHQgPSA2MCwgbGluZXR5cGUgPSAiZGFzaGVkIiwgY29sb3IgPSAicmVkIikrDQogICN5bGltKDAsIDUpICsNCiAgdGhlbWVfYncoKSArDQogIHRoZW1lKA0KICAgIGxlZ2VuZC5wb3NpdGlvbiA9ICJ0b3AiLA0KICAgIGxlZ2VuZC5kaXJlY3Rpb24gPSAiaG9yaXpvbnRhbCIsDQogICAgbGVnZW5kLnRleHQgPSBlbGVtZW50X3RleHQoc2l6ZT04KSwNCiAgICBsZWdlbmQudGl0bGUgPSBlbGVtZW50X2JsYW5rKCksDQogICAgc3RyaXAuYmFja2dyb3VuZCA9IGVsZW1lbnRfcmVjdChmaWxsID0gImdyZXk5MCIpLA0KICAgIHN0cmlwLnRleHQueSA9IGVsZW1lbnRfdGV4dChhbmdsZSA9IDAsIHNpemUgPSAxLCBjb2xvciA9ICJibGFjayIpLCMgZmFjZSA9ICJib2xkIiksDQogICAgYXhpcy50ZXh0LnggPSBlbGVtZW50X3RleHQoDQogICAgICBhbmdsZSA9IDQ1LA0KICAgICAgdmp1c3QgPSAxLA0KICAgICAgaGp1c3QgPSAxLA0KICAgICAgY29sb3VyID0gImJsYWNrIiwNCiAgICAgIHNpemUgPSByZWwoMSkNCiAgICApLA0KICAgIGF4aXMudGV4dC55ID0gZWxlbWVudF90ZXh0KA0KICAgICAgYW5nbGUgPSAwLA0KICAgICAgdmp1c3QgPSAxLA0KICAgICAgaGp1c3QgPSAxLA0KICAgICAgY29sb3VyID0gImJsYWNrIiwNCiAgICAgIHNpemUgPSByZWwoMSkNCiAgICApLA0KICAgIGF4aXMudGl0bGUueSA9IGVsZW1lbnRfdGV4dCgNCiAgICAgIHNpemUgPSByZWwoMSksDQogICAgICBtYXJnaW4gPSBtYXJnaW4oDQogICAgICAgIHQgPSAwLA0KICAgICAgICByID0gMTAsDQogICAgICAgIGIgPSAwLA0KICAgICAgICBsID0gMA0KICAgICAgKQ0KICAgICksDQogICAgYXhpcy50aXRsZS54ID0gZWxlbWVudF9ibGFuaygpLA0KIyAgICBwYW5lbC5zcGFjaW5nID0gdW5pdCgwLjMsICJsaW5lcyIpLA0KIyAgICBwYW5lDQogICkgKw0KICANCiAgZmFjZXRfd3JhcChmYWNldCA9IHZhcnMobm9tZV9VQykpICsNCiAgeWxhYigiTsOaTUVSTyBERSBSRUdJU1RST1MiKQ0KDQpgYGANCg0KDQpcbmV3cGFnZQ0KIyMgVEFYQSBERSBFTkNPTlRSTyBBTlVBTA0KDQpFc3RpbWF0aXZhIGRlIGFidW5kw6JuY2lhIHJlbGF0aXZhIChuw7ptZXJvIGRlIHJlZ2lzdHJvcyBwb3IgZXNmb3LDp28pLg0KDQpOZXN0ZSBjYXNvICpOQXMqIGRldmVtIHNlciBtYW50aWRvcy4NCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gZGF0YS5mcmFtZShuX3JlZ2lzdHJvc193aWRlKQ0KZXNmb3Jjb3NfYW51YWlzIDwtIGRhdGEuZnJhbWUoZXNmb3Jjb19hbnVhbF93aWRlKQ0KDQpmb3IoaSBpbiAxOm5yb3codGF4YXNfYW51YWlzKSkgew0KICBjbnVjX3RlbXAgPC0gdGF4YXNfYW51YWlzW2ksICJjbnVjIl0NCiAgDQogIGVzZm9yY29fdGVtcCA8LSBlc2ZvcmNvc19hbnVhaXMgJT4lDQogICAgZHBseXI6OmZpbHRlcigNCiAgICAgIGNudWMgPT0gY251Y190ZW1wDQogICAgICApJT4lDQogICAgZHBseXI6OnNlbGVjdCgtY251YykNCiAgDQogIHRheGFzX2FudWFpc1tpLCAzOjhdIDwtIHJvdW5kKHRheGFzX2FudWFpc1tpLCAzOjhdL2VzZm9yY29fdGVtcCwgMykNCn0NCg0KdGF4YXNfYW51YWlzIDwtIGFzX3RpYmJsZSh0YXhhc19hbnVhaXMpDQojdGF4YXNfYW51YWlzICU+JSAgcHJpbnQobj1JbmYpDQpgYGANCg0KIyMjIFNlbGXDp8OjbyBwb3IgY3JpdMOpcmlvDQpTZWxlY2lvbmFyIHBvcHVsYcOnw7VlcyBjb20gdGF4YSBkZSBhdmlzdGFtZW50byBtw6lkaWEgYWNpbWEgZGUgMC4xICgxDQppbmQvMTBrbSkNCg0KYGBge3J9DQp0YXhhc19hbnVhaXMgPC0gdGF4YXNfYW51YWlzICU+JQ0KICBkcGx5cjo6bXV0YXRlKA0KICAgIG1lZGlhID0gcm93TWVhbnMoLlssMzo4XSwgbmEucm0gPSBUUlVFICkNCiAgICApJT4lDQogIGRwbHlyOjpmaWx0ZXIobWVkaWEgPiAwLjENCiAgICAgICAgICAgICAgICApJT4lDQogIGRwbHlyOjpzZWxlY3QoLW1lZGlhKQ0KYGBgDQoNCmBgYHtyLCByZXN1bHRzPSdhc2lzJ30NCiNQRUdVRSBUQVhBUyBBTlVBSVMgUEFSQSBGQVpFUiBVTUEgVEFCRUxBDQp0YXhhc19hbnVhaXNUYWJsZSA8LSB0YXhhc19hbnVhaXMNCiNQRUdVRSBPIE5PTUUgREFTIFVDcw0KdGF4YXNfYW51YWlzVGFibGUgPC0gbWVyZ2UoDQogIHRheGFzX2FudWFpc1RhYmxlLHVjcywgYnkgPSAgImNudWMiKQ0KI1BFR1VFIE8gTk9NRSBEQVMgRVNQw4lDSUVTDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIHN1YnN0cigNCiAgdGF4YXNfYW51YWlzVGFibGUkcG9wdWxhY2FvLA0KICAxLA0KICBuY2hhcih0YXhhc19hbnVhaXNUYWJsZSRwb3B1bGFjYW8pLTQNCiAgKQ0KI1JFVElSRSBfDQp0YXhhc19hbnVhaXNUYWJsZSRlc3BlY2llIDwtIGdzdWIoIl8iLCIgIiwgdGF4YXNfYW51YWlzVGFibGUkZXNwZWNpZSkNCiNTRUxFQ0lPTkUgQVBFTkFTIE8gUVVFIElNUE9SVEENCnRheGFzX2FudWFpc1RhYmxlIDwtIHRheGFzX2FudWFpc1RhYmxlICU+JQ0KICBkcGx5cjo6c2VsZWN0KA0KICAgIG5vbWVfVUMsDQogICAgZXNwZWNpZSwNCiAgICBzdGFydHNfd2l0aCgiWCIpDQogICAgKSU+JQ0KICBkcGx5cjo6cmVuYW1lKA0KICAgICJVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28iID0gbm9tZV9VQywNCiAgICAiRXNww6ljaWUiID0gZXNwZWNpZSwNCiAgICApDQojUkVUSVJFIFggRE9TIEFOT1MNCm5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSA9IGdzdWIocGF0dGVybiA9ICJYIiwgcmVwbGFjZW1lbnQgPSAiIiwgeCA9IG5hbWVzKHRheGFzX2FudWFpc1RhYmxlKSkNCmBgYA0KDQojIyMgVGFiZWxhcyBjb20gdGF4YXMgYW51YWlzIHBvciBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo28NCg0KYGBge3IsIHJlc3VsdHM9J2FzaXMnfQ0KZm9yICh0YWJlbGEgaW4gdW5pcXVlKHRheGFzX2FudWFpc1RhYmxlJGBVbmlkYWRlIGRlIENvbnNlcnZhw6fDo29gKSkgew0KICBwcmludCgNCiAgICBrbml0cjo6a2FibGUoIA0KICAgICAgdGF4YXNfYW51YWlzVGFibGVbdGF4YXNfYW51YWlzVGFibGUkYFVuaWRhZGUgZGUgQ29uc2VydmHDp8Ojb2AgPT0gdGFiZWxhLCBdLA0KICAgICAgY2FwdGlvbiA9IHBhc3RlKA0KICAgICAgICAiVGF4YSBkZSBlbmNvbnRybyBhbnVhbCBwb3IgcG9wdWxhw6fDo28iLA0KICAgICAgICAiLSIsDQogICAgICAgIHVuaXF1ZSh0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYFt0YXhhc19hbnVhaXNUYWJsZSRgVW5pZGFkZSBkZSBDb25zZXJ2YcOnw6NvYCA9PSB0YWJlbGFdDQogICAgICAgICAgICAgICApLA0KICAgICAgICBzZXAgPSAiICIpLA0KICAgICAgYWxpZ24gPSAiY2xscnJycnJyciIpDQogICAgKQ0KfQ0KYGBgDQogDQojIyBFWFBPUlRBIEFSUVVJVk8gREUgVEFYQVMgQU5VQUlTIA0KIA0KYGBge3J9DQpyZWFkcjo6d3JpdGVfY3N2KHRheGFzX2FudWFpcywgaGVyZSgiMDNfZGFkb3NEZVNhaWRhL2RhZG9zIiwgInRheGFzX2FudWFpcy5jc3YiKSkNCmBgYA0K</div>
 
 
 
