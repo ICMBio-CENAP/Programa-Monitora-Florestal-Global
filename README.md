@@ -45,7 +45,7 @@ Calcula o **LPI (Living Planet Index)** a partir de dados do protocolo florestal
 
         -   as funções localizadas em [funcoes](https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global/tree/master/02_script/funcoes "funcoes") descartam a necessidade de usar o pacote `rLPI`
 
-`03_dadosDeSaida` contém os arquivos de saída gerados nas etapas anteriores.
+[03_dadosDeSaida](https://github.com/ICMBio-CENAP/Programa-Monitora-Florestal-Global/tree/master/03_dadosDeSaida) contém os arquivos de saída gerados nas etapas anteriores.
 
 ## Instruções para instalar o repositório localmente no R
 
